@@ -1,6 +1,6 @@
 package org.shivas.protocol.client.types;
 
-import org.shivas.protocol.client.IStatistics;
+import org.shivas.common.statistics.Statistics;
 import org.shivas.protocol.client.enums.OrientationEnum;
 
 /**
@@ -18,9 +18,9 @@ public abstract class BaseFighterType {
     protected short currentCellId;
     protected OrientationEnum orientation;
     protected boolean dead;
-    protected IStatistics statistics;
+    protected Statistics statistics;
 
-    protected BaseFighterType(long id, String name, byte breedId, short skin, short size, short level, short currentCellId, OrientationEnum orientation, boolean dead, IStatistics statistics) {
+    protected BaseFighterType(long id, String name, byte breedId, short skin, short size, short level, short currentCellId, OrientationEnum orientation, boolean dead, Statistics statistics) {
         this.id = id;
         this.name = name;
         this.breedId = breedId;
@@ -105,11 +105,11 @@ public abstract class BaseFighterType {
         this.dead = dead;
     }
 
-    public IStatistics getStatistics() {
+    public Statistics getStatistics() {
         return statistics;
     }
 
-    public void setStatistics(IStatistics statistics) {
+    public void setStatistics(Statistics statistics) {
         this.statistics = statistics;
     }
 }

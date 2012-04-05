@@ -1,6 +1,6 @@
 package org.shivas.protocol.client.types;
 
-import org.shivas.protocol.client.IStatistics;
+import org.shivas.common.statistics.Statistics;
 import org.shivas.protocol.client.enums.FightTeamEnum;
 import org.shivas.protocol.client.enums.OrientationEnum;
 
@@ -16,10 +16,10 @@ public class CharacterFighterType extends BaseFighterType {
     protected boolean pvpEnabled;
     protected int color1, color2, color3;
     protected int[] accessories;
-    protected IStatistics statistics;
+    protected Statistics statistics;
     protected FightTeamEnum team;
 
-    public CharacterFighterType(long id, String name, byte breedId, short skin, short size, short level, short currentCellId, OrientationEnum orientation, boolean dead, IStatistics stats, boolean gender, short alignId, short alignLevel, boolean pvpEnabled, int color1, int color2, int color3, int[] accessories, IStatistics statistics, FightTeamEnum team) {
+    public CharacterFighterType(long id, String name, byte breedId, short skin, short size, short level, short currentCellId, OrientationEnum orientation, boolean dead, Statistics stats, boolean gender, short alignId, short alignLevel, boolean pvpEnabled, int color1, int color2, int color3, int[] accessories, Statistics statistics, FightTeamEnum team) {
         super(id, name, breedId, skin, size, level, currentCellId, orientation, dead, stats);
 
         this.gender = gender;
@@ -98,11 +98,11 @@ public class CharacterFighterType extends BaseFighterType {
         this.accessories = accessories;
     }
 
-    public IStatistics getStatistics() {
+    public Statistics getStatistics() {
         return statistics;
     }
 
-    public void setStatistics(IStatistics statistics) {
+    public void setStatistics(Statistics statistics) {
         this.statistics = statistics;
     }
 

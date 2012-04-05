@@ -88,5 +88,10 @@
     	<artifactId>shivas-common</artifactId>
     	<version>1</version>
     </dependency>
+    <dependency>
+    	<groupId>org.shivas</groupId>
+    	<artifactId>shivas-protocol</artifactId>
+    	<version>1</version>
+    </dependency>
   </dependencies>
 </project>

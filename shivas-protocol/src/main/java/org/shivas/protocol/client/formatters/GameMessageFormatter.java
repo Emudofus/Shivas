@@ -1,13 +1,12 @@
 package org.shivas.protocol.client.formatters;
 
-import org.shivas.common.StringUtils;
+import org.shivas.common.statistics.Characteristic;
+import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.common.statistics.Statistics;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
 import org.shivas.protocol.client.types.RolePlayCharacterType;
 import org.shivas.protocol.client.types.RolePlayNpcType;
 import org.shivas.protocol.client.types.RolePlaySellerType;
-import org.d2j.game.game.statistics.CharacteristicType;
-import org.d2j.game.game.statistics.ICharacteristic;
-import org.d2j.game.game.statistics.IStatistics;
 
 import java.util.Collection;
 
@@ -45,11 +44,11 @@ public class GameMessageFormatter {
              short energy, short maxEnergy,
              short initiative,
              short prospection,
-             IStatistics statistics)
+             Statistics statistics)
     {
         CharacteristicType[] characs = CharacteristicType.values();
-        ICharacteristic actionPoints = statistics.get(CharacteristicType.ActionPoints),
-                        movementPoints = statistics.get(CharacteristicType.MovementPoints);
+        Characteristic actionPoints = statistics.get(CharacteristicType.ActionPoints),
+                       movementPoints = statistics.get(CharacteristicType.MovementPoints);
 
         StringBuilder sb = new StringBuilder(500).append("As");
 
@@ -67,26 +66,26 @@ public class GameMessageFormatter {
         sb.append(initiative).append('|')
           .append(prospection).append('|');
 
-        sb.append(actionPoints.getBase()).append(',')
-          .append(actionPoints.getEquipments()).append(',')
-          .append(actionPoints.getGifts()).append(',')
-          .append(actionPoints.getContext()).append(',')
-          .append(actionPoints.getSafeTotal()).append('|');
+        sb.append(actionPoints.base()).append(',')
+          .append(actionPoints.equipment()).append(',')
+          .append(actionPoints.gift()).append(',')
+          .append(actionPoints.context()).append(',')
+          .append(actionPoints.safeTotal()).append('|');
 
-        sb.append(movementPoints.getBase()).append(',')
-          .append(movementPoints.getEquipments()).append(',')
-          .append(movementPoints.getGifts()).append(',')
-          .append(movementPoints.getContext()).append(',')
-          .append(movementPoints.getSafeTotal()); // no |  => see for-loop
+        sb.append(movementPoints.base()).append(',')
+          .append(movementPoints.equipment()).append(',')
+          .append(movementPoints.gift()).append(',')
+          .append(movementPoints.context()).append(',')
+          .append(movementPoints.safeTotal()); // no |  => see for-loop
 
-        for (int i = 4; i < characs.length; ++i){
-            ICharacteristic charac = statistics.get(characs[i]);
+        for (int i = 4; i < characs.length; ++i){ // TODO improve
+            Characteristic charac = statistics.get(characs[i]);
 
             sb.append('|');
-            sb.append(charac.getBase()).append(',');
-            sb.append(charac.getEquipments()).append(',');
-            sb.append(charac.getGifts()).append(',');
-            sb.append(charac.getContext()).append(',');
+            sb.append(charac.base()).append(',');
+            sb.append(charac.equipment()).append(',');
+            sb.append(charac.gift()).append(',');
+            sb.append(charac.context()).append(',');
         }
 
         return sb.toString();

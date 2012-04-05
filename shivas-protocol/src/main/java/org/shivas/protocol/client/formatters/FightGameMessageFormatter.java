@@ -1,5 +1,6 @@
 package org.shivas.protocol.client.formatters;
 
+import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.protocol.client.enums.*;
 import org.shivas.protocol.client.types.BaseEndFighterType;
 import org.shivas.protocol.client.types.BaseFighterType;
@@ -159,12 +160,12 @@ public class FightGameMessageFormatter {
             sb.append(fighter.isDead() ? '1' : '0').append(';');
 
             if (!fighter.isDead()){
-                sb.append(fighter.getStatistics().getLife()).append(';');
-                sb.append(fighter.getStatistics().get(CharacteristicType.ActionPoints).getSafeTotal()).append(';');
-                sb.append(fighter.getStatistics().get(CharacteristicType.MovementPoints).getSafeTotal()).append(';');
+                sb.append(fighter.getStatistics().life().current()).append(';');
+                sb.append(fighter.getStatistics().get(CharacteristicType.ActionPoints).safeTotal()).append(';');
+                sb.append(fighter.getStatistics().get(CharacteristicType.MovementPoints).safeTotal()).append(';');
                 sb.append(fighter.getCurrentCellId()).append(';');
                 sb.append(';'); //todo ???
-                sb.append(fighter.getStatistics().getMaxLife());
+                sb.append(fighter.getStatistics().life().max());
             }
         }
 
