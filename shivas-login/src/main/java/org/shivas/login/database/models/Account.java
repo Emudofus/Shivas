@@ -47,7 +47,7 @@ public class Account implements Serializable {
 	@Column(nullable=false)
 	private int points;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime subscriptionEnd;
 
