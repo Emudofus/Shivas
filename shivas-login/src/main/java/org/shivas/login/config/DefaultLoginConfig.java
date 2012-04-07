@@ -13,4 +13,8 @@ public class DefaultLoginConfig implements LoginConfig {
 		return "1.29.1";
 	}
 
+	public String getAccountPasswordCipherName() {
+		return "SHA-1";
+	}
+
 }

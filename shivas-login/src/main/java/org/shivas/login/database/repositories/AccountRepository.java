@@ -1,9 +1,11 @@
 package org.shivas.login.database.repositories;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
+import org.shivas.common.crypto.Cipher;
 import org.shivas.login.database.models.Account;
 
 import com.google.inject.persist.Transactional;
@@ -13,6 +15,9 @@ public class AccountRepository {
 	
 	@Inject
 	private EntityManager em;
+	
+	@Inject @Named(value="account.password.cipher")
+	private Cipher passwordCipher;
 	
 	@Transactional
 	public void create(Account account) {
@@ -27,6 +32,10 @@ public class AccountRepository {
 	@Transactional
 	public void update(Account account) {
 		em.merge(account);
+	}
+	
+	public Cipher getPasswordCipher() {
+		return passwordCipher;
 	}
 	
 	public Account findById(int id) {
