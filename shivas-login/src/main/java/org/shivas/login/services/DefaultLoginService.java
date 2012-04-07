@@ -32,7 +32,6 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	private static final Charset CHARSET = Charset.forName("UTF-8");
 	private static final String ENCODING_DELIMITER = String.valueOf((char)0);
 	private static final String DECODING_DELIMITER = ENCODING_DELIMITER;
-	private static final String SESSION_HANDLER_TOKEN = "ticket";
 	
 	private final LoginConfig config;
 	private final RepositoryContainer repositories;
@@ -80,7 +79,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
-		session.setAttribute(SESSION_HANDLER_TOKEN, new VersionHandler(session, this));
+		session.setAttribute(SessionTokens.HANDLER, new VersionHandler(session, this));
 	}
 
 	public void sessionOpened(IoSession session) throws Exception {
@@ -89,7 +88,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 
 	public void sessionClosed(IoSession session) throws Exception {
 		@SuppressWarnings("unchecked")
-		IoSessionHandler<String> handler = (IoSessionHandler<String>)session.getAttribute(SESSION_HANDLER_TOKEN);
+		IoSessionHandler<String> handler = (IoSessionHandler<String>)session.getAttribute(SessionTokens.HANDLER);
 		
 		handler.onClosed();
 		
@@ -122,7 +121,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		}
 		
 		@SuppressWarnings("unchecked")
-		IoSessionHandler<String> handler = (IoSessionHandler<String>)session.getAttribute(SESSION_HANDLER_TOKEN);
+		IoSessionHandler<String> handler = (IoSessionHandler<String>)session.getAttribute(SessionTokens.HANDLER);
 		
 		handler.handle(message);
 	}
