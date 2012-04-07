@@ -8,7 +8,8 @@ public class StringUtils {
 	
 	private static final AtomicReference<Random> RAND = new AtomicReference<Random>(new Random(System.nanoTime()));
 	
-	private static final String ALPHABET = "azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN0123456789/*-+-_$!;:,";
+	public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+	public static final String EXTENDED_ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 	
 	public static char random() {
 		return ALPHABET.charAt(RAND.get().nextInt(ALPHABET.length()));
