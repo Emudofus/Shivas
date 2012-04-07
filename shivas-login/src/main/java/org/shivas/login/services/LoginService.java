@@ -1,5 +1,6 @@
 package org.shivas.login.services;
 
+import org.shivas.common.crypto.Cipher;
 import org.shivas.login.config.LoginConfig;
 import org.shivas.login.database.RepositoryContainer;
 
@@ -9,4 +10,5 @@ public interface LoginService {
 	
 	LoginConfig getConfig();
 	RepositoryContainer getRepositories();
+	Cipher getDecrypter(String key);
 }

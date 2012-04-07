@@ -15,6 +15,9 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.LineDelimiter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.shivas.common.crypto.Cipher;
+import org.shivas.common.crypto.Ciphers;
+import org.shivas.common.crypto.Dofus1DecrypterCipher;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.login.config.LoginConfig;
 import org.shivas.login.database.RepositoryContainer;
@@ -76,6 +79,13 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	
 	public RepositoryContainer getRepositories() {
 		return repositories;
+	}
+
+	public Cipher getDecrypter(String key) {
+		return Ciphers.combine(
+				new Dofus1DecrypterCipher(key), 
+				repositories.getAccounts().getPasswordCipher()
+		);
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
