@@ -1,5 +1,6 @@
 package org.shivas.login;
 
+import org.shivas.login.services.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +23,12 @@ public class ShivasLoginServer {
 		final PersistService ps = inject.getInstance(PersistService.class);
 		ps.start(); // must be started before instantiate LoginService
 		
+		final LoginService ls = inject.getInstance(LoginService.class);
+		ls.start();
+		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
+				ls.stop();
 				ps.stop();
 				
 				log.info("stopped");
