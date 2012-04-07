@@ -16,7 +16,7 @@ import org.joda.time.DateTime;
 @Table(name="accounts")
 public class Account implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4407008686315825783L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
