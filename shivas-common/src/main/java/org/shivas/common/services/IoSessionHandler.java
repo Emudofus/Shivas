@@ -1,7 +1,7 @@
 package org.shivas.common.services;
 
 public interface IoSessionHandler<M> {
-	void init() throws Exception;
+	IoSessionHandler<M> init() throws Exception;
 	
 	void handle(M message) throws Exception;
 	
