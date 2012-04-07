@@ -17,6 +17,7 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.login.config.LoginConfig;
+import org.shivas.login.database.RepositoryContainer;
 import org.shivas.login.services.handlers.VersionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +35,13 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	private static final String SESSION_HANDLER_TOKEN = "ticket";
 	
 	private final LoginConfig config;
+	private final RepositoryContainer repositories;
 	private final IoAcceptor acceptor;
 	
 	@Inject
-	public DefaultLoginService(LoginConfig config) {
+	public DefaultLoginService(LoginConfig config, RepositoryContainer repositories) {
 		this.config = config;
+		this.repositories = repositories;
 		
 		this.acceptor = new NioSocketAcceptor(Runtime.getRuntime().availableProcessors());
 		this.acceptor.getSessionConfig().setBothIdleTime(IDLE_TIME);
@@ -70,6 +73,10 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	
 	public LoginConfig getConfig() {
 		return config;
+	}
+	
+	public RepositoryContainer getRepositories() {
+		return repositories;
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
