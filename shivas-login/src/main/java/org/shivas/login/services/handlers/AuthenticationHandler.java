@@ -20,7 +20,8 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 		this.ticket = (String) session.getAttribute(SessionTokens.TICKET);
 	}
 
-	public void init() throws Exception {
+	public IoSessionHandler<String> init() throws Exception {
+		return this;
 	}
 	
 	private boolean matchedPassword(String input, Account account) throws CipherException {

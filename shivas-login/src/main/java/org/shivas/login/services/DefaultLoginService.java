@@ -34,7 +34,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	private static final int READ_BUFFER_SIZE = 2048;
 	private static final Charset CHARSET = Charset.forName("UTF-8");
 	private static final String ENCODING_DELIMITER = String.valueOf((char)0);
-	private static final String DECODING_DELIMITER = ENCODING_DELIMITER;
+	private static final String DECODING_DELIMITER = "\n" + ENCODING_DELIMITER;
 	
 	private final LoginConfig config;
 	private final RepositoryContainer repositories;
@@ -92,8 +92,11 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		session.setAttribute(SessionTokens.HANDLER, new VersionHandler(session, this));
 	}
 
+	@SuppressWarnings("unchecked")
 	public void sessionOpened(IoSession session) throws Exception {
 		log.debug("({}) connected", session.getRemoteAddress());
+
+		((IoSessionHandler<String>)session.getAttribute(SessionTokens.HANDLER)).init();
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {

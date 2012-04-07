@@ -17,17 +17,19 @@ public class VersionHandler implements IoSessionHandler<String> {
 		this.service = service;
 	}
 
-	public void init() throws Exception {
+	public IoSessionHandler<String> init() throws Exception {
 		String ticket = StringUtils.random(32);
 		session.setAttribute(SessionTokens.TICKET, ticket);
 		
 		session.write(LoginMessageFormatter.helloConnect(ticket));
+		
+		return this;
 	}
 
 	public void handle(String message) throws Exception {
 		if (!message.equals(service.getConfig().getClientVersion())) {
 			session.write(LoginMessageFormatter.badClientVersion(service.getConfig().getClientVersion()));
-			session.close(false);
+			session.close(true);
 		} else {
 			session.setAttribute(SessionTokens.HANDLER, new AuthenticationHandler(session, service));
 		}
