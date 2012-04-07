@@ -1,9 +1,9 @@
 package org.shivas.protocol.client.formatters;
 
+import org.shivas.protocol.client.types.BaseCharactersServerType;
 import org.shivas.protocol.client.types.GameServerType;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * User: Blackrush
@@ -69,13 +69,13 @@ public class LoginMessageFormatter {
         return sb.toString();
     }
 
-    public static String charactersListMessage(long subscribeTimeEnd, Map<Integer, Integer> charactersList) {
-        StringBuilder sb = new StringBuilder(10 + charactersList.size() * 5).append("AxK").append(subscribeTimeEnd);
+    public static String charactersListMessage(long subscribeTimeEnd, Collection<BaseCharactersServerType> characters) {
+        StringBuilder sb = new StringBuilder(10 + characters.size() * 5).append("AxK").append(subscribeTimeEnd);
 
-        for (Map.Entry<Integer, Integer> entry : charactersList.entrySet()){
+        for (BaseCharactersServerType entry : characters){
             sb.append('|')
-              .append(entry.getKey()).append(',')
-              .append(entry.getValue());
+              .append(entry.getServerId()).append(',')
+              .append(entry.getCharacters());
         }
 
         return sb.toString();
