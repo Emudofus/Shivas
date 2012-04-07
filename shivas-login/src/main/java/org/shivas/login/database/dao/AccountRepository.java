@@ -9,7 +9,7 @@ import org.shivas.login.database.models.Account;
 import com.google.inject.persist.Transactional;
 
 @Singleton
-public class AccountDAO {
+public class AccountRepository {
 	
 	@Inject
 	private EntityManager em;
