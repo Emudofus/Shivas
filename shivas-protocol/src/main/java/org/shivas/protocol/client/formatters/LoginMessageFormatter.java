@@ -12,7 +12,7 @@ import java.util.Map;
  * IDE : IntelliJ IDEA
  */
 public class LoginMessageFormatter {
-    public static String helloWorld(String ticket){
+    public static String helloConnect(String ticket){
         return "HC" + ticket;
     }
 
