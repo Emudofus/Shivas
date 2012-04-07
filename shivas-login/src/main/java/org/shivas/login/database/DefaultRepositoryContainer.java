@@ -3,7 +3,7 @@ package org.shivas.login.database;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.shivas.login.database.dao.AccountRepository;
+import org.shivas.login.database.repositories.AccountRepository;
 
 @Singleton
 public class DefaultRepositoryContainer implements RepositoryContainer {

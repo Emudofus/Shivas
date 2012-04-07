@@ -1,4 +1,4 @@
-package org.shivas.login.database.dao;
+package org.shivas.login.database.repositories;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
