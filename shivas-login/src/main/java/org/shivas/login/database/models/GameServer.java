@@ -8,6 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.shivas.login.services.GameHandler;
+import org.shivas.protocol.server.enums.ServerStatus;
 
 @Entity
 @Table(name="servers")
@@ -40,6 +44,12 @@ public class GameServer implements Serializable {
 	
 	@Column(nullable=false)
 	private boolean restricted;
+	
+	@Transient
+	private GameHandler handler;
+	
+	@Transient
+	private ServerStatus status;
 
 	/**
 	 * @return the id
@@ -151,6 +161,34 @@ public class GameServer implements Serializable {
 	 */
 	public void setRestricted(boolean restricted) {
 		this.restricted = restricted;
+	}
+
+	/**
+	 * @return the handler
+	 */
+	public GameHandler getHandler() {
+		return handler;
+	}
+
+	/**
+	 * @param handler the handler to set
+	 */
+	public void setHandler(GameHandler handler) {
+		this.handler = handler;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public ServerStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(ServerStatus status) {
+		this.status = status;
 	}
 	
 }

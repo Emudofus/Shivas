@@ -1,5 +1,6 @@
 package org.shivas.login;
 
+import org.shivas.login.services.GameService;
 import org.shivas.login.services.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,10 @@ public class ShivasLoginServer {
 		Injector inject = Guice.createInjector(new ShivasLoginModule());
 		
 		final PersistService ps = inject.getInstance(PersistService.class);
-		ps.start(); // must be started before instantiate LoginService
+		ps.start();
+		
+		final GameService gs = inject.getInstance(GameService.class);
+		gs.start();
 		
 		final LoginService ls = inject.getInstance(LoginService.class);
 		ls.start();
@@ -29,6 +33,7 @@ public class ShivasLoginServer {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
 				ls.stop();
+				gs.stop();
 				ps.stop();
 				
 				log.info("stopped");

@@ -1,5 +1,6 @@
 package org.shivas.login.database.repositories;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -33,6 +34,10 @@ public class GameServerRepository {
 			}
 		}
 		return null;
+	}
+	
+	public Collection<GameServer> findAll() {
+		return entities.values();
 	}
 	
 }
