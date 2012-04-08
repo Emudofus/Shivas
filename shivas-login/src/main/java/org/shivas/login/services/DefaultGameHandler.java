@@ -1,6 +1,7 @@
 package org.shivas.login.services;
 
 import java.net.InetSocketAddress;
+import java.util.Map;
 
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.service.IoHandler;
@@ -8,14 +9,22 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
+import org.shivas.login.database.models.Account;
 import org.shivas.login.database.models.GameServer;
+import org.shivas.protocol.client.enums.WorldStateEnum;
+import org.shivas.protocol.client.types.BaseCharactersServerType;
 import org.shivas.protocol.server.Message;
 import org.shivas.protocol.server.codec.MamboProtocolCodecFactory;
-import org.shivas.protocol.server.enums.ServerStatus;
+import org.shivas.protocol.server.messages.AccountCharactersMessage;
+import org.shivas.protocol.server.messages.AccountCharactersRequestMessage;
 import org.shivas.protocol.server.messages.HelloConnectMessage;
 import org.shivas.protocol.server.messages.ServerStatusUpdateMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.SettableFuture;
 
 public class DefaultGameHandler implements GameHandler, IoHandler {
 	
@@ -26,6 +35,9 @@ public class DefaultGameHandler implements GameHandler, IoHandler {
 	
 	private final IoConnector connector;
 	private IoSession session;
+	private Map<Integer, SettableFuture<BaseCharactersServerType>> nbCharactersByAccountId = Maps.newHashMap();
+	
+	private WorldStateEnum status;
 	
 	public DefaultGameHandler(GameServer server, GameService service) {
 		this.server = server;
@@ -45,6 +57,17 @@ public class DefaultGameHandler implements GameHandler, IoHandler {
 	public void stop() {
 		session.close(true);
 		connector.dispose();
+	}
+
+	public WorldStateEnum getStatus() {
+		return status;
+	}
+
+	public ListenableFuture<BaseCharactersServerType> getNbCharacters(Account account) {
+		SettableFuture<BaseCharactersServerType> future = SettableFuture.create();
+		nbCharactersByAccountId.put(account.getId(), future);
+		session.write(new AccountCharactersRequestMessage(account.getId()));
+		return future;
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
@@ -82,7 +105,17 @@ public class DefaultGameHandler implements GameHandler, IoHandler {
 		
 		switch (message.getMessageType()) {
 		case SERVER_STATUS_UPDATE:
-			server.setStatus(((ServerStatusUpdateMessage)message).getStatus());
+			status = ((ServerStatusUpdateMessage)message).getStatus();
+			break;
+			
+		case ACCOUNT_CHARACTERS:
+			AccountCharactersMessage msg = (AccountCharactersMessage)message;
+			SettableFuture<BaseCharactersServerType> future = nbCharactersByAccountId.get(msg.getAccountId());
+			if (future != null) {
+				future.set(new BaseCharactersServerType(server.getId(), msg.getCharacters()));
+			} else {
+				log.warn("({}) {} doesn't requested its nb of characters", server.getName(), msg.getAccountId());
+			}
 			break;
 		}
 	}

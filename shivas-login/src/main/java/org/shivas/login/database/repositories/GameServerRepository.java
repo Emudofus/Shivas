@@ -1,6 +1,7 @@
 package org.shivas.login.database.repositories;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -8,7 +9,9 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
 import org.shivas.login.database.models.GameServer;
+import org.shivas.protocol.client.types.GameServerType;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 @Singleton
@@ -38,6 +41,14 @@ public class GameServerRepository {
 	
 	public Collection<GameServer> findAll() {
 		return entities.values();
+	}
+	
+	public Collection<GameServerType> findAllToGameServerType() {
+		List<GameServerType> result = Lists.newArrayListWithCapacity(entities.size());
+		for (GameServer server : entities.values()) {
+			result.add(server.toGameServerType());
+		}
+		return result;
 	}
 	
 }

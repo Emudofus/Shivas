@@ -11,7 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.shivas.login.services.GameHandler;
-import org.shivas.protocol.server.enums.ServerStatus;
+import org.shivas.protocol.client.enums.WorldStateEnum;
+import org.shivas.protocol.client.types.GameServerType;
 
 @Entity
 @Table(name="servers")
@@ -43,13 +44,13 @@ public class GameServer implements Serializable {
 	private int community;
 	
 	@Column(nullable=false)
+	private int completion;
+	
+	@Column(nullable=false)
 	private boolean restricted;
 	
 	@Transient
 	private GameHandler handler;
-	
-	@Transient
-	private ServerStatus status;
 
 	/**
 	 * @return the id
@@ -150,6 +151,20 @@ public class GameServer implements Serializable {
 	}
 
 	/**
+	 * @return the completion
+	 */
+	public int getCompletion() {
+		return completion;
+	}
+
+	/**
+	 * @param completion the completion to set
+	 */
+	public void setCompletion(int completion) {
+		this.completion = completion;
+	}
+
+	/**
 	 * @return the restricted
 	 */
 	public boolean isRestricted() {
@@ -180,15 +195,12 @@ public class GameServer implements Serializable {
 	/**
 	 * @return the status
 	 */
-	public ServerStatus getStatus() {
-		return status;
+	public WorldStateEnum getStatus() {
+		return handler.getStatus();
 	}
-
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(ServerStatus status) {
-		this.status = status;
+	
+	public GameServerType toGameServerType() {
+		return new GameServerType(id, address, port, handler.getStatus(), completion);
 	}
 	
 }

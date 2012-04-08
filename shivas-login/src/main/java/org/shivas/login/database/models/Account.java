@@ -45,6 +45,9 @@ public class Account implements Serializable {
 	private boolean banned;
 	
 	@Column(nullable=false)
+	private int community;
+	
+	@Column(nullable=false)
 	private int points;
 	
 	@Column(nullable=true)
@@ -161,6 +164,20 @@ public class Account implements Serializable {
 	 */
 	public void setBanned(boolean banned) {
 		this.banned = banned;
+	}
+
+	/**
+	 * @return the community
+	 */
+	public int getCommunity() {
+		return community;
+	}
+
+	/**
+	 * @param community the community to set
+	 */
+	public void setCommunity(int community) {
+		this.community = community;
 	}
 
 	/**

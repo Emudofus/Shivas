@@ -49,8 +49,11 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 			session.write(LoginMessageFormatter.accessDenied());
 		} else {
 			session.write(LoginMessageFormatter.nicknameInformationMessage(account.getNickname()));
-			// TODO send community
-			// TODO send servers
+			session.write(LoginMessageFormatter.communityInformationMessage(account.getCommunity()));
+			session.write(LoginMessageFormatter.serversInformationsMessage(
+					service.getRepositories().getServers().findAllToGameServerType(), 
+					account.isSubscriber()
+			));
 			session.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
 			session.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));
 			
