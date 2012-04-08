@@ -1,0 +1,10 @@
+package org.shivas.protocol.server;
+
+public enum MessageType {
+	HELLO_CONNECT, 
+	SERVER_STATUS_UPDATE, 
+	ACCOUNT_CHARACTERS_REQUEST, 
+	ACCOUNT_CHARACTERS, 
+	CLIENT_CONNECTION, 
+	CLIENT_DECONNECTION,
+}
