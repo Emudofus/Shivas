@@ -2,18 +2,18 @@ package org.shivas.protocol.server.messages;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
+import org.shivas.protocol.client.enums.WorldStateEnum;
 import org.shivas.protocol.server.Message;
 import org.shivas.protocol.server.MessageType;
-import org.shivas.protocol.server.enums.ServerStatus;
 
 public class ServerStatusUpdateMessage implements Message {
 	
-	private ServerStatus status;
+	private WorldStateEnum status;
 	
 	public ServerStatusUpdateMessage() {
 	}
 
-	public ServerStatusUpdateMessage(ServerStatus status) {
+	public ServerStatusUpdateMessage(WorldStateEnum status) {
 		this.status = status;
 	}
 
@@ -26,20 +26,20 @@ public class ServerStatusUpdateMessage implements Message {
 	}
 
 	public void deserialize(IoBuffer buf) {
-		status = buf.getEnum(ServerStatus.class);
+		status = buf.getEnum(WorldStateEnum.class);
 	}
 
 	/**
 	 * @return the status
 	 */
-	public ServerStatus getStatus() {
+	public WorldStateEnum getStatus() {
 		return status;
 	}
 
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus(ServerStatus status) {
+	public void setStatus(WorldStateEnum status) {
 		this.status = status;
 	}
 
