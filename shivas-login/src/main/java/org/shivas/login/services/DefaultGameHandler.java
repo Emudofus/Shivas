@@ -17,6 +17,7 @@ import org.shivas.protocol.server.Message;
 import org.shivas.protocol.server.codec.MamboProtocolCodecFactory;
 import org.shivas.protocol.server.messages.AccountCharactersMessage;
 import org.shivas.protocol.server.messages.AccountCharactersRequestMessage;
+import org.shivas.protocol.server.messages.ClientDeconnectionMessage;
 import org.shivas.protocol.server.messages.HelloConnectMessage;
 import org.shivas.protocol.server.messages.ServerStatusUpdateMessage;
 import org.slf4j.Logger;
@@ -113,14 +114,33 @@ public class DefaultGameHandler implements GameHandler, IoHandler {
 			break;
 			
 		case ACCOUNT_CHARACTERS:
-			AccountCharactersMessage msg = (AccountCharactersMessage)message;
-			SettableFuture<BaseCharactersServerType> future = nbCharactersByAccountId.get(msg.getAccountId());
-			if (future != null) {
-				future.set(new BaseCharactersServerType(server.getId(), msg.getCharacters()));
-			} else {
-				log.warn("({}) {} doesn't requested its nb of characters", server.getName(), msg.getAccountId());
-			}
+			parseAccountCharactersMessage((AccountCharactersMessage)message);
 			break;
+			
+		case CLIENT_DECONNECTION:
+			parseClientDeconnectionMessage((ClientDeconnectionMessage)message);
+			break;
+		}
+	}
+	
+
+	private void parseAccountCharactersMessage(AccountCharactersMessage msg) {
+		SettableFuture<BaseCharactersServerType> future = nbCharactersByAccountId.get(msg.getAccountId());
+		if (future != null) {
+			future.set(new BaseCharactersServerType(server.getId(), msg.getCharacters()));
+		} else {
+			log.warn("({}) {} doesn't requested its nb of characters", server.getName(), msg.getAccountId());
+		}
+	}
+
+	private void parseClientDeconnectionMessage(ClientDeconnectionMessage msg) {
+		Account account = service.getRepositories().getAccounts().findById(msg.getAccountId());
+		
+		if (account != null) {
+			account.setConnected(false);
+			service.getRepositories().getAccounts().update(account);
+		} else {
+			log.warn("({}) account #{} doesn't exist", msg.getAccountId());
 		}
 	}
 

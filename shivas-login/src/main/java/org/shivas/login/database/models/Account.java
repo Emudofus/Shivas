@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
@@ -22,6 +23,9 @@ public class Account implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(nullable=false)
 	private int id;
+	
+	@Version
+	private long version;
 	
 	@Column(nullable=false, unique=true)
 	private String name;
@@ -69,6 +73,20 @@ public class Account implements Serializable {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public long getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(long version) {
+		this.version = version;
 	}
 
 	/**
