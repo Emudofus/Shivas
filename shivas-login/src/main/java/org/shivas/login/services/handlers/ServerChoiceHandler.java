@@ -7,7 +7,9 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.login.database.models.Account;
+import org.shivas.login.database.models.GameServer;
 import org.shivas.login.services.LoginService;
+import org.shivas.login.services.SessionTokens;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
 import org.shivas.protocol.client.types.BaseCharactersServerType;
 import org.slf4j.Logger;
@@ -48,13 +50,14 @@ public class ServerChoiceHandler implements IoSessionHandler<String> {
 			break;
 			
 		case 'X':
+			parseServerChoiceMessage(Integer.parseInt(message.substring(2)));
 			break;
 			
 		case 'f':
 			break;
 		}
 	}
-	
+
 	private void parseCharactersListMessage() {
 		Futures.addCallback(service.getGameService().getNbCharactersByAccount(account), new FutureCallback<List<BaseCharactersServerType>>() {
 			public void onSuccess(List<BaseCharactersServerType> result) {
@@ -72,6 +75,25 @@ public class ServerChoiceHandler implements IoSessionHandler<String> {
 				session.close(true);
 			}
 		});
+	}
+	
+	private void parseServerChoiceMessage(int serverId) throws Exception {
+		GameServer selected = service.getRepositories().getServers().findById(serverId);
+		
+		if (selected == null) {
+			session.write(LoginMessageFormatter.serverSelectionErrorMessage());
+		} else if (!selected.isAvailable()) {
+			session.write(LoginMessageFormatter.serverSelectionErrorMessage());
+		} else if (selected.isRestricted() && !account.isSubscriber()) {
+			session.write(LoginMessageFormatter.serverSelectionErrorMessage());
+		} else {
+			session.write(LoginMessageFormatter.selectedHostInformationMessage(
+					selected.getAddress(), 
+					selected.getPort(), 
+					(String)session.getAttribute(SessionTokens.TICKET), 
+					true // TODO
+			));
+		}
 	}
 
 	public void onClosed() {

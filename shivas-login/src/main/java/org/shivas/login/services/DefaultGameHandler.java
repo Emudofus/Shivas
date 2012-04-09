@@ -63,6 +63,10 @@ public class DefaultGameHandler implements GameHandler, IoHandler {
 		return status;
 	}
 
+	public boolean isAvailable() {
+		return status == WorldStateEnum.ONLINE;
+	}
+
 	public ListenableFuture<BaseCharactersServerType> getNbCharacters(Account account) {
 		SettableFuture<BaseCharactersServerType> future = SettableFuture.create();
 		nbCharactersByAccountId.put(account.getId(), future);

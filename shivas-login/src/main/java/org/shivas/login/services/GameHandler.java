@@ -13,4 +13,5 @@ public interface GameHandler {
 	ListenableFuture<BaseCharactersServerType> getNbCharacters(Account account);
 	
 	WorldStateEnum getStatus();
+	boolean isAvailable();
 }

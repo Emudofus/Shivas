@@ -199,6 +199,10 @@ public class GameServer implements Serializable {
 		return handler.getStatus();
 	}
 	
+	public boolean isAvailable() {
+		return handler.isAvailable();
+	}
+	
 	public GameServerType toGameServerType() {
 		return new GameServerType(id, address, port, handler.getStatus(), completion);
 	}
