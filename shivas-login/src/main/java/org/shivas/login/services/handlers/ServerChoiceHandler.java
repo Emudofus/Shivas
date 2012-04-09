@@ -91,7 +91,7 @@ public class ServerChoiceHandler implements IoSessionHandler<String> {
 					selected.getAddress(), 
 					selected.getPort(), 
 					(String)session.getAttribute(SessionTokens.TICKET), 
-					true // TODO
+					session.getRemoteAddress().toString().contains("127.0.0.1") // TODO
 			));
 		}
 	}
