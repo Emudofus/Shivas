@@ -10,5 +10,6 @@ public interface LoginService {
 	
 	LoginConfig getConfig();
 	RepositoryContainer getRepositories();
+	GameService getGameService();
 	Cipher getDecrypter(String key);
 }

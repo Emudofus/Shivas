@@ -38,12 +38,14 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	
 	private final LoginConfig config;
 	private final RepositoryContainer repositories;
+	private final GameService gameService;
 	private final IoAcceptor acceptor;
 	
 	@Inject
-	public DefaultLoginService(LoginConfig config, RepositoryContainer repositories) {
+	public DefaultLoginService(LoginConfig config, RepositoryContainer repositories, GameService gameService) {
 		this.config = config;
 		this.repositories = repositories;
+		this.gameService = gameService;
 		
 		this.acceptor = new NioSocketAcceptor(Runtime.getRuntime().availableProcessors());
 		this.acceptor.getSessionConfig().setBothIdleTime(IDLE_TIME);
@@ -79,6 +81,10 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	
 	public RepositoryContainer getRepositories() {
 		return repositories;
+	}
+	
+	public GameService getGameService() {
+		return gameService;
 	}
 
 	public Cipher getDecrypter(String key) {

@@ -31,7 +31,7 @@ public class VersionHandler implements IoSessionHandler<String> {
 			session.write(LoginMessageFormatter.badClientVersion(service.getConfig().getClientVersion()));
 			session.close(true);
 		} else {
-			session.setAttribute(SessionTokens.HANDLER, new AuthenticationHandler(session, service));
+			session.setAttribute(SessionTokens.HANDLER, new AuthenticationHandler(session, service).init());
 		}
 	}
 

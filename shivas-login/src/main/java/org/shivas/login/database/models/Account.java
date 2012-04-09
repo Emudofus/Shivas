@@ -53,6 +53,9 @@ public class Account implements Serializable {
 	@Column(nullable=true)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime subscriptionEnd;
+	
+	@Column(nullable=false)
+	private boolean connected;
 
 	/**
 	 * @return the id
@@ -210,6 +213,20 @@ public class Account implements Serializable {
 	
 	public boolean isSubscriber() {
 		return subscriptionEnd.isAfterNow();
+	}
+
+	/**
+	 * @return the connected
+	 */
+	public boolean isConnected() {
+		return connected;
+	}
+
+	/**
+	 * @param connected the connected to set
+	 */
+	public void setConnected(boolean connected) {
+		this.connected = connected;
 	}
 	
 }

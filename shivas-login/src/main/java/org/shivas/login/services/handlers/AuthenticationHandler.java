@@ -45,6 +45,8 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 			session.write(LoginMessageFormatter.accessDenied());
 		} else if (account.isBanned()) {
 			session.write(LoginMessageFormatter.banned());
+		} else if (account.isConnected()) {
+			session.write(LoginMessageFormatter.alreadyConnected());
 		} else if (!matchedPassword(password, account)) {
 			session.write(LoginMessageFormatter.accessDenied());
 		} else {
@@ -57,8 +59,7 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 			session.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
 			session.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));
 			
-			// TODO set account's state to connected
-			// TODO set new handler
+			session.setAttribute(SessionTokens.HANDLER, new ServerChoiceHandler(session, service, account).init());
 		}
 	}
 
