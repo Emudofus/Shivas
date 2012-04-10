@@ -17,8 +17,11 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.shivas.game.configuration.GameConfig;
 import org.shivas.game.database.RepositoryContainer;
+import org.shivas.game.services.handlers.AuthenticationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.shivas.game.services.SessionTokens.*;
 
 @Singleton
 public class DefaultGameService implements GameService, IoHandler {
@@ -87,21 +90,52 @@ public class DefaultGameService implements GameService, IoHandler {
 	}
 
 	public void sessionOpened(IoSession session) throws Exception {
+		log.debug("{} is connected", session.getRemoteAddress());
+		
+		handler(session, new AuthenticationHandler(session, this)).init();
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
+		log.debug("{} is disconnected", session.getRemoteAddress());
+		
+		handler(session).onClosed();
 	}
 
 	public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
 	}
 
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
+		log.error("({}) uncatched exception : {}", session.getRemoteAddress(), cause.getMessage());
 	}
 
-	public void messageReceived(IoSession session, Object message) throws Exception {
+	public void messageReceived(IoSession session, Object o) throws Exception {
+		if (!(o instanceof String)) {
+			throw new Exception("incoming data aren't a String");
+		}
+		
+		String message = (String)o;
+		
+		log.debug(String.format("receive %d from %s : %s",
+				message.length(),
+				session.getRemoteAddress(),
+				message
+		));
+		
+		handler(session).handle(message);
 	}
 
-	public void messageSent(IoSession session, Object message) throws Exception {
+	public void messageSent(IoSession session, Object o) throws Exception {
+		if (!(o instanceof String)) {
+			throw new Exception("outcoming data aren't a String");
+		}
+		
+		String message = (String)o;
+		
+		log.debug(String.format("send %d to %s : %s",
+				message.length(),
+				session.getRemoteAddress(),
+				message
+		));
 	}
 
 }
