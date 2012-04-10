@@ -35,6 +35,12 @@ public class PlayerRepository {
 				 .getSingleResult();
 	}
 	
+	public Player findByOwner(int owner) {
+		return em.createQuery("SELECT p FROM Player p WHERE p.owner = :owner", Player.class)
+				 .setParameter("owner", owner)
+				 .getSingleResult();
+	}
+	
 	public Player findByName(String name) {
 		return em.createQuery("SELECT p FROM Player p WHERE p.name = :name", Player.class)
 				 .setParameter("name", name)

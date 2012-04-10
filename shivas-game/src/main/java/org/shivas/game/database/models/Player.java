@@ -17,6 +17,9 @@ public class Player implements Serializable {
 	@Column(nullable=false)
 	private int id;
 	
+	@Column(nullable=false)
+	private int owner;
+	
 	@Column(nullable=false, unique=true)
 	private String name;
 	
@@ -35,6 +38,20 @@ public class Player implements Serializable {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the owner
+	 */
+	public int getOwner() {
+		return owner;
+	}
+
+	/**
+	 * @param owner the owner to set
+	 */
+	public void setOwner(int owner) {
+		this.owner = owner;
 	}
 
 	/**
