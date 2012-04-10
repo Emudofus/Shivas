@@ -4,8 +4,9 @@ import org.apache.mina.core.session.IoSession;
 import org.shivas.common.StringUtils;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.login.services.LoginService;
-import org.shivas.login.services.SessionTokens;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
+
+import static org.shivas.login.services.SessionTokens.*;
 
 public class VersionHandler implements IoSessionHandler<String> {
 	
@@ -18,8 +19,7 @@ public class VersionHandler implements IoSessionHandler<String> {
 	}
 
 	public IoSessionHandler<String> init() throws Exception {
-		String ticket = StringUtils.random(32);
-		session.setAttribute(SessionTokens.TICKET, ticket);
+		String ticket = ticket(session, StringUtils.random(32));
 		
 		session.write(LoginMessageFormatter.helloConnect(ticket));
 		
@@ -31,7 +31,7 @@ public class VersionHandler implements IoSessionHandler<String> {
 			session.write(LoginMessageFormatter.badClientVersion(service.getConfig().getClientVersion()));
 			session.close(true);
 		} else {
-			session.setAttribute(SessionTokens.HANDLER, new AuthenticationHandler(session, service).init());
+			handler(session, new AuthenticationHandler(session, service)).init();
 		}
 	}
 

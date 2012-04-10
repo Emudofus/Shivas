@@ -5,8 +5,9 @@ import org.shivas.common.crypto.CipherException;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.login.database.models.Account;
 import org.shivas.login.services.LoginService;
-import org.shivas.login.services.SessionTokens;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
+
+import static org.shivas.login.services.SessionTokens.*;
 
 public class AuthenticationHandler implements IoSessionHandler<String> {
 	
@@ -17,7 +18,7 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 	public AuthenticationHandler(IoSession session, LoginService service) {
 		this.session = session;
 		this.service = service;
-		this.ticket = (String) session.getAttribute(SessionTokens.TICKET);
+		this.ticket = ticket(this.session);
 	}
 
 	public IoSessionHandler<String> init() throws Exception {
@@ -59,7 +60,7 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 			session.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
 			session.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));
 			
-			session.setAttribute(SessionTokens.HANDLER, new ServerChoiceHandler(session, service, account).init());
+			handler(session, new ServerChoiceHandler(session, service, account)).init();
 		}
 	}
 

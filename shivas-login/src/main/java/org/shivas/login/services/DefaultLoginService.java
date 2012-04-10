@@ -18,12 +18,13 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Ciphers;
 import org.shivas.common.crypto.Dofus1DecrypterCipher;
-import org.shivas.common.services.IoSessionHandler;
 import org.shivas.login.config.LoginConfig;
 import org.shivas.login.database.RepositoryContainer;
 import org.shivas.login.services.handlers.VersionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.shivas.login.services.SessionTokens.*;
 
 @Singleton
 public class DefaultLoginService implements LoginService, IoHandler {
@@ -98,18 +99,14 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		session.setAttribute(SessionTokens.HANDLER, new VersionHandler(session, this));
 	}
 
-	@SuppressWarnings("unchecked")
 	public void sessionOpened(IoSession session) throws Exception {
 		log.debug("({}) connected", session.getRemoteAddress());
 
-		((IoSessionHandler<String>)session.getAttribute(SessionTokens.HANDLER)).init();
+		handler(session).init();
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
-		@SuppressWarnings("unchecked")
-		IoSessionHandler<String> handler = (IoSessionHandler<String>)session.getAttribute(SessionTokens.HANDLER);
-		
-		handler.onClosed();
+		handler(session).onClosed();
 		
 		log.debug("({}) disconnected", session.getRemoteAddress());
 	}
@@ -139,10 +136,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 			));
 		}
 		
-		@SuppressWarnings("unchecked")
-		IoSessionHandler<String> handler = (IoSessionHandler<String>)session.getAttribute(SessionTokens.HANDLER);
-		
-		handler.handle(message);
+		handler(session).handle(message);
 	}
 
 	public void messageSent(IoSession session, Object obj) throws Exception {
