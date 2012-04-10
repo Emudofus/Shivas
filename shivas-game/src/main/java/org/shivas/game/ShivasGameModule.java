@@ -4,7 +4,9 @@ import org.shivas.game.configuration.DefaultGameConfig;
 import org.shivas.game.configuration.GameConfig;
 import org.shivas.game.database.DefaultRepositoryContainer;
 import org.shivas.game.database.RepositoryContainer;
+import org.shivas.game.services.DefaultGameService;
 import org.shivas.game.services.DefaultLoginService;
+import org.shivas.game.services.GameService;
 import org.shivas.game.services.LoginService;
 
 import com.google.inject.AbstractModule;
@@ -19,6 +21,7 @@ public class ShivasGameModule extends AbstractModule {
 		bind(GameConfig.class).to(DefaultGameConfig.class);
 		bind(RepositoryContainer.class).to(DefaultRepositoryContainer.class);
 		bind(LoginService.class).to(DefaultLoginService.class);
+		bind(GameService.class).to(DefaultGameService.class);
 	}
 
 }

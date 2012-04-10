@@ -63,10 +63,6 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		acceptor.dispose();
 	}
 
-	public GameConfig getConfig() {
-		return config;
-	}
-
 	public void sessionCreated(IoSession session) throws Exception {
 	}
 
