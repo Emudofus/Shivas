@@ -1,5 +1,7 @@
 package org.shivas.game;
 
+import org.shivas.game.configuration.DefaultGameConfig;
+import org.shivas.game.configuration.GameConfig;
 import org.shivas.game.database.DefaultRepositoryContainer;
 import org.shivas.game.database.RepositoryContainer;
 
@@ -12,6 +14,7 @@ public class ShivasGameModule extends AbstractModule {
 	protected void configure() {
 		install(new JpaPersistModule(ShivasGameServer.UNIT_PERSIST_NAME));
 		
+		bind(GameConfig.class).to(DefaultGameConfig.class);
 		bind(RepositoryContainer.class).to(DefaultRepositoryContainer.class);
 	}
 
