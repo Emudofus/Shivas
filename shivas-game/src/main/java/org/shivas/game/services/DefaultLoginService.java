@@ -13,7 +13,10 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.shivas.game.configuration.GameConfig;
 import org.shivas.game.database.RepositoryContainer;
+import org.shivas.protocol.server.Message;
 import org.shivas.protocol.server.codec.MamboProtocolCodecFactory;
+import org.shivas.protocol.server.messages.AccountCharactersMessage;
+import org.shivas.protocol.server.messages.AccountCharactersRequestMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +50,9 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		try {
 			acceptor.bind(new InetSocketAddress(config.getSystemPort()));
 			
-			log.info("started");
+			log.info("waiting for login server's connection");
+			
+			// TODO login server's connection delay
 		} catch (IOException e) {
 			log.error("can't start because : {}", e.getMessage());
 		}
@@ -75,12 +80,54 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	}
 
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
+		log.error("uncatched exception : {}", cause.getMessage());
 	}
 
-	public void messageReceived(IoSession session, Object message) throws Exception {
+	public void messageReceived(IoSession session, Object obj) throws Exception {
+		if (!(obj instanceof Message)) {
+			throw new Exception("incoming data aren't a Message");
+		}
+		
+		Message message = (Message)obj;
+		
+		log.debug("receive {}", message.getMessageType().getClass().getSimpleName());
+		
+		switch (message.getMessageType()) {
+		case HELLO_CONNECT:
+			this.session = session;
+			log.info("login server's synchronization success");
+			break;
+		
+		case ACCOUNT_CHARACTERS_REQUEST:
+			parseAccountCharactersRequest((AccountCharactersRequestMessage)message);
+			break;
+			
+		case CLIENT_CONNECTION:
+			// TODO
+			break;
+			
+		case CLIENT_DECONNECTION:
+			// TODO kick client
+			break;
+		}
 	}
 
-	public void messageSent(IoSession session, Object message) throws Exception {
+	private void parseAccountCharactersRequest(AccountCharactersRequestMessage message) {
+		Integer count = repositories.getPlayers().countByOwner(message.getAccountId());
+		
+		if (count == null) count = 0;
+		
+		session.write(new AccountCharactersMessage(message.getAccountId(), count.byteValue()));
+	}
+
+	public void messageSent(IoSession session, Object obj) throws Exception {
+		if (!(obj instanceof Message)) {
+			throw new Exception("outcoming data aren't a Message");
+		}
+		
+		Message message = (Message)obj;
+		
+		log.debug("send {}", message.getMessageType().getClass().getSimpleName());
 	}
 
 }

@@ -1,5 +1,7 @@
 package org.shivas.game.database.repositories;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -35,8 +37,14 @@ public class PlayerRepository {
 				 .getSingleResult();
 	}
 	
-	public Player findByOwner(int owner) {
+	public List<Player> findByOwner(int owner) {
 		return em.createQuery("SELECT p FROM Player p WHERE p.owner = :owner", Player.class)
+				 .setParameter("owner", owner)
+				 .getResultList();
+	}
+	
+	public Integer countByOwner(int owner) {
+		return (Integer)em.createQuery("SELECT COUNT(p) FROM Player p WHERE p.owner = :owner")
 				 .setParameter("owner", owner)
 				 .getSingleResult();
 	}
