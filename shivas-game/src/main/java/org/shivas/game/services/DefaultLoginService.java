@@ -12,6 +12,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.shivas.game.configuration.GameConfig;
+import org.shivas.game.database.RepositoryContainer;
 import org.shivas.protocol.server.codec.MamboProtocolCodecFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +26,15 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	private static final int READ_BUFFER_SIZE = 256;
 
 	private final GameConfig config;
+	private final RepositoryContainer repositories;
 	
 	private final IoAcceptor acceptor;
 	private IoSession session;
 	
-	public DefaultLoginService(GameConfig config) {
+	@Singleton
+	public DefaultLoginService(GameConfig config, RepositoryContainer repositories) {
 		this.config = config;
+		this.repositories = repositories;
 		
 		this.acceptor = new NioSocketAcceptor();
 		this.acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new MamboProtocolCodecFactory()));
