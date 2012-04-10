@@ -2,6 +2,7 @@ package org.shivas.game.services;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Map;
 
 import javax.inject.Singleton;
 
@@ -17,8 +18,11 @@ import org.shivas.protocol.server.Message;
 import org.shivas.protocol.server.codec.MamboProtocolCodecFactory;
 import org.shivas.protocol.server.messages.AccountCharactersMessage;
 import org.shivas.protocol.server.messages.AccountCharactersRequestMessage;
+import org.shivas.protocol.server.messages.ClientConnectionMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Maps;
 
 @Singleton
 public class DefaultLoginService implements LoginService, IoHandler {
@@ -33,6 +37,8 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	
 	private final IoAcceptor acceptor;
 	private IoSession session;
+	
+	private Map<String, Integer> accountByTicket = Maps.newConcurrentMap();
 	
 	@Singleton
 	public DefaultLoginService(GameConfig config, RepositoryContainer repositories) {
@@ -61,6 +67,10 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	public void stop() {
 		acceptor.unbind();
 		acceptor.dispose();
+	}
+
+	public Integer getAccount(String ticket) {
+		return accountByTicket.remove(ticket);
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
@@ -99,7 +109,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 			break;
 			
 		case CLIENT_CONNECTION:
-			// TODO
+			parseClientConnectionMessage((ClientConnectionMessage)message);
 			break;
 			
 		case CLIENT_DECONNECTION:
@@ -114,6 +124,10 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		if (count == null) count = 0;
 		
 		session.write(new AccountCharactersMessage(message.getAccountId(), count.byteValue()));
+	}
+
+	private void parseClientConnectionMessage(ClientConnectionMessage message) {
+		accountByTicket.put(message.getSalt(), message.getAccountId());
 	}
 
 	public void messageSent(IoSession session, Object obj) throws Exception {
