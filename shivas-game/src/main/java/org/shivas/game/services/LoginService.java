@@ -7,4 +7,5 @@ public interface LoginService {
 	void stop();
 	
 	Account getAccount(String ticket);
+	void deconnection(Account account);
 }

@@ -20,6 +20,7 @@ import org.shivas.protocol.server.codec.MamboProtocolCodecFactory;
 import org.shivas.protocol.server.messages.AccountCharactersMessage;
 import org.shivas.protocol.server.messages.AccountCharactersRequestMessage;
 import org.shivas.protocol.server.messages.ClientConnectionMessage;
+import org.shivas.protocol.server.messages.ClientDeconnectionMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,6 +73,10 @@ public class DefaultLoginService implements LoginService, IoHandler {
 
 	public Account getAccount(String ticket) {
 		return accountByTicket.remove(ticket);
+	}
+
+	public void deconnection(Account account) {
+		session.write(new ClientDeconnectionMessage(account.getId()));
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {

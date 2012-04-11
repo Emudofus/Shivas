@@ -6,6 +6,8 @@ import org.shivas.common.services.IoSessionHandler;
 import org.shivas.game.services.GameService;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
 
+import static org.shivas.game.services.SessionTokens.*;
+
 public class AuthenticationHandler implements IoSessionHandler<String> {
 	
 	private final IoSession session;
@@ -30,14 +32,16 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 		parseAuthenticationRequestMessage(message.substring(2));
 	}
 
-	private void parseAuthenticationRequestMessage(String ticket) {
+	private void parseAuthenticationRequestMessage(String ticket) throws Exception {
 		Account account = service.getLoginService().getAccount(ticket);
 		
 		if (account == null) {
 			session.write(ApproachGameMessageFormatter.authenticationFailureMessage());
 			session.close(false);
 		} else {
-			// TODO send confirmation
+			session.write(ApproachGameMessageFormatter.authenticationSuccessMessage(account.getCommunity()));
+			
+			handler(session, new CharacterSelectionHandler(session, service, account)).init();
 		}
 	}
 
