@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.mina.core.service.IoAcceptor;
@@ -42,7 +43,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	
 	private Map<String, Account> accountByTicket = Maps.newConcurrentMap();
 	
-	@Singleton
+	@Inject
 	public DefaultLoginService(GameConfig config, RepositoryContainer repositories) {
 		this.config = config;
 		this.repositories = repositories;
