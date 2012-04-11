@@ -12,6 +12,7 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.shivas.common.Account;
 import org.shivas.game.configuration.GameConfig;
 import org.shivas.game.database.RepositoryContainer;
 import org.shivas.protocol.server.Message;
@@ -38,7 +39,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	private final IoAcceptor acceptor;
 	private IoSession session;
 	
-	private Map<String, Integer> accountByTicket = Maps.newConcurrentMap();
+	private Map<String, Account> accountByTicket = Maps.newConcurrentMap();
 	
 	@Singleton
 	public DefaultLoginService(GameConfig config, RepositoryContainer repositories) {
@@ -69,7 +70,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		acceptor.dispose();
 	}
 
-	public Integer getAccount(String ticket) {
+	public Account getAccount(String ticket) {
 		return accountByTicket.remove(ticket);
 	}
 
@@ -127,7 +128,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	}
 
 	private void parseClientConnectionMessage(ClientConnectionMessage message) {
-		accountByTicket.put(message.getSalt(), message.getAccountId());
+		accountByTicket.put(message.getSalt(), message.getAccount());
 	}
 
 	public void messageSent(IoSession session, Object obj) throws Exception {

@@ -9,7 +9,7 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
-import org.shivas.login.database.models.Account;
+import org.shivas.common.Account;
 import org.shivas.login.database.models.GameServer;
 import org.shivas.protocol.client.enums.WorldStateEnum;
 import org.shivas.protocol.client.types.BaseCharactersServerType;
@@ -17,6 +17,7 @@ import org.shivas.protocol.server.Message;
 import org.shivas.protocol.server.codec.MamboProtocolCodecFactory;
 import org.shivas.protocol.server.messages.AccountCharactersMessage;
 import org.shivas.protocol.server.messages.AccountCharactersRequestMessage;
+import org.shivas.protocol.server.messages.ClientConnectionMessage;
 import org.shivas.protocol.server.messages.ClientDeconnectionMessage;
 import org.shivas.protocol.server.messages.HelloConnectMessage;
 import org.shivas.protocol.server.messages.ServerStatusUpdateMessage;
@@ -73,6 +74,10 @@ public class DefaultGameHandler implements GameHandler, IoHandler {
 		nbCharactersByAccountId.put(account.getId(), future);
 		session.write(new AccountCharactersRequestMessage(account.getId()));
 		return future;
+	}
+
+	public void connection(Account account, String ticket) {
+		session.write(new ClientConnectionMessage(account, ticket));
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {

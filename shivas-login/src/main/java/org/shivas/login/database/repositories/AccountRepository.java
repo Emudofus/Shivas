@@ -5,8 +5,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
+import org.shivas.common.Account;
 import org.shivas.common.crypto.Cipher;
-import org.shivas.login.database.models.Account;
 
 import com.google.inject.persist.Transactional;
 

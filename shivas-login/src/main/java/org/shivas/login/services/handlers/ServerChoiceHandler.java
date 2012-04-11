@@ -5,15 +5,16 @@ import java.util.List;
 import org.apache.mina.core.session.IoSession;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.shivas.common.Account;
 import org.shivas.common.services.IoSessionHandler;
-import org.shivas.login.database.models.Account;
 import org.shivas.login.database.models.GameServer;
 import org.shivas.login.services.LoginService;
-import org.shivas.login.services.SessionTokens;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
 import org.shivas.protocol.client.types.BaseCharactersServerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.shivas.login.services.SessionTokens.*;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -87,10 +88,14 @@ public class ServerChoiceHandler implements IoSessionHandler<String> {
 		} else if (selected.isRestricted() && !account.isSubscriber()) {
 			session.write(LoginMessageFormatter.serverSelectionErrorMessage());
 		} else {
+			String ticket = ticket(session);
+			
+			selected.getHandler().connection(account, ticket);
+			
 			session.write(LoginMessageFormatter.selectedHostInformationMessage(
 					selected.getAddress(), 
 					selected.getPort(), 
-					(String)session.getAttribute(SessionTokens.TICKET), 
+					ticket, 
 					session.getRemoteAddress().toString().contains("127.0.0.1") // TODO
 			));
 		}

@@ -1,6 +1,7 @@
 package org.shivas.game.services.handlers;
 
 import org.apache.mina.core.session.IoSession;
+import org.shivas.common.Account;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.game.services.GameService;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
@@ -22,6 +23,22 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 	}
 
 	public void handle(String message) throws Exception {
+		if (!message.startsWith("AT")) {
+			throw new Exception(String.format("invalid incoming data [%s]", message));
+		}
+		
+		parseAuthenticationRequestMessage(message.substring(2));
+	}
+
+	private void parseAuthenticationRequestMessage(String ticket) {
+		Account account = service.getLoginService().getAccount(ticket);
+		
+		if (account == null) {
+			session.write(ApproachGameMessageFormatter.authenticationFailureMessage());
+			session.close(false);
+		} else {
+			// TODO send confirmation
+		}
 	}
 
 	public void onClosed() {

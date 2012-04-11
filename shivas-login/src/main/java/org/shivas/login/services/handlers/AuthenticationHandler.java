@@ -1,9 +1,9 @@
 package org.shivas.login.services.handlers;
 
 import org.apache.mina.core.session.IoSession;
+import org.shivas.common.Account;
 import org.shivas.common.crypto.CipherException;
 import org.shivas.common.services.IoSessionHandler;
-import org.shivas.login.database.models.Account;
 import org.shivas.login.services.LoginService;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
 

@@ -2,8 +2,8 @@ package org.shivas.login.services;
 
 import java.util.List;
 
+import org.shivas.common.Account;
 import org.shivas.login.database.RepositoryContainer;
-import org.shivas.login.database.models.Account;
 import org.shivas.protocol.client.types.BaseCharactersServerType;
 
 import com.google.common.util.concurrent.ListenableFuture;

@@ -1,4 +1,4 @@
-package org.shivas.login.database.models;
+package org.shivas.common;
 
 import java.io.Serializable;
 

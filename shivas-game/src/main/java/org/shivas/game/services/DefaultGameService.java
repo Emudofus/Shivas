@@ -121,7 +121,13 @@ public class DefaultGameService implements GameService, IoHandler {
 				message
 		));
 		
-		handler(session).handle(message);
+		if (message.equals("ping")) {
+			session.write("pong");
+		} else if (message.equals("qping")) {
+			session.write("qpong");
+		} else {
+			handler(session).handle(message);
+		}
 	}
 
 	public void messageSent(IoSession session, Object o) throws Exception {

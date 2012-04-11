@@ -1,6 +1,6 @@
 package org.shivas.login.services;
 
-import org.shivas.login.database.models.Account;
+import org.shivas.common.Account;
 import org.shivas.protocol.client.enums.WorldStateEnum;
 import org.shivas.protocol.client.types.BaseCharactersServerType;
 
@@ -14,4 +14,5 @@ public interface GameHandler {
 	
 	WorldStateEnum getStatus();
 	boolean isAvailable();
+	void connection(Account account, String ticket);
 }

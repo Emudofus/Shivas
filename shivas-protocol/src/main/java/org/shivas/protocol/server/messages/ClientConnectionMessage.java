@@ -5,19 +5,20 @@ import java.nio.charset.Charset;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
+import org.shivas.common.Account;
 import org.shivas.protocol.server.Message;
 import org.shivas.protocol.server.MessageType;
 
 public class ClientConnectionMessage implements Message {
 	
-	private int accountId;
+	private Account account;
 	private String salt;
 	
 	public ClientConnectionMessage() {
 	}
 
-	public ClientConnectionMessage(int accountId, String salt) {
-		this.accountId = accountId;
+	public ClientConnectionMessage(Account account, String salt) {
+		this.account = account;
 		this.salt = salt;
 	}
 
@@ -26,7 +27,7 @@ public class ClientConnectionMessage implements Message {
 	}
 
 	public void serialize(IoBuffer buf) {
-		buf.putInt(accountId);
+		buf.putObject(account);
 		try {
 			buf.putString(salt, Charset.forName("UTF-8").newEncoder());
 		} catch (CharacterCodingException e) {
@@ -35,26 +36,26 @@ public class ClientConnectionMessage implements Message {
 	}
 
 	public void deserialize(IoBuffer buf) {
-		accountId = buf.getInt();
 		try {
+			account = (Account) buf.getObject();
 			salt = buf.getString(Charset.forName("UTF-8").newDecoder());
-		} catch (CharacterCodingException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * @return the accountId
+	 * @return the account
 	 */
-	public int getAccountId() {
-		return accountId;
+	public Account getAccount() {
+		return account;
 	}
 
 	/**
 	 * @param accountId the accountId to set
 	 */
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	/**

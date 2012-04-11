@@ -1,8 +1,10 @@
 package org.shivas.game.services;
 
+import org.shivas.common.Account;
+
 public interface LoginService {
 	void start();
 	void stop();
 	
-	Integer getAccount(String ticket);
+	Account getAccount(String ticket);
 }
