@@ -7,7 +7,7 @@ public class DefaultGameConfig implements GameConfig {
 	}
 
 	public int getSystemPort() {
-		return 5556;
+		return 4444;
 	}
 
 }

@@ -181,14 +181,14 @@ public class GameServer implements Serializable {
 	/**
 	 * @return the handler
 	 */
-	public GameHandler getHandler() {
+	public GameHandler getGameHandler() { // not getHandler because of Javassist conflicts
 		return handler;
 	}
 
 	/**
 	 * @param handler the handler to set
 	 */
-	public void setHandler(GameHandler handler) {
+	public void setGameHandler(GameHandler handler) {
 		this.handler = handler;
 	}
 

@@ -111,7 +111,7 @@ public class DefaultGameHandler implements GameHandler, IoHandler {
 		
 		Message message = (Message)obj;
 		
-		log.debug("received from {} : {}", message.getMessageType().getClass().getSimpleName(), server.getName());
+		log.debug("received from {} : {}", server.getName(), message.getMessageType());
 		
 		switch (message.getMessageType()) {
 		case SERVER_STATUS_UPDATE:
@@ -156,7 +156,7 @@ public class DefaultGameHandler implements GameHandler, IoHandler {
 		
 		Message message = (Message)obj;
 		
-		log.debug("sended to {} : {}", message.getMessageType().getClass().getSimpleName(), server.getName());
+		log.debug("sended to {} : {}", server.getName(), message.getMessageType());
 	}
 
 }

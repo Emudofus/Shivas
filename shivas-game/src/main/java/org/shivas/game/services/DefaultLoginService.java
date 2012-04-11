@@ -17,11 +17,13 @@ import org.shivas.common.Account;
 import org.shivas.game.configuration.GameConfig;
 import org.shivas.game.database.RepositoryContainer;
 import org.shivas.protocol.server.Message;
+import org.shivas.protocol.server.MessageType;
 import org.shivas.protocol.server.codec.MamboProtocolCodecFactory;
 import org.shivas.protocol.server.messages.AccountCharactersMessage;
 import org.shivas.protocol.server.messages.AccountCharactersRequestMessage;
 import org.shivas.protocol.server.messages.ClientConnectionMessage;
 import org.shivas.protocol.server.messages.ClientDeconnectionMessage;
+import org.shivas.protocol.server.messages.HelloConnectMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,25 +105,27 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		
 		Message message = (Message)obj;
 		
-		log.debug("receive {}", message.getMessageType().getClass().getSimpleName());
+		log.debug("receive {}", message.getMessageType());
 		
-		switch (message.getMessageType()) {
-		case HELLO_CONNECT:
+		if (session == null) {
+			if (message.getMessageType() != MessageType.HELLO_CONNECT) {
+				throw new Exception("not synchronized");
+			}
 			this.session = session;
-			log.info("login server's synchronization success");
-			break;
-		
-		case ACCOUNT_CHARACTERS_REQUEST:
-			parseAccountCharactersRequest((AccountCharactersRequestMessage)message);
-			break;
-			
-		case CLIENT_CONNECTION:
-			parseClientConnectionMessage((ClientConnectionMessage)message);
-			break;
-			
-		case CLIENT_DECONNECTION:
-			// TODO kick client
-			break;
+		} else {
+			switch (message.getMessageType()) {
+			case ACCOUNT_CHARACTERS_REQUEST:
+				parseAccountCharactersRequest((AccountCharactersRequestMessage)message);
+				break;
+				
+			case CLIENT_CONNECTION:
+				parseClientConnectionMessage((ClientConnectionMessage)message);
+				break;
+				
+			case CLIENT_DECONNECTION:
+				// TODO kick client
+				break;
+			}
 		}
 	}
 

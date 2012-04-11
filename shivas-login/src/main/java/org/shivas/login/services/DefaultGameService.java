@@ -23,7 +23,7 @@ public class DefaultGameService implements GameService {
 	public void start() {
 		for (GameServer server : repositories.getServers().findAll()) {
 			GameHandler handler = new DefaultGameHandler(server, this);
-			server.setHandler(handler);
+			server.setGameHandler(handler);
 			
 			handler.start();
 		}
@@ -31,7 +31,7 @@ public class DefaultGameService implements GameService {
 
 	public void stop() {
 		for (GameServer server : repositories.getServers().findAll()) {
-			server.getHandler().stop();
+			server.getGameHandler().stop();
 		}
 	}
 	
@@ -43,7 +43,7 @@ public class DefaultGameService implements GameService {
 		List<ListenableFuture<BaseCharactersServerType>> futures = Lists.newArrayList();
 		
 		for (GameServer server : repositories.getServers().findAll()) {
-			futures.add(server.getHandler().getNbCharacters(account));
+			futures.add(server.getGameHandler().getNbCharacters(account));
 		}
 		
 		return Futures.successfulAsList(futures);

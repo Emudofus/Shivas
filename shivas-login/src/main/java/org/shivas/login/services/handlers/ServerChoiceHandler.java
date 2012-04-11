@@ -90,7 +90,7 @@ public class ServerChoiceHandler implements IoSessionHandler<String> {
 		} else {
 			String ticket = ticket(session);
 			
-			selected.getHandler().connection(account, ticket);
+			selected.getGameHandler().connection(account, ticket);
 			
 			session.write(LoginMessageFormatter.selectedHostInformationMessage(
 					selected.getAddress(), 
