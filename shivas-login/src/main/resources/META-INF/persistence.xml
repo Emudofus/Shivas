@@ -6,6 +6,8 @@
     http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
     version="1.0">
     <persistence-unit name="login">
+    	<class>org.shivas.common.Account</class>
+    
         <properties>
             <!--
             <property name="hibernate.ejb.cfgfile" value="/hibernate.cfg.xml"/>
