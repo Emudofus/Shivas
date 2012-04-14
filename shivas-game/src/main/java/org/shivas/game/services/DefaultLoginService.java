@@ -89,20 +89,28 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		session.write(new ServerStatusUpdateMessage(status));
 	}
 
-	public void sessionCreated(IoSession session) throws Exception {
+	public void sessionCreated(IoSession s) throws Exception {
+		if (this.session != null) {
+			throw new Exception("already synchronized");
+		}
 	}
 
-	public void sessionOpened(IoSession session) throws Exception {
+	public void sessionOpened(IoSession s) throws Exception {
 	}
 
-	public void sessionClosed(IoSession session) throws Exception {
+	public void sessionClosed(IoSession s) throws Exception {
+		this.session = null;
 	}
 
-	public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
+	public void sessionIdle(IoSession s, IdleStatus status) throws Exception {
 	}
 
-	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-		log.error("uncatched exception : {}", cause.getMessage());
+	public void exceptionCaught(IoSession s, Throwable cause) throws Exception {
+		log.error(String.format("uncatched %s %s : %s", 
+				cause.getClass().getSimpleName(),
+				cause.getStackTrace()[0],
+				cause.getMessage()
+		));
 	}
 
 	public void messageReceived(IoSession session, Object obj) throws Exception {
@@ -141,9 +149,9 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	}
 
 	private void parseAccountCharactersRequest(AccountCharactersRequestMessage message) {
-		Integer count = repositories.getPlayers().countByOwner(message.getAccountId());
+		Long count = repositories.getPlayers().countByOwner(message.getAccountId());
 		
-		if (count == null) count = 0;
+		if (count == null) count = (long) 0;
 		
 		session.write(new AccountCharactersMessage(message.getAccountId(), count.byteValue()));
 	}

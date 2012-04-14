@@ -43,8 +43,11 @@ public class PlayerRepository {
 				 .getResultList();
 	}
 	
-	public Integer countByOwner(int owner) {
-		return findByOwner(owner).size();
+	public Long countByOwner(int owner) {
+		return (Long)
+			   em.createQuery("SELECT COUNT(p) FROM Player p WHERE p.owner = :owner")
+				 .setParameter("owner", owner)
+				 .getSingleResult();
 	}
 	
 	public Player findByName(String name) {
