@@ -14,17 +14,19 @@ public class GameServerType {
     private int connexionPort;
     private WorldStateEnum state;
     private int completion;
+    private boolean joinable;
 
     public GameServerType() {
 
     }
 
-    public GameServerType(int id, String address, int connexionPort, WorldStateEnum state, int completion) {
+    public GameServerType(int id, String address, int connexionPort, WorldStateEnum state, int completion, boolean joinable) {
         this.id = id;
         this.address = address;
         this.connexionPort = connexionPort;
         this.state = state;
         this.completion = completion;
+        this.joinable = joinable;
     }
 
     public int getId() {
@@ -66,4 +68,12 @@ public class GameServerType {
     public void setCompletion(int completion) {
         this.completion = completion;
     }
+
+	public boolean isJoinable() {
+		return joinable;
+	}
+
+	public void setJoinable(boolean joinable) {
+		this.joinable = joinable;
+	}
 }

@@ -48,10 +48,8 @@ public class LoginMessageFormatter {
         return "AQ" + question.replace(" ", "+");
     }
 
-    public static String serversInformationsMessage(Collection<GameServerType> servers, boolean subscriber) {
+    public static String serversInformationsMessage(Collection<GameServerType> servers) {
         StringBuilder sb = new StringBuilder(servers.size() * 10).append("AH");
-
-        char subscribr = subscriber ? '1' : '0';
 
         boolean first = true;
         for (GameServerType gs : servers){
@@ -63,7 +61,7 @@ public class LoginMessageFormatter {
             sb.append(gs.getId()).append(';')
               .append(gs.getState().ordinal()).append(';')
               .append(gs.getCompletion()).append(';')
-              .append(subscribr);
+              .append(gs.isJoinable() ? '1' : '0');
         }
 
         return sb.toString();
