@@ -11,6 +11,10 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 
 public class AnnotatedJpaPersistModule<T extends Annotation> extends PrivateModule {
 	
+	public static <T extends Annotation> AnnotatedJpaPersistModule<T> newModule(String name, Class<T> annotation) {
+		return new AnnotatedJpaPersistModule<T>(name, annotation);
+	}
+	
 	private String persistenceUnit;
 	private Class<T> annotation;
 
