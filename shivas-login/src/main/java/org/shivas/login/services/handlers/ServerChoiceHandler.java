@@ -32,7 +32,7 @@ public class ServerChoiceHandler extends AbstractBaseHandler {
 	}
 
 	public void handle(String message) throws Exception {
-		if (message.startsWith("A")) {
+		if (!message.startsWith("A")) {
 			throw new Exception("Invalid data received [" + message + "]");
 		}
 		

@@ -117,10 +117,11 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	}
 
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-		log.error("({}) uncatched exception : {}",
+		log.error(String.format("(%s) uncatched %s : %s",
 				session.getRemoteAddress(),
-				cause.getMessage()
-		);
+				cause.getClass().getSimpleName(),
+				cause.getStackTrace()[0]
+		));
 	}
 
 	public void messageReceived(IoSession session, Object obj) throws Exception {

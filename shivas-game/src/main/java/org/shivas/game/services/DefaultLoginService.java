@@ -16,6 +16,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.shivas.common.Account;
 import org.shivas.game.configuration.GameConfig;
 import org.shivas.game.database.RepositoryContainer;
+import org.shivas.protocol.client.enums.WorldStateEnum;
 import org.shivas.protocol.server.Message;
 import org.shivas.protocol.server.MessageType;
 import org.shivas.protocol.server.codec.MamboProtocolCodecFactory;
@@ -23,7 +24,7 @@ import org.shivas.protocol.server.messages.AccountCharactersMessage;
 import org.shivas.protocol.server.messages.AccountCharactersRequestMessage;
 import org.shivas.protocol.server.messages.ClientConnectionMessage;
 import org.shivas.protocol.server.messages.ClientDeconnectionMessage;
-import org.shivas.protocol.server.messages.HelloConnectMessage;
+import org.shivas.protocol.server.messages.ServerStatusUpdateMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +40,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 
 	private final GameConfig config;
 	private final RepositoryContainer repositories;
+	private final GameService gameService;
 	
 	private final IoAcceptor acceptor;
 	private IoSession session;
@@ -46,9 +48,10 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	private Map<String, Account> accountByTicket = Maps.newConcurrentMap();
 	
 	@Inject
-	public DefaultLoginService(GameConfig config, RepositoryContainer repositories) {
+	public DefaultLoginService(GameConfig config, RepositoryContainer repositories, GameService gameService) {
 		this.config = config;
 		this.repositories = repositories;
+		this.gameService = gameService;
 		
 		this.acceptor = new NioSocketAcceptor();
 		this.acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new MamboProtocolCodecFactory()));
@@ -81,6 +84,10 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	public void deconnection(Account account) {
 		session.write(new ClientDeconnectionMessage(account.getId()));
 	}
+	
+	public void updateStatus(WorldStateEnum status) {
+		session.write(new ServerStatusUpdateMessage(status));
+	}
 
 	public void sessionCreated(IoSession session) throws Exception {
 	}
@@ -112,6 +119,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 				throw new Exception("not synchronized");
 			}
 			this.session = session;
+			updateStatus(gameService.getStatus());
 		} else {
 			switch (message.getMessageType()) {
 			case HELLO_CONNECT:
@@ -151,7 +159,7 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		
 		Message message = (Message)obj;
 		
-		log.debug("send {}", message.getMessageType().getClass().getSimpleName());
+		log.debug("send {}", message.getMessageType());
 	}
 
 }

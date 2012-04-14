@@ -18,6 +18,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.shivas.game.configuration.GameConfig;
 import org.shivas.game.database.RepositoryContainer;
 import org.shivas.game.services.handlers.AuthenticationHandler;
+import org.shivas.protocol.client.enums.WorldStateEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +40,8 @@ public class DefaultGameService implements GameService, IoHandler {
 	private final LoginService loginService;
 	
 	private final IoAcceptor acceptor;
+	
+	private WorldStateEnum status;
 
 	@Inject
 	public DefaultGameService(GameConfig config, RepositoryContainer repositories, LoginService loginService) {
@@ -55,6 +58,8 @@ public class DefaultGameService implements GameService, IoHandler {
 				new LineDelimiter(DECODING_DELIMITER)
 		)));
 		this.acceptor.setHandler(this);
+		
+		this.status = WorldStateEnum.ONLINE;
 	}
 
 	public void start() {
@@ -84,6 +89,15 @@ public class DefaultGameService implements GameService, IoHandler {
 
 	public LoginService getLoginService() {
 		return loginService;
+	}
+	
+	public WorldStateEnum getStatus() {
+		return status;
+	}
+	
+	public void setStatus(WorldStateEnum status) {
+		this.status = status;
+		loginService.updateStatus(this.status);
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {

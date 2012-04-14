@@ -230,7 +230,7 @@ public class Account implements Serializable {
 	}
 	
 	public boolean isSubscriber() {
-		return subscriptionEnd.isAfterNow();
+		return subscriptionEnd != null && subscriptionEnd.isAfterNow();
 	}
 
 	/**

@@ -17,7 +17,7 @@ import com.google.common.collect.Maps;
 @Singleton
 public class GameServerRepository {
 	
-	private Map<Integer, GameServer> entities = Maps.newIdentityHashMap();
+	private Map<Integer, GameServer> entities = Maps.newHashMap();
 	
 	@Inject
 	public GameServerRepository(EntityManager em) {		

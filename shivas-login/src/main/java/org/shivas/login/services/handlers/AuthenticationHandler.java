@@ -55,6 +55,7 @@ public class AuthenticationHandler extends AbstractBaseHandler {
 			session.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
 			session.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));
 			
+			client.account(account);
 			client.newHandler(new ServerChoiceHandler(client, session));
 		}
 	}
