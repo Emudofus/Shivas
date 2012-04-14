@@ -49,8 +49,9 @@ public class AuthenticationHandler extends AbstractBaseHandler {
 			session.write(LoginMessageFormatter.nicknameInformationMessage(account.getNickname()));
 			session.write(LoginMessageFormatter.communityInformationMessage(account.getCommunity()));
 			session.write(LoginMessageFormatter.serversInformationsMessage(
-					client.service().getRepositories().getServers().findAllToGameServerType(), 
-					account.isSubscriber()
+					client.service().getRepositories()
+									.getServers()
+									.findAllToGameServerType(client.account())
 			));
 			session.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
 			session.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.shivas.common.Account;
 import org.shivas.login.services.GameHandler;
 import org.shivas.protocol.client.enums.WorldStateEnum;
 import org.shivas.protocol.client.types.GameServerType;
@@ -203,8 +204,15 @@ public class GameServer implements Serializable {
 		return handler.isAvailable();
 	}
 	
-	public GameServerType toGameServerType() {
-		return new GameServerType(id, address, port, handler.getStatus(), completion);
+	public GameServerType toGameServerType(Account account) {
+		return new GameServerType(
+				id,
+				address,
+				port,
+				handler.getStatus(),
+				completion,
+				!restricted || account.isSubscriber()
+		);
 	}
 	
 }

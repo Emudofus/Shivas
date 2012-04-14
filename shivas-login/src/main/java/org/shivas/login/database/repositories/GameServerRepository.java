@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
+import org.shivas.common.Account;
 import org.shivas.login.database.models.GameServer;
 import org.shivas.protocol.client.types.GameServerType;
 
@@ -43,10 +44,10 @@ public class GameServerRepository {
 		return entities.values();
 	}
 	
-	public Collection<GameServerType> findAllToGameServerType() {
+	public Collection<GameServerType> findAllToGameServerType(Account account) {
 		List<GameServerType> result = Lists.newArrayListWithCapacity(entities.size());
 		for (GameServer server : entities.values()) {
-			result.add(server.toGameServerType());
+			result.add(server.toGameServerType(account));
 		}
 		return result;
 	}
