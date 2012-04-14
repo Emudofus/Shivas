@@ -12,35 +12,48 @@ import com.google.inject.persist.PersistService;
 public class ShivasLoginServer {
 	
 	private static final Logger log = LoggerFactory.getLogger(ShivasLoginServer.class);
-
 	public static final String UNIT_PERSIST_NAME = "login";
+	
+	private PersistService ps;
+	private GameService gs;
+	private LoginService ls;
+	
+	public void start() {
+		Injector inject = Guice.createInjector(new ShivasLoginModule());
+		
+		ps = inject.getInstance(PersistService.class);
+		ps.start();
+		
+		gs = inject.getInstance(GameService.class);
+		gs.start();
+		
+		ls = inject.getInstance(LoginService.class);
+		ls.start();
+		
+		log.info("started");
+	}
+	
+	public void stop() {
+		ls.stop();
+		gs.stop();
+		ps.stop();
+		
+		log.info("stopped");
+	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Injector inject = Guice.createInjector(new ShivasLoginModule());
-		
-		final PersistService ps = inject.getInstance(PersistService.class);
-		ps.start();
-		
-		final GameService gs = inject.getInstance(GameService.class);
-		gs.start();
-		
-		final LoginService ls = inject.getInstance(LoginService.class);
-		ls.start();
+		final ShivasLoginServer server = new ShivasLoginServer();
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
-				ls.stop();
-				gs.stop();
-				ps.stop();
-				
-				log.info("stopped");
+				server.stop();
 			}
 		}));
 		
-		log.info("started");		
+		server.start();
 	}
 
 }
