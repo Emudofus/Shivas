@@ -1,4 +1,4 @@
-package org.shivas.common;
+package org.shivas.server.database.models;
 
 import java.io.Serializable;
 
