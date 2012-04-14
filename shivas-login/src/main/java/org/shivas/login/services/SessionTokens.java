@@ -1,30 +1,19 @@
 package org.shivas.login.services;
 
 import org.apache.mina.core.session.IoSession;
-import org.shivas.common.services.IoSessionHandler;
 
 public class SessionTokens {
 	private SessionTokens() {}
 	
-	public static final String HANDLER = "handler";
-	public static final String TICKET  = "ticket";
+	private static final String PREFIX = "login.service.";
+	private static final String CLIENT_TOKEN = PREFIX + "client";
 	
 	@SuppressWarnings("unchecked")
-	public static IoSessionHandler<String> handler(IoSession session) {
-		return (IoSessionHandler<String>) session.getAttribute(HANDLER);
+	public static <T extends LoginClient> T client(IoSession s) {
+		return (T) s.getAttribute(CLIENT_TOKEN);
 	}
 	
-	public static IoSessionHandler<String> handler(IoSession session, IoSessionHandler<String> handler) {
-		session.setAttribute(HANDLER, handler);
-		return handler;
-	}
-	
-	public static String ticket(IoSession session) {
-		return (String) session.getAttribute(TICKET);
-	}
-	
-	public static String ticket(IoSession session, String ticket) {
-		session.setAttribute(TICKET, ticket);
-		return ticket;
+	public static void client(IoSession s, LoginClient c) {
+		s.setAttribute(CLIENT_TOKEN, c);
 	}
 }

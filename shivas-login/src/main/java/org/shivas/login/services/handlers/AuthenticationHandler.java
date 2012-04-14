@@ -4,21 +4,13 @@ import org.apache.mina.core.session.IoSession;
 import org.shivas.common.Account;
 import org.shivas.common.crypto.CipherException;
 import org.shivas.common.services.IoSessionHandler;
-import org.shivas.login.services.LoginService;
+import org.shivas.login.services.LoginClient;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
 
-import static org.shivas.login.services.SessionTokens.*;
+public class AuthenticationHandler extends AbstractBaseHandler {
 
-public class AuthenticationHandler implements IoSessionHandler<String> {
-	
-	private final IoSession session;
-	private final LoginService service;
-	private final String ticket;
-
-	public AuthenticationHandler(IoSession session, LoginService service) {
-		this.session = session;
-		this.service = service;
-		this.ticket = ticket(this.session);
+	public AuthenticationHandler(LoginClient client, IoSession session) {
+		super(client, session);
 	}
 
 	public IoSessionHandler<String> init() throws Exception {
@@ -26,7 +18,10 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 	}
 	
 	private boolean matchedPassword(String input, Account account) throws CipherException {
-		return service.getDecrypter(ticket).cipher(input).equals(account.getPassword());
+		return client.service()
+				     .getDecrypter(client.ticket())
+				     .cipher(input)
+			     .equals(account.getPassword());
 	}
 
 	public void handle(String message) throws Exception {
@@ -40,7 +35,7 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 		
 		String name = data[0], password = data[1].substring(2);
 		
-		Account account = service.getRepositories().getAccounts().findByName(name);
+		Account account = client.service().getRepositories().getAccounts().findByName(name);
 		
 		if (account == null) {
 			session.write(LoginMessageFormatter.accessDenied());
@@ -54,13 +49,13 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 			session.write(LoginMessageFormatter.nicknameInformationMessage(account.getNickname()));
 			session.write(LoginMessageFormatter.communityInformationMessage(account.getCommunity()));
 			session.write(LoginMessageFormatter.serversInformationsMessage(
-					service.getRepositories().getServers().findAllToGameServerType(), 
+					client.service().getRepositories().getServers().findAllToGameServerType(), 
 					account.isSubscriber()
 			));
 			session.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
 			session.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));
 			
-			handler(session, new ServerChoiceHandler(session, service, account)).init();
+			client.newHandler(new ServerChoiceHandler(client, session));
 		}
 	}
 

@@ -96,17 +96,19 @@ public class DefaultLoginService implements LoginService, IoHandler {
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
-		session.setAttribute(SessionTokens.HANDLER, new VersionHandler(session, this));
+		client(session, new DefaultLoginClient(this));
 	}
 
 	public void sessionOpened(IoSession session) throws Exception {
 		log.debug("({}) connected", session.getRemoteAddress());
 
-		handler(session).init();
+		DefaultLoginClient client = client(session);
+		client.newHandler(new VersionHandler(client, session));
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
-		handler(session).onClosed();
+		DefaultLoginClient client = client(session);
+		client.handler().onClosed();
 		
 		log.debug("({}) disconnected", session.getRemoteAddress());
 	}
@@ -126,17 +128,16 @@ public class DefaultLoginService implements LoginService, IoHandler {
 			throw new Exception("incoming message is not a String");
 		}
 		
+		DefaultLoginClient client = client(session);
 		String message = (String)obj;
 		
-		if (log.isDebugEnabled()) {
-			log.debug(String.format("(%s) received %d bytes : %s",
-					session.getRemoteAddress(),
-					message.length(),
-					message
-			));
-		}
+		log.debug(String.format("receive %d bytes from %s : %s",
+				message.length(),
+				session.getRemoteAddress(),
+				message
+		));
 		
-		handler(session).handle(message);
+		client.handler().handle(message);
 	}
 
 	public void messageSent(IoSession session, Object obj) throws Exception {
@@ -144,14 +145,13 @@ public class DefaultLoginService implements LoginService, IoHandler {
 			throw new Exception("outcoming message is not a String");
 		}
 		
-		if (log.isDebugEnabled()) {
-			String message = (String)obj;
-			log.debug(String.format("(%s) sended %d bytes : %s",
-					session.getRemoteAddress(),
-					message.length(),
-					message
-			));
-		}
+		String message = (String)obj;
+		
+		log.debug(String.format("send %d bytes to %s : %s",
+				message.length(),
+				session.getRemoteAddress(),
+				message
+		));
 	}
 
 }

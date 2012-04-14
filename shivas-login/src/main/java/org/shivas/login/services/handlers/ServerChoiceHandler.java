@@ -5,37 +5,28 @@ import java.util.List;
 import org.apache.mina.core.session.IoSession;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.shivas.common.Account;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.login.database.models.GameServer;
-import org.shivas.login.services.LoginService;
+import org.shivas.login.services.LoginClient;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
 import org.shivas.protocol.client.types.BaseCharactersServerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.shivas.login.services.SessionTokens.*;
-
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 
-public class ServerChoiceHandler implements IoSessionHandler<String> {
-	
+public class ServerChoiceHandler extends AbstractBaseHandler {
+
 	private static final Logger log = LoggerFactory.getLogger(ServerChoiceHandler.class);
 	
-	private IoSession session;
-	private LoginService service;
-	private Account account;
-
-	public ServerChoiceHandler(IoSession session, LoginService service, Account account) {
-		this.session = session;
-		this.service = service;
-		this.account = account;
+	public ServerChoiceHandler(LoginClient client, IoSession session) {
+		super(client, session);
 	}
 
 	public IoSessionHandler<String> init() throws Exception {
-		account.setConnected(true);
-		service.getRepositories().getAccounts().update(account);
+		client.account().setConnected(true);
+		client.service().getRepositories().getAccounts().update(client.account());
 		
 		return this;
 	}
@@ -60,9 +51,12 @@ public class ServerChoiceHandler implements IoSessionHandler<String> {
 	}
 
 	private void parseCharactersListMessage() {
-		Futures.addCallback(service.getGameService().getNbCharactersByAccount(account), new FutureCallback<List<BaseCharactersServerType>>() {
+		Futures.addCallback(client.service().getGameService().getNbCharactersByAccount(client.account()), new FutureCallback<List<BaseCharactersServerType>>() {
 			public void onSuccess(List<BaseCharactersServerType> result) {
-				Duration subscription = new Duration(DateTime.now(), account.getSubscriptionEnd());
+				Duration subscription = new Duration(
+						DateTime.now(), 
+						client.account().getSubscriptionEnd()
+				);
 				
 				session.write(LoginMessageFormatter.charactersListMessage(
 						subscription.getStandardSeconds(), 
@@ -79,31 +73,31 @@ public class ServerChoiceHandler implements IoSessionHandler<String> {
 	}
 	
 	private void parseServerChoiceMessage(int serverId) throws Exception {
-		GameServer selected = service.getRepositories().getServers().findById(serverId);
+		GameServer selected = client.service().getRepositories().getServers().findById(serverId);
 		
 		if (selected == null) {
 			session.write(LoginMessageFormatter.serverSelectionErrorMessage());
 		} else if (!selected.isAvailable()) {
 			session.write(LoginMessageFormatter.serverSelectionErrorMessage());
-		} else if (selected.isRestricted() && !account.isSubscriber()) {
+		} else if (selected.isRestricted() && !client.account().isSubscriber()) {
 			session.write(LoginMessageFormatter.serverSelectionErrorMessage());
-		} else {
-			String ticket = ticket(session);
-			
-			selected.getGameHandler().connection(account, ticket);
+		} else {			
+			selected.getGameHandler().connection(client.account(), client.ticket());
 			
 			session.write(LoginMessageFormatter.selectedHostInformationMessage(
 					selected.getAddress(), 
 					selected.getPort(), 
-					ticket, 
+					client.ticket(), 
 					session.getRemoteAddress().toString().contains("127.0.0.1") // TODO
 			));
+			
+			session.close(false);
 		}
 	}
 
 	public void onClosed() {
-		account.setConnected(false);
-		service.getRepositories().getAccounts().update(account);
+		client.account().setConnected(false);
+		client.service().getRepositories().getAccounts().update(client.account());
 	}
 
 }
