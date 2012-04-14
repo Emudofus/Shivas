@@ -18,14 +18,22 @@ public class MamboProtocolEncoder implements ProtocolEncoder {
 		}
 		
 		Message message = (Message) obj;
+
+		IoBuffer buf1 = IoBuffer.allocate(DEFAULT_CAPACITY);
+		buf1.setAutoExpand(true);
 		
-		IoBuffer buf = IoBuffer.allocate(DEFAULT_CAPACITY);
-		buf.position(8); // ID (int, 4 bytes) + LEN (int, 4 bytes) = 8 bytes
-		message.serialize(buf);
-		int length = buf.position() - 8;
-		buf.position(0);
-		buf.putEnumInt(message.getMessageType());
-		buf.putInt(length);
+		message.serialize(buf1);
+		
+		int length = buf1.position();
+		
+		buf1.flip();
+		
+		IoBuffer buf = IoBuffer.allocate(4 + length);
+		buf.putShort((short) message.getMessageType().value());
+		buf.putShort((short)length);
+		buf.put(buf1);
+		
+		buf.flip();
 		
 		out.write(buf);
 	}

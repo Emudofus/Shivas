@@ -21,21 +21,23 @@ public class MamboProtocolDecoder extends CumulativeProtocolDecoder {
 	protected boolean doDecode(IoSession session, IoBuffer buf, ProtocolDecoderOutput out) 
 			throws Exception 
 	{
-		if (buf.remaining() < 8) {
+		if (buf.remaining() < 4) {
 			return false;
 		}
 		
-		MessageType type = buf.getEnumInt(MessageType.class);
-		int length = buf.getInt();
+		MessageType type = MessageType.valueOf(buf.getShort());
+		int length = buf.getShort();
 		
-		if (buf.remaining() < length) {
+		if (buf.remaining() < length || type == MessageType.NIL) {
 			return false;
 		}
 		
 		Message message = factory.get(type);
-		message.deserialize(buf);
-		
-		out.write(message);
+		if (message != null) {
+			message.deserialize(buf);
+			
+			out.write(message);
+		}
 		
 		return true;
 	}

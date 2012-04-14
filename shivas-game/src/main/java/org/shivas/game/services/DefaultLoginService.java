@@ -107,13 +107,16 @@ public class DefaultLoginService implements LoginService, IoHandler {
 		
 		log.debug("receive {}", message.getMessageType());
 		
-		if (session == null) {
+		if (this.session == null) {
 			if (message.getMessageType() != MessageType.HELLO_CONNECT) {
 				throw new Exception("not synchronized");
 			}
 			this.session = session;
 		} else {
 			switch (message.getMessageType()) {
+			case HELLO_CONNECT:
+				throw new Exception("already synchronized");
+			
 			case ACCOUNT_CHARACTERS_REQUEST:
 				parseAccountCharactersRequest((AccountCharactersRequestMessage)message);
 				break;
