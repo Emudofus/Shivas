@@ -1,21 +1,14 @@
 package org.shivas.game.services.handlers;
 
 import org.apache.mina.core.session.IoSession;
-import org.shivas.common.Account;
 import org.shivas.common.services.IoSessionHandler;
-import org.shivas.game.services.GameService;
+import org.shivas.game.services.GameClient;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
 
-public class CharacterSelectionHandler implements IoSessionHandler<String> {
-	
-	private final IoSession session;
-	private final GameService service;
-	private final Account account;
+public class CharacterSelectionHandler extends AbstractBaseHandler {
 
-	public CharacterSelectionHandler(IoSession session, GameService service, Account account) {
-		this.session = session;
-		this.service = service;
-		this.account = account;
+	public CharacterSelectionHandler(GameClient client, IoSession session) {
+		super(client, session);
 	}
 
 	public IoSessionHandler<String> init() throws Exception {
@@ -36,11 +29,11 @@ public class CharacterSelectionHandler implements IoSessionHandler<String> {
 	}
 
 	public void onClosed() {
-		service.getLoginService().deconnection(account);
+		client.service().getLoginService().deconnection(client.account());
 	}
 
 	private void parseRegionalVersionRequestMessage() {
-		session.write(ApproachGameMessageFormatter.regionalVersionResponseMessage(account.getCommunity()));
+		session.write(ApproachGameMessageFormatter.regionalVersionResponseMessage(client.account().getCommunity()));
 	}
 
 }

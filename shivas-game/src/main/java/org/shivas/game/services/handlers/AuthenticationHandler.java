@@ -3,19 +3,13 @@ package org.shivas.game.services.handlers;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.Account;
 import org.shivas.common.services.IoSessionHandler;
-import org.shivas.game.services.GameService;
+import org.shivas.game.services.GameClient;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
 
-import static org.shivas.game.services.SessionTokens.*;
+public class AuthenticationHandler extends AbstractBaseHandler {
 
-public class AuthenticationHandler implements IoSessionHandler<String> {
-	
-	private final IoSession session;
-	private final GameService service;
-
-	public AuthenticationHandler(IoSession session, GameService service) {
-		this.session = session;
-		this.service = service;
+	public AuthenticationHandler(GameClient client, IoSession session) {
+		super(client, session);
 	}
 
 	public IoSessionHandler<String> init() throws Exception {
@@ -33,7 +27,7 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 	}
 
 	private void parseAuthenticationRequestMessage(String ticket) throws Exception {
-		Account account = service.getLoginService().getAccount(ticket);
+		Account account = client.service().getLoginService().getAccount(ticket);
 		
 		if (account == null) {
 			session.write(ApproachGameMessageFormatter.authenticationFailureMessage());
@@ -41,7 +35,7 @@ public class AuthenticationHandler implements IoSessionHandler<String> {
 		} else {
 			session.write(ApproachGameMessageFormatter.authenticationSuccessMessage(account.getCommunity()));
 			
-			handler(session, new CharacterSelectionHandler(session, service, account)).init();
+			client.newHandler(new CharacterSelectionHandler(client, session));
 		}
 	}
 

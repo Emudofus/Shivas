@@ -87,18 +87,21 @@ public class DefaultGameService implements GameService, IoHandler {
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
+		client(session, new DefaultGameClient(this));
 	}
 
 	public void sessionOpened(IoSession session) throws Exception {
 		log.debug("{} is connected", session.getRemoteAddress());
 		
-		handler(session, new AuthenticationHandler(session, this)).init();
+		DefaultGameClient client = client(session);
+		client.newHandler(new AuthenticationHandler(client, session));
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
 		log.debug("{} is disconnected", session.getRemoteAddress());
-		
-		handler(session).onClosed();
+
+		DefaultGameClient client = client(session);
+		client.handler().onClosed();
 	}
 
 	public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
@@ -112,10 +115,11 @@ public class DefaultGameService implements GameService, IoHandler {
 		if (!(o instanceof String)) {
 			throw new Exception("incoming data aren't a String");
 		}
-		
+
+		DefaultGameClient client = client(session);
 		String message = (String)o;
 		
-		log.debug(String.format("receive %d from %s : %s",
+		log.debug(String.format("receive %d bytes from %s : %s",
 				message.length(),
 				session.getRemoteAddress(),
 				message
@@ -126,7 +130,7 @@ public class DefaultGameService implements GameService, IoHandler {
 		} else if (message.equals("qping")) {
 			session.write("qpong");
 		} else {
-			handler(session).handle(message);
+			client.handler().handle(message);
 		}
 	}
 
@@ -137,7 +141,7 @@ public class DefaultGameService implements GameService, IoHandler {
 		
 		String message = (String)o;
 		
-		log.debug(String.format("send %d to %s : %s",
+		log.debug(String.format("send %d bytes to %s : %s",
 				message.length(),
 				session.getRemoteAddress(),
 				message
