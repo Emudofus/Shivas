@@ -54,7 +54,14 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 			session.write(error);
 			kick();
 		} else {
-			// TODO
+			session.write(LoginMessageFormatter.nicknameInformationMessage(account.getNickname()));
+			session.write(LoginMessageFormatter.communityInformationMessage(account.getCommunity()));
+			// TODO servers informations
+			session.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
+			session.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));
+			
+			client.setAccount(account);
+			client.newHandler(new ServerChoiceHandler(client, session));
 		}
 	}
 
