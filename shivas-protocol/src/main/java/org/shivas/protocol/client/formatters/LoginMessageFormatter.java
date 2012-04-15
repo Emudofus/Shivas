@@ -66,6 +66,15 @@ public class LoginMessageFormatter {
 
         return sb.toString();
     }
+    
+    public static String serverInformationMessage(GameServerType server) {
+    	return String.format("AH%d;%d;%d;%s",
+    			server.getId(),
+    			server.getState().ordinal(),
+    			server.getCompletion(),
+    			server.isJoinable() ? '1' : '0'
+		);
+    }
 
     public static String charactersListMessage(long subscribeTimeEnd, Collection<BaseCharactersServerType> characters) {
         StringBuilder sb = new StringBuilder(10 + characters.size() * 5).append("AxK").append(subscribeTimeEnd);
@@ -77,6 +86,10 @@ public class LoginMessageFormatter {
         }
 
         return sb.toString();
+    }
+    
+    public static String charactersListMessage(long subscribeTimeEnd, int serverId, int characters) {
+    	return String.format("AxK%d|%d,%d", subscribeTimeEnd, serverId, characters);
     }
 
     public static String selectedHostInformationMessage(String address, int port, String ticket, boolean loopback) {
