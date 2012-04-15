@@ -1,5 +1,8 @@
 package org.shivas.server.config;
 
+import javax.inject.Singleton;
+
+@Singleton
 public class DefaultConfig implements Config {
 
 	public int loginPort() {
