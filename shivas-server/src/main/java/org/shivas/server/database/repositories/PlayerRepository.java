@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.shivas.server.database.annotations.DefaultDatabase;
 import org.shivas.server.database.models.Account;
@@ -34,19 +35,19 @@ public class PlayerRepository {
 		em.merge(player);
 	}
 	
-	public Player findById(int id) {
+	public Player findById(int id) throws NoResultException {
 		return em.createQuery("from Player p where p.id = :id", Player.class)
 				 .setParameter("id", id)
 				 .getSingleResult();
 	}
 	
-	public Player findByName(String name) {
+	public Player findByName(String name) throws NoResultException {
 		return em.createQuery("from Player p where p.name = :name", Player.class)
 				 .setParameter("name", name)
 				 .getSingleResult();
 	}
 	
-	public List<Player> findByOwner(Account owner) {
+	public List<Player> findByOwner(Account owner) throws NoResultException {
 		return em.createQuery("from Player p where p.owner = :owner", Player.class)
 				 .setParameter("owner", owner)
 				 .getResultList();

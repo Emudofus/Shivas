@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1Cipher;
@@ -44,13 +45,13 @@ public class AccountRepository {
 		}
 	}
 	
-	public Account findById(int id) {
+	public Account findById(int id) throws NoResultException {
 		return em.createQuery("from Account a where a.id = :id", Account.class)
 				 .setParameter("id", id)
 				 .getSingleResult();
 	}
 	
-	public Account findByName(String name) {
+	public Account findByName(String name) throws NoResultException {
 		return em.createQuery("from Account a where a.name = :name", Account.class)
 				 .setParameter("name", name)
 				 .getSingleResult();

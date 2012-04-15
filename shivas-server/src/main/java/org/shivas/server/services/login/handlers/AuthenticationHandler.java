@@ -1,5 +1,7 @@
 package org.shivas.server.services.login.handlers;
 
+import javax.persistence.NoResultException;
+
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.CipherException;
@@ -42,12 +44,19 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 	}
 
 	public void handle(String message) throws Exception {
+		if (message.equals("Af")) return; // ignore
+		
 		String[] args = message.split("\n");
 		if (args.length != 2) {
 			throw new Exception(String.format("invalid incoming data [%s]", message));
 		}
 		
-		Account account = client.service().repositories().accounts().findByName(args[0]);
+		Account account;
+		try {
+			account = client.service().repositories().accounts().findByName(args[0]);
+		} catch (NoResultException e) {
+			account = null;
+		}
 		
 		String error = getError(account, args[1].substring(2));
 		if (error != null) {
