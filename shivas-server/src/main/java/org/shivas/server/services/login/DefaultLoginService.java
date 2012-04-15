@@ -11,6 +11,7 @@ import org.shivas.common.crypto.Dofus1DecrypterCipher;
 import org.shivas.server.config.Config;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.AbstractService;
+import org.shivas.server.services.game.GameService;
 import org.shivas.server.services.login.handlers.VersionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +23,22 @@ public class DefaultLoginService extends AbstractService implements LoginService
 	private static final String CLIENT_TOKEN = "shivas.login.hander";
 	
 	private final Config config;
+	private final GameService game;
 
 	@Inject
-	public DefaultLoginService(RepositoryContainer repositories, Config config) {
+	public DefaultLoginService(RepositoryContainer repositories, Config config, GameService game) {
 		super(repositories, config.loginPort(), log);
 		
 		this.config = config;
+		this.game = game;
 	}
 	
 	public Config config() {
 		return config;
+	}
+	
+	public GameService game() {
+		return game;
 	}
 
 	public Cipher makeCipher(String ticket) {
