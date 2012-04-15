@@ -2,7 +2,9 @@ package org.shivas.server.config;
 
 public interface Config {
 	
-	int getLoginPort();
-	int getGamePort();
+	int loginPort();
+	int gamePort();
+	
+	String clientVersion();
 	
 }
