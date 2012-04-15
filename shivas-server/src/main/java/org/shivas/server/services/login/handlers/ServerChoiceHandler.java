@@ -45,8 +45,8 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 	private void parseCharactersListMessage() {		
 		session.write(LoginMessageFormatter.charactersListMessage(
 				client.account().getRemainingSubscription().getMillis(), 
-				0, // TODO
-				0  // TODO
+				client.service().game().informations().getId(),
+				client.account().getPlayers().size()
 		));
 	}
 
