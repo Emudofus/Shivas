@@ -25,7 +25,7 @@ public class VersionHandler extends AbstractBaseHandler<LoginClient> {
 		String requiredVersion = client.service().config().clientVersion();
 		
 		if (requiredVersion.equals(message)) {
-			// TODO set new handler
+			client.newHandler(new AuthenticationHandler(client, session));
 		} else {
 			session.write(LoginMessageFormatter.badClientVersion(requiredVersion));
 			kick();
