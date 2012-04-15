@@ -50,8 +50,17 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 		));
 	}
 
-	private void parseServerSelectionMessage(int parseInt) {
-		//TODO
+	private void parseServerSelectionMessage(int serverId) throws Exception {
+		if (serverId != client.service().game().informations().getId()) {
+			throw new Exception(String.format("invalid incoming data [serverId=%d]", serverId));
+		}
+		
+		session.write(LoginMessageFormatter.selectedHostInformationMessage(
+				client.service().game().informations().getAddress(),
+				client.service().game().informations().getConnexionPort(),
+				client.ticket(),
+				isLoopback()
+		));
 	}
 
 	private void parseQueueInformationsMessage() {
