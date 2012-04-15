@@ -12,6 +12,7 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 @Entity
 @Table(name="accounts")
@@ -231,6 +232,10 @@ public class Account implements Serializable {
 	
 	public boolean isSubscriber() {
 		return subscriptionEnd != null && subscriptionEnd.isAfterNow();
+	}
+	
+	public Duration getRemainingSubscription() {
+		return new Duration(DateTime.now(), subscriptionEnd);
 	}
 
 	/**
