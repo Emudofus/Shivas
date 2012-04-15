@@ -6,6 +6,14 @@ public class DefaultConfig implements Config {
 		return 5555;
 	}
 
+	public int gameId() {
+		return 1; // JIVA
+	}
+
+	public String gameAddress() {
+		return "127.0.0.1";
+	}
+
 	public int gamePort() {
 		return 5556;
 	}
