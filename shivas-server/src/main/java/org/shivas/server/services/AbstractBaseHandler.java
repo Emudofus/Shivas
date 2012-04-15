@@ -18,4 +18,8 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 		session.close(false);
 	}
 	
+	public boolean isLoopback() {
+		return session.getRemoteAddress().toString().contains("127.0.0.1"); // TODO
+	}
+	
 }
