@@ -11,6 +11,7 @@ import org.shivas.common.crypto.Dofus1DecrypterCipher;
 import org.shivas.server.config.Config;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.AbstractService;
+import org.shivas.server.services.login.handlers.VersionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,12 +19,19 @@ import org.slf4j.LoggerFactory;
 public class DefaultLoginService extends AbstractService implements LoginService {
 	
 	private static final Logger log = LoggerFactory.getLogger(DefaultLoginService.class);
-	
 	private static final String CLIENT_TOKEN = "shivas.login.hander";
+	
+	private final Config config;
 
 	@Inject
 	public DefaultLoginService(RepositoryContainer repositories, Config config) {
-		super(repositories, config.getLoginPort(), log);
+		super(repositories, config.loginPort(), log);
+		
+		this.config = config;
+	}
+	
+	public Config config() {
+		return config;
 	}
 
 	public Cipher makeCipher(String ticket) {
@@ -39,8 +47,7 @@ public class DefaultLoginService extends AbstractService implements LoginService
 
 	public void sessionOpened(IoSession session) throws Exception {
 		DefaultLoginClient client = (DefaultLoginClient) session.getAttribute(CLIENT_TOKEN);
-		
-		// TODO set new handler
+		client.newHandler(new VersionHandler(client, session));
 		
 		log.debug("{} is connected", session.getRemoteAddress());
 	}
