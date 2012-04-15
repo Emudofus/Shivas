@@ -2,6 +2,8 @@ package org.shivas.server;
 
 import org.shivas.server.database.annotations.DefaultDatabase;
 import org.shivas.server.database.annotations.StaticDatabase;
+import org.shivas.server.services.game.GameService;
+import org.shivas.server.services.login.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +17,8 @@ public class ShivasServer {
 	private static final Logger log = LoggerFactory.getLogger(ShivasServer.class);
 
 	private PersistService psStatic, psDefault;
+	private GameService gs;
+	private LoginService ls;
 	
 	public void start() {
 		Injector inject = Guice.createInjector(new ShivasModule());
@@ -24,11 +28,19 @@ public class ShivasServer {
 
 		psStatic.start();
 		psDefault.start();
+
+		gs = inject.getInstance(GameService.class);
+		ls = inject.getInstance(LoginService.class);
+
+		gs.start();
+		ls.start();
 		
 		log.info("started");
 	}
 	
 	public void stop() {
+		ls.stop();
+		gs.stop();
 		psDefault.stop();
 		psStatic.stop();
 		
