@@ -36,12 +36,12 @@ public class AuthenticationHandler extends AbstractBaseHandler<GameClient> {
 		
 		if (error != null) {
 			session.write(error);
+			kick();
 		} else {
-			client.setAccount(account);
-			
 			session.write(ApproachGameMessageFormatter.authenticationSuccessMessage(account.getCommunity()));
-			
-			// TODO set handler
+
+			client.setAccount(account);
+			client.newHandler(new PlayerSelectionHandler(client, session));
 		}
 	}
 
