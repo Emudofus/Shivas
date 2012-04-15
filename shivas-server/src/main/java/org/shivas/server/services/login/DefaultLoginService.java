@@ -1,5 +1,7 @@
 package org.shivas.server.services.login;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -10,11 +12,14 @@ import org.shivas.common.crypto.Ciphers;
 import org.shivas.common.crypto.Dofus1DecrypterCipher;
 import org.shivas.server.config.Config;
 import org.shivas.server.database.RepositoryContainer;
+import org.shivas.server.database.models.Account;
 import org.shivas.server.services.AbstractService;
 import org.shivas.server.services.game.GameService;
 import org.shivas.server.services.login.handlers.VersionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Maps;
 
 @Singleton
 public class DefaultLoginService extends AbstractService implements LoginService {
@@ -24,6 +29,8 @@ public class DefaultLoginService extends AbstractService implements LoginService
 	
 	private final Config config;
 	private final GameService game;
+	
+	private Map<String, Account> accountByTicket = Maps.newHashMap();
 
 	@Inject
 	public DefaultLoginService(RepositoryContainer repositories, Config config, GameService game) {
@@ -46,6 +53,14 @@ public class DefaultLoginService extends AbstractService implements LoginService
 				new Dofus1DecrypterCipher(ticket), 
 				repositories.accounts().passwordCipher()
 		);
+	}
+
+	public void putAccount(String ticket, Account account) {
+		accountByTicket.put(ticket, account);
+	}
+
+	public Account getAccount(String ticket) {
+		return accountByTicket.remove(ticket);
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
