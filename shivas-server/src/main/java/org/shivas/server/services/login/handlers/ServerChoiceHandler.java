@@ -55,12 +55,16 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 			throw new Exception(String.format("invalid incoming data [serverId=%d]", serverId));
 		}
 		
+		client.service().putAccount(client.ticket(), client.account());
+		
 		session.write(LoginMessageFormatter.selectedHostInformationMessage(
 				client.service().game().informations().getAddress(),
 				client.service().game().informations().getConnexionPort(),
 				client.ticket(),
 				isLoopback()
 		));
+		
+		kick();
 	}
 
 	private void parseQueueInformationsMessage() {

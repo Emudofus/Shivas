@@ -100,7 +100,7 @@ public class DefaultGameService extends AbstractService implements GameService {
 		DefaultGameClient client = (DefaultGameClient) session.getAttribute(CLIENT_TOKEN);
 		String message = (String) o;
 		
-		log.debug(String.format("receive %d bytes from %s : %",
+		log.debug(String.format("receive %d bytes from %s : %s",
 				message.length(),
 				session.getRemoteAddress(),
 				message
@@ -116,7 +116,7 @@ public class DefaultGameService extends AbstractService implements GameService {
 		
 		String message = (String) o;
 		
-		log.debug(String.format("send %d bytes to %s : %",
+		log.debug(String.format("send %d bytes to %s : %s",
 				message.length(),
 				session.getRemoteAddress(),
 				message
