@@ -38,6 +38,10 @@ public final class DefaultLoginClient implements LoginClient {
 	public void kick() {
 		handler.kick();
 	}
+	
+	public BaseHandler handler() {
+		return handler;
+	}
 
 	public void newHandler(BaseHandler handler) throws Exception {
 		this.handler = handler;
