@@ -1,8 +1,8 @@
 package org.shivas.server;
 
 import org.shivas.common.inject.AnnotatedJpaPersistModule;
-import org.shivas.server.database.DefaultDatabase;
-import org.shivas.server.database.StaticDatabase;
+import org.shivas.server.database.annotations.DefaultDatabase;
+import org.shivas.server.database.annotations.StaticDatabase;
 
 import com.google.inject.AbstractModule;
 
