@@ -2,7 +2,7 @@ package org.shivas.server.services;
 
 import org.shivas.common.services.IoSessionHandler;
 
-public abstract class AbstractBaseHandler<C extends Client, S extends Service>
+public abstract class AbstractBaseHandler<C extends Client<S>, S extends Service>
 	implements IoSessionHandler<String> 
 {
 	
