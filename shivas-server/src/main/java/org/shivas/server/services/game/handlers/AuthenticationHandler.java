@@ -3,6 +3,7 @@ package org.shivas.server.services.game.handlers;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
+import org.shivas.server.database.models.Account;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 
@@ -17,6 +18,12 @@ public class AuthenticationHandler extends AbstractBaseHandler<GameClient> {
 
 		return this;
 	}
+	
+	private static String getError(Account account) {
+		return account == null || account.isBanned() || account.isConnected() ? 
+				ApproachGameMessageFormatter.authenticationFailureMessage() : 
+				null;
+	}
 
 	public void handle(String message) throws Exception {
 		if (!message.startsWith("AT")) {
@@ -24,6 +31,18 @@ public class AuthenticationHandler extends AbstractBaseHandler<GameClient> {
 		}
 		
 		String ticket = message.substring(2);
+		Account account = client.service().login().getAccount(ticket);
+		String error = getError(account);
+		
+		if (error != null) {
+			session.write(error);
+		} else {
+			client.setAccount(account);
+			
+			session.write(ApproachGameMessageFormatter.authenticationSuccessMessage(account.getCommunity()));
+			
+			// TODO set handler
+		}
 	}
 
 	public void onClosed() {
