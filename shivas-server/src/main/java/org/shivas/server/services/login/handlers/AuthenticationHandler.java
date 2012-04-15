@@ -56,7 +56,7 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 		} else {
 			session.write(LoginMessageFormatter.nicknameInformationMessage(account.getNickname()));
 			session.write(LoginMessageFormatter.communityInformationMessage(account.getCommunity()));
-			// TODO servers informations
+			session.write(LoginMessageFormatter.serverInformationMessage(client.service().game().informations()));
 			session.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
 			session.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));
 			
