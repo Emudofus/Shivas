@@ -1,5 +1,8 @@
 package org.shivas.server.services.game;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.enums.WorldStateEnum;
@@ -12,6 +15,7 @@ import org.shivas.server.services.login.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class DefaultGameService extends AbstractService implements GameService {
 	
 	private static final Logger log = LoggerFactory.getLogger(DefaultGameService.class);
@@ -22,6 +26,7 @@ public class DefaultGameService extends AbstractService implements GameService {
 	private final LoginService login;
 	private final GameServerType informations;
 
+	@Inject
 	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login) {
 		super(repositories, config.gamePort(), log);
 		
