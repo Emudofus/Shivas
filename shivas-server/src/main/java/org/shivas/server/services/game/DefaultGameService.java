@@ -7,6 +7,7 @@ import org.shivas.protocol.client.types.GameServerType;
 import org.shivas.server.config.Config;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.AbstractService;
+import org.shivas.server.services.game.handlers.AuthenticationHandler;
 import org.shivas.server.services.login.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +57,7 @@ public class DefaultGameService extends AbstractService implements GameService {
 		log.debug("{} is connected", session.getRemoteAddress());
 		
 		DefaultGameClient client = (DefaultGameClient) session.getAttribute(CLIENT_TOKEN);
-		// TODO set new handler
+		client.newHandler(new AuthenticationHandler(client, session));
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {

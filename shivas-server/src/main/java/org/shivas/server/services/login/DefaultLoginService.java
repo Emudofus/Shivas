@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class DefaultLoginService extends AbstractService implements LoginService {
 	
 	private static final Logger log = LoggerFactory.getLogger(DefaultLoginService.class);
-	private static final String CLIENT_TOKEN = "shivas.login.hander";
+	private static final String CLIENT_TOKEN = "shivas.login.handler";
 	
 	private final Config config;
 	private final GameService game;
@@ -53,10 +53,10 @@ public class DefaultLoginService extends AbstractService implements LoginService
 	}
 
 	public void sessionOpened(IoSession session) throws Exception {
+		log.debug("{} is connected", session.getRemoteAddress());
+		
 		DefaultLoginClient client = (DefaultLoginClient) session.getAttribute(CLIENT_TOKEN);
 		client.newHandler(new VersionHandler(client, session));
-		
-		log.debug("{} is connected", session.getRemoteAddress());
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
@@ -105,7 +105,7 @@ public class DefaultLoginService extends AbstractService implements LoginService
 
 	public void messageSent(IoSession session, Object o) throws Exception {
 		if (!(o instanceof String)) {
-			throw new Exception("incoming message isn't a String");
+			throw new Exception("outcoming message isn't a String");
 		}
 		
 		String message = (String) o;
