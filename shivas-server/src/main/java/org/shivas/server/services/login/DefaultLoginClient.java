@@ -1,7 +1,7 @@
 package org.shivas.server.services.login;
 
-import org.shivas.common.services.IoSessionHandler;
 import org.shivas.server.database.models.Account;
+import org.shivas.server.services.BaseHandler;
 
 public final class DefaultLoginClient implements LoginClient {
 	
@@ -9,7 +9,7 @@ public final class DefaultLoginClient implements LoginClient {
 	
 	private Account account;
 	private String ticket;
-	private IoSessionHandler<String> handler;
+	private BaseHandler handler;
 
 	public DefaultLoginClient(LoginService service) {
 		this.service = service;
@@ -36,10 +36,10 @@ public final class DefaultLoginClient implements LoginClient {
 	}
 
 	public void kick() {
-		// TODO
+		handler.kick();
 	}
 
-	public void newHandler(IoSessionHandler<String> handler) throws Exception {
+	public void newHandler(BaseHandler handler) throws Exception {
 		this.handler = handler;
 		this.handler.init();
 	}

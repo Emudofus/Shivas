@@ -1,10 +1,9 @@
 package org.shivas.server.services;
 
 import org.apache.mina.core.session.IoSession;
-import org.shivas.common.services.IoSessionHandler;
 
 public abstract class AbstractBaseHandler<C extends Client<?>>
-	implements IoSessionHandler<String> 
+	implements BaseHandler
 {
 	
 	protected final C client;
@@ -13,6 +12,10 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 	public AbstractBaseHandler(C client, IoSession session) {
 		this.client = client;
 		this.session = session;
+	}
+	
+	public void kick() {
+		session.close(false);
 	}
 	
 }
