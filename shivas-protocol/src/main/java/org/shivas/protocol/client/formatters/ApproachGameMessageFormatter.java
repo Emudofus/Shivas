@@ -48,13 +48,9 @@ public class ApproachGameMessageFormatter {
               .append(StringUtils.toHexOrNegative(character.getColor2())).append(";")
               .append(StringUtils.toHexOrNegative(character.getColor3())).append(";");
 
-            boolean first = true;
-            for (int accessory : character.getAccessories()){
-                if (first) first = false;
-                else sb.append(',');
-                sb.append(accessory == -1 ? "" : Integer.toHexString(accessory));
-            }
+            ItemGameMessageFormatter.parseAccessories(sb, character.getAccessories());
             sb.append(';');
+            
             sb.append(character.isStoreActive() ? '1' : '0').append(';')
               .append(serverId).append(';')
               .append(';') // is dead ?  (heroic)
