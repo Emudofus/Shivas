@@ -1,5 +1,7 @@
 package org.shivas.server.services.game.handlers;
 
+import javax.persistence.PersistenceException;
+
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.StringUtils;
 import org.shivas.common.services.IoSessionHandler;
@@ -42,7 +44,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			break;
 			
 		case 'A':
-			args = message.split("\\|");
+			args = message.substring(2).split("\\|");
 			parsePlayerCreationMessage(
 					args[0],
 					Integer.parseInt(args[1]), 
@@ -86,10 +88,11 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			
 			try {
 				client.service().repositories().players().persist(player);
+				client.service().repositories().accounts().update(client.account());
 				
 				session.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
 				parsePlayersListMessage();
-			} catch (Exception e) {
+			} catch (PersistenceException e) {
 				session.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
 			}
 		}
