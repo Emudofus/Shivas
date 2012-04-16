@@ -142,6 +142,28 @@ public class Player implements Serializable {
 		this.experience = experience;
 	}
 	
+	@Override
+	public int hashCode() {
+		return id;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Player))
+			return false;
+		Player other = (Player) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
 	public BaseCharacterType toBaseCharacterType() {
 		return new BaseCharacterType(
 				id,

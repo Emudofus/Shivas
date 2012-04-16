@@ -264,5 +264,24 @@ public class Account implements Serializable {
 	public List<Player> getPlayers() {
 		return players;
 	}
+
+	@Override
+	public int hashCode() {
+		return id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Account))
+			return false;
+		Account other = (Account) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 	
 }
