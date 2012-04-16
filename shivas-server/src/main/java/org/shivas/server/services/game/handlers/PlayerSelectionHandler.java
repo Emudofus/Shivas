@@ -1,6 +1,7 @@
 package org.shivas.server.services.game.handlers;
 
 import org.apache.mina.core.session.IoSession;
+import org.shivas.common.StringUtils;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
 import org.shivas.server.database.models.Player;
@@ -33,6 +34,10 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		case 'L':
 			parsePlayersListMessage();
 			break;
+			
+		case 'P':
+			parseRandomNameMessage();
+			break;
 		}
 	}
 
@@ -52,6 +57,11 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 				client.account().getRemainingSubscription().getMillis(),
 				Player.toBaseCharacterType(client.account().getPlayers())
 		));
+	}
+
+	private void parseRandomNameMessage() {
+		session.write(ApproachGameMessageFormatter.
+				characterNameSuggestionSuccessMessage(StringUtils.randomPseudo()));
 	}
 
 }
