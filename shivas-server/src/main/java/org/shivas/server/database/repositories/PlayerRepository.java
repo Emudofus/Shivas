@@ -56,13 +56,15 @@ public class PlayerRepository {
 	}
 	
 	public Player createDefault(Account owner, String name, int breed, boolean gender, int color1, int color2, int color3) {
-		return new Player(
+		Player player = new Player(
 				owner,
 				name,
 				(short) (breed * 10 + (gender ? 1 : 0)),
 				new Colors(color1, color2, color3),
 				new PlayerExperience()
 		);
+		owner.getPlayers().add(player);
+		return player;
 	}
 	
 }
