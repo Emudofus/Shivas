@@ -66,6 +66,9 @@ public class DefaultGameService extends AbstractService implements GameService {
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
+		DefaultGameClient client = (DefaultGameClient) session.getAttribute(CLIENT_TOKEN);
+		client.handler().onClosed();
+		
 		log.debug("{} is disconnected", session.getRemoteAddress());
 	}
 
