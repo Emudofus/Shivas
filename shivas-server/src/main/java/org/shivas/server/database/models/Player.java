@@ -1,6 +1,7 @@
 package org.shivas.server.database.models;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -12,7 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.server.core.Colors;
+import org.shivas.server.core.experience.PlayerExperience;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 
 @Entity
 @Table(name="players")
@@ -37,6 +43,9 @@ public class Player implements Serializable {
 	
 	@Embedded
 	private Colors colors;
+	
+	@Embedded
+	private PlayerExperience experience;
 	
 	public Player() {
 	}
@@ -114,6 +123,42 @@ public class Player implements Serializable {
 	 */
 	public void setColors(Colors colors) {
 		this.colors = colors;
+	}
+
+	/**
+	 * @return the experience
+	 */
+	public PlayerExperience getExperience() {
+		return experience;
+	}
+
+	/**
+	 * @param experience the experience to set
+	 */
+	public void setExperience(PlayerExperience experience) {
+		this.experience = experience;
+	}
+	
+	public BaseCharacterType toBaseCharacterType() {
+		return new BaseCharacterType(
+				id,
+				name,
+				experience.level(),
+				skin,
+				colors.first(),
+				colors.second(),
+				colors.third(),
+				null, // TODO items
+				false // TODO store
+		);
+	}
+	
+	public static Collection<BaseCharacterType> toBaseCharacterType(Collection<Player> players) {
+		return Collections2.transform(players, new Function<Player, BaseCharacterType>() {
+			public BaseCharacterType apply(Player input) {
+				return input.toBaseCharacterType();
+			}
+		});
 	}
 
 }
