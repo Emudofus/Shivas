@@ -3,6 +3,7 @@ package org.shivas.server.database.models;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.shivas.server.core.Colors;
 
 @Entity
 @Table(name="players")
@@ -28,6 +31,12 @@ public class Player implements Serializable {
 	
 	@Column(nullable=false, unique=true)
 	private String name;
+	
+	@Column(nullable=false)
+	private short skin;
+	
+	@Embedded
+	private Colors colors;
 	
 	public Player() {
 	}
@@ -77,6 +86,34 @@ public class Player implements Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the skin
+	 */
+	public short getSkin() {
+		return skin;
+	}
+
+	/**
+	 * @param skin the skin to set
+	 */
+	public void setSkin(short skin) {
+		this.skin = skin;
+	}
+
+	/**
+	 * @return the colors
+	 */
+	public Colors getColors() {
+		return colors;
+	}
+
+	/**
+	 * @param colors the colors to set
+	 */
+	public void setColors(Colors colors) {
+		this.colors = colors;
 	}
 
 }
