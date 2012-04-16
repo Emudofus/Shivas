@@ -50,9 +50,12 @@ public class Player implements Serializable {
 	public Player() {
 	}
 
-	public Player(int id, String name) {
-		this.id = id;
+	public Player(Account owner, String name, short skin, Colors colors, PlayerExperience experience) {
+		this.owner = owner;
 		this.name = name;
+		this.skin = skin;
+		this.colors = colors;
+		this.experience = experience;
 	}
 
 	/**

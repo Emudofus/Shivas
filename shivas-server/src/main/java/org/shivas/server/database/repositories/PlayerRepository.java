@@ -7,6 +7,8 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.shivas.server.core.Colors;
+import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.database.annotations.DefaultDatabase;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
@@ -51,6 +53,16 @@ public class PlayerRepository {
 		return em.createQuery("from Player p where p.owner = :owner", Player.class)
 				 .setParameter("owner", owner)
 				 .getResultList();
+	}
+	
+	public Player createDefault(Account owner, String name, int breed, boolean gender, int color1, int color2, int color3) {
+		return new Player(
+				owner,
+				name,
+				(short) (breed * 10 + (gender ? 1 : 0)),
+				new Colors(color1, color2, color3),
+				new PlayerExperience()
+		);
 	}
 	
 }
