@@ -13,8 +13,6 @@ import org.shivas.server.database.annotations.DefaultDatabase;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 
-import com.google.inject.persist.Transactional;
-
 @Singleton
 public class PlayerRepository {
 
@@ -22,17 +20,18 @@ public class PlayerRepository {
 	@DefaultDatabase
 	private EntityManager em;
 	
-	@Transactional
 	public void persist(Player player) {
+		em.getTransaction().begin();
 		em.persist(player);
+		em.getTransaction().commit();
 	}
 
-	@Transactional
 	public void remove(Player player) {
+		em.getTransaction().begin();
 		em.remove(player);
+		em.getTransaction().commit();
 	}
 
-	@Transactional
 	public void update(Player player) {
 		em.merge(player);
 	}

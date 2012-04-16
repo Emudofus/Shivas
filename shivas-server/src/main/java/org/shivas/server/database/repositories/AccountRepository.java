@@ -12,8 +12,6 @@ import org.shivas.common.crypto.Sha1Cipher;
 import org.shivas.server.database.annotations.DefaultDatabase;
 import org.shivas.server.database.models.Account;
 
-import com.google.inject.persist.Transactional;
-
 @Singleton
 public class AccountRepository {
 
@@ -21,19 +19,22 @@ public class AccountRepository {
 	@DefaultDatabase
 	private EntityManager em;
 	
-	@Transactional
 	public void persist(Account account) {
+		em.getTransaction().begin();
 		em.persist(account);
+		em.getTransaction().commit();
 	}
 
-	@Transactional
 	public void remove(Account account) {
+		em.getTransaction().begin();
 		em.remove(account);
+		em.getTransaction().commit();
 	}
 
-	@Transactional
 	public void update(Account account) {
+		em.getTransaction().begin();
 		em.merge(account);
+		em.getTransaction().commit();
 	}
 	
 	public Cipher passwordCipher() {
