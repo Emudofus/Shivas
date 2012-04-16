@@ -15,6 +15,11 @@ import java.util.Collection;
  */
 public class ItemGameMessageFormatter {
     public static void parseAccessories(StringBuilder sb, int[] accessories){
+    	if (accessories == null) {
+    		sb.append(",,,,");
+    		return;
+    	}
+    	
         boolean first = true;
         for (int accessory : accessories){
             if (first) first = false;
@@ -25,6 +30,11 @@ public class ItemGameMessageFormatter {
     }
 
     public static void parseAccessories(StringBuilder sb, Iterable<Integer> accessories){
+    	if (accessories == null) {
+    		sb.append(",,,,");
+    		return;
+    	}
+    	
         boolean first = true;
         for (Integer accessory : accessories){
             if (first) first = false;
