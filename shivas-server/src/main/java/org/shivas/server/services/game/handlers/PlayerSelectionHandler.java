@@ -3,6 +3,7 @@ package org.shivas.server.services.game.handlers;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.services.IoSessionHandler;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
+import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 
@@ -28,6 +29,10 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		case 'V':
 			parseRegionalVersionMessage();
 			break;
+			
+		case 'L':
+			parsePlayersListMessage();
+			break;
 		}
 	}
 
@@ -39,6 +44,14 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	private void parseRegionalVersionMessage() {
 		session.write(ApproachGameMessageFormatter.
 				regionalVersionResponseMessage(client.account().getCommunity()));
+	}
+	
+	private void parsePlayersListMessage() {
+		session.write(ApproachGameMessageFormatter.charactersListMessage(
+				client.service().informations().getId(),
+				client.account().getRemainingSubscription().getMillis(),
+				Player.toBaseCharacterType(client.account().getPlayers())
+		));
 	}
 
 }
