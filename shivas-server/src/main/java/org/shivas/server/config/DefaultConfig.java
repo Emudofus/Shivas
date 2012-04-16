@@ -29,4 +29,12 @@ public class DefaultConfig implements Config {
 		return 2;
 	}
 
+	public short startLevel() {
+		return 200;
+	}
+
+	public short deleteAnswerLevelNeeded() {
+		return 20;
+	}
+
 }

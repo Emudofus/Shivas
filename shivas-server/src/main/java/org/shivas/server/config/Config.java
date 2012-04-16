@@ -11,5 +11,8 @@ public interface Config {
 	String clientVersion();
 	
 	int maxPlayersPerAccount();
+	short deleteAnswerLevelNeeded();
+	
+	short startLevel();
 	
 }
