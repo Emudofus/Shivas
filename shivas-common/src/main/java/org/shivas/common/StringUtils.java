@@ -41,7 +41,11 @@ public class StringUtils {
 			else sb.append(randomConsonants());
 			vowels = RAND.get().nextBoolean();
 		}
-		return sb.toString();
+		return capitalize(sb);
+	}
+	
+	public static String capitalize(StringBuilder sb) {
+		return Character.toUpperCase(sb.charAt(0)) + sb.substring(1);
 	}
 	
 	public static String toHexOr(boolean cond, int n, String def) {
