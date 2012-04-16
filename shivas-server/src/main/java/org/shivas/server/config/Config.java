@@ -10,4 +10,6 @@ public interface Config {
 	
 	String clientVersion();
 	
+	int maxPlayersPerAccount();
+	
 }

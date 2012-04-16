@@ -25,4 +25,8 @@ public class DefaultConfig implements Config {
 		return "1.29.1";
 	}
 
+	public int maxPlayersPerAccount() {
+		return 2;
+	}
+
 }
