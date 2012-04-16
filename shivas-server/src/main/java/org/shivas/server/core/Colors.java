@@ -13,10 +13,10 @@ public class Colors implements Serializable {
 	@Column(nullable=false, name="color1")
 	private int first;
 
-	@Column(nullable=false, name="color1")
+	@Column(nullable=false, name="color2")
 	private int second;
 
-	@Column(nullable=false, name="color2")
+	@Column(nullable=false, name="color3")
 	private int third;
 	
 	public Colors() {
