@@ -81,26 +81,6 @@ public class DefaultLoginService extends AbstractService implements LoginService
 	public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
 	}
 
-	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-		String message;
-		if (session != null) {
-			message = String.format("(%s) uncatched %s %s : %s",
-					session.getRemoteAddress(),
-					cause.getClass().getSimpleName(),
-					cause.getStackTrace()[0],
-					cause.getMessage()
-			);
-		} else {
-			message = String.format("uncatched %s %s : %s",
-					cause.getClass().getSimpleName(),
-					cause.getStackTrace()[0],
-					cause.getMessage()
-			);
-		}
-		
-		log.error(message);
-	}
-
 	public void messageReceived(IoSession session, Object o) throws Exception {
 		if (!(o instanceof String)) {
 			throw new Exception("incoming message isn't a String");

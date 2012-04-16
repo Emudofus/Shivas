@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.service.IoHandler;
+import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
@@ -69,6 +70,30 @@ public abstract class AbstractService implements Service, IoHandler {
 
 	public RepositoryContainer repositories() {
 		return repositories;
+	}
+
+	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
+		String message;
+		if (session != null) {
+			message = String.format("(%s) uncatched %s %s : %s",
+					session.getRemoteAddress(),
+					cause.getClass().getSimpleName(),
+					cause.getStackTrace()[0],
+					cause.getMessage()
+			);
+		} else {
+			message = String.format("uncatched %s %s : %s",
+					cause.getClass().getSimpleName(),
+					cause.getStackTrace()[0],
+					cause.getMessage()
+			);
+		}
+		
+		log.error(message);
+		
+		if (cause instanceof CriticalException) {
+			session.close(false);
+		}
 	}
 
 }
