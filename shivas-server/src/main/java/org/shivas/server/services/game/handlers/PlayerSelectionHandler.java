@@ -8,6 +8,7 @@ import org.shivas.common.services.IoSessionHandler;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
+import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 
 public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
@@ -54,6 +55,14 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 					Integer.parseInt(args[5])
 			);
 			break;
+			
+		case 'D':
+			args = message.substring(2).split("\\|");
+			parsePlayerDeleteMessage(
+					Integer.parseInt(args[0]),
+					args.length > 1 ? args[1] : ""
+			);
+			break;
 		}
 	}
 
@@ -95,6 +104,29 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			} catch (PersistenceException e) {
 				session.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
 			}
+		}
+	}
+
+	private void parsePlayerDeleteMessage(int playerId, String secretAnswer) throws CriticalException {
+		Player player = client.service().repositories().players().findById(playerId);
+		
+		if (player == null) {
+			throw new CriticalException("unknown player #%d !", playerId);
+		} else if (!player.getOwner().equals(client.account())) {
+			throw new CriticalException("you don't own player #%d !", playerId);
+		} else if (secretAnswer.isEmpty() &&
+				  player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded())
+		{
+			throw new CriticalException("the secret answer is required");
+		} else if (player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded() &&
+				   !client.account().getSecretAnswer().equals(secretAnswer))
+		{
+			session.write(ApproachGameMessageFormatter.characterDeletionFailureMessage());
+		} else {
+			client.account().getPlayers().remove(player);
+			client.service().repositories().players().remove(player);
+			
+			parsePlayersListMessage();
 		}
 	}
 
