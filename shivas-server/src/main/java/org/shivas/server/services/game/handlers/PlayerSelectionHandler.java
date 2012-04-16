@@ -26,6 +26,8 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			throw new Exception(String.format("invalid incoming data [%s]", message));
 		}
 		
+		String[] args;
+		
 		switch (message.charAt(1)) {
 		case 'V':
 			parseRegionalVersionMessage();
@@ -37,6 +39,18 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			
 		case 'P':
 			parseRandomNameMessage();
+			break;
+			
+		case 'A':
+			args = message.split("\\|");
+			parsePlayerCreationMessage(
+					args[0],
+					Integer.parseInt(args[1]), 
+					args[2].equals("1"),
+					Integer.parseInt(args[3]),
+					Integer.parseInt(args[4]),
+					Integer.parseInt(args[5])
+			);
 			break;
 		}
 	}
@@ -62,6 +76,23 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	private void parseRandomNameMessage() {
 		session.write(ApproachGameMessageFormatter.
 				characterNameSuggestionSuccessMessage(StringUtils.randomPseudo()));
+	}
+
+	private void parsePlayerCreationMessage(String name, int breed, boolean gender, int color1, int color2, int color3) {
+		if (client.account().getPlayers().size() >= client.service().config().maxPlayersPerAccount()) {
+			session.write(ApproachGameMessageFormatter.accountFullMessage());
+		} else {
+			Player player = client.service().repositories().players().createDefault(client.account(), name, breed, gender, color1, color2, color3);
+			
+			try {
+				client.service().repositories().players().persist(player);
+				
+				session.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
+				parsePlayersListMessage();
+			} catch (Exception e) {
+				session.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
+			}
+		}
 	}
 
 }
