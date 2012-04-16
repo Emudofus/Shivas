@@ -63,6 +63,10 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 					args.length > 1 ? args[1] : ""
 			);
 			break;
+			
+		case 'S':
+			parsePlayerSelectionMessage(Integer.parseInt(message.substring(2)));
+			break;
 		}
 	}
 
@@ -127,6 +131,20 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			client.service().repositories().players().remove(player);
 			
 			parsePlayersListMessage();
+		}
+	}
+
+	private void parsePlayerSelectionMessage(int playerId) throws Exception {
+		Player player = client.service().repositories().players().findById(playerId);
+		
+		if (player == null) {
+			throw new CriticalException("unknown player #%d !", playerId);
+		} else if (!player.getOwner().equals(client.account())) {
+			throw new CriticalException("you don't own player #%d !", playerId);
+		} else {
+			client.setPlayer(player);
+			
+			client.newHandler(new RolePlayHandler(client, session));
 		}
 	}
 
