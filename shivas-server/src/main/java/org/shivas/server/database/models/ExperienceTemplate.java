@@ -57,7 +57,7 @@ public class ExperienceTemplate implements Serializable {
 	/**
 	 * @return the previous
 	 */
-	public ExperienceTemplate getPrevious() {
+	public ExperienceTemplate previous() {
 		return previous;
 	}
 
@@ -71,7 +71,7 @@ public class ExperienceTemplate implements Serializable {
 	/**
 	 * @return the next
 	 */
-	public ExperienceTemplate getNext() {
+	public ExperienceTemplate next() {
 		return next;
 	}
 
