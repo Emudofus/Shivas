@@ -3,8 +3,7 @@ package org.shivas.server.database;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.shivas.server.database.repositories.AccountRepository;
-import org.shivas.server.database.repositories.PlayerRepository;
+import org.shivas.server.database.repositories.*;
 
 @Singleton
 public class DefaultRepositoryContainer implements RepositoryContainer {
@@ -14,6 +13,9 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	
 	@Inject
 	private PlayerRepository players;
+	
+	@Inject
+	private ExperienceTemplateRepository experienceTemplates;
 
 	public AccountRepository accounts() {
 		return accounts;
@@ -21,6 +23,10 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	
 	public PlayerRepository players() {
 		return players;
+	}
+
+	public ExperienceTemplateRepository experienceTemplates() {
+		return experienceTemplates;
 	}
 
 }

@@ -1,9 +1,10 @@
 package org.shivas.server.database;
 
-import org.shivas.server.database.repositories.AccountRepository;
-import org.shivas.server.database.repositories.PlayerRepository;
+import org.shivas.server.database.repositories.*;
 
 public interface RepositoryContainer {
 	AccountRepository accounts();
 	PlayerRepository players();
+	
+	ExperienceTemplateRepository experienceTemplates();
 }
