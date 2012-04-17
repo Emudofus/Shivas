@@ -4,30 +4,62 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+
+import org.shivas.server.database.models.ExperienceTemplate;
 
 @Embeddable
 public class PlayerExperience implements Serializable, Experience<Long> {
 
 	private static final long serialVersionUID = 1733336784463819181L;
 	
-	@Column(nullable=false)
-	private short level;
+	@JoinColumn(name="level", nullable=false)
+	private ExperienceTemplate template;
 	
 	@Column(nullable=false)
 	private long experience;
+	
+	public PlayerExperience() {
+	}
+
+	public PlayerExperience(ExperienceTemplate template) {
+		this.template = template;
+		this.experience = this.template.getCharacter();
+	}
 
 	public short level() {
-		return level;
+		return template.getLevel();
+	}
+	
+	public void setLevel(short level) {
+		if (level <= 0) return;
+		
+		if (level() < level) addLevel((short) (level - level()));
+		else if (level() > level) removeLevel((short) (level() - level));
 	}
 
 	public void addLevel(short level) {
-		this.level += level;
-		// TODO set valid experience
+		if (level < 0) {
+			removeLevel(level);
+			return;
+		}
+		
+		while (level() < level) {
+			template = template.next();
+		}
+		
+		experience = template.getCharacter();
 	}
 
 	public void removeLevel(short level) {
-		this.level -= level;
-		// TODO set valid experience
+		if (level < 0) {
+			addLevel(level);
+			return;
+		}
+		
+		while (level() > level) {
+			template = template.previous();
+		}
 	}
 
 	public Long current() {
@@ -35,21 +67,27 @@ public class PlayerExperience implements Serializable, Experience<Long> {
 	}
 
 	public Long min() {
-		return (long)0; // TODO return valid experience
+		return template.getCharacter();
 	}
 
 	public Long max() {
-		return (long)1; // TODO return valid experience
+		return template.next().getCharacter();
 	}
 
 	public void plus(Long experience) {
 		this.experience += experience;
-		// TODO set valid level
+		
+		while (this.experience > max()) {
+			template = template.next();
+		}
 	}
 
 	public void minus(Long experience) {
 		this.experience -= experience;
-		// TODO set valid level
+		
+		while (this.experience < min()) {
+			template = template.previous();
+		}
 	}
 
 }

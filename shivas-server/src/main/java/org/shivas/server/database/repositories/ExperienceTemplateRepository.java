@@ -15,13 +15,10 @@ import com.google.common.collect.Maps;
 @Singleton
 public class ExperienceTemplateRepository {
 	
-	@Inject
-	@StaticDatabase
-	private EntityManager em;
-	
 	private Map<Short, ExperienceTemplate> entities = Maps.newHashMap();
 	
-	public void init() {
+	@Inject
+	public ExperienceTemplateRepository(@StaticDatabase EntityManager em) {
 		List<ExperienceTemplate> result = em
 				.createQuery("from ExperienceTemplate e", ExperienceTemplate.class)
 				.getResultList();
