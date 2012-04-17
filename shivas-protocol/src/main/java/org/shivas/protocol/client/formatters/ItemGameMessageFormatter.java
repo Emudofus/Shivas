@@ -68,6 +68,7 @@ public class ItemGameMessageFormatter {
     }
 
     public static void formatItems(StringBuilder sb, Collection<BaseItemType> items){
+    	if (items == null) return;
         boolean first = true;
         for (BaseItemType item : items){
             if (first) first = false;
