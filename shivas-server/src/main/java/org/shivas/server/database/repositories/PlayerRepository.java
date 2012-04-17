@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.shivas.server.core.Colors;
-import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.database.annotations.DefaultDatabase;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
@@ -19,7 +18,10 @@ public class PlayerRepository {
 	@Inject
 	@DefaultDatabase
 	private EntityManager em;
-	
+
+	@Inject
+	private ExperienceTemplateRepository experienceTemplates;
+
 	public void persist(Player player) {
 		em.getTransaction().begin();
 		em.persist(player);
@@ -60,7 +62,7 @@ public class PlayerRepository {
 				name,
 				(short) (breed * 10 + (gender ? 1 : 0)),
 				new Colors(color1, color2, color3),
-				new PlayerExperience()
+				experienceTemplates.newStartPlayerExperience()
 		);
 		owner.getPlayers().add(player);
 		return player;
