@@ -3,6 +3,10 @@ package org.shivas.protocol.client.formatters;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 /**
  * User: Blackrush
  * Date: 12/11/11
@@ -10,7 +14,10 @@ import java.util.Date;
  * IDE : IntelliJ IDEA
  */
 public class BasicGameMessageFormatter {
-    public static final SimpleDateFormat CURRENT_DATE_FORMATTER = new SimpleDateFormat("yyyy|MM|dd");
+	
+	private static final String PATTERN_FORMATTER = "yyyy|MM|dd";
+    public static final SimpleDateFormat CURRENT_DATE_FORMATTER = new SimpleDateFormat(PATTERN_FORMATTER);
+    public static final DateTimeFormatter CURRENT_DATE_TIME_FORMATTER = DateTimeFormat.forPattern(PATTERN_FORMATTER);
 
     public static String noOperationMessage(){
         return "BN";
@@ -18,6 +25,10 @@ public class BasicGameMessageFormatter {
 
     public static String currentDateMessage(Date now){
         return "BD" + CURRENT_DATE_FORMATTER.format(now);
+    }
+
+    public static String currentDateMessage(DateTime now){
+        return "BD" + CURRENT_DATE_TIME_FORMATTER.print(now);
     }
 
     public static String consoleMessage(String message, int color){
