@@ -24,7 +24,7 @@ public class PlayerExperience implements Serializable, Experience<Long> {
 
 	public PlayerExperience(ExperienceTemplate template) {
 		this.template = template;
-		this.experience = this.template.getCharacter();
+		this.experience = this.template.getPlayer();
 	}
 
 	public short level() {
@@ -48,7 +48,7 @@ public class PlayerExperience implements Serializable, Experience<Long> {
 			template = template.next();
 		}
 		
-		experience = template.getCharacter();
+		experience = template.getPlayer();
 	}
 
 	public void removeLevel(short level) {
@@ -67,11 +67,11 @@ public class PlayerExperience implements Serializable, Experience<Long> {
 	}
 
 	public Long min() {
-		return template.getCharacter();
+		return template.getPlayer();
 	}
 
 	public Long max() {
-		return template.next().getCharacter();
+		return template.next().getPlayer();
 	}
 
 	public void plus(Long experience) {

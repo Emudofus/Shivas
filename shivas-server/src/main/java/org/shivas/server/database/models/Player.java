@@ -38,11 +38,12 @@ public class Player implements Serializable {
 	
 	@Column(nullable=false, unique=true)
 	private String name;
-	
-	@JoinColumn
+
+	@ManyToOne
+	@JoinColumn(nullable=false)
 	private BreedTemplate breed;
 	
-	@Column
+	@Column(nullable=false)
 	private Gender gender;
 	
 	@Column(nullable=false)

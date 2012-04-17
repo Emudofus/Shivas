@@ -18,7 +18,7 @@ public class ExperienceTemplate implements Serializable {
 	private short level;
 	
 	@Column(nullable=false)
-	private long character;
+	private long player;
 	
 	@Transient
 	private ExperienceTemplate previous;
@@ -43,15 +43,15 @@ public class ExperienceTemplate implements Serializable {
 	/**
 	 * @return the character
 	 */
-	public long getCharacter() {
-		return character;
+	public long getPlayer() {
+		return player;
 	}
 
 	/**
 	 * @param character the character to set
 	 */
-	public void setCharacter(long character) {
-		this.character = character;
+	public void setPlayer(long character) {
+		this.player = character;
 	}
 
 	/**
