@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.server.core.Colors;
 import org.shivas.server.core.experience.PlayerExperience;
@@ -38,6 +39,12 @@ public class Player implements Serializable {
 	@Column(nullable=false, unique=true)
 	private String name;
 	
+	@JoinColumn
+	private BreedTemplate breed;
+	
+	@Column
+	private Gender gender;
+	
 	@Column(nullable=false)
 	private short skin;
 	
@@ -50,13 +57,21 @@ public class Player implements Serializable {
 	public Player() {
 	}
 
-	public Player(Account owner, String name, short skin, Colors colors, PlayerExperience experience) {
+	
+
+	public Player(Account owner, String name, BreedTemplate breed,
+			Gender gender, short skin, Colors colors,
+			PlayerExperience experience) {
 		this.owner = owner;
 		this.name = name;
+		this.breed = breed;
+		this.gender = gender;
 		this.skin = skin;
 		this.colors = colors;
 		this.experience = experience;
 	}
+
+
 
 	/**
 	 * @return the id
@@ -98,6 +113,34 @@ public class Player implements Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the breed
+	 */
+	public BreedTemplate getBreed() {
+		return breed;
+	}
+
+	/**
+	 * @param breed the breed to set
+	 */
+	public void setBreed(BreedTemplate breed) {
+		this.breed = breed;
+	}
+
+	/**
+	 * @return the gender
+	 */
+	public Gender getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param gender the gender to set
+	 */
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
 
 	/**

@@ -7,7 +7,9 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.server.core.Colors;
+import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.database.annotations.DefaultDatabase;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
@@ -20,7 +22,7 @@ public class PlayerRepository {
 	private EntityManager em;
 
 	@Inject
-	private ExperienceTemplateRepository experienceTemplates;
+	private RepositoryContainer repositories;
 
 	public void persist(Player player) {
 		em.getTransaction().begin();
@@ -35,7 +37,9 @@ public class PlayerRepository {
 	}
 
 	public void update(Player player) {
+		em.getTransaction().begin();
 		em.merge(player);
+		em.getTransaction().commit();
 	}
 	
 	public Player findById(int id) throws NoResultException {
@@ -56,13 +60,15 @@ public class PlayerRepository {
 				 .getResultList();
 	}
 	
-	public Player createDefault(Account owner, String name, int breed, boolean gender, int color1, int color2, int color3) {
+	public Player createDefault(Account owner, String name, int breed, Gender gender, int color1, int color2, int color3) {
 		Player player = new Player(
 				owner,
 				name,
-				(short) (breed * 10 + (gender ? 1 : 0)),
+				repositories.breedTemplates().findById(breed),
+				gender,
+				(short) (breed * 10 + gender.ordinal()),
 				new Colors(color1, color2, color3),
-				experienceTemplates.newStartPlayerExperience()
+				repositories.experienceTemplates().newStartPlayerExperience()
 		);
 		owner.getPlayers().add(player);
 		return player;

@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="breeds")
-public class BreedTemplate implements Serializable {
+public class BreedTemplate implements Serializable { // TODO
 
 	private static final long serialVersionUID = 1047598056891168587L;
 	
