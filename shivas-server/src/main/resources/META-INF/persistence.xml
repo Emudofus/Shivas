@@ -30,6 +30,9 @@
     </persistence-unit>
     
     <persistence-unit name="static">
+    	<class>org.shivas.server.database.models.ExperienceTemplate</class>
+    	<class>org.shivas.server.database.models.BreedTemplate</class>
+    
         <properties>
             <!--
             <property name="hibernate.ejb.cfgfile" value="/hibernate.cfg.xml"/>
