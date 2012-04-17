@@ -31,6 +31,9 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 
 	@Override
 	protected void configure() {
+		add('A', new ApproachHandler(client, session));
+		add('B', new BasicHandler(client, session));
+		add('G', new GameHandler(client, session));
 	}
 
 	@Override
