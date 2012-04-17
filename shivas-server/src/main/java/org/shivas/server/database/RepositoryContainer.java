@@ -7,4 +7,5 @@ public interface RepositoryContainer {
 	PlayerRepository players();
 	
 	ExperienceTemplateRepository experienceTemplates();
+	BreedTemplateRepository breedTemplates();
 }

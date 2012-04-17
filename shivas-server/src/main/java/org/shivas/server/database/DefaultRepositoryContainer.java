@@ -16,6 +16,9 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	
 	@Inject
 	private ExperienceTemplateRepository experienceTemplates;
+	
+	@Inject
+	private BreedTemplateRepository breedTemplates;
 
 	public AccountRepository accounts() {
 		return accounts;
@@ -27,6 +30,10 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 
 	public ExperienceTemplateRepository experienceTemplates() {
 		return experienceTemplates;
+	}
+
+	public BreedTemplateRepository breedTemplates() {
+		return breedTemplates;
 	}
 
 }
