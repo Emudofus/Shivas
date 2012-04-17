@@ -1,6 +1,7 @@
 package org.shivas.protocol.client.formatters;
 
 import org.shivas.common.StringUtils;
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.protocol.client.types.BaseItemType;
 
@@ -88,7 +89,7 @@ public class ApproachGameMessageFormatter {
         return "ASE";
     }
 
-    public static String characterSelectionSucessMessage(long id, String name, int level, int breedId, boolean gender,
+    public static String characterSelectionSucessMessage(long id, String name, int level, int breedId, Gender gender,
                                                          short skin, int color1, int color2, int color3, Collection<BaseItemType> items)
     {
         StringBuilder sb = new StringBuilder().append("ASK|");
@@ -97,7 +98,7 @@ public class ApproachGameMessageFormatter {
         sb.append(name).append('|');
         sb.append(level).append('|');
         sb.append(breedId).append('|');
-        sb.append(gender ? '1' : '0').append('|');
+        sb.append(gender.ordinal()).append('|');
         sb.append(skin).append('|');
         sb.append(toHexOrNegative(color1)).append('|');
         sb.append(toHexOrNegative(color2)).append('|');
