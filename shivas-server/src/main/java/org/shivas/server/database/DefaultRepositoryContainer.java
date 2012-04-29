@@ -13,12 +13,6 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	
 	@Inject
 	private PlayerRepository players;
-	
-	@Inject
-	private ExperienceTemplateRepository experienceTemplates;
-	
-	@Inject
-	private BreedTemplateRepository breedTemplates;
 
 	public AccountRepository accounts() {
 		return accounts;
@@ -26,14 +20,6 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	
 	public PlayerRepository players() {
 		return players;
-	}
-
-	public ExperienceTemplateRepository experienceTemplates() {
-		return experienceTemplates;
-	}
-
-	public BreedTemplateRepository breedTemplates() {
-		return breedTemplates;
 	}
 
 }

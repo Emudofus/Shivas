@@ -10,7 +10,6 @@ import javax.persistence.NoResultException;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.server.core.Colors;
 import org.shivas.server.database.RepositoryContainer;
-import org.shivas.server.database.annotations.DefaultDatabase;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 
@@ -18,7 +17,6 @@ import org.shivas.server.database.models.Player;
 public class PlayerRepository {
 
 	@Inject
-	@DefaultDatabase
 	private EntityManager em;
 
 	@Inject
@@ -64,11 +62,11 @@ public class PlayerRepository {
 		Player player = new Player(
 				owner,
 				name,
-				repositories.breedTemplates().findById(breed),
+				null, // TODO
 				gender,
 				(short) (breed * 10 + gender.ordinal()),
 				new Colors(color1, color2, color3),
-				repositories.experienceTemplates().newStartPlayerExperience()
+				null // TODO
 		);
 		owner.getPlayers().add(player);
 		return player;
