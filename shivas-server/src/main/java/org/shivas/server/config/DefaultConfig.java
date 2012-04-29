@@ -5,6 +5,14 @@ import javax.inject.Singleton;
 @Singleton
 public class DefaultConfig implements Config {
 
+	public String dataPath() {
+		return "/home/blackrush/Workspace/Shivas/data/";
+	}
+
+	public String dataExtension() {
+		return "xml";
+	}
+
 	public int loginPort() {
 		return 5555;
 	}

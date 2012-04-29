@@ -2,6 +2,9 @@ package org.shivas.server.config;
 
 public interface Config {
 	
+	String dataPath();
+	String dataExtension();
+	
 	int loginPort();
 
 	int gameId();
