@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.shivas.data.entity.Breed;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.server.core.Colors;
@@ -39,9 +41,8 @@ public class Player implements Serializable {
 	@Column(nullable=false, unique=true)
 	private String name;
 
-	@ManyToOne
-	@JoinColumn(nullable=false)
-	private BreedTemplate breed;
+	@Type(type="org.shivas.data.usertype.BreedType")
+	private Breed breed;
 	
 	@Column(nullable=false)
 	private Gender gender;
@@ -58,9 +59,7 @@ public class Player implements Serializable {
 	public Player() {
 	}
 
-	
-
-	public Player(Account owner, String name, BreedTemplate breed,
+	public Player(Account owner, String name, Breed breed,
 			Gender gender, short skin, Colors colors,
 			PlayerExperience experience) {
 		this.owner = owner;
@@ -119,14 +118,14 @@ public class Player implements Serializable {
 	/**
 	 * @return the breed
 	 */
-	public BreedTemplate getBreed() {
+	public Breed getBreed() {
 		return breed;
 	}
 
 	/**
 	 * @param breed the breed to set
 	 */
-	public void setBreed(BreedTemplate breed) {
+	public void setBreed(Breed breed) {
 		this.breed = breed;
 	}
 

@@ -4,17 +4,16 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
 
-import org.shivas.server.database.models.ExperienceTemplate;
+import org.hibernate.annotations.Type;
 
 @Embeddable
 public class PlayerExperience implements Serializable, Experience<Long> {
 
 	private static final long serialVersionUID = 1733336784463819181L;
 	
-	@JoinColumn(name="level", nullable=false)
-	private ExperienceTemplate template;
+	@Type(type="org.shivas.data.usertype.ExperienceType")
+	private org.shivas.data.entity.Experience template;
 	
 	@Column(nullable=false)
 	private long experience;
@@ -22,7 +21,7 @@ public class PlayerExperience implements Serializable, Experience<Long> {
 	public PlayerExperience() {
 	}
 
-	public PlayerExperience(ExperienceTemplate template) {
+	public PlayerExperience(org.shivas.data.entity.Experience template) {
 		this.template = template;
 		this.experience = this.template.getPlayer();
 	}

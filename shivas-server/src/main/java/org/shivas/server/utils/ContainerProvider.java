@@ -7,6 +7,7 @@ import org.shivas.data.Container;
 import org.shivas.data.Loader;
 import org.shivas.data.Loaders;
 import org.shivas.data.entity.Breed;
+import org.shivas.data.entity.Experience;
 import org.shivas.server.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ public class ContainerProvider implements Provider<Container> {
 			log.error("can't load \"{}\" data", config.dataExtension());
 		} else {
 			loader.load(Breed.class, config.dataPath() + "breeds/");
+			loader.load(Experience.class, config.dataPath() + "experiences/");
 			
 			container = loader.create();
 		}

@@ -1,5 +1,6 @@
 package org.shivas.server;
 
+import org.shivas.data.Container;
 import org.shivas.server.services.game.GameService;
 import org.shivas.server.services.login.LoginService;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ public class ShivasServer {
 	
 	private final Module[] modules;
 
+	private Container ctner;
 	private PersistService ps;
 	private GameService gs;
 	private LoginService ls;
@@ -27,6 +29,8 @@ public class ShivasServer {
 	
 	public void start() {
 		Injector inject = Guice.createInjector(modules);
+		
+		ctner = inject.getInstance(Container.class);
 
 		ps = inject.getInstance(PersistService.class);
 		ps.start();

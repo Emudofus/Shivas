@@ -7,9 +7,13 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.shivas.data.Container;
+import org.shivas.data.entity.Breed;
+import org.shivas.data.entity.Experience;
 import org.shivas.protocol.client.enums.Gender;
+import org.shivas.server.config.Config;
 import org.shivas.server.core.Colors;
-import org.shivas.server.database.RepositoryContainer;
+import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 
@@ -18,9 +22,12 @@ public class PlayerRepository {
 
 	@Inject
 	private EntityManager em;
+	
+	@Inject
+	private Config config;
 
 	@Inject
-	private RepositoryContainer repositories;
+	private Container ctner;
 
 	public void persist(Player player) {
 		em.getTransaction().begin();
@@ -62,11 +69,11 @@ public class PlayerRepository {
 		Player player = new Player(
 				owner,
 				name,
-				null, // TODO
+				ctner.get(Breed.class).byId(breed),
 				gender,
 				(short) (breed * 10 + gender.ordinal()),
 				new Colors(color1, color2, color3),
-				null // TODO
+				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel()))
 		);
 		owner.getPlayers().add(player);
 		return player;
