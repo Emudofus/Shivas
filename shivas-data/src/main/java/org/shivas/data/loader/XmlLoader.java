@@ -27,6 +27,8 @@ public class XmlLoader implements Loader {
 
 	@Override
 	public <T> void load(Class<T> entity, String path) {
+		log.debug("load {}", entity.getName());
+		
 		if (entity.isAssignableFrom(Breed.class)) {
 			loadBreeds(new BaseRepository<Breed>(Breed.class), new File(path));
 		}
@@ -40,6 +42,8 @@ public class XmlLoader implements Loader {
 
 	@Override
 	public Container create() {
+		log.info("successfully loaded");
+		
 		Containers.setInstance(ctner);
 		return ctner;
 	}
@@ -62,6 +66,7 @@ public class XmlLoader implements Loader {
 		}
 		
 		ctner.add(repo);
+		log.debug("{} breeds loaded", repo.count());
 	}
 	
 	private void loadBreed(BaseRepository<Breed> repo, File file) throws Exception {		
@@ -92,6 +97,7 @@ public class XmlLoader implements Loader {
 		}
 		
 		ctner.add(repo);
+		log.info("{} experiences loaded", repo.count());
 	}
 	
 	private void loadExperience(BaseRepository<Experience> repo, File file) throws Exception {		

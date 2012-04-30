@@ -33,4 +33,9 @@ public class BaseRepository<T> implements Repository<T> {
 		return entities.values();
 	}
 
+	@Override
+	public int count() {
+		return entities.size();
+	}
+
 }
