@@ -6,27 +6,27 @@ public class Experience implements Serializable {
 	
 	private static final long serialVersionUID = -1487686495878618902L;
 	
-	private int level;
+	private short level;
 	private long player;
 	private Experience previous;
 	private Experience next;
 	
-	public Experience(int level, long player) {
+	public Experience(short level, long player) {
 		this.level = level;
 		this.player = player;
 	}
 
 	/**
-	 * @return the level
+	 * @return the id
 	 */
 	public int getId() {
-		return getLevel();
+		return level;
 	}
 
 	/**
 	 * @return the level
 	 */
-	public int getLevel() {
+	public short getLevel() {
 		return level;
 	}
 

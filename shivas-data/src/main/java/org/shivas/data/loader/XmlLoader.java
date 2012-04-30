@@ -98,7 +98,7 @@ public class XmlLoader implements Loader {
 		Document doc = builder.build(file);
 		Element root = doc.getDescendants(new ElementFilter("experiences")).next();
 		for (Element element : root.getChildren("experience")) {
-			int level = element.getAttribute("level").getIntValue();
+			short level = (short) element.getAttribute("level").getIntValue();
 			long player = element.getAttribute("player").getLongValue();
 			
 			repo.put(level, new Experience(level, player));
