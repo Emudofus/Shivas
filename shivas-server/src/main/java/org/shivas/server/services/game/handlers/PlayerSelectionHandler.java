@@ -26,9 +26,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	public void handle(String message) throws Exception {
-		if (message.charAt(0) != 'A') {
-			throw new Exception(String.format("invalid incoming data [%s]", message));
-		}
+		assertTrue(message.charAt(0) == 'A', "invalid incoming data [%s]", message);
 		
 		String[] args;
 		

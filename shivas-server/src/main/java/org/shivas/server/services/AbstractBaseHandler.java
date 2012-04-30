@@ -22,4 +22,8 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 		return session.getRemoteAddress().toString().contains("127.0.0.1"); // TODO
 	}
 	
+	protected void assertTrue(boolean b, String message, Object... obj) throws Exception {
+		if (!b) throw new Exception(String.format(message, obj));
+	}
+	
 }

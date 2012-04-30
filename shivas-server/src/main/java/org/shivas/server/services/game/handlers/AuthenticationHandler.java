@@ -20,9 +20,7 @@ public class AuthenticationHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	public void handle(String message) throws Exception {
-		if (!message.startsWith("AT")) {
-			throw new Exception(String.format("invalid incoming data [%s]", message));
-		}
+		assertTrue(message.startsWith("AT"), "invalid incoming data [%s]", message);
 		
 		String ticket = message.substring(2);
 		Account account = client.service().login().getAccount(ticket);
