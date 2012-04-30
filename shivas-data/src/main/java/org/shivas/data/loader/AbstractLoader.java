@@ -17,10 +17,12 @@ public abstract class AbstractLoader implements Loader {
 	
 	protected final SimpleContainer ctner = new SimpleContainer();
 	
+	@SuppressWarnings("rawtypes")
 	protected final Map<Class, FileLoader> loaders = Maps.newHashMap();
 	
 	protected abstract Logger log();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> void load(Class<T> entity, String path) {
 		FileLoader<T> loader = loaders.get(entity);
