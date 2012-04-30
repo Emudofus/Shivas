@@ -1,6 +1,6 @@
-package org.shivas.data.loader;
+package org.shivas.data;
 
-import org.shivas.data.Loader;
+import org.shivas.data.loader.XmlLoader;
 
 public class Loaders {
 	private Loaders() {}

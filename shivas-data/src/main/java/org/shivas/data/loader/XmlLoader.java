@@ -8,6 +8,7 @@ import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
 import org.shivas.common.io.FileExtensions;
 import org.shivas.data.Container;
+import org.shivas.data.Containers;
 import org.shivas.data.Loader;
 import org.shivas.data.container.SimpleContainer;
 import org.shivas.data.entity.Breed;
@@ -34,6 +35,7 @@ public class XmlLoader implements Loader {
 
 	@Override
 	public Container create() {
+		Containers.setInstance(ctner);
 		return ctner;
 	}
 	
