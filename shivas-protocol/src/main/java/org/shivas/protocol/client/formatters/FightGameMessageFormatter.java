@@ -67,7 +67,7 @@ public class FightGameMessageFormatter {
         sb.append("|+");
         sb.append(fighter.getCurrentCellId()).append(';');
         sb.append(fighter.getOrientation().ordinal()).append(';');
-        sb.append("0;"); // todo unknown packet parameter
+        sb.append("0;"); // TODO unknown packet parameter
         sb.append(fighter.getId()).append(';');
         sb.append(fighter.getName()).append(';');
         
