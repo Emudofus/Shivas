@@ -5,9 +5,11 @@ import java.util.Map;
 import org.shivas.data.Container;
 import org.shivas.data.Repository;
 
+import com.google.common.collect.Maps;
+
 public class SimpleContainer implements Container {
 	
-	private Map<Class<?>, Repository<?>> repositories;
+	private Map<Class<?>, Repository<?>> repositories = Maps.newHashMap();
 
 	@SuppressWarnings("unchecked")
 	@Override

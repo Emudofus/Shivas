@@ -27,11 +27,17 @@ public abstract class AbstractLoader implements Loader {
 	public <T> void load(Class<T> entity, String path) {
 		FileLoader<T> loader = loaders.get(entity);
 		if (loader != null)  {
+			BaseRepository<T> repo = new BaseRepository<T>(entity);
+			log().debug("start load {}", repo.getEntityClass().getSimpleName());
+			
 			loadEntities(
-					new BaseRepository<T>(entity),
+					repo,
 					new File(path),
 					loader
 			);
+			ctner.add(repo);
+			
+			log().debug("{} {} loaded", repo.count(), repo.getEntityClass().getSimpleName());
 		} else {
 			log().error("unknown class \"{}\"", entity.getName());
 		}
@@ -44,14 +50,14 @@ public abstract class AbstractLoader implements Loader {
 	}
 	
 	private <T> void loadEntities(BaseRepository<T> repo, File directory, FileLoader<T> loader) {
-		log().debug("start load {}", repo.getEntityClass().getSimpleName());
-		
 		for (File file : directory.listFiles()) {
 			if (file.isDirectory()) {
 				loadEntities(repo, directory, loader);
 			} else if (FileExtensions.match(file, "xml")) {
 				try {
 					loader.load(repo, file);
+					
+					log().trace("{} loaded", file.getName());
 				} catch (Exception e) {
 					log().error(String.format("can't load \"%s\" because of %s : %s",
 							file.getName(),
@@ -61,8 +67,6 @@ public abstract class AbstractLoader implements Loader {
 				}
 			}
 		}
-		
-		log().debug("{} {} loaded", repo.count(), repo.getEntityClass().getSimpleName());
 	}
 
 }

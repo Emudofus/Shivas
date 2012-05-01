@@ -5,10 +5,12 @@ import java.util.Map;
 
 import org.shivas.data.Repository;
 
+import com.google.common.collect.Maps;
+
 public class BaseRepository<T> implements Repository<T> {
 	
 	private Class<T> clazz;
-	private Map<Integer, T> entities;
+	private Map<Integer, T> entities = Maps.newHashMap();
 	
 	public BaseRepository(Class<T> clazz) {
 		this.clazz = clazz;
