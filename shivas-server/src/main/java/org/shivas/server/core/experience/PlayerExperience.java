@@ -12,6 +12,7 @@ public class PlayerExperience implements Serializable, Experience<Long> {
 
 	private static final long serialVersionUID = 1733336784463819181L;
 	
+	@Column(name="level", nullable=false)
 	@Type(type="org.shivas.data.usertype.ExperienceType")
 	private org.shivas.data.entity.Experience template;
 	

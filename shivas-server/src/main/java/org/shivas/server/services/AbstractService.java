@@ -63,6 +63,9 @@ public abstract class AbstractService implements Service, IoHandler {
 
 	public void stop() {
 		acceptor.unbind();
+		for (IoSession session : acceptor.getManagedSessions().values()) {
+			session.close(true);
+		}
 		acceptor.dispose();
 		
 		log.info("stopped");

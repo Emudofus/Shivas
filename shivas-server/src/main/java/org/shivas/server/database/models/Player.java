@@ -41,6 +41,7 @@ public class Player implements Serializable {
 	@Column(nullable=false, unique=true)
 	private String name;
 
+	@Column(name="breed_id", nullable=false)
 	@Type(type="org.shivas.data.usertype.BreedType")
 	private Breed breed;
 	

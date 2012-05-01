@@ -19,25 +19,30 @@ public class ContainerProvider implements Provider<Container> {
 	
 	private static final Logger log = LoggerFactory.getLogger(ContainerProvider.class);
 	
+	private Container ctner;
+	private boolean loaded;
+	
 	@Inject
 	private Config config;
-
-	@Override
-	public Container get() {
-		Container container;
+	
+	private void load() {
 		Loader loader = Loaders.byExtension(config.dataExtension());
-		
 		if (loader == null) {
-			container = null;
-			log.error("can't load \"{}\" data", config.dataExtension());
-		} else {
+			log.error("format \"{}\" isn't handled", config.dataExtension());
+		}
+		else {
 			loader.load(Breed.class, config.dataPath() + "breeds/");
 			loader.load(Experience.class, config.dataPath() + "experiences/");
 			
-			container = loader.create();
+			ctner = loader.create();
 		}
-		
-		return container;
+		loaded = true;
+	}
+
+	@Override
+	public Container get() {
+		if (!loaded) load();
+		return ctner;
 	}
 
 }
