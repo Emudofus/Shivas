@@ -9,6 +9,7 @@ import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
+import org.shivas.data.entity.GameMap;
 import org.shivas.data.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,12 @@ public class XmlLoader extends AbstractLoader {
 		loaders.put(Experience.class, new FileLoader<Experience>() {
 			public void load(BaseRepository<Experience> repo, File file) throws Exception {
 				loadExperience(repo, file);
+			}
+		});
+		
+		loaders.put(GameMap.class, new FileLoader<GameMap>() {
+			public void load(BaseRepository<GameMap> repo, File file) throws Exception {
+				loadMap(repo, file);
 			}
 		});
 	}
@@ -67,6 +74,19 @@ public class XmlLoader extends AbstractLoader {
 			current.setPrevious(previous);
 			
 			previous = current;
+		}
+	}
+	
+	private void loadMap(BaseRepository<GameMap> repo, File file) throws Exception {
+		Document doc = builder.build(file);
+		
+		Element root = doc.getDescendants(new ElementFilter("maps")).next();
+		for (Element element : root.getChildren("map")) {
+			int id = element.getAttribute("id").getIntValue();
+			String date = element.getAttribute("date").getValue(),
+				   key  = element.getAttribute("key").getValue();
+			
+			repo.put(id, new GameMap(id, date, key));
 		}
 	}
 
