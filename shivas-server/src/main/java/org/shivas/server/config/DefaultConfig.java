@@ -1,9 +1,16 @@
 package org.shivas.server.config;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import org.shivas.data.Container;
+import org.shivas.data.entity.GameMap;
 
 @Singleton
 public class DefaultConfig implements Config {
+	
+	@Inject
+	private Container ctner;
 
 	public String dataPath() {
 		return "/home/blackrush/Workspace/Shivas/data/";
@@ -43,6 +50,16 @@ public class DefaultConfig implements Config {
 
 	public short deleteAnswerLevelNeeded() {
 		return 20;
+	}
+
+	@Override
+	public GameMap startMap() {
+		return ctner.get(GameMap.class).byId(7411);
+	}
+
+	@Override
+	public short startCell() {
+		return 355;
 	}
 
 }

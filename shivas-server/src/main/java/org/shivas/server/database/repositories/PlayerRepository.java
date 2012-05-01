@@ -73,7 +73,9 @@ public class PlayerRepository {
 				gender,
 				(short) (breed * 10 + gender.ordinal()),
 				new Colors(color1, color2, color3),
-				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel()))
+				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
+				config.startMap(),
+				config.startCell()
 		);
 		owner.getPlayers().add(player);
 		return player;

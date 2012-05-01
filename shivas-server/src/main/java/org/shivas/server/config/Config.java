@@ -1,5 +1,7 @@
 package org.shivas.server.config;
 
+import org.shivas.data.entity.GameMap;
+
 public interface Config {
 	
 	String dataPath();
@@ -17,5 +19,7 @@ public interface Config {
 	short deleteAnswerLevelNeeded();
 	
 	short startLevel();
+	GameMap startMap();
+	short startCell();
 	
 }
