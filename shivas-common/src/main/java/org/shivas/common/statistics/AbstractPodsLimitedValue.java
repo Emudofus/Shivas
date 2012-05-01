@@ -2,11 +2,11 @@ package org.shivas.common.statistics;
 
 import org.shivas.common.maths.LimitedValue;
 
-public abstract class PodsLimitedValue implements LimitedValue {
+public abstract class AbstractPodsLimitedValue implements LimitedValue {
 	
 	protected Statistics stats;
 
-	public PodsLimitedValue(Statistics stats) {
+	public AbstractPodsLimitedValue(Statistics stats) {
 		this.stats = stats;
 	}
 
