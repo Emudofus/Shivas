@@ -2,21 +2,12 @@ package org.shivas.server.core;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
-@Embeddable
 public class Colors implements Serializable {
 
 	private static final long serialVersionUID = 1314592170290713909L;
 
-	@Column(nullable=false, name="color1")
 	private int first;
-
-	@Column(nullable=false, name="color2")
 	private int second;
-
-	@Column(nullable=false, name="color3")
 	private int third;
 	
 	public Colors() {

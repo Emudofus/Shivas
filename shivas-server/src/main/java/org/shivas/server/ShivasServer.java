@@ -1,5 +1,6 @@
 package org.shivas.server;
 
+import org.atomium.EntityManager;
 import org.shivas.data.Container;
 import org.shivas.server.services.game.GameService;
 import org.shivas.server.services.login.LoginService;
@@ -19,7 +20,7 @@ public class ShivasServer {
 	private final Module[] modules;
 
 	private Container ctner;
-	private PersistService ps;
+	private EntityManager em;
 	private GameService gs;
 	private LoginService ls;
 	
@@ -32,8 +33,8 @@ public class ShivasServer {
 		
 		ctner = inject.getInstance(Container.class);
 
-		ps = inject.getInstance(PersistService.class);
-		ps.start();
+		em = inject.getInstance(EntityManager.class);
+		em.start();
 
 		gs = inject.getInstance(GameService.class);
 		ls = inject.getInstance(LoginService.class);
@@ -47,7 +48,7 @@ public class ShivasServer {
 	public void stop() {
 		ls.stop();
 		gs.stop();
-		ps.stop();
+		em.stop();
 		
 		log.info("stopped");
 	}

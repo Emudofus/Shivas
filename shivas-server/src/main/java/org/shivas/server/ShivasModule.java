@@ -14,14 +14,11 @@ import org.shivas.server.services.login.LoginService;
 import org.shivas.server.utils.ContainerProvider;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.persist.jpa.JpaPersistModule;
 
 public class ShivasModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		install(new JpaPersistModule("default"));
-		
 		bind(Config.class).to(DefaultConfig.class);
 		bind(RepositoryContainer.class).to(DefaultRepositoryContainer.class);
 		bind(LoginService.class).to(DefaultLoginService.class);
