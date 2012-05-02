@@ -3,75 +3,33 @@ package org.shivas.server.database.models;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Version;
-
-import org.hibernate.annotations.Type;
+import org.atomium.Entity;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-@Entity
-@Table(name="accounts")
-public class Account implements Serializable {
+public class Account implements Serializable, Entity<Integer> {
 	
 	private static final long serialVersionUID = -4407008686315825783L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(nullable=false)
 	private int id;
-	
-	@Version
 	private long version;
-	
-	@Column(nullable=false, unique=true)
 	private String name;
-	
-	@Column(nullable=false)
 	private String password;
-	
-	@Column(nullable=false, unique=true)
 	private String nickname;
-	
-	@Column(nullable=false)
 	private String secretQuestion;
-	
-	@Column(nullable=false)
 	private String secretAnswer;
-	
-	@Column(nullable=false)
 	private boolean rights;
-	
-	@Column(nullable=false)
 	private boolean banned;
-	
-	@Column(nullable=false)
 	private int community;
-	
-	@Column(nullable=false)
 	private int points;
-	
-	@Column(nullable=true)
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime subscriptionEnd;
-	
-	@Column(nullable=false)
 	private boolean connected;
-	
-	@OneToMany(mappedBy="owner", targetEntity=Player.class, cascade=CascadeType.ALL)
 	private List<Player> players;
 
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer id() {
 		return id;
 	}
 

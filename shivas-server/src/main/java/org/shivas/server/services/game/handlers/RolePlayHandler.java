@@ -26,7 +26,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		super.onClosed();
 		
 		client.account().setConnected(false);
-		client.service().repositories().accounts().update(client.account());
+		client.service().repositories().accounts().save(client.account());
 	}
 
 	@Override

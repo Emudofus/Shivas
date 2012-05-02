@@ -20,7 +20,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 
 	public IoSessionHandler<String> init() throws Exception {
 		client.account().setConnected(true);
-		client.service().repositories().accounts().update(client.account());
+		client.service().repositories().accounts().save(client.account());
 		
 		return this;
 	}
@@ -71,7 +71,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 
 	public void onClosed() {
 		client.account().setConnected(false);
-		client.service().repositories().accounts().update(client.account());
+		client.service().repositories().accounts().save(client.account());
 	}
 
 	private void parseRegionalVersionMessage() {
@@ -100,7 +100,6 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			
 			try {
 				client.service().repositories().players().persist(player);
-				client.service().repositories().accounts().update(client.account());
 				
 				session.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
 				parsePlayersListMessage();

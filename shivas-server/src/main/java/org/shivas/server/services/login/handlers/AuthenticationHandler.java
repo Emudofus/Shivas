@@ -53,7 +53,7 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 		
 		Account account;
 		try {
-			account = client.service().repositories().accounts().findByName(args[0]);
+			account = client.service().repositories().accounts().find(args[0]);
 		} catch (NoResultException e) {
 			account = null;
 		}

@@ -14,7 +14,7 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 
 	public IoSessionHandler<String> init() throws Exception {
 		client.account().setConnected(true);
-		client.service().repositories().accounts().update(client.account());
+		client.service().repositories().accounts().save(client.account());
 
 		return this;
 	}
@@ -73,7 +73,7 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 
 	public void onClosed() {
 		client.account().setConnected(false);
-		client.service().repositories().accounts().update(client.account());
+		client.service().repositories().accounts().save(client.account());
 	}
 
 }

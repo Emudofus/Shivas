@@ -1,38 +1,36 @@
 package org.shivas.server.database.repositories;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 
+import org.atomium.EntityManager;
+import org.atomium.repository.impl.AbstractLiveEntityRepository;
+import org.atomium.util.query.Op;
+import org.atomium.util.query.Query;
+import org.atomium.util.query.SelectQueryBuilder;
+import org.atomium.util.query.UpdateQueryBuilder;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1Cipher;
 import org.shivas.server.database.models.Account;
 
 @Singleton
-public class AccountRepository {
+public class AccountRepository extends AbstractLiveEntityRepository<Integer, Account> {
+	
+	public static final String TABLE_NAME = "accounts";
+	
+	private SelectQueryBuilder loadByIdQuery, loadByNameQuery;
+	private UpdateQueryBuilder saveQuery;
 
 	@Inject
-	private EntityManager em;
-	
-	public void persist(Account account) {
-		em.getTransaction().begin();
-		em.persist(account);
-		em.getTransaction().commit();
-	}
-
-	public void remove(Account account) {
-		em.getTransaction().begin();
-		em.remove(account);
-		em.getTransaction().commit();
-	}
-
-	public void update(Account account) {
-		em.getTransaction().begin();
-		em.merge(account);
-		em.getTransaction().commit();
+	public AccountRepository(EntityManager em) {
+		super(em);
+		
+		this.loadByIdQuery = em.builder().select(TABLE_NAME).where("id", Op.EQ);
+		this.loadByNameQuery = em.builder().select(TABLE_NAME).where("name", Op.EQ);
+		this.saveQuery = em.builder().update(TABLE_NAME).value("TODO").where("id", Op.EQ); // TODO
 	}
 	
 	public Cipher passwordCipher() {
@@ -44,16 +42,33 @@ public class AccountRepository {
 		}
 	}
 	
-	public Account findById(int id) throws NoResultException {
-		return em.createQuery("from Account a where a.id = :id", Account.class)
-				 .setParameter("id", id)
-				 .getSingleResult();
+	public Account find(String name) {
+		Query query = loadByNameQuery.toQuery();
+		query.setParameter("name", name);
+		
+		return find(query);
 	}
-	
-	public Account findByName(String name) throws NoResultException {
-		return em.createQuery("from Account a where a.name = :name", Account.class)
-				 .setParameter("name", name)
-				 .getSingleResult();
+
+	@Override
+	protected Query buildLoadQuery(Integer pk) {
+		Query query = loadByIdQuery.toQuery();
+		query.setParameter("id", pk);
+		
+		return query;
+	}
+
+	@Override
+	protected Query buildSaveQuery(Account entity) {
+		Query query = saveQuery.toQuery();
+		query.setParameter("id", entity.id());
+		//TODO
+		
+		return query;
+	}
+
+	@Override
+	protected Account load(ResultSet result) {
+		return new Account(); // TODO
 	}
 	
 }

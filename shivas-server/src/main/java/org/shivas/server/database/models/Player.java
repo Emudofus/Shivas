@@ -3,18 +3,7 @@ package org.shivas.server.database.models;
 import java.io.Serializable;
 import java.util.Collection;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.atomium.PersistableEntity;
-import org.hibernate.annotations.Type;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.GameMap;
 import org.shivas.protocol.client.enums.Gender;
@@ -25,45 +14,19 @@ import org.shivas.server.core.experience.PlayerExperience;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 
-@Entity
-@Table(name="players")
 public class Player implements Serializable, PersistableEntity<Integer> {
 
 	private static final long serialVersionUID = -5864467711777891397L;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(nullable=false)
 	private int id;
-	
-	@ManyToOne
-	@JoinColumn(nullable=false)
 	private Account owner;
-	
-	@Column(nullable=false, unique=true)
 	private String name;
-
-	@Column(name="breed_id", nullable=false)
-	@Type(type="org.shivas.data.usertype.BreedType")
 	private Breed breed;
-	
-	@Column(nullable=false)
 	private Gender gender;
-	
-	@Column(nullable=false)
 	private short skin;
-	
-	@Embedded
 	private Colors colors;
-	
-	@Embedded
 	private PlayerExperience experience;
-	
-	@Column(name="map_id", nullable=false)
-	@Type(type="org.shivas.data.usertype.GameMapType")
 	private GameMap map;
-	
-	@Column(nullable=false)
 	private short cell;
 	
 	public Player() {
@@ -72,7 +35,6 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	public Player(Account owner, String name, Breed breed, Gender gender,
 			short skin, Colors colors, PlayerExperience experience,
 			GameMap map, short cell) {
-		super();
 		this.owner = owner;
 		this.name = name;
 		this.breed = breed;
@@ -229,9 +191,6 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 		return id;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
