@@ -1,12 +1,20 @@
 package org.shivas.server.database.repositories;
 
-import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 
+import org.atomium.EntityManager;
+import org.atomium.repository.impl.AbstractEntityRepository;
+import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
+import org.atomium.util.query.DeleteQueryBuilder;
+import org.atomium.util.query.InsertQueryBuilder;
+import org.atomium.util.query.Op;
+import org.atomium.util.query.Query;
+import org.atomium.util.query.SelectQueryBuilder;
+import org.atomium.util.query.UpdateQueryBuilder;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
@@ -18,53 +26,30 @@ import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 
 @Singleton
-public class PlayerRepository {
+public class PlayerRepository extends AbstractEntityRepository<Integer, Player> {
+	
+	public static final String TABLE_NAME = "players";
+	
+	private final Config config;
+	private final Container ctner;
+	
+	private DeleteQueryBuilder deleteQuery;
+	private InsertQueryBuilder persistQuery;
+	private UpdateQueryBuilder saveQuery;
+	private SelectQueryBuilder loadQuery;
 
 	@Inject
-	private EntityManager em;
-	
-	@Inject
-	private Config config;
-
-	@Inject
-	private Container ctner;
-
-	public void persist(Player player) {
-		em.getTransaction().begin();
-		em.persist(player);
-		em.getTransaction().commit();
+	public PlayerRepository(EntityManager em, Config config, Container ctner) {
+		super(em, new IntegerPrimaryKeyGenerator());
+		this.config = config;
+		this.ctner = ctner;
+		
+		this.deleteQuery = em.builder().delete(TABLE_NAME).where("id", Op.EQ);
+		this.persistQuery = em.builder().insert(TABLE_NAME).value("id").value("name"); //TODO
+		this.saveQuery = em.builder().update(TABLE_NAME).value("name").where("id", Op.EQ); //TODO
+		this.loadQuery = em.builder().select(TABLE_NAME);
 	}
 
-	public void remove(Player player) {
-		em.getTransaction().begin();
-		em.remove(player);
-		em.getTransaction().commit();
-	}
-
-	public void update(Player player) {
-		em.getTransaction().begin();
-		em.merge(player);
-		em.getTransaction().commit();
-	}
-	
-	public Player findById(int id) throws NoResultException {
-		return em.createQuery("from Player p where p.id = :id", Player.class)
-				 .setParameter("id", id)
-				 .getSingleResult();
-	}
-	
-	public Player findByName(String name) throws NoResultException {
-		return em.createQuery("from Player p where p.name = :name", Player.class)
-				 .setParameter("name", name)
-				 .getSingleResult();
-	}
-	
-	public List<Player> findByOwner(Account owner) throws NoResultException {
-		return em.createQuery("from Player p where p.owner = :owner", Player.class)
-				 .setParameter("owner", owner)
-				 .getResultList();
-	}
-	
 	public Player createDefault(Account owner, String name, int breed, Gender gender, int color1, int color2, int color3) {
 		Player player = new Player(
 				owner,
@@ -79,6 +64,48 @@ public class PlayerRepository {
 		);
 		owner.getPlayers().add(player);
 		return player;
+	}
+
+	@Override
+	protected Query buildDeleteQuery(Player entity) {
+		Query query = deleteQuery.toQuery();
+		query.setParameter("id", entity.id());
+		
+		return query;
+	}
+
+	@Override
+	protected Query buildPersistQuery(Player entity) {
+		Query query = persistQuery.toQuery();
+		query.setParameter("id", entity.id());
+		query.setParameter("name", entity.getName());
+		//TODO
+		
+		return query;
+	}
+
+	@Override
+	protected Query buildSaveQuery(Player entity) {
+		Query query = saveQuery.toQuery();
+		query.setParameter("id", entity.id());
+		query.setParameter("name", entity.getName());
+		//TODO
+		
+		return query;
+	}
+
+	@Override
+	protected Query buildLoadQuery() {
+		return loadQuery.toQuery();
+	}
+
+	@Override
+	protected Player load(ResultSet result) throws SQLException {
+		return new Player(); // TODO
+	}
+
+	@Override
+	protected void unhandledException(Exception e) {
 	}
 	
 }

@@ -12,6 +12,23 @@ public class DefaultConfig implements Config {
 	@Inject
 	private Container ctner;
 
+	public String databaseConnection() {
+		String hostname = "localhost", database = "shivas";
+		return "jdbc:mysql://" + hostname + ":3306/" + database + "?zeroDateTimeBehavior=convertToNull";
+	}
+
+	public String databaseUser() {
+		return "root";
+	}
+
+	public String databasePassword() {
+		return "";
+	}
+
+	public int databaseFlushDelay() {
+		return 1000 * 30; // 30 seconds
+	}
+
 	public String dataPath() {
 		return "/home/blackrush/Workspace/Shivas/data/";
 	}

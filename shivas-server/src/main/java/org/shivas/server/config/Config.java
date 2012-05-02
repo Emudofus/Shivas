@@ -4,6 +4,11 @@ import org.shivas.data.entity.GameMap;
 
 public interface Config {
 	
+	String databaseConnection();
+	String databaseUser();
+	String databasePassword();
+	int databaseFlushDelay();
+	
 	String dataPath();
 	String dataExtension();
 	

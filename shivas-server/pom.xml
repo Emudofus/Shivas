@@ -105,5 +105,10 @@
     	<artifactId>shivas-data</artifactId>
     	<version>1</version>
     </dependency>
+    <dependency>
+    	<groupId>org.atomium</groupId>
+    	<artifactId>atomium-core</artifactId>
+    	<version>1</version>
+    </dependency>
   </dependencies>
 </project>

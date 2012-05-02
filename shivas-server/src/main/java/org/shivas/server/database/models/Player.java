@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.atomium.PersistableEntity;
 import org.hibernate.annotations.Type;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.GameMap;
@@ -26,7 +27,7 @@ import com.google.common.collect.Collections2;
 
 @Entity
 @Table(name="players")
-public class Player implements Serializable {
+public class Player implements Serializable, PersistableEntity<Integer> {
 
 	private static final long serialVersionUID = -5864467711777891397L;
 	
@@ -86,14 +87,14 @@ public class Player implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer id() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

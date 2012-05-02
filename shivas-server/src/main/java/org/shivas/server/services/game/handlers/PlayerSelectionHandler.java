@@ -111,7 +111,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parsePlayerDeleteMessage(int playerId, String secretAnswer) throws CriticalException {
-		Player player = client.service().repositories().players().findById(playerId);
+		Player player = client.service().repositories().players().find(playerId);
 		
 		if (player == null) {
 			throw new CriticalException("unknown player #%d !", playerId);
@@ -127,14 +127,14 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			session.write(ApproachGameMessageFormatter.characterDeletionFailureMessage());
 		} else {
 			client.account().getPlayers().remove(player);
-			client.service().repositories().players().remove(player);
+			client.service().repositories().players().delete(player);
 			
 			parsePlayersListMessage();
 		}
 	}
 
 	private void parsePlayerSelectionMessage(int playerId) throws Exception {
-		Player player = client.service().repositories().players().findById(playerId);
+		Player player = client.service().repositories().players().find(playerId);
 		
 		if (player == null) {
 			throw new CriticalException("unknown player #%d !", playerId);
@@ -142,7 +142,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			throw new CriticalException("you don't own player #%d !", playerId);
 		} else {
 			session.write(ApproachGameMessageFormatter.characterSelectionSucessMessage(
-					player.getId(),
+					player.id(),
 					player.getName(),
 					player.getExperience().level(),
 					player.getBreed().getId(),
