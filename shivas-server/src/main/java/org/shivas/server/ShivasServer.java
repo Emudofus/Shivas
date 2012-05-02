@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.persist.PersistService;
 
 public class ShivasServer {
 	
