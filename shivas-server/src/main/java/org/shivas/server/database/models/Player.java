@@ -3,6 +3,7 @@ package org.shivas.server.database.models;
 import java.io.Serializable;
 import java.util.Collection;
 
+import org.atomium.LazyReference;
 import org.atomium.PersistableEntity;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.GameMap;
@@ -19,7 +20,7 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	private static final long serialVersionUID = -5864467711777891397L;
 	
 	private int id;
-	private Account owner;
+	private LazyReference<Integer, Account> owner;
 	private String name;
 	private Breed breed;
 	private Gender gender;
@@ -32,7 +33,7 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	public Player() {
 	}
 
-	public Player(Account owner, String name, Breed breed, Gender gender,
+	public Player(LazyReference<Integer, Account> owner, String name, Breed breed, Gender gender,
 			short skin, Colors colors, PlayerExperience experience,
 			GameMap map, short cell) {
 		this.owner = owner;
@@ -64,6 +65,13 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	 * @return the owner
 	 */
 	public Account getOwner() {
+		return owner.get();
+	}
+	
+	/**
+	 * @return the owner's reference
+	 */
+	public LazyReference<Integer, Account> getOwnerReference() {
 		return owner;
 	}
 
@@ -71,7 +79,7 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	 * @param owner the owner to set
 	 */
 	public void setOwner(Account owner) {
-		this.owner = owner;
+		this.owner.set(owner);
 	}
 
 	/**

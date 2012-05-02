@@ -7,6 +7,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
+import org.atomium.LazyReference;
+import org.atomium.repository.EntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
 import org.atomium.util.query.DeleteQueryBuilder;
@@ -32,6 +34,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	
 	private final Config config;
 	private final Container ctner;
+	private final EntityRepository<Integer, Account> accounts;
 	
 	private DeleteQueryBuilder deleteQuery;
 	private InsertQueryBuilder persistQuery;
@@ -39,10 +42,11 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	private SelectQueryBuilder loadQuery;
 
 	@Inject
-	public PlayerRepository(EntityManager em, Config config, Container ctner) {
+	public PlayerRepository(EntityManager em, Config config, Container ctner, EntityRepository<Integer, Account> accounts) {
 		super(em, new IntegerPrimaryKeyGenerator());
 		this.config = config;
 		this.ctner = ctner;
+		this.accounts = accounts;
 		
 		this.deleteQuery = em.builder().delete(TABLE_NAME).where("id", Op.EQ);
 		this.persistQuery = em.builder().insert(TABLE_NAME).value("id").value("name"); //TODO
@@ -52,7 +56,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 
 	public Player createDefault(Account owner, String name, int breed, Gender gender, int color1, int color2, int color3) {
 		Player player = new Player(
-				owner,
+				owner.toReference(),
 				name,
 				ctner.get(Breed.class).byId(breed),
 				gender,

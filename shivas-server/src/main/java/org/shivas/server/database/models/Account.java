@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.atomium.Entity;
+import org.atomium.LazyReference;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
@@ -25,6 +26,26 @@ public class Account implements Serializable, Entity<Integer> {
 	private DateTime subscriptionEnd;
 	private boolean connected;
 	private List<Player> players;
+
+	public Account(int id, long version, String name, String password,
+			String nickname, String secretQuestion, String secretAnswer,
+			boolean rights, boolean banned, int community, int points,
+			DateTime subscriptionEnd, boolean connected, List<Player> players) {
+		this.id = id;
+		this.version = version;
+		this.name = name;
+		this.password = password;
+		this.nickname = nickname;
+		this.secretQuestion = secretQuestion;
+		this.secretAnswer = secretAnswer;
+		this.rights = rights;
+		this.banned = banned;
+		this.community = community;
+		this.points = points;
+		this.subscriptionEnd = subscriptionEnd;
+		this.connected = connected;
+		this.players = players;
+	}
 
 	/**
 	 * @return the id
@@ -221,6 +242,10 @@ public class Account implements Serializable, Entity<Integer> {
 	 */
 	public List<Player> getPlayers() {
 		return players;
+	}
+	
+	public LazyReference<Integer, Account> toReference() {
+		return new LazyReference<Integer, Account>(this);
 	}
 
 	@Override

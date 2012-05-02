@@ -2,19 +2,25 @@ package org.shivas.server.database.repositories;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
+import org.atomium.repository.EntityRepository;
 import org.atomium.repository.impl.AbstractLiveEntityRepository;
+import org.atomium.util.Filter;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.SelectQueryBuilder;
 import org.atomium.util.query.UpdateQueryBuilder;
+import org.joda.time.DateTime;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1Cipher;
 import org.shivas.server.database.models.Account;
+import org.shivas.server.database.models.Player;
 
 @Singleton
 public class AccountRepository extends AbstractLiveEntityRepository<Integer, Account> {
@@ -23,14 +29,22 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 	
 	private SelectQueryBuilder loadByIdQuery, loadByNameQuery;
 	private UpdateQueryBuilder saveQuery;
+	
+	private EntityRepository<Integer, Player> players;
 
 	@Inject
-	public AccountRepository(EntityManager em) {
+	public AccountRepository(EntityManager em, EntityRepository<Integer, Player> players) {
 		super(em);
+		
+		this.players = players;
 		
 		this.loadByIdQuery = em.builder().select(TABLE_NAME).where("id", Op.EQ);
 		this.loadByNameQuery = em.builder().select(TABLE_NAME).where("name", Op.EQ);
-		this.saveQuery = em.builder().update(TABLE_NAME).value("TODO").where("id", Op.EQ); // TODO
+		this.saveQuery = em.builder()
+				.update(TABLE_NAME)
+				.value("rights").value("banned")
+				.value("points").value("connected")
+				.where("id", Op.EQ);
 	}
 	
 	public Cipher passwordCipher() {
@@ -61,14 +75,40 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 	protected Query buildSaveQuery(Account entity) {
 		Query query = saveQuery.toQuery();
 		query.setParameter("id", entity.id());
-		//TODO
+		query.setParameter("rights", entity.hasRights());
+		query.setParameter("banned", entity.isBanned());
+		query.setParameter("points", entity.getPoints());
+		query.setParameter("connected", entity.isConnected());
 		
 		return query;
 	}
 
 	@Override
-	protected Account load(ResultSet result) {
-		return new Account(); // TODO
+	protected Account load(ResultSet result) throws SQLException {
+		final int id = result.getInt("id");
+		
+		List<Player> players = this.players.filter(new Filter<Player>() {
+			public Boolean invoke(Player arg1) throws Exception {
+				return arg1.getOwnerReference().getPk() == id;
+			}
+		});
+		
+		return new Account(
+				id, 
+				0, 
+				result.getString("name"), 
+				result.getString("password"), 
+				result.getString("nickname"), 
+				result.getString("question"), 
+				result.getString("answer"), 
+				result.getBoolean("rights"), 
+				result.getBoolean("banned"), 
+				result.getInt("community"), 
+				result.getInt("points"), 
+				new DateTime(result.getDate("subscriptionEnd")), 
+				result.getBoolean("connected"), 
+				players
+		);
 	}
 	
 }
