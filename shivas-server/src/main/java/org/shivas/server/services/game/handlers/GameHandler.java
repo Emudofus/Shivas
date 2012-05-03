@@ -37,9 +37,9 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		// TODO statistics
 		
 		session.write(GameMessageFormatter.mapDataMessage(
-				client.player().getMap().getId(),
-				client.player().getMap().getDate(),
-				client.player().getMap().getKey()
+				client.player().getLocation().getMap().getId(),
+				client.player().getLocation().getMap().getDate(),
+				client.player().getLocation().getMap().getKey()
 		));
 	}
 

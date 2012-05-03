@@ -23,6 +23,7 @@ import org.shivas.data.entity.GameMap;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.Colors;
+import org.shivas.server.core.Location;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
@@ -70,8 +71,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				(short) (breed * 10 + gender.ordinal()),
 				new Colors(color1, color2, color3),
 				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
-				config.startMap(),
-				config.startCell()
+				new Location(config.startMap(), config.startCell())
 		);
 		owner.getPlayers().add(player);
 		return player;
@@ -99,8 +99,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		query.setParameter("color3", entity.getColors().third());
 		query.setParameter("level", entity.getExperience().level());
 		query.setParameter("experience", entity.getExperience().current());
-		query.setParameter("map_id", entity.getMap().getId());
-		query.setParameter("cell", entity.getCell());
+		query.setParameter("map_id", entity.getLocation().getMap().getId());
+		query.setParameter("cell", entity.getLocation().getCell());
 		
 		return query;
 	}
@@ -116,8 +116,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		query.setParameter("color3", entity.getColors().third());
 		query.setParameter("level", entity.getExperience().level());
 		query.setParameter("experience", entity.getExperience().current());
-		query.setParameter("map_id", entity.getMap().getId());
-		query.setParameter("cell", entity.getCell());
+		query.setParameter("map_id", entity.getLocation().getMap().getId());
+		query.setParameter("cell", entity.getLocation().getCell());
 		
 		return query;
 	}
@@ -145,8 +145,10 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 						ctner.get(Experience.class).byId(result.getInt("level")),
 						result.getLong("experience")
 				), 
-				ctner.get(GameMap.class).byId(result.getInt("map_id")), 
-				result.getShort("cell")
+				new Location(
+						ctner.get(GameMap.class).byId(result.getInt("map_id")), 
+						result.getShort("cell")
+				)
 		);
 	}
 

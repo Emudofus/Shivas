@@ -6,10 +6,10 @@ import java.util.Collection;
 import org.atomium.LazyReference;
 import org.atomium.PersistableEntity;
 import org.shivas.data.entity.Breed;
-import org.shivas.data.entity.GameMap;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.server.core.Colors;
+import org.shivas.server.core.Location;
 import org.shivas.server.core.experience.PlayerExperience;
 
 import com.google.common.base.Function;
@@ -27,12 +27,10 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	private short skin;
 	private Colors colors;
 	private PlayerExperience experience;
-	private GameMap map;
-	private short cell;
+	private Location location;
 
 	public Player(LazyReference<Integer, Account> owner, String name, Breed breed, Gender gender,
-			short skin, Colors colors, PlayerExperience experience,
-			GameMap map, short cell) {
+			short skin, Colors colors, PlayerExperience experience, Location location) {
 		this.owner = owner;
 		this.name = name;
 		this.breed = breed;
@@ -40,13 +38,12 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 		this.skin = skin;
 		this.colors = colors;
 		this.experience = experience;
-		this.map = map;
-		this.cell = cell;
+		this.location = location;
 	}
 
 	public Player(int id, LazyReference<Integer, Account> owner, String name,
 			Breed breed, Gender gender, short skin, Colors colors,
-			PlayerExperience experience, GameMap map, short cell) {
+			PlayerExperience experience, Location location) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
@@ -55,8 +52,7 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 		this.skin = skin;
 		this.colors = colors;
 		this.experience = experience;
-		this.map = map;
-		this.cell = cell;
+		this.location = location;
 	}
 
 	/**
@@ -177,33 +173,19 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	public void setExperience(PlayerExperience experience) {
 		this.experience = experience;
 	}
-	
+
 	/**
-	 * @return the map
+	 * @return the location
 	 */
-	public GameMap getMap() {
-		return map;
+	public Location getLocation() {
+		return location;
 	}
 
 	/**
-	 * @param map the map to set
+	 * @param location the location to set
 	 */
-	public void setMap(GameMap map) {
-		this.map = map;
-	}
-
-	/**
-	 * @return the cell
-	 */
-	public short getCell() {
-		return cell;
-	}
-
-	/**
-	 * @param cell the cell to set
-	 */
-	public void setCell(short cell) {
-		this.cell = cell;
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	@Override
