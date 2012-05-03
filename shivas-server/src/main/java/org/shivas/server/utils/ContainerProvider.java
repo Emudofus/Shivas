@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.shivas.data.Container;
+import org.shivas.data.EntityFactory;
 import org.shivas.data.Loader;
 import org.shivas.data.Loaders;
 import org.shivas.data.entity.Breed;
@@ -26,8 +27,11 @@ public class ContainerProvider implements Provider<Container> {
 	@Inject
 	private Config config;
 	
+	@Inject
+	private EntityFactory factory;
+	
 	private void load() {
-		Loader loader = Loaders.byExtension(config.dataExtension());
+		Loader loader = Loaders.byExtension(config.dataExtension(), factory);
 		if (loader == null) {
 			log.error("format \"{}\" isn't handled", config.dataExtension());
 		}

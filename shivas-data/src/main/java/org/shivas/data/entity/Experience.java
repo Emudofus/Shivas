@@ -27,7 +27,7 @@ public class Experience implements Serializable {
 		this.player = player;
 	}
 
-	public Experience getPrevious() {
+	public Experience previous() {
 		return previous;
 	}
 
@@ -35,7 +35,7 @@ public class Experience implements Serializable {
 		this.previous = previous;
 	}
 
-	public Experience getNext() {
+	public Experience next() {
 		return next;
 	}
 
