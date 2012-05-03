@@ -1,7 +1,7 @@
 package org.shivas.server.database.models;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 import org.atomium.Entity;
 import org.atomium.LazyReference;
@@ -25,12 +25,12 @@ public class Account implements Serializable, Entity<Integer> {
 	private int points;
 	private DateTime subscriptionEnd;
 	private boolean connected;
-	private List<Player> players;
+	private Map<Integer, Player> players;
 
 	public Account(int id, long version, String name, String password,
 			String nickname, String secretQuestion, String secretAnswer,
 			boolean rights, boolean banned, int community, int points,
-			DateTime subscriptionEnd, boolean connected, List<Player> players) {
+			DateTime subscriptionEnd, boolean connected, Map<Integer, Player> players) {
 		this.id = id;
 		this.version = version;
 		this.name = name;
@@ -240,7 +240,7 @@ public class Account implements Serializable, Entity<Integer> {
 	/**
 	 * @return the players
 	 */
-	public List<Player> getPlayers() {
+	public Map<Integer, Player> getPlayers() {
 		return players;
 	}
 	

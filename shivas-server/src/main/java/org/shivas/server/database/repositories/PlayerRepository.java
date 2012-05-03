@@ -73,7 +73,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
 				new Location(config.startMap(), config.startCell())
 		);
-		owner.getPlayers().add(player);
+		owner.getPlayers().put(player.id(), player);
 		return player;
 	}
 

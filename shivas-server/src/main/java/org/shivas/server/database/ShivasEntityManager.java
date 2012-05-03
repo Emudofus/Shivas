@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 import org.atomium.cfg.Configuration;
 import org.atomium.impl.AbstractEntityManager;
 import org.atomium.util.query.QueryBuilderFactory;
-import org.atomium.util.query.mysql.MySqlQueryBuilder;
+import org.atomium.util.query.mysql.MySqlQueryBuilderFactory;
 import org.shivas.server.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class ShivasEntityManager extends AbstractEntityManager {
 			}
 		});
 		
-		builder = new MySqlQueryBuilder();
+		builder = new MySqlQueryBuilderFactory();
 	}
 
 	@Override

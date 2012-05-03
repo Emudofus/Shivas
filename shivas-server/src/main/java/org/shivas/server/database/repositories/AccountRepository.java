@@ -3,7 +3,7 @@ package org.shivas.server.database.repositories;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,10 +17,13 @@ import org.atomium.util.query.Query;
 import org.atomium.util.query.SelectQueryBuilder;
 import org.atomium.util.query.UpdateQueryBuilder;
 import org.joda.time.DateTime;
+import org.shivas.common.collections.Maps2;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1Cipher;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
+
+import com.google.common.base.Function;
 
 @Singleton
 public class AccountRepository extends AbstractLiveEntityRepository<Integer, Account> {
@@ -86,10 +89,14 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 	@Override
 	protected Account load(ResultSet result) throws SQLException {
 		final int id = result.getInt("id");
-		
-		List<Player> players = this.players.filter(new Filter<Player>() {
+
+		Map<Integer, Player> players = Maps2.toMap(this.players.filter(new Filter<Player>() {
 			public Boolean invoke(Player arg1) throws Exception {
 				return arg1.getOwnerReference().getPk() == id;
+			}
+		}), new Function<Player, Integer>() {
+			public Integer apply(Player arg0) {
+				return arg0.id();
 			}
 		});
 		

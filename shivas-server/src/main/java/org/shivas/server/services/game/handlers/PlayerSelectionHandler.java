@@ -83,7 +83,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		session.write(ApproachGameMessageFormatter.charactersListMessage(
 				client.service().informations().getId(),
 				client.account().getRemainingSubscription().getMillis(),
-				Player.toBaseCharacterType(client.account().getPlayers())
+				Player.toBaseCharacterType(client.account().getPlayers().values())
 		));
 	}
 
@@ -110,12 +110,10 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parsePlayerDeleteMessage(int playerId, String secretAnswer) throws CriticalException {
-		Player player = client.service().repositories().players().find(playerId);
+		Player player = client.account().getPlayers().get(playerId);
 		
 		if (player == null) {
 			throw new CriticalException("unknown player #%d !", playerId);
-		} else if (!player.getOwner().equals(client.account())) {
-			throw new CriticalException("you don't own player #%d !", playerId);
 		} else if (secretAnswer.isEmpty() &&
 				  player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded())
 		{
@@ -133,12 +131,10 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parsePlayerSelectionMessage(int playerId) throws Exception {
-		Player player = client.service().repositories().players().find(playerId);
+		Player player = client.account().getPlayers().get(playerId);
 		
 		if (player == null) {
 			throw new CriticalException("unknown player #%d !", playerId);
-		} else if (!player.getOwner().equals(client.account())) {
-			throw new CriticalException("you don't own player #%d !", playerId);
 		} else {
 			session.write(ApproachGameMessageFormatter.characterSelectionSucessMessage(
 					player.id(),
