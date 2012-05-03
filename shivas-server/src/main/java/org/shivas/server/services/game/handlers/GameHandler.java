@@ -1,7 +1,6 @@
 package org.shivas.server.services.game.handlers;
 
 import org.apache.mina.core.session.IoSession;
-import org.shivas.common.services.IoSessionHandler;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
@@ -12,8 +11,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		super(client, session);
 	}
 
-	public IoSessionHandler<String> init() throws Exception {
-		return this;
+	public void init() throws Exception {
 	}
 
 	public void handle(String message) throws Exception {

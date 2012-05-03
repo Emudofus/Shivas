@@ -2,7 +2,6 @@ package org.shivas.server.services.game.handlers;
 
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.StringUtils;
-import org.shivas.common.services.IoSessionHandler;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
 import org.shivas.server.database.models.Player;
@@ -16,11 +15,9 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		super(client, session);
 	}
 
-	public IoSessionHandler<String> init() throws Exception {
+	public void init() throws Exception {
 		client.account().setConnected(true);
 		client.service().repositories().accounts().save(client.account());
-		
-		return this;
 	}
 
 	public void handle(String message) throws Exception {

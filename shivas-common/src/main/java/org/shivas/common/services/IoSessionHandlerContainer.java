@@ -12,11 +12,10 @@ public abstract class IoSessionHandlerContainer<M> implements IoSessionHandler<M
 		handlers.add(handler);
 	}
 	
-	public IoSessionHandler<M> init() throws Exception {
+	public void init() throws Exception {
 		for (IoSessionHandler<M> handler : handlers) {
 			handler.init();
 		}
-		return this;
 	}
 
 	public void handle(M message) throws Exception {

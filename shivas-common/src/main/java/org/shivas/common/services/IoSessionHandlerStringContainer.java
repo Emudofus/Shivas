@@ -15,14 +15,12 @@ public abstract class IoSessionHandlerStringContainer implements IoSessionHandle
 		handlers.put(prefix, handler);
 	}
 
-	public IoSessionHandler<String> init() throws Exception {
+	public void init() throws Exception {
 		configure();
 		
 		for (IoSessionHandler<String> handler : handlers.values()) {
 			handler.init();
 		}
-		
-		return this;
 	}
 
 	public void handle(String message) throws Exception {

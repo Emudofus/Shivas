@@ -3,7 +3,6 @@ package org.shivas.server.services;
 import java.util.Map;
 
 import org.apache.mina.core.session.IoSession;
-import org.shivas.common.services.IoSessionHandler;
 
 import com.google.common.collect.Maps;
 
@@ -27,7 +26,7 @@ public abstract class AbstractBaseHandlerContainer<C extends Client<?>>
 	
 	protected abstract void onReceivedUnknownMessage(String message);
 
-	public IoSessionHandler<String> init() throws Exception {
+	public void init() throws Exception {
 		if (!configured) {
 			configure();
 			configured = true;
@@ -36,8 +35,6 @@ public abstract class AbstractBaseHandlerContainer<C extends Client<?>>
 		for (BaseHandler handler : handlers.values()) {
 			handler.init();
 		}
-
-		return this;
 	}
 
 	public void handle(String message) throws Exception {

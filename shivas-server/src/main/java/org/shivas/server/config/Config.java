@@ -19,6 +19,7 @@ public interface Config {
 	int gamePort();
 	
 	String clientVersion();
+	String motd();
 	
 	int maxPlayersPerAccount();
 	short deleteAnswerLevelNeeded();

@@ -5,7 +5,6 @@ import javax.persistence.NoResultException;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.CipherException;
-import org.shivas.common.services.IoSessionHandler;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.services.AbstractBaseHandler;
@@ -19,10 +18,8 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 		super(client, session);
 	}
 
-	public IoSessionHandler<String> init() throws Exception {
+	public void init() throws Exception {
 		cipher = client.service().makeCipher(client.ticket());
-		
-		return this;
 	}
 
 	public void onClosed() {

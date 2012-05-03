@@ -62,6 +62,11 @@ public class DefaultConfig implements Config {
 		return "1.29.1";
 	}
 
+	@Override
+	public String motd() {
+		return "Bienvenue sur la version INDEV de Shivas.";
+	}
+
 	public int maxPlayersPerAccount() {
 		return 2;
 	}

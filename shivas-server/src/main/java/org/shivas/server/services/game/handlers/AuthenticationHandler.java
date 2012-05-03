@@ -1,7 +1,6 @@
 package org.shivas.server.services.game.handlers;
 
 import org.apache.mina.core.session.IoSession;
-import org.shivas.common.services.IoSessionHandler;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.services.AbstractBaseHandler;
@@ -13,10 +12,8 @@ public class AuthenticationHandler extends AbstractBaseHandler<GameClient> {
 		super(client, session);
 	}
 
-	public IoSessionHandler<String> init() throws Exception {
+	public void init() throws Exception {
 		session.write(ApproachGameMessageFormatter.helloGameMessage());
-
-		return this;
 	}
 
 	public void handle(String message) throws Exception {
