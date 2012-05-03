@@ -75,6 +75,9 @@ public class DefaultLoginService extends AbstractService implements LoginService
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
+		DefaultLoginClient client = (DefaultLoginClient) session.getAttribute(CLIENT_TOKEN);
+		client.handler().onClosed();
+		
 		log.debug("{} is disconnected", session.getRemoteAddress());
 	}
 

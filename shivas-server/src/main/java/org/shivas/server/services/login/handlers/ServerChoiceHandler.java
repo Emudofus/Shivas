@@ -42,6 +42,11 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 		}
 	}
 
+	public void onClosed() {
+		client.account().setConnected(false);
+		client.service().repositories().accounts().save(client.account());
+	}
+
 	private void parseCharactersListMessage() {		
 		session.write(LoginMessageFormatter.charactersListMessage(
 				client.account().getRemainingSubscription().getMillis(), 
@@ -69,11 +74,6 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 
 	private void parseQueueInformationsMessage() {
 		//TODO
-	}
-
-	public void onClosed() {
-		client.account().setConnected(false);
-		client.service().repositories().accounts().save(client.account());
 	}
 
 }

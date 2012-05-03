@@ -24,6 +24,9 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 		
 		return this;
 	}
+
+	public void onClosed() {
+	}
 	
 	private boolean checkPassword(String expected, String input) throws CipherException {
 		return cipher.cipher(input).equals(expected);
@@ -72,9 +75,6 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 			client.setAccount(account);
 			client.newHandler(new ServerChoiceHandler(client, session));
 		}
-	}
-
-	public void onClosed() {
 	}
 
 }
