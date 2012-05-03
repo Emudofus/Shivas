@@ -73,8 +73,18 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
 				new Location(config.startMap(), config.startCell())
 		);
+		persist(player);
 		owner.getPlayers().put(player.id(), player);
 		return player;
+	}
+	
+	public boolean nameExists(String name) {
+		for (Player player : entities.values()) {
+			if (player.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

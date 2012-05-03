@@ -1,7 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import javax.persistence.PersistenceException;
-
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.StringUtils;
 import org.shivas.common.services.IoSessionHandler;
@@ -95,17 +93,21 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	private void parsePlayerCreationMessage(String name, int breed, Gender gender, int color1, int color2, int color3) {
 		if (client.account().getPlayers().size() >= client.service().config().maxPlayersPerAccount()) {
 			session.write(ApproachGameMessageFormatter.accountFullMessage());
+		} else if (client.service().repositories().players().nameExists(name)) {
+			session.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
 		} else {
-			Player player = client.service().repositories().players().createDefault(client.account(), name, breed, gender, color1, color2, color3);
+			client.service().repositories().players().createDefault(
+					client.account(),
+					name,
+					breed,
+					gender,
+					color1,
+					color2,
+					color3
+			);
 			
-			try {
-				client.service().repositories().players().persist(player);
-				
-				session.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
-				parsePlayersListMessage();
-			} catch (PersistenceException e) {
-				session.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
-			}
+			session.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
+			parsePlayersListMessage();
 		}
 	}
 
