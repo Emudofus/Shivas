@@ -30,7 +30,12 @@ public class DefaultConfig implements Config {
 	}
 
 	public String dataPath() {
-		return "/home/blackrush/Workspace/Shivas/data/";
+		boolean linux = false; // juste pour me faciliter la vie
+		if (linux) {
+			return "/home/blackrush/Workspace/Shivas/data/";
+		} else {
+			return "C:\\Users\\Blackrush\\workspace\\Shivas\\data\\";
+		}
 	}
 
 	public String dataExtension() {

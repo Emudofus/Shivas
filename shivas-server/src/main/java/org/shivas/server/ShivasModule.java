@@ -6,6 +6,7 @@ import org.shivas.server.config.Config;
 import org.shivas.server.config.DefaultConfig;
 import org.shivas.server.database.DefaultRepositoryContainer;
 import org.shivas.server.database.RepositoryContainer;
+import org.shivas.server.database.ShivasDatabaseModule;
 import org.shivas.server.database.ShivasEntityManager;
 import org.shivas.server.services.game.DefaultGameService;
 import org.shivas.server.services.game.GameService;
@@ -19,12 +20,13 @@ public class ShivasModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		install(new ShivasDatabaseModule());
+		bind(EntityManager.class).to(ShivasEntityManager.class);
 		bind(Config.class).to(DefaultConfig.class);
 		bind(RepositoryContainer.class).to(DefaultRepositoryContainer.class);
 		bind(LoginService.class).to(DefaultLoginService.class);
 		bind(GameService.class).to(DefaultGameService.class);
 		bind(Container.class).toProvider(ContainerProvider.class);
-		bind(EntityManager.class).to(ShivasEntityManager.class);
 	}
 
 }
