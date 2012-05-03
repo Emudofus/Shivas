@@ -7,19 +7,8 @@ import java.util.List;
 public abstract class AbstractObservable<O, A> implements Observable<O, A> {
 	
 	private List<O> observers = Collections.synchronizedList(new ArrayList<O>());
-	private boolean notificationRequested;
 	
 	protected abstract void notifyObserver(O observer, A arg);
-	
-	protected void requestNotification() {
-		notificationRequested = true;
-	}
-	
-	protected void requestAndNotify(A arg) {
-		for (O observer : observers) {
-			notifyObserver(observer, arg);
-		}
-	}
 
 	public void addObserver(O observer) {
 		observers.add(observer);
@@ -30,8 +19,6 @@ public abstract class AbstractObservable<O, A> implements Observable<O, A> {
 	}
 
 	public void notifyObservers(A arg) {
-		if (!notificationRequested) return;
-		
 		for (O observer : observers) {
 			notifyObserver(observer, arg);
 		}
