@@ -99,10 +99,10 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	protected Query buildPersistQuery(Player entity) {
 		Query query = persistQuery.toQuery();
 		query.setParameter("id", entity.id());
-		query.setParameter("owner_id", entity.getOwner().id());
+		query.setParameter("owner_id", entity.getOwner());
 		query.setParameter("name", entity.getName());
 		query.setParameter("breed_id", entity.getBreed().getId());
-		query.setParameter("gender", entity.getGender().ordinal());
+		query.setParameter("gender", entity.getGender());
 		query.setParameter("skin", entity.getSkin());
 		query.setParameter("color1", entity.getColors().first());
 		query.setParameter("color2", entity.getColors().second());
@@ -119,7 +119,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	protected Query buildSaveQuery(Player entity) {
 		Query query = saveQuery.toQuery();
 		query.setParameter("id", entity.id());
-		query.setParameter("gender", entity.getGender().ordinal());
+		query.setParameter("gender", entity.getGender());
 		query.setParameter("skin", entity.getSkin());
 		query.setParameter("color1", entity.getColors().first());
 		query.setParameter("color2", entity.getColors().second());

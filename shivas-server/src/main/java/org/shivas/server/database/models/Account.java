@@ -3,8 +3,8 @@ package org.shivas.server.database.models;
 import java.io.Serializable;
 import java.util.Map;
 
-import org.atomium.Entity;
 import org.atomium.LazyReference;
+import org.atomium.util.Entity;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
