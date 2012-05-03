@@ -1,7 +1,0 @@
-<ehcache>
-<defaultCache
-       eternal="true"
-       timeToIdleSeconds="0"
-       timeToLiveSeconds="0"
-       />
-</ehcache>

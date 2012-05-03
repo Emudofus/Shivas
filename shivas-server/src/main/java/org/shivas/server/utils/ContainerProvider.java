@@ -22,7 +22,7 @@ public class ContainerProvider implements Provider<Container> {
 	
 	private Container ctner;
 	private boolean loaded;
-	
+
 	@Inject
 	private Config config;
 	

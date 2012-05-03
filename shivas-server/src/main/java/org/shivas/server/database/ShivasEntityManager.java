@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ShivasEntityManager extends AbstractEntityManager {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(ShivasEntityManager.class);
 	
 	private QueryBuilderFactory builder;

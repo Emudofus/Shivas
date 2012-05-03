@@ -7,7 +7,7 @@
   </appender>
 
   <logger name="org.shivas" level="TRACE"/>
-  <logger name="org.hibernate" level="DEBUG"/>
+  <logger name="org.shivas.data" level="DEBUG"/>
 
   <root level="WARN">
     <appender-ref ref="STDOUT" />
