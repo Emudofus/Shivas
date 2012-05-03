@@ -2,6 +2,7 @@ package org.shivas.server.services.game.handlers;
 
 import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
+import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.server.services.AbstractBaseHandlerContainer;
 import org.shivas.server.services.game.GameClient;
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 	@Override
 	public void init() throws Exception {
 		super.init();
+		
+		session.write(ChannelGameMessageFormatter.addChannelMessage(client.account().getChannels().toString()));
 	}
 
 	@Override

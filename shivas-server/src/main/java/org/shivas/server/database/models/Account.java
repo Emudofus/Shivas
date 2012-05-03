@@ -7,6 +7,7 @@ import org.atomium.LazyReference;
 import org.atomium.util.Entity;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.shivas.server.core.ChannelList;
 
 public class Account implements Serializable, Entity<Integer> {
 	
@@ -25,12 +26,13 @@ public class Account implements Serializable, Entity<Integer> {
 	private int points;
 	private DateTime subscriptionEnd;
 	private boolean connected;
+	private ChannelList channels;
 	private Map<Integer, Player> players;
 
 	public Account(int id, long version, String name, String password,
 			String nickname, String secretQuestion, String secretAnswer,
 			boolean rights, boolean banned, int community, int points,
-			DateTime subscriptionEnd, boolean connected, Map<Integer, Player> players) {
+			DateTime subscriptionEnd, boolean connected, ChannelList channels, Map<Integer, Player> players) {
 		this.id = id;
 		this.version = version;
 		this.name = name;
@@ -44,6 +46,7 @@ public class Account implements Serializable, Entity<Integer> {
 		this.points = points;
 		this.subscriptionEnd = subscriptionEnd;
 		this.connected = connected;
+		this.channels = channels;
 		this.players = players;
 	}
 
@@ -235,6 +238,14 @@ public class Account implements Serializable, Entity<Integer> {
 	 */
 	public void setConnected(boolean connected) {
 		this.connected = connected;
+	}
+
+	public ChannelList getChannels() {
+		return channels;
+	}
+
+	public void setChannels(ChannelList channels) {
+		this.channels = channels;
 	}
 
 	/**

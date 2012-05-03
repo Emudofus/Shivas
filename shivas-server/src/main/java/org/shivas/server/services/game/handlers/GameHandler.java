@@ -1,11 +1,20 @@
 package org.shivas.server.services.game.handlers;
 
+import java.util.Collection;
+
 import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
+import org.shivas.server.core.GameActor;
+import org.shivas.server.core.maps.GMap;
+import org.shivas.server.core.maps.MapEvent;
+import org.shivas.server.core.maps.MapObserver;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
+import org.shivas.server.utils.Converters;
 
-public class GameHandler extends AbstractBaseHandler<GameClient> {
+import com.google.common.collect.Collections2;
+
+public class GameHandler extends AbstractBaseHandler<GameClient> implements MapObserver {
 
 	public GameHandler(GameClient client, IoSession session) {
 		super(client, session);
@@ -29,6 +38,10 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	public void onClosed() {
 	}
 
+	@Override
+	public void observe(GMap map, MapEvent event) {
+	}
+
 	private void parseGameCreationMessage() {
 		session.write(GameMessageFormatter.gameCreationSuccessMessage());
 		
@@ -42,6 +55,17 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseGameInformationsMessage() {
+		GMap map = client.player().getLocation().getMap();
+		
+		map.enter(client.player());
+		
+		Collection<GameActor> actors = map.actors();
+		
+		session.write(GameMessageFormatter.showActorsMessage(Collections2.transform(actors, Converters.GAMEACTOR_TO_BASEROLEPLAYACTORTYPE)));
+		session.write(GameMessageFormatter.mapLoadedMessage());
+		session.write(GameMessageFormatter.fightCountMessage(0)); // TODO fights
+		
+		map.addObserver(this);
 	}
 
 }

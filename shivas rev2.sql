@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50508
 File Encoding         : 65001
 
-Date: 2012-05-04 00:48:10
+Date: 2012-05-04 01:33:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,6 +32,7 @@ CREATE TABLE `accounts` (
   `points` int(11) NOT NULL,
   `subscriptionEnd` datetime NOT NULL,
   `connected` tinyint(1) NOT NULL,
+  `channels` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `accounts_name_index` (`name`) USING BTREE,
   UNIQUE KEY `accounts_nickname_index` (`nickname`) USING BTREE
@@ -40,7 +41,7 @@ CREATE TABLE `accounts` (
 -- ----------------------------
 -- Records of accounts
 -- ----------------------------
-INSERT INTO `accounts` VALUES ('1', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush', 'DELETE?', 'DELETE', '1', '0', '0', '0', '2013-05-03 13:43:59', '0');
+INSERT INTO `accounts` VALUES ('1', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush', 'DELETE?', 'DELETE', '1', '0', '0', '0', '2013-05-03 13:43:59', '0', '');
 
 -- ----------------------------
 -- Table structure for `players`

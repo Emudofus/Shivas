@@ -1,6 +1,7 @@
 package org.shivas.server.core.maps;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,10 @@ public class GMap extends GameMap implements Observable<MapObserver, MapEvent> {
 	
 	public int count() {
 		return actors.size();
+	}
+	
+	public Collection<GameActor> actors() {
+		return actors.values();
 	}
 
 }

@@ -20,10 +20,10 @@ import org.joda.time.DateTime;
 import org.shivas.common.collections.Maps2;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1Cipher;
+import org.shivas.server.core.ChannelList;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
-
-import com.google.common.base.Function;
+import org.shivas.server.utils.Converters;
 
 @Singleton
 public class AccountRepository extends AbstractLiveEntityRepository<Integer, Account> {
@@ -46,7 +46,7 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 		this.saveQuery = em.builder()
 				.update(TABLE_NAME)
 				.value("rights").value("banned")
-				.value("points").value("connected")
+				.value("points").value("connected").value("channels")
 				.where("id", Op.EQ);
 	}
 	
@@ -82,6 +82,7 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 		query.setParameter("banned", entity.isBanned());
 		query.setParameter("points", entity.getPoints());
 		query.setParameter("connected", entity.isConnected());
+		query.setParameter("channels", entity.getChannels().toString());
 		
 		return query;
 	}
@@ -94,11 +95,7 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 			public Boolean invoke(Player arg1) throws Exception {
 				return arg1.getOwnerReference().getPk() == id;
 			}
-		}), new Function<Player, Integer>() {
-			public Integer apply(Player arg0) {
-				return arg0.id();
-			}
-		});
+		}), Converters.PLAYER_TO_ID);
 		
 		return new Account(
 				id, 
@@ -113,7 +110,8 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 				result.getInt("community"), 
 				result.getInt("points"), 
 				new DateTime(result.getDate("subscriptionEnd")), 
-				result.getBoolean("connected"), 
+				result.getBoolean("connected"),
+				ChannelList.parseChannelList(result.getString("channels")),
 				players
 		);
 	}
