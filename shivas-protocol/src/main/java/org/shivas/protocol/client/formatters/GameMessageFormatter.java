@@ -203,7 +203,7 @@ public class GameMessageFormatter {
         sb.append(player.getName()).append(';')
           .append(player.getBreedId()).append(';')
           .append(player.getSkin()).append('^').append(player.getSize()).append(';')
-          .append(player.isGender() ? '1' : '0').append(';');
+          .append(player.getGender().ordinal()).append(';');
 
         sb.append("0,0,0,0").append(';'); //todo alignment
 

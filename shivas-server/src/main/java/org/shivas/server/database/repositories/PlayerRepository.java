@@ -21,9 +21,11 @@ import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
 import org.shivas.data.entity.GameMap;
 import org.shivas.protocol.client.enums.Gender;
+import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.Colors;
 import org.shivas.server.core.Location;
+import org.shivas.server.core.Look;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
@@ -52,11 +54,11 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		this.deleteQuery = em.builder().delete(TABLE_NAME).where("id", Op.EQ);
 		this.persistQuery = em.builder()
 				.insert(TABLE_NAME)
-				.values("id", "owner_id", "name", "breed_id", "gender", "skin",
+				.values("id", "owner_id", "name", "breed_id", "gender", "skin", "size",
 						"color1", "color2", "color3", "level", "experience", "map_id", "cell");
 		this.saveQuery = em.builder()
 				.update(TABLE_NAME)
-				.value("gender").value("skin").value("color1").value("color2").value("color3")
+				.value("gender").value("skin").value("size").value("color1").value("color2").value("color3")
 				.value("level").value("experience").value("map_id").value("cell")
 				.where("id", Op.EQ);
 		this.loadQuery = em.builder().select(TABLE_NAME);
@@ -68,10 +70,13 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				name,
 				ctner.get(Breed.class).byId(breed),
 				gender,
-				(short) (breed * 10 + gender.ordinal()),
-				new Colors(color1, color2, color3),
+				new Look(
+						(short) (breed * 10 + gender.ordinal()),
+						(short) 100,
+						new Colors(color1, color2, color3)
+				),
 				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
-				new Location(config.startMap(), config.startCell())
+				new Location(config.startMap(), config.startCell(), OrientationEnum.SOUTH_EAST)
 		);
 		persist(player);
 		owner.getPlayers().put(player.id(), player);
@@ -103,10 +108,11 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		query.setParameter("name", entity.getName());
 		query.setParameter("breed_id", entity.getBreed().getId());
 		query.setParameter("gender", entity.getGender());
-		query.setParameter("skin", entity.getSkin());
-		query.setParameter("color1", entity.getColors().first());
-		query.setParameter("color2", entity.getColors().second());
-		query.setParameter("color3", entity.getColors().third());
+		query.setParameter("skin", entity.getLook().getSkin());
+		query.setParameter("size", entity.getLook().getSize());
+		query.setParameter("color1", entity.getLook().getColors().first());
+		query.setParameter("color2", entity.getLook().getColors().second());
+		query.setParameter("color3", entity.getLook().getColors().third());
 		query.setParameter("level", entity.getExperience().level());
 		query.setParameter("experience", entity.getExperience().current());
 		query.setParameter("map_id", entity.getLocation().getMap().getId());
@@ -120,10 +126,11 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		Query query = saveQuery.toQuery();
 		query.setParameter("id", entity.id());
 		query.setParameter("gender", entity.getGender());
-		query.setParameter("skin", entity.getSkin());
-		query.setParameter("color1", entity.getColors().first());
-		query.setParameter("color2", entity.getColors().second());
-		query.setParameter("color3", entity.getColors().third());
+		query.setParameter("skin", entity.getLook().getSkin());
+		query.setParameter("size", entity.getLook().getSize());
+		query.setParameter("color1", entity.getLook().getColors().first());
+		query.setParameter("color2", entity.getLook().getColors().second());
+		query.setParameter("color3", entity.getLook().getColors().third());
 		query.setParameter("level", entity.getExperience().level());
 		query.setParameter("experience", entity.getExperience().current());
 		query.setParameter("map_id", entity.getLocation().getMap().getId());
@@ -145,19 +152,23 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				result.getString("name"),
 				ctner.get(Breed.class).byId(result.getInt("breed_id")),
 				Gender.valueOf(result.getInt("gender")),
-				result.getShort("skin"),
-				new Colors(
-						result.getInt("color1"),
-						result.getInt("color2"),
-						result.getInt("color3")
+				new Look(
+						result.getShort("skin"),
+						result.getShort("size"),
+						new Colors(
+								result.getInt("color1"),
+								result.getInt("color2"),
+								result.getInt("color3")
+						)
 				),
 				new PlayerExperience(
 						ctner.get(Experience.class).byId(result.getInt("level")),
 						result.getLong("experience")
-				), 
+				),
 				new Location(
 						ctner.get(GameMap.class).byId(result.getInt("map_id")), 
-						result.getShort("cell")
+						result.getShort("cell"),
+						OrientationEnum.valueOf(result.getInt("orientation"))
 				)
 		);
 	}

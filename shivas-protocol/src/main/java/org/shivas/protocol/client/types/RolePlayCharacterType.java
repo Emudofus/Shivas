@@ -1,5 +1,6 @@
 package org.shivas.protocol.client.types;
 
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.OrientationEnum;
 
 /**
@@ -12,7 +13,7 @@ public class RolePlayCharacterType extends BaseRolePlayActorType {
     private String name;
     private byte breedId;
     private short skin, size;
-    private boolean gender;
+    private Gender gender;
     private short level;
     //todo alignment
     private int color1, color2, color3;
@@ -24,7 +25,7 @@ public class RolePlayCharacterType extends BaseRolePlayActorType {
     public RolePlayCharacterType() {
     }
 
-    public RolePlayCharacterType(long id, String name, byte breedId, short skin, short size, boolean gender, short level, int color1, int color2, int color3, int[] accessories, short currentCellId, OrientationEnum currentOrientation, boolean hasGuild, String guildName, GuildEmblem guildEmblem) {
+    public RolePlayCharacterType(long id, String name, byte breedId, short skin, short size, Gender gender, short level, int color1, int color2, int color3, int[] accessories, short currentCellId, OrientationEnum currentOrientation, boolean hasGuild, String guildName, GuildEmblem guildEmblem) {
         super(id, currentCellId, currentOrientation);
         this.name = name;
         this.breedId = breedId;
@@ -73,11 +74,11 @@ public class RolePlayCharacterType extends BaseRolePlayActorType {
         this.size = size;
     }
 
-    public boolean isGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

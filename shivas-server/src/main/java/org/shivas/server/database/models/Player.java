@@ -8,14 +8,17 @@ import org.atomium.PersistableEntity;
 import org.shivas.data.entity.Breed;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.types.BaseCharacterType;
-import org.shivas.server.core.Colors;
+import org.shivas.protocol.client.types.BaseRolePlayActorType;
+import org.shivas.protocol.client.types.RolePlayCharacterType;
+import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
+import org.shivas.server.core.Look;
 import org.shivas.server.core.experience.PlayerExperience;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 
-public class Player implements Serializable, PersistableEntity<Integer> {
+public class Player implements Serializable, PersistableEntity<Integer>, GameActor {
 
 	private static final long serialVersionUID = -5864467711777891397L;
 	
@@ -24,33 +27,30 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	private String name;
 	private Breed breed;
 	private Gender gender;
-	private short skin;
-	private Colors colors;
+	private Look look;
 	private PlayerExperience experience;
 	private Location location;
 
 	public Player(LazyReference<Integer, Account> owner, String name, Breed breed, Gender gender,
-			short skin, Colors colors, PlayerExperience experience, Location location) {
+			Look look, PlayerExperience experience, Location location) {
 		this.owner = owner;
 		this.name = name;
 		this.breed = breed;
 		this.gender = gender;
-		this.skin = skin;
-		this.colors = colors;
+		this.look = look;
 		this.experience = experience;
 		this.location = location;
 	}
 
 	public Player(int id, LazyReference<Integer, Account> owner, String name,
-			Breed breed, Gender gender, short skin, Colors colors,
+			Breed breed, Gender gender, Look look,
 			PlayerExperience experience, Location location) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
 		this.breed = breed;
 		this.gender = gender;
-		this.skin = skin;
-		this.colors = colors;
+		this.look = look;
 		this.experience = experience;
 		this.location = location;
 	}
@@ -133,31 +133,17 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	}
 
 	/**
-	 * @return the skin
+	 * @return the look
 	 */
-	public short getSkin() {
-		return skin;
+	public Look getLook() {
+		return look;
 	}
 
 	/**
-	 * @param skin the skin to set
+	 * @param look the look to set
 	 */
-	public void setSkin(short skin) {
-		this.skin = skin;
-	}
-
-	/**
-	 * @return the colors
-	 */
-	public Colors getColors() {
-		return colors;
-	}
-
-	/**
-	 * @param colors the colors to set
-	 */
-	public void setColors(Colors colors) {
-		this.colors = colors;
+	public void setLook(Look look) {
+		this.look = look;
 	}
 
 	/**
@@ -212,10 +198,10 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 				id,
 				name,
 				experience.level(),
-				skin,
-				colors.first(),
-				colors.second(),
-				colors.third(),
+				look.getSkin(),
+				look.getColors().first(),
+				look.getColors().second(),
+				look.getColors().third(),
 				null, // TODO items
 				false // TODO store
 		);
@@ -227,6 +213,28 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 				return input.toBaseCharacterType();
 			}
 		});
+	}
+
+	@Override
+	public BaseRolePlayActorType toBaseRolePlayActorType() {
+		return new RolePlayCharacterType(
+				id,
+				name,
+				(byte) breed.getId(),
+				look.getSkin(),
+				look.getSize(),
+				gender,
+				experience.level(),
+				look.getColors().first(),
+				look.getColors().second(),
+				look.getColors().third(),
+				new int[5],
+				location.getCell(),
+				location.getOrientation(),
+				false, // TODO guilds
+				null,
+				null
+		);
 	}
 
 }
