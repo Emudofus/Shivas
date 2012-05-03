@@ -29,13 +29,25 @@ public class Player implements Serializable, PersistableEntity<Integer> {
 	private PlayerExperience experience;
 	private GameMap map;
 	private short cell;
-	
-	public Player() {
-	}
 
 	public Player(LazyReference<Integer, Account> owner, String name, Breed breed, Gender gender,
 			short skin, Colors colors, PlayerExperience experience,
 			GameMap map, short cell) {
+		this.owner = owner;
+		this.name = name;
+		this.breed = breed;
+		this.gender = gender;
+		this.skin = skin;
+		this.colors = colors;
+		this.experience = experience;
+		this.map = map;
+		this.cell = cell;
+	}
+
+	public Player(int id, LazyReference<Integer, Account> owner, String name,
+			Breed breed, Gender gender, short skin, Colors colors,
+			PlayerExperience experience, GameMap map, short cell) {
+		this.id = id;
 		this.owner = owner;
 		this.name = name;
 		this.breed = breed;

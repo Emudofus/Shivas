@@ -17,6 +17,11 @@ public class PlayerExperience implements Serializable, Experience<Long> {
 		this.experience = this.template.getPlayer();
 	}
 
+	public PlayerExperience(org.shivas.data.entity.Experience template, long experience) {
+		this.template = template;
+		this.experience = experience;
+	}
+
 	public short level() {
 		return template.getLevel();
 	}

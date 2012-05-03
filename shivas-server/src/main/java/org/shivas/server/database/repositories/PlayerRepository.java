@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
-import org.atomium.LazyReference;
 import org.atomium.repository.EntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
@@ -20,6 +19,7 @@ import org.atomium.util.query.UpdateQueryBuilder;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
+import org.shivas.data.entity.GameMap;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.Colors;
@@ -49,8 +49,15 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		this.accounts = accounts;
 		
 		this.deleteQuery = em.builder().delete(TABLE_NAME).where("id", Op.EQ);
-		this.persistQuery = em.builder().insert(TABLE_NAME).value("id").value("name"); //TODO
-		this.saveQuery = em.builder().update(TABLE_NAME).value("name").where("id", Op.EQ); //TODO
+		this.persistQuery = em.builder()
+				.insert(TABLE_NAME)
+				.values("id", "owner_id", "name", "breed_id", "gender", "skin",
+						"color1", "color2", "color3", "level", "experience", "map_id", "cell");
+		this.saveQuery = em.builder()
+				.update(TABLE_NAME)
+				.value("gender").value("skin").value("color1").value("color2").value("color3")
+				.value("level").value("experience").value("map_id").value("cell")
+				.where("id", Op.EQ);
 		this.loadQuery = em.builder().select(TABLE_NAME);
 	}
 
@@ -82,8 +89,18 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	protected Query buildPersistQuery(Player entity) {
 		Query query = persistQuery.toQuery();
 		query.setParameter("id", entity.id());
+		query.setParameter("owner_id", entity.getOwner().id());
 		query.setParameter("name", entity.getName());
-		//TODO
+		query.setParameter("breed_id", entity.getBreed().getId());
+		query.setParameter("gender", entity.getGender().ordinal());
+		query.setParameter("skin", entity.getSkin());
+		query.setParameter("color1", entity.getColors().first());
+		query.setParameter("color2", entity.getColors().second());
+		query.setParameter("color3", entity.getColors().third());
+		query.setParameter("level", entity.getExperience().level());
+		query.setParameter("experience", entity.getExperience().current());
+		query.setParameter("map_id", entity.getMap().getId());
+		query.setParameter("cell", entity.getCell());
 		
 		return query;
 	}
@@ -92,8 +109,15 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	protected Query buildSaveQuery(Player entity) {
 		Query query = saveQuery.toQuery();
 		query.setParameter("id", entity.id());
-		query.setParameter("name", entity.getName());
-		//TODO
+		query.setParameter("gender", entity.getGender().ordinal());
+		query.setParameter("skin", entity.getSkin());
+		query.setParameter("color1", entity.getColors().first());
+		query.setParameter("color2", entity.getColors().second());
+		query.setParameter("color3", entity.getColors().third());
+		query.setParameter("level", entity.getExperience().level());
+		query.setParameter("experience", entity.getExperience().current());
+		query.setParameter("map_id", entity.getMap().getId());
+		query.setParameter("cell", entity.getCell());
 		
 		return query;
 	}
@@ -104,8 +128,26 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	}
 
 	@Override
-	protected Player load(ResultSet result) throws SQLException {
-		return new Player(); // TODO
+	protected Player load(ResultSet result) throws SQLException {		
+		return new Player(
+				result.getInt("id"),
+				accounts.getLazyReference(result.getInt("owner_id")),
+				result.getString("name"),
+				ctner.get(Breed.class).byId(result.getInt("breed_id")),
+				Gender.valueOf(result.getInt("gender")),
+				result.getShort("skin"),
+				new Colors(
+						result.getInt("color1"),
+						result.getInt("color2"),
+						result.getInt("color3")
+				),
+				new PlayerExperience(
+						ctner.get(Experience.class).byId(result.getInt("level")),
+						result.getLong("experience")
+				), 
+				ctner.get(GameMap.class).byId(result.getInt("map_id")), 
+				result.getShort("cell")
+		);
 	}
 
 	@Override
