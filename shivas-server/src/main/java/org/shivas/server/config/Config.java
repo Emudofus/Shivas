@@ -1,6 +1,6 @@
 package org.shivas.server.config;
 
-import org.shivas.data.entity.GameMap;
+import org.shivas.server.core.maps.GMap;
 
 public interface Config {
 	
@@ -25,7 +25,7 @@ public interface Config {
 	short deleteAnswerLevelNeeded();
 	
 	short startLevel();
-	GameMap startMap();
+	GMap startMap();
 	short startCell();
 	
 }

@@ -19,7 +19,6 @@ import org.atomium.util.query.UpdateQueryBuilder;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
-import org.shivas.data.entity.GameMap;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.server.config.Config;
@@ -27,6 +26,7 @@ import org.shivas.server.core.Colors;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Look;
 import org.shivas.server.core.experience.PlayerExperience;
+import org.shivas.server.core.maps.GMap;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 
@@ -166,7 +166,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 						result.getLong("experience")
 				),
 				new Location(
-						ctner.get(GameMap.class).byId(result.getInt("map_id")), 
+						ctner.get(GMap.class).byId(result.getInt("map_id")), 
 						result.getShort("cell"),
 						OrientationEnum.valueOf(result.getInt("orientation"))
 				)

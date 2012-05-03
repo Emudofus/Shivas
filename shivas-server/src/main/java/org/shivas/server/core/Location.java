@@ -2,28 +2,28 @@ package org.shivas.server.core;
 
 import java.io.Serializable;
 
-import org.shivas.data.entity.GameMap;
 import org.shivas.protocol.client.enums.OrientationEnum;
+import org.shivas.server.core.maps.GMap;
 
 public class Location implements Serializable {
 
 	private static final long serialVersionUID = -4975380217739829252L;
 	
-	private GameMap map;
+	private GMap map;
 	private short cell;
 	private OrientationEnum orientation;
 
-	public Location(GameMap map, short cell, OrientationEnum orientation) {
+	public Location(GMap map, short cell, OrientationEnum orientation) {
 		this.map = map;
 		this.cell = cell;
 		this.orientation = orientation;
 	}
 
-	public GameMap getMap() {
+	public GMap getMap() {
 		return map;
 	}
 
-	public void setMap(GameMap map) {
+	public void setMap(GMap map) {
 		this.map = map;
 	}
 
