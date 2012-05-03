@@ -6,6 +6,7 @@ import java.util.Map;
 import org.shivas.common.io.FileExtensions;
 import org.shivas.data.Container;
 import org.shivas.data.Containers;
+import org.shivas.data.EntityFactory;
 import org.shivas.data.Loader;
 import org.shivas.data.container.SimpleContainer;
 import org.shivas.data.repository.BaseRepository;
@@ -16,9 +17,14 @@ import com.google.common.collect.Maps;
 public abstract class AbstractLoader implements Loader {
 	
 	protected final SimpleContainer ctner = new SimpleContainer();
+	protected final EntityFactory factory;
 	
 	@SuppressWarnings("rawtypes")
 	protected final Map<Class, FileLoader> loaders = Maps.newHashMap();
+	
+	public AbstractLoader(EntityFactory factory) {
+		this.factory = factory;
+	}
 	
 	protected abstract Logger log();
 

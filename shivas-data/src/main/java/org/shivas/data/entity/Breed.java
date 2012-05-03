@@ -8,15 +8,15 @@ public class Breed implements Serializable {
 	
 	private int id;
 
-	public Breed(int id) {
-		this.id = id;
-	}
-
 	/**
 	 * @return the id
 	 */
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

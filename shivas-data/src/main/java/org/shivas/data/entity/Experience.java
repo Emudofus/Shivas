@@ -10,57 +10,35 @@ public class Experience implements Serializable {
 	private long player;
 	private Experience previous;
 	private Experience next;
-	
-	public Experience(short level, long player) {
-		this.level = level;
-		this.player = player;
-	}
 
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return level;
-	}
-
-	/**
-	 * @return the level
-	 */
 	public short getLevel() {
 		return level;
 	}
 
-	/**
-	 * @return the character
-	 */
+	public void setLevel(short level) {
+		this.level = level;
+	}
+
 	public long getPlayer() {
 		return player;
 	}
 
-	/**
-	 * @return the previous
-	 */
-	public Experience previous() {
+	public void setPlayer(long player) {
+		this.player = player;
+	}
+
+	public Experience getPrevious() {
 		return previous;
 	}
 
-	/**
-	 * @param previous the previous to set
-	 */
 	public void setPrevious(Experience previous) {
 		this.previous = previous;
 	}
 
-	/**
-	 * @return the next
-	 */
-	public Experience next() {
+	public Experience getNext() {
 		return next;
 	}
 
-	/**
-	 * @param next the next to set
-	 */
 	public void setNext(Experience next) {
 		this.next = next;
 	}

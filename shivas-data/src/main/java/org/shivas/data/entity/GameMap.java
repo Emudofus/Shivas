@@ -10,31 +10,23 @@ public class GameMap implements Serializable {
 	private String date;
 	private String key;
 	
-	public GameMap(int id, String date, String key) {
-		this.id = id;
-		this.date = date;
-		this.key = key;
-	}
-
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}
-
-	/**
-	 * @return the date
-	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getDate() {
 		return date;
 	}
-
-	/**
-	 * @return the key
-	 */
+	public void setDate(String date) {
+		this.date = date;
+	}
 	public String getKey() {
 		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 }

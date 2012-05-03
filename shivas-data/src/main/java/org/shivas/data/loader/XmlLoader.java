@@ -7,6 +7,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
+import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
 import org.shivas.data.entity.GameMap;
@@ -20,7 +21,9 @@ public class XmlLoader extends AbstractLoader {
 	
 	private final SAXBuilder builder = new SAXBuilder();
 	
-	public XmlLoader() {
+	public XmlLoader(EntityFactory factory) {
+		super(factory);
+		
 		loaders.put(Breed.class, new FileLoader<Breed>() {
 			public void load(BaseRepository<Breed> repo, File file) throws Exception {
 				loadBreed(repo, file);
@@ -49,9 +52,10 @@ public class XmlLoader extends AbstractLoader {
 		Document doc = builder.build(file);
 		Element root = doc.getDescendants(new ElementFilter("breeds")).next();
 		for (Element element : root.getChildren("breed")) {
-			int id = element.getAttribute("id").getIntValue();
+			Breed breed = factory.newBreed();
+			breed.setId(element.getAttribute("id").getIntValue());
 			
-			repo.put(id, new Breed(id));
+			repo.put(breed.getId(), breed);
 		}
 	}
 	
@@ -59,10 +63,11 @@ public class XmlLoader extends AbstractLoader {
 		Document doc = builder.build(file);
 		Element root = doc.getDescendants(new ElementFilter("experiences")).next();
 		for (Element element : root.getChildren("experience")) {
-			short level = (short) element.getAttribute("level").getIntValue();
-			long player = element.getAttribute("player").getLongValue();
+			Experience experience = factory.newExperience();
+			experience.setLevel((short) element.getAttribute("level").getIntValue());
+			experience.setPlayer(element.getAttribute("player").getLongValue());
 			
-			repo.put(level, new Experience(level, player));
+			repo.put(experience.getLevel(), experience);
 		}
 		
 		Iterator<Experience> it = repo.all().iterator();
@@ -82,11 +87,12 @@ public class XmlLoader extends AbstractLoader {
 		
 		Element root = doc.getDescendants(new ElementFilter("maps")).next();
 		for (Element element : root.getChildren("map")) {
-			int id = element.getAttribute("id").getIntValue();
-			String date = element.getAttribute("date").getValue(),
-				   key  = element.getAttribute("key").getValue();
+			GameMap map = factory.newGameMap();
+			map.setId(element.getAttribute("id").getIntValue());
+			map.setDate(element.getAttribute("date").getValue());
+			map.setKey(element.getAttribute("key").getValue());
 			
-			repo.put(id, new GameMap(id, date, key));
+			repo.put(map.getId(), map);
 		}
 	}
 
