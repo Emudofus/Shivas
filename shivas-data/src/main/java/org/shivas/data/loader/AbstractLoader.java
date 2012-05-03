@@ -27,11 +27,20 @@ public abstract class AbstractLoader implements Loader {
 	}
 	
 	protected abstract Logger log();
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private <T> FileLoader<T> getLoader(Class<T> clazz) {
+		for (Map.Entry<Class, FileLoader> entry : loaders.entrySet()) {
+			if (entry.getKey().isAssignableFrom(clazz)) {
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public <T> void load(Class<T> entity, String path) {
-		FileLoader<T> loader = loaders.get(entity);
+		FileLoader<T> loader = getLoader(entity);
 		if (loader != null)  {
 			BaseRepository<T> repo = new BaseRepository<T>(entity);
 			log().debug("start load {}", repo.getEntityClass().getSimpleName());
