@@ -16,11 +16,11 @@ public class PlayerStatistics implements Statistics {
 	private LimitedValue life, pods = new PlayerPodsValue(this);
 	private Map<CharacteristicType, Characteristic> characs = Maps.newHashMap();
 	
-	public PlayerStatistics(Player owner) {
-		this(owner, 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
+	public PlayerStatistics(Player owner, short actionPoints, short movementPoints, short strength, short intelligence, short chance, short agility) {
+		this(owner, 0, actionPoints, movementPoints, strength, intelligence, chance, agility);
 	}
 	
-	public PlayerStatistics(Player owner, int life, short actionPoints, short movementPoints, short initiative, short strength, short intelligence, short chance, short agility) {
+	public PlayerStatistics(Player owner, int life, short actionPoints, short movementPoints, short strength, short intelligence, short chance, short agility) {
 		this.owner = owner;
 		this.life = life <= 0 ? new PlayerLifeValue(this) : new PlayerLifeValue(life, this);
 		for (CharacteristicType charac : CharacteristicType.values()) {
@@ -34,7 +34,7 @@ public class PlayerStatistics implements Statistics {
 				break;
 			
 			case Initiative:
-				characs.put(charac, new InitiativeCharacteristic(this, initiative));
+				characs.put(charac, new InitiativeCharacteristic(this));
 				break;
 				
 			case Prospection:

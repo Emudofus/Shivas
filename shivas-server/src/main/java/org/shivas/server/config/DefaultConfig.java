@@ -89,4 +89,34 @@ public class DefaultConfig implements Config {
 		return 355;
 	}
 
+	@Override
+	public Short startActionPoints() {
+		return null;
+	}
+
+	@Override
+	public Short startMovementPoints() {
+		return null;
+	}
+
+	@Override
+	public short startStrength() {
+		return 0;
+	}
+
+	@Override
+	public short startIntelligence() {
+		return 0;
+	}
+
+	@Override
+	public short startChance() {
+		return 0;
+	}
+
+	@Override
+	public short startAgility() {
+		return 0;
+	}
+
 }

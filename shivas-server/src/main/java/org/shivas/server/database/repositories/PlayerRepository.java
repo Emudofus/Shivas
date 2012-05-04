@@ -27,6 +27,7 @@ import org.shivas.server.core.Location;
 import org.shivas.server.core.Look;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.maps.GMap;
+import org.shivas.server.core.statistics.PlayerStatistics;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 
@@ -78,8 +79,19 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
 				new Location(config.startMap(), config.startCell(), OrientationEnum.SOUTH_EAST)
 		);
+		player.setStats(new PlayerStatistics(
+				player,
+				config.startActionPoints() != null ? config.startActionPoints() : 6,
+				config.startMovementPoints() != null ? config.startMovementPoints() : 3,
+				config.startStrength(),
+				config.startIntelligence(),
+				config.startChance(),
+				config.startAgility()
+		));
+		
 		persist(player);
 		owner.getPlayers().put(player.id(), player);
+		
 		return player;
 	}
 	
@@ -146,7 +158,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 
 	@Override
 	protected Player load(ResultSet result) throws SQLException {		
-		return new Player(
+		Player player = new Player(
 				result.getInt("id"),
 				accounts.getLazyReference(result.getInt("owner_id")),
 				result.getString("name"),
@@ -171,6 +183,19 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 						OrientationEnum.valueOf(result.getInt("orientation"))
 				)
 		);
+		
+		player.setStats(new PlayerStatistics(
+				player,
+				result.getInt("life"),
+				result.getShort("action_points"),
+				result.getShort("movement_points"),
+				result.getShort("strength"),
+				result.getShort("intelligence"),
+				result.getShort("chance"),
+				result.getShort("agility")
+		));
+		
+		return player;
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Look;
 import org.shivas.server.core.experience.PlayerExperience;
+import org.shivas.server.core.statistics.PlayerStatistics;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
@@ -30,6 +31,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private Look look;
 	private PlayerExperience experience;
 	private Location location;
+	private PlayerStatistics stats;
 
 	public Player(LazyReference<Integer, Account> owner, String name, Breed breed, Gender gender,
 			Look look, PlayerExperience experience, Location location) {
@@ -172,6 +174,14 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	 */
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	public PlayerStatistics getStats() {
+		return stats;
+	}
+
+	public void setStats(PlayerStatistics stats) {
+		this.stats = stats;
 	}
 
 	@Override

@@ -28,4 +28,11 @@ public interface Config {
 	GMap startMap();
 	short startCell();
 	
+	Short startActionPoints();
+	Short startMovementPoints();
+	short startStrength();
+	short startIntelligence();
+	short startChance();
+	short startAgility();
+	
 }
