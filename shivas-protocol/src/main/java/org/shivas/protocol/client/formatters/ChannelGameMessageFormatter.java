@@ -14,7 +14,7 @@ public class ChannelGameMessageFormatter {
     public static String addChannelMessage(Collection<Channel> channels){
     	StringBuilder sb = new StringBuilder().append("cC+");
     	for (Channel channel : channels) {
-    		sb.append(channel.toChar());
+    		sb.append(channel.value());
     	}
     	return sb.toString();
     }

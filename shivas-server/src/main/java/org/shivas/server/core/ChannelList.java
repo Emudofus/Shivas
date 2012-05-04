@@ -9,7 +9,7 @@ public class ChannelList extends ArrayList<Channel> {
 	public static ChannelList parseChannelList(String string) {
 		ChannelList channels = new ChannelList();
 		for (int i = 0; i < string.length(); ++i) {
-			Channel channel = Channel.valueOf(string.charAt(0));
+			Channel channel = Channel.valueOf(string.charAt(i));
 			channels.add(channel);
 		}
 		return channels;
@@ -21,7 +21,7 @@ public class ChannelList extends ArrayList<Channel> {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < size(); ++i) {
-			sb.append(get(i).toChar());
+			sb.append(get(i).value());
 		}
 		return sb.toString();
 	}

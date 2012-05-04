@@ -4,10 +4,9 @@ import org.shivas.common.maths.LimitedValue;
 
 public abstract class LifeValue implements LimitedValue {
 	
-	private int current;
+	protected int current;
 	
 	public LifeValue() {
-		this.current = max();
 	}
 	
 	public LifeValue(int current) {
@@ -15,7 +14,7 @@ public abstract class LifeValue implements LimitedValue {
 		check();
 	}
 
-	private void check() {
+	protected void check() {
 		int max;
 		if (current < 0) {
 			current = 0;

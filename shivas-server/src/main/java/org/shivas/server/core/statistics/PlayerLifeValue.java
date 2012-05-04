@@ -7,13 +7,15 @@ public class PlayerLifeValue extends LifeValue {
 	private PlayerStatistics stats;
 
 	public PlayerLifeValue(PlayerStatistics stats) {
-		super();
 		this.stats = stats;
+		this.current = max();
 	}
 
 	public PlayerLifeValue(int current, PlayerStatistics stats) {
-		super(current);
 		this.stats = stats;
+		this.current = current;
+		check();
+		
 	}
 
 	@Override

@@ -9,44 +9,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Channel {
-    Alignment(33),
-    Team(35),
-    Party(36),
-    Guild(37),
-    General(42),
-    Trade(58),
-    Recruitment(63),
-    Admin(64),
-    Information(105),
-    UNKNOWN0(112),
-    UNKNOWN1(194),
-    UNKNOWN2(207);
+    Alignment('!'),
+    Team('#'),
+    Party('$'),
+    Guild('%'),
+    General('*'),
+    Trade(':'),
+    Recruitment('?'),
+    Admin('@'),
+    Information('i'),
+    UNKNOWN0('p'),
+    UNKNOWN1((char) 194),
+    UNKNOWN2((char) 207);
 
-    private int value;
-    private Channel(int value) {
+    private char value;
+    private Channel(char value) {
         this.value = value;
     }
-    public int value() {
+    public char value() {
         return value;
     }
-    public char toChar() {
-        return (char)value;
-    }
-    @Override
-    public String toString() {
-        return Integer.toString(value);
-    }
 
-    private static final Map<Integer, Channel> values = new HashMap<Integer, Channel>();
+    private static final Map<Character, Channel> values = new HashMap<Character, Channel>();
     static {
         for (Channel e : values()) {
             values.put(e.value(), e);
         }
     }
-    public static Channel valueOf(int value) {
-        return values.get(value);
-    }
     public static Channel valueOf(char value) {
-        return valueOf((int)value);
+        return values.get(value);
     }
 }

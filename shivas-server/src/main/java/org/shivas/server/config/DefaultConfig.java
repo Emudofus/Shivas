@@ -100,6 +100,16 @@ public class DefaultConfig implements Config {
 	}
 
 	@Override
+	public short startVitality() {
+		return 0;
+	}
+
+	@Override
+	public short startWisdom() {
+		return 0;
+	}
+
+	@Override
 	public short startStrength() {
 		return 0;
 	}

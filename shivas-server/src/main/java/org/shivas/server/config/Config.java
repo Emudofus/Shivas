@@ -30,6 +30,8 @@ public interface Config {
 	
 	Short startActionPoints();
 	Short startMovementPoints();
+	short startVitality();
+	short startWisdom();
 	short startStrength();
 	short startIntelligence();
 	short startChance();

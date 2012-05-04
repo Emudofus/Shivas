@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50508
 File Encoding         : 65001
 
-Date: 2012-05-04 19:15:39
+Date: 2012-05-05 01:27:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,7 +44,7 @@ CREATE TABLE `accounts` (
 -- ----------------------------
 -- Records of accounts
 -- ----------------------------
-INSERT INTO `accounts` VALUES ('1', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush', 'DELETE?', 'DELETE', '1', '0', '0', '0', '2013-05-03 13:43:59', '0', 'i*#$p%', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `accounts` VALUES ('1', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush', 'DELETE?', 'DELETE', '1', '0', '0', '0', '2013-05-03 13:43:59', '1', '!#$%*:?i', '0000-00-00 00:00:00', '', '0');
 
 -- ----------------------------
 -- Table structure for `players`
@@ -72,6 +72,8 @@ CREATE TABLE `players` (
   `life` int(11) NOT NULL,
   `action_points` smallint(6) NOT NULL,
   `movement_points` smallint(6) NOT NULL,
+  `vitality` smallint(6) NOT NULL,
+  `wisdom` smallint(6) NOT NULL,
   `strength` smallint(6) NOT NULL,
   `intelligence` smallint(6) NOT NULL,
   `chance` smallint(6) NOT NULL,
