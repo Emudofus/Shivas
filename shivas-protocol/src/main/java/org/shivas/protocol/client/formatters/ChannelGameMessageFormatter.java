@@ -1,5 +1,9 @@
 package org.shivas.protocol.client.formatters;
 
+import java.util.Collection;
+
+import org.shivas.protocol.client.enums.Channel;
+
 /**
  * User: Blackrush
  * Date: 05/11/11
@@ -7,8 +11,12 @@ package org.shivas.protocol.client.formatters;
  * IDE:  IntelliJ IDEA
  */
 public class ChannelGameMessageFormatter {
-    public static String addChannelMessage(String channels){
-        return "cC+" + channels;
+    public static String addChannelMessage(Collection<Channel> channels){
+    	StringBuilder sb = new StringBuilder().append("cC+");
+    	for (Channel channel : channels) {
+    		sb.append(channel.toChar());
+    	}
+    	return sb.toString();
     }
 
     public static String enabledEmotesMessage(String emotes){
