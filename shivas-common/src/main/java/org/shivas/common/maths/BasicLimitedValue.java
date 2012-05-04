@@ -26,7 +26,7 @@ public class BasicLimitedValue implements LimitedValue {
 		return current;
 	}
 
-	public void current(int current) {
+	public void setCurrent(int current) {
 		if (current < min) {
 			current = min;
 		} else if (current > max) {
