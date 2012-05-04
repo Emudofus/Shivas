@@ -1,5 +1,8 @@
 package org.shivas.protocol.client.formatters;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.shivas.protocol.client.enums.FightAttributeType;
 import org.shivas.protocol.client.enums.InfoTypeEnum;
 
@@ -13,9 +16,9 @@ import java.util.Date;
  * IDE:  IntelliJ IDEA
  */
 public class InfoGameMessageFormatter {
-    public static final SimpleDateFormat LAST_CONNECTION_FORMATTER = new SimpleDateFormat(
-            "yyyy~MM~dd~HH~mm"
-    );
+    private static final String LAST_CONNECTION_PATTERN = "yyyy~MM~dd~HH~mm";
+	public static final SimpleDateFormat LAST_CONNECTION_FORMATTER = new SimpleDateFormat(LAST_CONNECTION_PATTERN);
+	public static final DateTimeFormatter LAST_CONNECTION_FORMATTER_JODA = DateTimeFormat.forPattern(LAST_CONNECTION_PATTERN);
 
     public static String welcomeMessage(){
         return "Im189";
@@ -27,6 +30,10 @@ public class InfoGameMessageFormatter {
 
     public static String lastConnectionInformationMessage(Date lastConnection, String lastAddress){
         return "Im0152;" + LAST_CONNECTION_FORMATTER.format(lastConnection) + "~" + lastAddress;
+    }
+
+    public static String lastConnectionInformationMessage(DateTime lastConnection, String lastAddress){
+        return "Im0152;" + LAST_CONNECTION_FORMATTER_JODA.print(lastConnection) + "~" + lastAddress;
     }
 
     public static String accountMutedMessage(){
