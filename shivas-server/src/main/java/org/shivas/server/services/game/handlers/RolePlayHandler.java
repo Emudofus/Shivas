@@ -1,8 +1,17 @@
 package org.shivas.server.services.game.handlers;
 
+import java.util.ArrayList;
+
 import org.apache.mina.core.session.IoSession;
+import org.joda.time.DateTime;
+import org.shivas.common.maths.BasicLimitedValue;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
+import org.shivas.protocol.client.formatters.FriendGameMessageFormatter;
+import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
+import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
+import org.shivas.protocol.client.formatters.SpellGameMessageFormatter;
+import org.shivas.protocol.client.types.BaseSpellType;
 import org.shivas.server.services.AbstractBaseHandlerContainer;
 import org.shivas.server.services.game.GameClient;
 import org.slf4j.Logger;
@@ -20,7 +29,24 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 	public void init() throws Exception {
 		super.init();
 		
-		session.write(ChannelGameMessageFormatter.addChannelMessage(client.account().getChannels().toString()));
+		session.write(ChannelGameMessageFormatter.addChannelMessage(client.account().getChannels()));
+		session.write(SpellGameMessageFormatter.spellListMessage(new ArrayList<BaseSpellType>(0))); // TODO spells
+		session.write(ChannelGameMessageFormatter.enabledEmotesMessage("")); // TODO emotes
+		session.write(ItemGameMessageFormatter.inventoryStatsMessage(new BasicLimitedValue(1000))); // TODO statistics
+		session.write(FriendGameMessageFormatter.notifyFriendOnConnectMessage(false)); // TODO friends
+		session.write(InfoGameMessageFormatter.welcomeMessage());
+		if (!client.account().firstConnection()) {
+			session.write(InfoGameMessageFormatter.lastConnectionInformationMessage(
+					client.account().getLastConnection(),
+					client.account().getLastAddress()
+			));
+		}
+		session.write(InfoGameMessageFormatter.currentAddressInformationMessage(getClearAddress()));
+
+		client.account().setLastConnection(DateTime.now());
+		client.account().setLastAddress(getClearAddress());
+		client.account().incrementNbConnections();
+		client.service().repositories().accounts().save(client.account());
 	}
 
 	@Override

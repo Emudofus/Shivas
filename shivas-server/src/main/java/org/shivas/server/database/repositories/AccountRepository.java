@@ -15,7 +15,6 @@ import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.SelectQueryBuilder;
 import org.atomium.util.query.UpdateQueryBuilder;
-import org.joda.time.DateTime;
 import org.shivas.common.collections.Maps2;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1Cipher;
@@ -47,6 +46,7 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 				.update(TABLE_NAME)
 				.value("rights").value("banned")
 				.value("points").value("connected").value("channels")
+				.value("last_connection").value("last_address").value("nb_connections")
 				.where("id", Op.EQ);
 	}
 	
@@ -83,6 +83,9 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 		query.setParameter("points", entity.getPoints());
 		query.setParameter("connected", entity.isConnected());
 		query.setParameter("channels", entity.getChannels().toString());
+		query.setParameter("last_connection", entity.getLastConnection());
+		query.setParameter("last_address", entity.getLastAddress());
+		query.setParameter("nb_connections", entity.getNbConnections());
 		
 		return query;
 	}
@@ -92,20 +95,23 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 		final int id = result.getInt("id");
 		
 		Account account = new Account(
-				id, 
-				0, 
-				result.getString("name"), 
-				result.getString("password"), 
-				result.getString("nickname"), 
-				result.getString("question"), 
-				result.getString("answer"), 
-				result.getBoolean("rights"), 
-				result.getBoolean("banned"), 
-				result.getInt("community"), 
-				result.getInt("points"), 
-				new DateTime(result.getDate("subscriptionEnd")), 
+				id,
+				0,
+				result.getString("name"),
+				result.getString("password"),
+				result.getString("nickname"),
+				result.getString("question"),
+				result.getString("answer"),
+				result.getBoolean("rights"),
+				result.getBoolean("banned"),
+				result.getInt("community"),
+				result.getInt("points"),
+				em.builder().dateTimeFormatter().parseDateTime(result.getString("subscription_end")),
 				result.getBoolean("connected"),
 				ChannelList.parseChannelList(result.getString("channels")),
+				em.builder().dateTimeFormatter().parseDateTime(result.getString("last_connection")),
+				result.getString("last_address"),
+				result.getInt("nb_connections"),
 				Maps2.toMap(this.players.filter(new Filter<Player>() {
 					public Boolean invoke(Player arg1) throws Exception {
 						return arg1.getOwnerReference().getPk() == id;

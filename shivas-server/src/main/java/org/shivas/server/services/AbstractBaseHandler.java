@@ -26,4 +26,9 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 		if (!b) throw new Exception(String.format(message, obj));
 	}
 	
+	protected String getClearAddress() {
+        String address = session.getRemoteAddress().toString();
+        return address.substring(1, address.indexOf(':'));
+	}
+	
 }

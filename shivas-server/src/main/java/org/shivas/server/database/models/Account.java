@@ -27,12 +27,17 @@ public class Account implements Serializable, Entity<Integer> {
 	private DateTime subscriptionEnd;
 	private boolean connected;
 	private ChannelList channels;
+	private DateTime lastConnection;
+	private String lastAddress;
+	private int nbConnections;
 	private Map<Integer, Player> players;
 
 	public Account(int id, long version, String name, String password,
 			String nickname, String secretQuestion, String secretAnswer,
 			boolean rights, boolean banned, int community, int points,
-			DateTime subscriptionEnd, boolean connected, ChannelList channels, Map<Integer, Player> players) {
+			DateTime subscriptionEnd, boolean connected, ChannelList channels,
+			DateTime lastConnection, String lastAddress, int nbConnections,
+			Map<Integer, Player> players) {
 		this.id = id;
 		this.version = version;
 		this.name = name;
@@ -47,6 +52,9 @@ public class Account implements Serializable, Entity<Integer> {
 		this.subscriptionEnd = subscriptionEnd;
 		this.connected = connected;
 		this.channels = channels;
+		this.lastConnection = lastConnection;
+		this.lastAddress = lastAddress;
+		this.nbConnections = nbConnections;
 		this.players = players;
 	}
 
@@ -246,6 +254,38 @@ public class Account implements Serializable, Entity<Integer> {
 
 	public void setChannels(ChannelList channels) {
 		this.channels = channels;
+	}
+
+	public DateTime getLastConnection() {
+		return lastConnection;
+	}
+
+	public void setLastConnection(DateTime lastConnection) {
+		this.lastConnection = lastConnection;
+	}
+
+	public String getLastAddress() {
+		return lastAddress;
+	}
+
+	public void setLastAddress(String lastAddress) {
+		this.lastAddress = lastAddress;
+	}
+
+	public int getNbConnections() {
+		return nbConnections;
+	}
+
+	public void setNbConnections(int nbConnections) {
+		this.nbConnections = nbConnections;
+	}
+	
+	public void incrementNbConnections() {
+		++this.nbConnections;
+	}
+	
+	public boolean firstConnection() {
+		return nbConnections <= 0;
 	}
 
 	/**
