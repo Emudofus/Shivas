@@ -186,6 +186,9 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		player.setStats(new PlayerStatistics(
 				player,
+				result.getShort("stat_points"),
+				result.getShort("spell_points"),
+				result.getInt("energy"),
 				result.getInt("life"),
 				result.getShort("action_points"),
 				result.getShort("movement_points"),

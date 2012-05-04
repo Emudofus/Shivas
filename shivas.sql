@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50508
 File Encoding         : 65001
 
-Date: 2012-05-04 01:33:39
+Date: 2012-05-04 19:15:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,9 +30,12 @@ CREATE TABLE `accounts` (
   `banned` tinyint(1) NOT NULL,
   `community` int(11) NOT NULL,
   `points` int(11) NOT NULL,
-  `subscriptionEnd` datetime NOT NULL,
+  `subscription_end` datetime NOT NULL,
   `connected` tinyint(1) NOT NULL,
-  `channels` varchar(255) NOT NULL,
+  `channels` varchar(255) NOT NULL DEFAULT 'i*#$p%',
+  `last_connection` datetime NOT NULL,
+  `last_address` varchar(15) NOT NULL,
+  `nb_connections` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `accounts_name_index` (`name`) USING BTREE,
   UNIQUE KEY `accounts_nickname_index` (`nickname`) USING BTREE
@@ -41,7 +44,7 @@ CREATE TABLE `accounts` (
 -- ----------------------------
 -- Records of accounts
 -- ----------------------------
-INSERT INTO `accounts` VALUES ('1', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush', 'DELETE?', 'DELETE', '1', '0', '0', '0', '2013-05-03 13:43:59', '0', '');
+INSERT INTO `accounts` VALUES ('1', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush', 'DELETE?', 'DELETE', '1', '0', '0', '0', '2013-05-03 13:43:59', '0', 'i*#$p%', '0000-00-00 00:00:00', '', '0');
 
 -- ----------------------------
 -- Table structure for `players`
@@ -63,6 +66,16 @@ CREATE TABLE `players` (
   `map_id` int(11) NOT NULL,
   `cell` smallint(6) NOT NULL,
   `orientation` tinyint(4) NOT NULL,
+  `stat_points` smallint(6) NOT NULL,
+  `spell_points` smallint(6) NOT NULL,
+  `energy` int(11) NOT NULL,
+  `life` int(11) NOT NULL,
+  `action_points` smallint(6) NOT NULL,
+  `movement_points` smallint(6) NOT NULL,
+  `strength` smallint(6) NOT NULL,
+  `intelligence` smallint(6) NOT NULL,
+  `chance` smallint(6) NOT NULL,
+  `agility` smallint(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `players_name_index` (`name`) USING BTREE,
   KEY `players_owner_id_fk` (`owner_id`),
@@ -72,4 +85,3 @@ CREATE TABLE `players` (
 -- ----------------------------
 -- Records of players
 -- ----------------------------
-INSERT INTO `players` VALUES ('1', '1', 'Wayrneo', '1', '1', '11', '0', '-1', '-1', '-1', '200', '7407232000', '7411', '355', '0');
