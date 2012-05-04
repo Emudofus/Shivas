@@ -1,6 +1,7 @@
 package org.shivas.protocol.client.formatters;
 
 import org.shivas.common.StringUtils;
+import org.shivas.common.maths.LimitedValue;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.types.BaseItemEffectType;
 import org.shivas.protocol.client.types.BaseItemType;
@@ -46,6 +47,10 @@ public class ItemGameMessageFormatter {
 
     public static String inventoryStatsMessage(int usedPods, int maxPods){
         return "Ow" + usedPods + "|" + maxPods;
+    }
+    
+    public static String inventoryStatsMessage(LimitedValue pods) {
+    	return "Ow" + pods.current() + "|" + pods.max();
     }
 
     private static void formatItem(StringBuilder sb, BaseItemType item){
