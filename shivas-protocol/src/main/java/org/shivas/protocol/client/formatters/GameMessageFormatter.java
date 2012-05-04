@@ -1,5 +1,6 @@
 package org.shivas.protocol.client.formatters;
 
+import org.shivas.common.maths.LimitedValue;
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
@@ -159,6 +160,26 @@ public class GameMessageFormatter {
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context());
 
         return sb.toString();
+    }
+    
+    public static String statisticsMessage
+    	(long currentExperience, long minExp, long maxExp,
+	     long kamas,
+	     short statsPoints, short spellsPoints,
+	     int alignId, short alignLevel, short alignGrade, int honor, int dishonor, boolean pvpEnabled,
+	     LimitedValue life, LimitedValue energy,
+	     Statistics statistics)
+    {
+    	return statisticsMessage(
+    			currentExperience, minExp, maxExp,
+    			kamas, statsPoints, spellsPoints, 
+    			alignId, alignLevel, alignGrade, honor, dishonor, pvpEnabled,
+    			(short)life.current(), (short)life.max(),
+    			(short)energy.current(), (short)energy.max(),
+    			statistics.get(CharacteristicType.Initiative).total(),
+    			statistics.get(CharacteristicType.Prospection).total(),
+    			statistics
+    	);
     }
 
     public static String showActorMessage(BaseRolePlayActorType actor){
