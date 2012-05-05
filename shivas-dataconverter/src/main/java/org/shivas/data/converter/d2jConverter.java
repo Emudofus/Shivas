@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Map;
 
 import org.atomium.util.Action1;
@@ -17,10 +18,12 @@ import org.atomium.util.query.mysql.MySqlQueryBuilderFactory;
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import org.shivas.common.maths.Point;
 import org.shivas.common.maths.Range;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.entity.Breed;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class d2jConverter implements Converter {
@@ -58,13 +61,13 @@ public class d2jConverter implements Converter {
 			
 			result = action.invoke(statement);
 		} catch (Exception e) {
-			App.log(e.toString());
+			e.printStackTrace();
 		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
 				} catch (SQLException e) {
-					App.log("SQLException : %s", e.getMessage());
+					e.printStackTrace();
 				}
 			}
 		}
@@ -87,27 +90,53 @@ public class d2jConverter implements Converter {
 		App.log("Vous avez choisis le convertisseur pour base de donnée d2j");
 		
 		init();
-		
+
+		App.log("Les races vont être chargées puis écrite, cela peut prendre quelques secondes");
 		query(q.select("breed_templates").toQuery(), new Action1<ResultSet>() {
 			public Void invoke(ResultSet arg1) throws Exception {
 				createBreeds(arg1, App.prompt("Veuillez entrer le répertoire où seront stockés les races"));
 				return null;
 			}
 		});
-		
+		App.log("Toutes les races ont été stockées");
+
+		App.log("Les niveaux d'expériences vont être chargés puis écrit, cela peut prendre quelques secondes");
 		query(q.select("experience_templates").toQuery(), new Action1<ResultSet>() {
 			public Void invoke(ResultSet arg1) throws Exception {
 				createExperiences(arg1, App.prompt("Veuillez entrer le répertoire où seront stockés les niveaux d'expérience"));
 				return null;
 			}
 		});
-		
+		App.log("Tous les niveaux d'expériences ont été stockés");
+
+		App.log("Les cartes vont être chargées, cela peut prendre quelques minutes");
 		query(q.select("map_templates").toQuery(), new Action1<ResultSet>() {
 			public Void invoke(ResultSet arg1) throws Exception {
-				createMaps(arg1, App.prompt("Veuillez entrer le répertoire où seront stockés les maps"));
+				loadMaps(arg1);
 				return null;
 			}
 		});
+		App.log("%d cartes ont été chargées", maps.size());
+
+		App.log("Les triggers de cartes vont être chargés, cela peut prendre quelques minutes");
+		query(q.select("map_triggers").toQuery(), new Action1<ResultSet>() {
+			public Void invoke(ResultSet arg1) throws Exception {
+				loadTriggers(arg1);
+				return null;
+			}
+		});
+		App.log("Tous les triggers ont été chargés");
+		
+		try {
+			App.log("Les cartes vont maintenant être écrite");
+			writeMaps(App.prompt("Veuillez entrer le répertoire où seront stockés les cartes"));
+			App.log("Toutes les cartes ont été stockées");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		App.log("Tout s'est bien passé, vous pouvez à présent lancer l'émulateur");
 	}
 	
 	private Breed.Level parseLevel(String string) {
@@ -203,10 +232,94 @@ public class d2jConverter implements Converter {
 			root_elem.addContent(exp_elem);
 		}
 		
-		output.output(root_elem, new BufferedWriter(new FileWriter(directory + "base.xml", false)));
+		output.output(root_elem, new BufferedWriter(new FileWriter(directory + "experiences.xml", false)));
 	}
 
-	private void createMaps(ResultSet result, String directory) throws Exception {
+	static class GameMap {
+		public int id;
+		public Point position = new Point();
+		public int width, height;
+		public String data;
+		public String date;
+		public String key;
+		public boolean subscriber;
+		public List<Trigger> triggers = Lists.newArrayList();
+	}
+	
+	static class Trigger {
+		public int id;
+		public GameMap nextMap;
+		public short cell, nextCell;
+	}
+	
+	private void writeMaps(String directory) throws Exception {
+		Element root_elem = new Element("maps");
 		
+		for (GameMap map : maps.values()) {			
+			Element map_elem = new Element("map");
+			map_elem.setAttribute("id", String.valueOf(map.id));
+			map_elem.setAttribute("abscissa", String.valueOf(map.position.abscissa()));
+			map_elem.setAttribute("ordinate", String.valueOf(map.position.ordinate()));
+			map_elem.setAttribute("width", String.valueOf(map.width));
+			map_elem.setAttribute("height", String.valueOf(map.height));
+			map_elem.setAttribute("date", String.valueOf(map.date));
+			map_elem.setAttribute("subscriber", map.subscriber ? "1" : "0");
+			
+			Element data_elem = new Element("data");
+			data_elem.setAttribute("value", map.data);
+			map_elem.addContent(data_elem);
+			
+			Element key_elem = new Element("key");
+			key_elem.setAttribute("value", map.key);
+			map_elem.addContent(key_elem);
+			
+			for (Trigger trigger : map.triggers) {
+				Element trigger_elem = new Element("trigger");
+				trigger_elem.setAttribute("id", String.valueOf(trigger.id));
+				trigger_elem.setAttribute("cell", String.valueOf(trigger.cell));
+				trigger_elem.setAttribute("next_map", trigger.nextMap != null ? String.valueOf(trigger.nextMap.id) : "");
+				trigger_elem.setAttribute("next_cell", String.valueOf(trigger.nextCell));
+				
+				map_elem.addContent(trigger_elem);
+			}
+			
+			root_elem.addContent(map_elem);
+		}
+		
+		output.output(root_elem, new BufferedWriter(new FileWriter(directory + "maps.xml", false)));
+	}
+	
+	private Map<Integer, GameMap> maps = Maps.newHashMap();
+	
+	private void loadMaps(ResultSet result) throws Exception {
+		while (result.next()) {
+			GameMap map = new GameMap();
+			map.id = result.getInt("id");
+			map.position.setAbscissa(result.getInt("abscissa"));
+			map.position.setOrdinate(result.getInt("ordinate"));
+			map.width = result.getInt("width");
+			map.height = result.getInt("height");
+			map.data = result.getString("data");
+			map.date = result.getString("date");
+			map.key = result.getString("key");
+			map.subscriber = result.getBoolean("subscriberArea");
+			
+			maps.put(map.id, map);
+		}
+	}
+	
+	private void loadTriggers(ResultSet result) throws Exception {
+		while (result.next()) {
+			Trigger trigger = new Trigger();
+			trigger.id = result.getInt("id");
+			trigger.nextMap = maps.get(result.getInt("nextMap"));
+			trigger.cell = result.getShort("cell");
+			trigger.nextCell = result.getShort("nextCell");
+			
+			GameMap map = maps.get(result.getInt("map"));
+			if (map != null) {
+				map.triggers.add(trigger);
+			}
+		}
 	}
 }
