@@ -94,6 +94,20 @@ public class d2jConverter implements Converter {
 				return null;
 			}
 		});
+		
+		query(q.select("experience_templates").toQuery(), new Action1<ResultSet>() {
+			public Void invoke(ResultSet arg1) throws Exception {
+				createExperiences(arg1, App.prompt("Veuillez entrer le répertoire où seront stockés les niveaux d'expérience"));
+				return null;
+			}
+		});
+		
+		query(q.select("map_templates").toQuery(), new Action1<ResultSet>() {
+			public Void invoke(ResultSet arg1) throws Exception {
+				createMaps(arg1, App.prompt("Veuillez entrer le répertoire où seront stockés les maps"));
+				return null;
+			}
+		});
 	}
 	
 	private Breed.Level parseLevel(String string) {
@@ -165,5 +179,34 @@ public class d2jConverter implements Converter {
 
 			output.output(root_elem, new BufferedWriter(new FileWriter(directory + name + ".xml", false)));
 		}
+	}
+	
+	private void createExperiences(ResultSet result, String directory) throws Exception {
+		Element root_elem = new Element("experiences");
+		
+		while (result.next()) {
+			/*** INPUT : MySQL ***/
+			int level = result.getInt("level");
+			long player = result.getLong("character");
+			int job = result.getInt("job");
+			int mount = result.getInt("mount");
+			short alignment = result.getShort("alignment");
+			
+			/*** OUTPUT : XML ***/
+			Element exp_elem = new Element("experience");
+			exp_elem.setAttribute("level", String.valueOf(level));
+			exp_elem.setAttribute("player", String.valueOf(player));
+			exp_elem.setAttribute("job", String.valueOf(job));
+			exp_elem.setAttribute("mount", String.valueOf(mount));
+			exp_elem.setAttribute("alignment", String.valueOf(alignment));
+			
+			root_elem.addContent(exp_elem);
+		}
+		
+		output.output(root_elem, new BufferedWriter(new FileWriter(directory + "base.xml", false)));
+	}
+
+	private void createMaps(ResultSet result, String directory) throws Exception {
+		
 	}
 }
