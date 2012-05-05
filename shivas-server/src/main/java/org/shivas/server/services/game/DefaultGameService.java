@@ -89,7 +89,13 @@ public class DefaultGameService extends AbstractService implements GameService {
 				message
 		));
 		
-		client.handler().handle(message);
+		if (message.equals("ping")) {
+			session.write("pong");
+		} else if (message.equals("qping")) {
+			session.write("qpong");
+		} else {
+			client.handler().handle(message);
+		}
 	}
 
 	public void messageSent(IoSession session, Object o) throws Exception {

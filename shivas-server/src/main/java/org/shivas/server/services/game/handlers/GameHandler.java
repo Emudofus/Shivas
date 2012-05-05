@@ -3,6 +3,7 @@ package org.shivas.server.services.game.handlers;
 import java.util.Collection;
 
 import org.apache.mina.core.session.IoSession;
+import org.shivas.protocol.client.enums.ActionTypeEnum;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.maps.GMap;
@@ -25,6 +26,10 @@ public class GameHandler extends AbstractBaseHandler<GameClient> implements MapO
 
 	public void handle(String message) throws Exception {
 		switch (message.charAt(1)) {
+		case 'A':
+			parseGameActionMessage(ActionTypeEnum.valueOf(Integer.parseInt(message.substring(2, 5))), message.substring(5));
+			break;
+		
 		case 'C':
 			parseGameCreationMessage();
 			break;
@@ -77,6 +82,13 @@ public class GameHandler extends AbstractBaseHandler<GameClient> implements MapO
 		session.write(GameMessageFormatter.fightCountMessage(0)); // TODO fights
 		
 		map.addObserver(this);
+	}
+
+	private void parseGameActionMessage(ActionTypeEnum action, String args) {
+		switch (action) {
+		case MOVEMENT:
+			break;
+		}
 	}
 
 }
