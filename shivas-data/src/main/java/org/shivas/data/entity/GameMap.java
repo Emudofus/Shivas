@@ -15,7 +15,8 @@ public class GameMap implements Serializable {
 	private List<GameCell> cells;
 	private String date;
 	private String key;
-	private boolean subscriberArea;
+	private boolean subscriber;
+	private List<MapTrigger> trigger;
 	
 	public int getId() {
 		return id;
@@ -59,11 +60,17 @@ public class GameMap implements Serializable {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	public boolean isSubscriberArea() {
-		return subscriberArea;
+	public boolean isSubscriber() {
+		return subscriber;
 	}
-	public void setSubscriberArea(boolean subscriberArea) {
-		this.subscriberArea = subscriberArea;
+	public void setSubscriber(boolean subscriber) {
+		this.subscriber = subscriber;
+	}
+	public List<MapTrigger> getTrigger() {
+		return trigger;
+	}
+	public void setTrigger(List<MapTrigger> trigger) {
+		this.trigger = trigger;
 	}
 
 }
