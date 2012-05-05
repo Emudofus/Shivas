@@ -1,5 +1,8 @@
 package org.shivas.server;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.atomium.EntityManager;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.game.GameService;
@@ -14,6 +17,7 @@ import com.google.inject.Module;
 public class ShivasServer {
 	
 	private static final Logger log = LoggerFactory.getLogger(ShivasServer.class);
+	public static final ExecutorService EVENT_WORKER = Executors.newSingleThreadExecutor();
 	
 	private final Module[] modules;
 

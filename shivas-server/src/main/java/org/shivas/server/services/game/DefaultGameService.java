@@ -1,8 +1,5 @@
 package org.shivas.server.services.game;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -28,7 +25,6 @@ public class DefaultGameService extends AbstractService implements GameService {
 	private final Config config;
 	private final LoginService login;
 	private final GameServerType informations;
-	private final ExecutorService actionWorker = Executors.newSingleThreadExecutor();
 
 	@Inject
 	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login) {
@@ -57,11 +53,7 @@ public class DefaultGameService extends AbstractService implements GameService {
 	public GameServerType informations() {
 		return informations;
 	}
-
-	public ExecutorService actionWorker() {
-		return actionWorker;
-	}
-
+	
 	public void sessionCreated(IoSession session) throws Exception {
 		session.setAttribute(CLIENT_TOKEN, new DefaultGameClient(this));
 	}

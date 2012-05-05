@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
+import org.atomium.exception.LoadingException;
 import org.atomium.repository.EntityRepository;
 import org.atomium.repository.impl.AbstractLiveEntityRepository;
 import org.atomium.util.Filter;
@@ -50,6 +51,15 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 				.where("id", Op.EQ);
 	}
 	
+	@Override
+	public int load() throws LoadingException {
+		int result = super.load();
+		
+		em.execute(em.builder().update(TABLE_NAME).value("connected", false).toQuery());
+		
+		return result;
+	}
+
 	public Cipher passwordCipher() {
 		try {
 			return new Sha1Cipher();

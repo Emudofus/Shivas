@@ -103,7 +103,7 @@ public class XmlLoader extends AbstractLoader {
 			repo.put(experience.getLevel(), experience);
 		}
 
-		for (int i = 2; i < repo.count(); ++i) {
+		for (int i = 2; i <= repo.count(); ++i) {
 			Experience previous = repo.byId(i - 1);
 			Experience current = repo.byId(i);
 			

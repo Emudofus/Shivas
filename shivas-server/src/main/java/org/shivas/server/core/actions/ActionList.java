@@ -3,6 +3,7 @@ package org.shivas.server.core.actions;
 import java.util.List;
 
 import org.shivas.common.observable.AbstractObservable;
+import org.shivas.server.ShivasServer;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.game.GameClient;
 
@@ -28,7 +29,7 @@ public class ActionList extends AbstractObservable<ActionList.Listener, Action> 
 	public <T extends Action> T push(final T action) {
 		actions.add(action);
 
-		client.service().actionWorker().execute(new Runnable() {
+		ShivasServer.EVENT_WORKER.execute(new Runnable() {
 			public void run() {
 				notifyObservers(action);
 			}
