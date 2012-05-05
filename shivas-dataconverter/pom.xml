@@ -21,5 +21,15 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>org.shivas</groupId>
+    	<artifactId>shivas-data</artifactId>
+    	<version>1</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.atomium</groupId>
+    	<artifactId>atomium-util</artifactId>
+    	<version>1</version>
+    </dependency>
   </dependencies>
 </project>

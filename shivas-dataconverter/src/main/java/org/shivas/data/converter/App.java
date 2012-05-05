@@ -21,7 +21,7 @@ public class App {
 	public static void load() {
 		log("Chargement, veuillez patienter ...");
 		
-		CONVERTERS.put(VemuConverter.ID, new VemuConverter());
+		CONVERTERS.put(d2jConverter.ID, new d2jConverter());
 		
 		log();
 	}
