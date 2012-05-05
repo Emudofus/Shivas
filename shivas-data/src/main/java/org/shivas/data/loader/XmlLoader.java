@@ -124,6 +124,7 @@ public class XmlLoader extends AbstractLoader {
 			));
 			map.setWidth(element.getAttribute("width").getIntValue());
 			map.setHeight(element.getAttribute("height").getIntValue());
+			map.setCells(CellLoader.parse(element.getChild("data").getAttributeValue("value"), factory));
 			map.setDate(element.getAttribute("date").getValue());
 			map.setKey(element.getChild("key").getAttributeValue("value"));
 			map.setSubscriber(element.getAttributeValue("subscriber") == "1");
@@ -137,7 +138,7 @@ public class XmlLoader extends AbstractLoader {
 			List<MapTrigger> triggers = Lists.newArrayList();
 			for (Element trigger_elem : element.getChildren("trigger")) {
 				MapTrigger trigger = factory.newMapTrigger();
-				trigger.setId(trigger_elem.getAttribute("id").getIntValue());
+				//trigger.setId(trigger_elem.getAttribute("id").getIntValue()); <- useless
 				trigger.setMap(map);
 				trigger.setCell((short) trigger_elem.getAttribute("cell").getIntValue());
 				trigger.setNextMap(repo.byId(trigger_elem.getAttribute("next_map").getIntValue()));
