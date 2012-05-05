@@ -71,7 +71,7 @@ public class XmlLoader extends AbstractLoader {
 				
 				CharacteristicType type = CharacteristicType.valueOf(child.getAttributeValue("type"));
 				for (Element child2 : child.getChildren("level")) {
-					Range range = Range.parseInterval(child2.getAttributeValue("range"));
+					Range range = Range.parseRange(child2.getAttributeValue("range"));
 					int bonus = child2.getAttribute("bonus").getIntValue(),
 						cost  = child2.getAttribute("cost").getIntValue();
 					
