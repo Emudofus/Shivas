@@ -25,8 +25,15 @@ public class ActionList extends AbstractObservable<ActionList.Listener, Action> 
 		observer.listenAction(client.player(), arg);
 	}
 	
-	public <T extends Action> T push(T action) {
+	public <T extends Action> T push(final T action) {
 		actions.add(action);
+
+		client.service().actionWorker().execute(new Runnable() {
+			public void run() {
+				notifyObservers(action);
+			}
+		});
+		
 		return action;
 	}
 	

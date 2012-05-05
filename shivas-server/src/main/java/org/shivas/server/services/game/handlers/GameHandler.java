@@ -82,8 +82,12 @@ public class GameHandler extends AbstractBaseHandler<GameClient> implements MapO
 	private void parseGameActionMessage(ActionTypeEnum action, String args) {
 		switch (action) {
 		case MOVEMENT:
+			parseMovementMessage(args);
 			break;
 		}
+	}
+
+	private void parseMovementMessage(String path) {
 	}
 
 }
