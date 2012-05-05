@@ -11,12 +11,20 @@ import org.shivas.protocol.client.enums.Channel;
  * IDE:  IntelliJ IDEA
  */
 public class ChannelGameMessageFormatter {
-    public static String addChannelMessage(Collection<Channel> channels){
+    public static String addChannelsMessage(Collection<Channel> channels){
     	StringBuilder sb = new StringBuilder().append("cC+");
     	for (Channel channel : channels) {
     		sb.append(channel.value());
     	}
     	return sb.toString();
+    }
+    
+    public static String addChannelMessage(Channel channel) {
+    	return String.format("cC+%s", channel.value());
+    }
+    
+    public static String removeChannelMessage(Channel channel) {
+    	return String.format("cC-%s", channel.value());
     }
 
     public static String enabledEmotesMessage(String emotes){
