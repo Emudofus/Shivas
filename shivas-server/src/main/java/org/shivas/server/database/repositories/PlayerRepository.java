@@ -86,8 +86,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		);
 		player.setStats(new PlayerStatistics(
 				player,
-				config.startActionPoints() != null ? config.startActionPoints() : 6,
-				config.startMovementPoints() != null ? config.startMovementPoints() : 3,
+				config.startActionPoints() != null ? config.startActionPoints() : player.getBreed().getStartActionPoints(),
+				config.startMovementPoints() != null ? config.startMovementPoints() : player.getBreed().getStartMovementPoints(),
 				config.startVitality(),
 				config.startWisdom(),
 				config.startStrength(),

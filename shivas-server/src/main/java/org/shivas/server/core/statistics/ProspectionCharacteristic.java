@@ -19,7 +19,7 @@ public class ProspectionCharacteristic extends BaseCharacteristic {
 
 	@Override
 	public short base() {
-		return 100; // TODO depends on breed
+		return stats.owner().getBreed().getStartProspection();
 	}
 
 	@Override

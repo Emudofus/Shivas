@@ -1,11 +1,8 @@
 package org.shivas.server.services.game.handlers;
 
-import java.util.Collection;
-
 import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.enums.ActionTypeEnum;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
-import org.shivas.server.core.GameActor;
 import org.shivas.server.core.maps.GMap;
 import org.shivas.server.core.maps.MapEvent;
 import org.shivas.server.core.maps.MapObserver;
@@ -75,9 +72,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> implements MapO
 		
 		map.enter(client.player());
 		
-		Collection<GameActor> actors = map.actors();
-		
-		session.write(GameMessageFormatter.showActorsMessage(Collections2.transform(actors, Converters.GAMEACTOR_TO_BASEROLEPLAYACTORTYPE)));
+		session.write(GameMessageFormatter.showActorsMessage(Collections2.transform(map.actors(), Converters.GAMEACTOR_TO_BASEROLEPLAYACTORTYPE)));
 		session.write(GameMessageFormatter.mapLoadedMessage());
 		session.write(GameMessageFormatter.fightCountMessage(0)); // TODO fights
 		

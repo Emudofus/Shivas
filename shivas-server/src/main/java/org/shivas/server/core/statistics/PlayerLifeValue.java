@@ -15,12 +15,11 @@ public class PlayerLifeValue extends LifeValue {
 		this.stats = stats;
 		this.current = current;
 		check();
-		
 	}
 
 	@Override
 	public int max() {
-		return (stats.owner().getExperience().level() - 1) * 5 + stats.get(CharacteristicType.Vitality).safeTotal();
+		return stats.owner().getBreed().getStartLife() + stats.get(CharacteristicType.Vitality).safeTotal();
 	}
 
 }
