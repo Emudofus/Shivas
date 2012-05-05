@@ -7,6 +7,8 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
+import org.shivas.common.maths.Interval;
+import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
@@ -53,7 +55,22 @@ public class XmlLoader extends AbstractLoader {
 		Element root = doc.getDescendants(new ElementFilter("breeds")).next();
 		for (Element element : root.getChildren("breed")) {
 			Breed breed = factory.newBreed();
+			
 			breed.setId(element.getAttribute("id").getIntValue());
+			breed.setStartActionPoints((short) element.getAttribute("startActionPoints").getIntValue());
+			breed.setStartMovementPoints((short) element.getAttribute("startMovementPoints").getIntValue());
+			breed.setStartLife((short) element.getAttribute("startLife").getIntValue());
+			breed.setStartProspection((short) element.getAttribute("startProspection").getIntValue());
+			
+			/**** TODO ****/
+			for (Element levels : element.getChildren("levels")) {
+				CharacteristicType type = CharacteristicType.valueOf(levels.getAttributeValue("type"));
+				for (Element level : levels.getChildren("level")) {
+					Interval range = Interval.parseInterval(level.getAttributeValue("range"));
+					int bonus = level.getAttribute("bonus").getIntValue(),
+						cost  = level.getAttribute("cost").getIntValue();
+				}
+			}
 			
 			repo.put(breed.getId(), breed);
 		}
