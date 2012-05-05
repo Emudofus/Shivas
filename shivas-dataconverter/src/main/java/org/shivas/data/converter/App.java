@@ -52,6 +52,7 @@ public class App {
 				log("Choix impossible, veuillez recommencer");
 			}
 		}
+		in.nextLine();
 		return converter;
 	}
 	

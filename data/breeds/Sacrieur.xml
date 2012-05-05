@@ -1,0 +1,30 @@
+<breeds>
+  <breed id="11" startActionPoints="6" startMovementPoints="3" startLife="46" startProspection="100">
+    <levels type="Chance">
+      <level range="151.." bonus="1" cost="5" />
+      <level range="0..100" bonus="1" cost="3" />
+      <level range="101..150" bonus="1" cost="4" />
+    </levels>
+    <levels type="Vitality">
+      <level range="0.." bonus="2" cost="1" />
+    </levels>
+    <levels type="Agility">
+      <level range="151.." bonus="1" cost="5" />
+      <level range="0..100" bonus="1" cost="3" />
+      <level range="101..150" bonus="1" cost="4" />
+    </levels>
+    <levels type="Strength">
+      <level range="151.." bonus="1" cost="5" />
+      <level range="0..100" bonus="1" cost="3" />
+      <level range="101..150" bonus="1" cost="4" />
+    </levels>
+    <levels type="Wisdom">
+      <level range="0.." bonus="1" cost="3" />
+    </levels>
+    <levels type="Intelligence">
+      <level range="151.." bonus="1" cost="5" />
+      <level range="0..100" bonus="1" cost="3" />
+      <level range="101..150" bonus="1" cost="4" />
+    </levels>
+  </breed>
+</breeds>

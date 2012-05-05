@@ -1,6 +1,7 @@
 package org.shivas.data.converter;
 
-import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,9 +14,9 @@ import org.atomium.util.Function1;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.QueryBuilderFactory;
 import org.atomium.util.query.mysql.MySqlQueryBuilderFactory;
-import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 import org.shivas.common.maths.Range;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.entity.Breed;
@@ -27,18 +28,19 @@ public class d2jConverter implements Converter {
 	
 	private Connection connection;
 	private QueryBuilderFactory q;
-	private SAXBuilder builder = new SAXBuilder();
+	private XMLOutputter output;
 	
 	private void init() {		
-		String hostname = App.prompt("Veuillez entrer l'adresse du serveur MySQL"),
-			   user = App.prompt("Veuillez entrer le nom d'utilisateur"),
-			   password = App.prompt("Veuillez entrer le mot de passe"),
-			   database = App.prompt("Veuillez entrer le nom de la base de donnée");
+		String hostname = "localhost";
+		String user 	= "root";
+		String password = "";
+		String database = "d2j_static";
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":3306/" + database + "?zeroDateTimeBehavior=convertToNull", user, password);
 			q = new MySqlQueryBuilderFactory();
+			output = new XMLOutputter(Format.getPrettyFormat());
 		} catch (ClassNotFoundException e) {
 			App.log("can't load driver because : %s", e.getMessage());
 			System.exit(1);
@@ -56,7 +58,7 @@ public class d2jConverter implements Converter {
 			
 			result = action.invoke(statement);
 		} catch (Exception e) {
-			App.log("%s : %s", e.getClass().getSimpleName(), e.getMessage());
+			App.log(e.toString());
 		} finally {
 			if (statement != null) {
 				try {
@@ -82,7 +84,7 @@ public class d2jConverter implements Converter {
 
 	@Override
 	public void start() {
-		App.log("Vous avez choisis le convertisseur pour base de donnée Vemu");
+		App.log("Vous avez choisis le convertisseur pour base de donnée d2j");
 		
 		init();
 		
@@ -106,7 +108,7 @@ public class d2jConverter implements Converter {
 		for (String s : string.split("\\|")) {
 			String[] args = s.split(":");
 			
-			Range range = Range.parseRange(args[0], ",");
+			Range range = Range.parseRange(args[0], "\\,");
 			Breed.Level level = parseLevel(args[1]);
 			
 			levels.put(range, level);
@@ -134,9 +136,6 @@ public class d2jConverter implements Converter {
 			levels.put(CharacteristicType.Agility, loadLevels(result.getString("agility")));
 			
 			/*** OUTPUT : XML ***/
-			
-			File file = new File(directory + name + ".xml");
-			Document doc = builder.build(file);
 
 			Element root_elem = new Element("breeds");
 			
@@ -163,9 +162,8 @@ public class d2jConverter implements Converter {
 			}
 			
 			root_elem.addContent(breed_elem);
-			doc.addContent(root_elem);
 
-			file.createNewFile();
+			output.output(root_elem, new BufferedWriter(new FileWriter(directory + name + ".xml", false)));
 		}
 	}
 }
