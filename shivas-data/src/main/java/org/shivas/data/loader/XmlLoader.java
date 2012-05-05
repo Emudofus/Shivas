@@ -2,12 +2,13 @@ package org.shivas.data.loader;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
-import org.shivas.common.maths.Interval;
+import org.shivas.common.maths.Range;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.Breed;
@@ -16,6 +17,8 @@ import org.shivas.data.entity.GameMap;
 import org.shivas.data.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Maps;
 
 public class XmlLoader extends AbstractLoader {
 	
@@ -62,14 +65,20 @@ public class XmlLoader extends AbstractLoader {
 			breed.setStartLife((short) element.getAttribute("startLife").getIntValue());
 			breed.setStartProspection((short) element.getAttribute("startProspection").getIntValue());
 			
-			/**** TODO ****/
-			for (Element levels : element.getChildren("levels")) {
-				CharacteristicType type = CharacteristicType.valueOf(levels.getAttributeValue("type"));
-				for (Element level : levels.getChildren("level")) {
-					Interval range = Interval.parseInterval(level.getAttributeValue("range"));
-					int bonus = level.getAttribute("bonus").getIntValue(),
-						cost  = level.getAttribute("cost").getIntValue();
+			Map<CharacteristicType, Map<Range, Breed.Level>> levels = Maps.newHashMap();
+			for (Element child : element.getChildren("levels")) {
+				Map<Range, Breed.Level> level = Maps.newHashMap();
+				
+				CharacteristicType type = CharacteristicType.valueOf(child.getAttributeValue("type"));
+				for (Element child2 : child.getChildren("level")) {
+					Range range = Range.parseInterval(child2.getAttributeValue("range"));
+					int bonus = child2.getAttribute("bonus").getIntValue(),
+						cost  = child2.getAttribute("cost").getIntValue();
+					
+					level.put(range, new Breed.Level(cost, bonus));
 				}
+				
+				levels.put(type, level);
 			}
 			
 			repo.put(breed.getId(), breed);
