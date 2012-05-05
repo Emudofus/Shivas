@@ -8,6 +8,9 @@ public class Experience implements Serializable {
 	
 	private short level;
 	private long player;
+	private int job;
+	private int mount;
+	private short alignment;
 	private Experience previous;
 	private Experience next;
 
@@ -25,6 +28,30 @@ public class Experience implements Serializable {
 
 	public void setPlayer(long player) {
 		this.player = player;
+	}
+
+	public int getJob() {
+		return job;
+	}
+
+	public void setJob(int job) {
+		this.job = job;
+	}
+
+	public int getMount() {
+		return mount;
+	}
+
+	public void setMount(int mount) {
+		this.mount = mount;
+	}
+
+	public short getAlignment() {
+		return alignment;
+	}
+
+	public void setAlignment(short alignment) {
+		this.alignment = alignment;
 	}
 
 	public Experience previous() {
