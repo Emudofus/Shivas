@@ -10,12 +10,12 @@ import org.shivas.server.services.game.GameService;
 @Singleton
 public class ShivasEntityFactory extends BaseEntityFactory {
 	
-	@Inject
-	private GameService gs;
+	/*@Inject
+	private GameService gs;*/
 
 	@Override
 	public GMap newGameMap() {
-		return new GMap(gs);
+		return new GMap(null);
 	}
 	
 }

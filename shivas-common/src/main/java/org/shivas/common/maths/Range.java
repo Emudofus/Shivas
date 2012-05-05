@@ -27,7 +27,7 @@ public class Range implements Iterable<Integer>, Comparable<Range> {
 	}
 	
 	public static Range parseRange(String s) {
-		return parseRange(s, "..");
+		return parseRange(s, "\\.\\.");
 	}
 
 	private int start, end;

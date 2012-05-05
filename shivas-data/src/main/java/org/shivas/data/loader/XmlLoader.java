@@ -83,6 +83,7 @@ public class XmlLoader extends AbstractLoader {
 				
 				levels.put(type, level);
 			}
+			breed.setLevels(levels);
 			
 			repo.put(breed.getId(), breed);
 		}
@@ -148,8 +149,6 @@ public class XmlLoader extends AbstractLoader {
 			}
 			map.setTrigger(triggers);
 		}
-		
-		
 	}
 
 }
