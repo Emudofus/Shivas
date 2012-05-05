@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public class Range implements Iterable<Integer> {
+public class Range implements Iterable<Integer>, Comparable<Range> {
 	
 	public static Range parseRange(String s, String split) {
 		String[] args = s.split(split);
@@ -17,7 +17,7 @@ public class Range implements Iterable<Integer> {
 			start = Integer.MIN_VALUE;
 		}
 		
-		if (args[1].length() > 0) {
+		if (args.length > 1 && args[1].length() > 0) {
 			end = Integer.parseInt(args[1]);
 		} else {
 			end = Integer.MAX_VALUE;
@@ -114,6 +114,17 @@ public class Range implements Iterable<Integer> {
 	@Override
 	public Iterator<Integer> iterator() {
 		return new IntervalIterator(this);
+	}
+
+	@Override
+	public int compareTo(Range that) {
+		if (this.start > that.start) {
+			return 1;
+		} else if (this.start < that.start) {
+			return -1;
+		} else {
+			return 0;
+		}
 	}
 	
 	private static class IntervalIterator implements Iterator<Integer> {
