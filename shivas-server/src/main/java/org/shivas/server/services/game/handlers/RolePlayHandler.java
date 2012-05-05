@@ -29,7 +29,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 	public void init() throws Exception {
 		super.init();
 		
-		session.write(ChannelGameMessageFormatter.addChannelMessage(client.account().getChannels()));
+		session.write(ChannelGameMessageFormatter.addChannelsMessage(client.account().getChannels()));
 		session.write(SpellGameMessageFormatter.spellListMessage(new ArrayList<BaseSpellType>(0))); // TODO spells
 		session.write(ChannelGameMessageFormatter.enabledEmotesMessage("")); // TODO emotes
 		session.write(ItemGameMessageFormatter.inventoryStatsMessage(new BasicLimitedValue(1000))); // TODO statistics
@@ -61,6 +61,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 	protected void configure() {
 		add('A', new ApproachHandler(client, session));
 		add('B', new BasicHandler(client, session));
+		add('C', new ChannelHandler(client, session));
 		add('G', new GameHandler(client, session));
 	}
 
