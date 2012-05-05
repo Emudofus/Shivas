@@ -7,11 +7,27 @@ import com.google.common.collect.Lists;
 
 public class Range implements Iterable<Integer> {
 	
-	public static Range parseInterval(String s) {
-		int index = s.indexOf("..");
-		String left = s.substring(0, index),
-			   right = s.substring(index + 2);
-		return new Range(Integer.parseInt(left), Integer.parseInt(right));
+	public static Range parseRange(String s, String split) {
+		String[] args = s.split(split);
+		int start, end;
+		
+		if (args[0].length() > 0) {
+			start = Integer.parseInt(args[0]);
+		} else {
+			start = Integer.MIN_VALUE;
+		}
+		
+		if (args[1].length() > 0) {
+			end = Integer.parseInt(args[1]);
+		} else {
+			end = Integer.MAX_VALUE;
+		}
+		
+		return new Range(start, end);
+	}
+	
+	public static Range parseRange(String s) {
+		return parseRange(s, "..");
 	}
 
 	private int start, end;
@@ -83,10 +99,16 @@ public class Range implements Iterable<Integer> {
 	public int hashCode() {
 		return start ^ end;
 	}
+	
+	public String toString(String split) {
+		return (start == Integer.MIN_VALUE ? "" : String.valueOf(start)) +
+			   split +
+			   (end == Integer.MAX_VALUE ? "" : String.valueOf(end));
+	}
 
 	@Override
 	public String toString() {
-		return start + ".." + end;
+		return toString("..");
 	}
 
 	@Override
