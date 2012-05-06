@@ -2,6 +2,7 @@ package org.shivas.server.services.game.handlers;
 
 import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.enums.ActionTypeEnum;
+import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.core.Path;
 import org.shivas.server.core.actions.Action;
@@ -14,10 +15,14 @@ import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 import org.shivas.server.utils.Converters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Collections2;
 
 public class GameHandler extends AbstractBaseHandler<GameClient> implements MapObserver {
+	
+	private static Logger log = LoggerFactory.getLogger(GameHandler.class);
 
 	public GameHandler(GameClient client, IoSession session) {
 		super(client, session);
@@ -54,6 +59,8 @@ public class GameHandler extends AbstractBaseHandler<GameClient> implements MapO
 
 	@Override
 	public void observeMap(GMap map, MapEvent event) {
+		log.debug("observe map");
+		
 		switch (event.mapEventType()) {
 		case ENTER:
 			session.write(GameMessageFormatter.showActorMessage(event.actor().toBaseRolePlayActorType()));
@@ -135,8 +142,12 @@ public class GameHandler extends AbstractBaseHandler<GameClient> implements MapO
 			if (success) {
 				action.end();
 			} else {
-				short target = Short.parseShort(args.substring(2));
-				((RolePlayMovement) action).cancel(target);
+				String[] args_splitted = args.split("\\|");
+				
+				OrientationEnum orientation = OrientationEnum.valueOf(Integer.parseInt(args_splitted[0]));
+				short cell = Short.parseShort(args_splitted[1]);
+				
+				((RolePlayMovement) action).cancel(orientation, cell);
 			}
 			break;
 			

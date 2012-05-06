@@ -2,6 +2,7 @@ package org.shivas.server.core.actions;
 
 import org.apache.mina.core.session.IoSession;
 import org.shivas.data.entity.MapTrigger;
+import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
@@ -70,8 +71,11 @@ public class RolePlayMovement extends AbstractAction implements MapEvent {
 	public void cancel() throws ActionException {
 	}
 	
-	public void cancel(short cell) {
+	public void cancel(OrientationEnum orientation, short cell) {
+		Location location = client.player().getLocation();
 		
+		location.setOrientation(orientation);
+		location.setCell(cell);
 	}
 
 	public Path path() {
