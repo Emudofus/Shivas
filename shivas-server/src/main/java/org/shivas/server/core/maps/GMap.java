@@ -6,15 +6,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.shivas.common.observable.Observable;
 import org.shivas.data.entity.GameMap;
 import org.shivas.server.ShivasServer;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.GameActorWithoutId;
+import org.shivas.server.core.actions.RolePlayMovement;
 
 import com.google.common.collect.Maps;
 
-public class GMap extends GameMap implements Observable<MapObserver, MapEvent> {
+public class GMap extends GameMap {
 
 	private static final long serialVersionUID = 6687106835430542049L;
 	
@@ -31,11 +31,11 @@ public class GMap extends GameMap implements Observable<MapObserver, MapEvent> {
 		observers.remove(observer);
 	}
 
-	public void notifyObservers(final MapEvent arg) {
+	protected void notifyObservers(final MapEvent arg) {
 		ShivasServer.EVENT_WORKER.execute(new Runnable() {
 			public void run() {
 				for (MapObserver observer : observers) {
-					observer.observe(GMap.this, arg);
+					observer.observeMap(GMap.this, arg);
 				}
 			}
 		});
@@ -46,10 +46,18 @@ public class GMap extends GameMap implements Observable<MapObserver, MapEvent> {
 			((GameActorWithoutId) actor).setId(--actorId);
 		}
 		actors.put(actor.id(), actor);
+		
+		notifyObservers(new BaseMapEvent(actor, MapEventType.ENTER));
 	}
 	
 	public void leave(GameActor actor) {
 		actors.remove(actor);
+		
+		notifyObservers(new BaseMapEvent(actor, MapEventType.LEAVE));
+	}
+	
+	public void movement(RolePlayMovement movement) {
+		notifyObservers(movement);
 	}
 	
 	public int count() {

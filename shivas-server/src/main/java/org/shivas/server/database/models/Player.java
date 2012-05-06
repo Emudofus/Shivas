@@ -14,6 +14,7 @@ import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Look;
 import org.shivas.server.core.experience.PlayerExperience;
+import org.shivas.server.core.maps.GMap;
 import org.shivas.server.core.statistics.PlayerStatistics;
 
 import com.google.common.base.Function;
@@ -182,6 +183,11 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 
 	public void setStats(PlayerStatistics stats) {
 		this.stats = stats;
+	}
+
+	@Override
+	public void teleport(GMap map, short cell) {
+		// TODO
 	}
 
 	@Override
