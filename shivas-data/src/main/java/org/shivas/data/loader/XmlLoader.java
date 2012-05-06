@@ -1,7 +1,6 @@
 package org.shivas.data.loader;
 
 import java.io.File;
-import java.util.List;
 import java.util.Map;
 
 import org.jdom2.Document;
@@ -20,7 +19,6 @@ import org.shivas.data.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class XmlLoader extends AbstractLoader {
@@ -136,7 +134,7 @@ public class XmlLoader extends AbstractLoader {
 		for (Element element : root.getChildren("map")) {
 			GameMap map = repo.byId(element.getAttribute("id").getIntValue());
 			
-			List<MapTrigger> triggers = Lists.newArrayList();
+			Map<Short, MapTrigger> triggers = Maps.newHashMap();
 			for (Element trigger_elem : element.getChildren("trigger")) {
 				MapTrigger trigger = factory.newMapTrigger();
 				//trigger.setId(trigger_elem.getAttribute("id").getIntValue()); <- useless
@@ -145,7 +143,7 @@ public class XmlLoader extends AbstractLoader {
 				trigger.setNextMap(repo.byId(trigger_elem.getAttribute("next_map").getIntValue()));
 				trigger.setNextCell((short) trigger_elem.getAttribute("next_cell").getIntValue());
 				
-				triggers.add(trigger);
+				triggers.put(trigger.getCell(), trigger);
 			}
 			map.setTrigger(triggers);
 		}

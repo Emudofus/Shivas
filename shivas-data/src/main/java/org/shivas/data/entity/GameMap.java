@@ -2,6 +2,7 @@ package org.shivas.data.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.shivas.common.maths.Point;
 
@@ -16,7 +17,7 @@ public class GameMap implements Serializable {
 	private String date;
 	private String key;
 	private boolean subscriber;
-	private List<MapTrigger> trigger;
+	private Map<Short, MapTrigger> trigger;
 	
 	public int getId() {
 		return id;
@@ -66,10 +67,10 @@ public class GameMap implements Serializable {
 	public void setSubscriber(boolean subscriber) {
 		this.subscriber = subscriber;
 	}
-	public List<MapTrigger> getTrigger() {
+	public Map<Short, MapTrigger> getTrigger() {
 		return trigger;
 	}
-	public void setTrigger(List<MapTrigger> trigger) {
+	public void setTrigger(Map<Short, MapTrigger> trigger) {
 		this.trigger = trigger;
 	}
 
