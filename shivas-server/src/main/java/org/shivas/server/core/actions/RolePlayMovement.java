@@ -21,6 +21,10 @@ public class RolePlayMovement extends AbstractAction implements MapEvent {
 		this.client = client;
 		this.session = session;
 		this.path = path;
+		
+		// add current location to the path
+		Location location = this.client.player().getLocation();
+		this.path.add(0, new Path.Node(location.getOrientation(), location.getCell()));
 	}
 
 	@Override

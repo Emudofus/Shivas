@@ -5,7 +5,7 @@ import com.google.common.util.concurrent.SettableFuture;
 
 public abstract class AbstractAction implements Action {
 	
-	private SettableFuture<Action> endFuture;
+	private final SettableFuture<Action> endFuture = SettableFuture.create();
 	
 	protected abstract void internalEnd() throws ActionException;
 
