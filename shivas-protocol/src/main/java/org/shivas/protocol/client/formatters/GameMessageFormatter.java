@@ -291,7 +291,7 @@ public class GameMessageFormatter {
     	sb.append("0;");
     }
 
-    public static String removeActorMessage(Long id) {
+    public static String removeActorMessage(Number id) {
         return "GM|-" + id;
     }
 
