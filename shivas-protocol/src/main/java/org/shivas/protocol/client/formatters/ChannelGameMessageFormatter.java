@@ -2,7 +2,7 @@ package org.shivas.protocol.client.formatters;
 
 import java.util.Collection;
 
-import org.shivas.protocol.client.enums.Channel;
+import org.shivas.protocol.client.enums.ChannelEnum;
 
 /**
  * User: Blackrush
@@ -11,19 +11,19 @@ import org.shivas.protocol.client.enums.Channel;
  * IDE:  IntelliJ IDEA
  */
 public class ChannelGameMessageFormatter {
-    public static String addChannelsMessage(Collection<Channel> channels){
+    public static String addChannelsMessage(Collection<ChannelEnum> channels){
     	StringBuilder sb = new StringBuilder().append("cC+");
-    	for (Channel channel : channels) {
+    	for (ChannelEnum channel : channels) {
     		sb.append(channel.value());
     	}
     	return sb.toString();
     }
     
-    public static String addChannelMessage(Channel channel) {
+    public static String addChannelMessage(ChannelEnum channel) {
     	return String.format("cC+%s", channel.value());
     }
     
-    public static String removeChannelMessage(Channel channel) {
+    public static String removeChannelMessage(ChannelEnum channel) {
     	return String.format("cC-%s", channel.value());
     }
 

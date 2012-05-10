@@ -1,26 +1,20 @@
 package org.shivas.server.database;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.inject.Singleton;
 
 import org.shivas.data.entity.factory.BaseEntityFactory;
 import org.shivas.server.core.events.EventDispatcher;
-import org.shivas.server.core.events.ThreadedEventDispatcher;
 import org.shivas.server.core.maps.GMap;
+
+import com.google.inject.Provider;
 
 @Singleton
 public class ShivasEntityFactory extends BaseEntityFactory {
-	
-	private ExecutorService worker = Executors.newSingleThreadExecutor();
-	
-	private EventDispatcher newEventDispatcher() {
-		return new ThreadedEventDispatcher(worker);
-	}
+
+	private Provider<EventDispatcher> eventDispatchers;
 
 	public GMap newGameMap() {
-		return new GMap(newEventDispatcher());
+		return new GMap(eventDispatchers.get());
 	}
 	
 }

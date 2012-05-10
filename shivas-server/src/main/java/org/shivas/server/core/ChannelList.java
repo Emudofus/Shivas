@@ -2,14 +2,14 @@ package org.shivas.server.core;
 
 import java.util.ArrayList;
 
-import org.shivas.protocol.client.enums.Channel;
+import org.shivas.protocol.client.enums.ChannelEnum;
 
-public class ChannelList extends ArrayList<Channel> {
+public class ChannelList extends ArrayList<ChannelEnum> {
 	
 	public static ChannelList parseChannelList(String string) {
 		ChannelList channels = new ChannelList();
 		for (int i = 0; i < string.length(); ++i) {
-			Channel channel = Channel.valueOf(string.charAt(i));
+			ChannelEnum channel = ChannelEnum.valueOf(string.charAt(i));
 			channels.add(channel);
 		}
 		return channels;

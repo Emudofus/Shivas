@@ -2,7 +2,9 @@ package org.shivas.server.services.game.handlers;
 
 import org.apache.mina.core.session.IoSession;
 import org.joda.time.DateTime;
+import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
+import org.shivas.server.core.channels.Channel;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 
@@ -16,18 +18,33 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	public void handle(String message) throws Exception {
+		String[] args;
 		switch (message.charAt(1)) {
 		case 'D':
 			parseCurrentDateMessage();
 			break;
+			
+		case 'M':
+			args = message.substring(2).split("\\|");
+			parseSendClientMultiMessage(
+					ChannelEnum.valueOf(message.charAt(2)),
+					args[1]
+			);
+			break;
 		}
+	}
+
+	public void onClosed() {
 	}
 
 	private void parseCurrentDateMessage() {
 		session.write(BasicGameMessageFormatter.currentDateMessage(DateTime.now()));
 	}
 
-	public void onClosed() {
+	private void parseSendClientMultiMessage(ChannelEnum chan, String message) {
+		Channel channel = client.service().channels().get(chan);
+		
+		channel.send(client.player(), message);
 	}
 
 }

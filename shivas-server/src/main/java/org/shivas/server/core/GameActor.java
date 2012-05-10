@@ -5,6 +5,7 @@ import org.shivas.server.core.maps.GMap;
 
 public interface GameActor {
 	Integer id();
+	String getName();
 	Location getLocation();
 	
 	void teleport(GMap map, short cell);

@@ -8,6 +8,7 @@ import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.enums.WorldStateEnum;
 import org.shivas.protocol.client.types.GameServerType;
 import org.shivas.server.config.Config;
+import org.shivas.server.core.channels.ChannelContainer;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.AbstractService;
 import org.shivas.server.services.game.handlers.AuthenticationHandler;
@@ -25,9 +26,10 @@ public class DefaultGameService extends AbstractService implements GameService {
 	private final Config config;
 	private final LoginService login;
 	private final GameServerType informations;
+	private final ChannelContainer channels;
 
 	@Inject
-	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login) {
+	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login, ChannelContainer channels) {
 		super(repositories, config.gamePort(), log);
 		
 		this.config = config;
@@ -40,6 +42,7 @@ public class DefaultGameService extends AbstractService implements GameService {
 				0,
 				true
 		);
+		this.channels = channels;
 	}
 
 	public Config config() {
@@ -52,6 +55,10 @@ public class DefaultGameService extends AbstractService implements GameService {
 
 	public GameServerType informations() {
 		return informations;
+	}
+	
+	public ChannelContainer channels() {
+		return channels;
 	}
 	
 	public void sessionCreated(IoSession session) throws Exception {

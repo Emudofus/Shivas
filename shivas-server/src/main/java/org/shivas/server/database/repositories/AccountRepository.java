@@ -19,7 +19,7 @@ import org.atomium.util.query.UpdateQueryBuilder;
 import org.shivas.common.collections.Maps2;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1Cipher;
-import org.shivas.protocol.client.enums.Channel;
+import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.server.core.ChannelList;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
@@ -129,8 +129,8 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 				}), Converters.PLAYER_TO_ID)
 		);
 		
-		if (account.hasRights() && !account.getChannels().contains(Channel.Admin)) {
-			account.getChannels().add(Channel.Admin);
+		if (account.hasRights() && !account.getChannels().contains(ChannelEnum.Admin)) {
+			account.getChannels().add(ChannelEnum.Admin);
 		}
 		
 		return account;

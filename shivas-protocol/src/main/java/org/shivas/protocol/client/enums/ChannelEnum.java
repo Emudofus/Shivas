@@ -8,7 +8,7 @@ package org.shivas.protocol.client.enums; /**
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Channel {
+public enum ChannelEnum {
     Alignment('!'),
     Team('#'),
     Party('$'),
@@ -23,20 +23,20 @@ public enum Channel {
     UNKNOWN2((char) 207);
 
     private char value;
-    private Channel(char value) {
+    private ChannelEnum(char value) {
         this.value = value;
     }
     public char value() {
         return value;
     }
 
-    private static final Map<Character, Channel> values = new HashMap<Character, Channel>();
+    private static final Map<Character, ChannelEnum> values = new HashMap<Character, ChannelEnum>();
     static {
-        for (Channel e : values()) {
+        for (ChannelEnum e : values()) {
             values.put(e.value(), e);
         }
     }
-    public static Channel valueOf(char value) {
+    public static ChannelEnum valueOf(char value) {
         return values.get(value);
     }
 }
