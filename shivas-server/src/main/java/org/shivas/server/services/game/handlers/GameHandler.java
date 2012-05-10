@@ -9,20 +9,14 @@ import org.shivas.server.core.actions.Action;
 import org.shivas.server.core.actions.ActionException;
 import org.shivas.server.core.actions.RolePlayMovement;
 import org.shivas.server.core.maps.GMap;
-import org.shivas.server.core.maps.MapEvent;
-import org.shivas.server.core.maps.MapObserver;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 import org.shivas.server.utils.Converters;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Collections2;
 
-public class GameHandler extends AbstractBaseHandler<GameClient> implements MapObserver {
-	
-	private static Logger log = LoggerFactory.getLogger(GameHandler.class);
+public class GameHandler extends AbstractBaseHandler<GameClient> {
 
 	public GameHandler(GameClient client, IoSession session) {
 		super(client, session);
@@ -53,35 +47,8 @@ public class GameHandler extends AbstractBaseHandler<GameClient> implements MapO
 
 	public void onClosed() {
 		GMap map = client.player().getLocation().getMap();
-		map.removeObserver(this);
+		map.event().unsubscribe(client.eventListener());
 		map.leave(client.player());
-	}
-
-	@Override
-	public void observeMap(GMap map, MapEvent event) {
-		log.debug("observe map");
-		
-		switch (event.mapEventType()) {
-		case ENTER:
-			session.write(GameMessageFormatter.showActorMessage(event.actor().toBaseRolePlayActorType()));
-			break;
-			
-		case LEAVE:
-			session.write(GameMessageFormatter.removeActorMessage(event.actor().id()));
-			break;
-			
-		case UPDATE:
-			session.write(GameMessageFormatter.updateActorMessage(event.actor().toBaseRolePlayActorType()));
-			break;
-		
-		case MOVE:
-			RolePlayMovement movement = (RolePlayMovement) event;
-			session.write(GameMessageFormatter.actorMovementMessage(
-					movement.actor().id(),
-					movement.path().toString()
-			));
-			break;
-		}
 	}
 
 	private void parseGameCreationMessage() {
@@ -116,7 +83,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> implements MapO
 		session.write(GameMessageFormatter.mapLoadedMessage());
 		session.write(GameMessageFormatter.fightCountMessage(0)); // TODO fights
 		
-		map.addObserver(this);
+		map.event().subscribe(client.eventListener());
 	}
 
 	private void parseGameActionMessage(ActionTypeEnum action, String args) throws Exception {

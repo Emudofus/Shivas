@@ -1,10 +1,10 @@
 package org.shivas.server.core.actions;
 
-import org.shivas.server.core.GameEvent;
+import org.shivas.server.core.events.Event;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
-public interface Action extends GameEvent {
+public interface Action extends Event {
 	ActionType actionType();
 	
 	void begin() throws ActionException;

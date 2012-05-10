@@ -1,6 +1,7 @@
 package org.shivas.server.services.game;
 
 import org.shivas.server.core.actions.ActionList;
+import org.shivas.server.core.events.EventListener;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.Client;
@@ -12,6 +13,8 @@ public interface GameClient extends Client<GameService> {
 	
 	Player player();
 	void setPlayer(Player player);
+	
+	EventListener eventListener();
 	
 	ActionList actions();
 	

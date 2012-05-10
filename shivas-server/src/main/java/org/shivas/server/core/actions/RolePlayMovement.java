@@ -8,11 +8,9 @@ import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Path;
 import org.shivas.server.core.maps.GMap;
-import org.shivas.server.core.maps.MapEvent;
-import org.shivas.server.core.maps.MapEventType;
 import org.shivas.server.services.game.GameClient;
 
-public class RolePlayMovement extends AbstractAction implements MapEvent {
+public class RolePlayMovement extends AbstractAction {
 	
 	private GameClient client;
 	private IoSession session;
@@ -28,27 +26,22 @@ public class RolePlayMovement extends AbstractAction implements MapEvent {
 		this.path.add(0, new Path.Node(location.getOrientation(), location.getCell()));
 	}
 
-	@Override
-	public GameActor actor() {
-		return client.player();
-	}
-
-	@Override
 	public ActionType actionType() {
 		return ActionType.MOVEMENT;
 	}
 
-	@Override
-	public MapEventType mapEventType() {
-		return MapEventType.MOVE;
+	public GameActor actor() {
+		return client.player();
 	}
 
-	@Override
+	public Path path() {
+		return path;
+	}
+
 	public void begin() throws ActionException {
 		client.player().getLocation().getMap().movement(this);
 	}
 
-	@Override
 	protected void internalEnd() throws ActionException {
         Location location = client.player().getLocation();
         
@@ -67,7 +60,6 @@ public class RolePlayMovement extends AbstractAction implements MapEvent {
         }
 	}
 
-	@Override
 	public void cancel() throws ActionException {
 	}
 	
@@ -76,10 +68,6 @@ public class RolePlayMovement extends AbstractAction implements MapEvent {
 		
 		location.setOrientation(orientation);
 		location.setCell(cell);
-	}
-
-	public Path path() {
-		return path;
 	}
 
 }

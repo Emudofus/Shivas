@@ -1,6 +1,7 @@
 package org.shivas.server.core.maps;
 
 import org.shivas.server.core.GameActor;
+import org.shivas.server.core.events.EventType;
 
 public class BaseMapEvent implements MapEvent {
 	
@@ -13,13 +14,16 @@ public class BaseMapEvent implements MapEvent {
 	}
 
 	@Override
-	public GameActor actor() {
-		return actor;
+	public EventType type() {
+		return EventType.MAP;
 	}
 
-	@Override
 	public MapEventType mapEventType() {
 		return type;
+	}
+
+	public GameActor actor() {
+		return actor;
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.shivas.server.services.game;
 
 import org.shivas.server.core.actions.ActionList;
+import org.shivas.server.core.events.EventListener;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.BaseHandler;
@@ -12,6 +13,7 @@ public final class DefaultGameClient implements GameClient {
 	private Account account;
 	private Player player;
 	private BaseHandler handler;
+	private EventListener eventListener;
 	private ActionList actions = new ActionList(this);
 
 	public DefaultGameClient(GameService service) {
@@ -49,6 +51,14 @@ public final class DefaultGameClient implements GameClient {
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	public EventListener eventListener() {
+		return eventListener;
+	}
+	
+	public void setEventListener(EventListener eventListener) {
+		this.eventListener = eventListener;
 	}
 
 	public ActionList actions() {

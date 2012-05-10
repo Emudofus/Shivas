@@ -1,16 +1,13 @@
 package org.shivas.server.core.maps;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import org.shivas.data.entity.GameMap;
-import org.shivas.server.ShivasServer;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.GameActorWithoutId;
 import org.shivas.server.core.actions.RolePlayMovement;
+import org.shivas.server.core.events.EventDispatcher;
 
 import com.google.common.collect.Maps;
 
@@ -18,46 +15,13 @@ public class GMap extends GameMap {
 
 	private static final long serialVersionUID = 6687106835430542049L;
 	
-	private final List<MapObserver> observers = Collections.synchronizedList(new ArrayList<MapObserver>());
+	private final EventDispatcher event;
 	
 	private final Map<Integer, GameActor> actors = Maps.newConcurrentMap();
 	private int actorId;
 
-	public void addObserver(MapObserver observer) {
-		observers.add(observer);
-	}
-
-	public void removeObserver(MapObserver observer) {
-		observers.remove(observer);
-	}
-
-	protected void notifyObservers(final MapEvent arg) {
-		ShivasServer.EVENT_WORKER.execute(new Runnable() {
-			public void run() {
-				for (MapObserver observer : observers) {
-					observer.observeMap(GMap.this, arg);
-				}
-			}
-		});
-	}
-
-	public void enter(GameActor actor) {
-		if (actor instanceof GameActorWithoutId) {
-			((GameActorWithoutId) actor).setId(--actorId);
-		}
-		actors.put(actor.id(), actor);
-		
-		notifyObservers(new BaseMapEvent(actor, MapEventType.ENTER));
-	}
-	
-	public void leave(GameActor actor) {
-		actors.remove(actor);
-		
-		notifyObservers(new BaseMapEvent(actor, MapEventType.LEAVE));
-	}
-	
-	public void movement(RolePlayMovement movement) {
-		notifyObservers(movement);
+	public GMap(EventDispatcher event) {
+		this.event = event;
 	}
 	
 	public int count() {
@@ -66,6 +30,29 @@ public class GMap extends GameMap {
 	
 	public Collection<GameActor> actors() {
 		return actors.values();
+	}
+	
+	public EventDispatcher event() {
+		return event;
+	}
+
+	public void enter(GameActor actor) {
+		if (actor instanceof GameActorWithoutId) {
+			((GameActorWithoutId) actor).setId(--actorId);
+		}
+		actors.put(actor.id(), actor);
+		
+		event.publish(new BaseMapEvent(actor, MapEventType.ENTER));
+	}
+	
+	public void leave(GameActor actor) {
+		actors.remove(actor);
+		
+		event.publish(new BaseMapEvent(actor, MapEventType.LEAVE));
+	}
+	
+	public void movement(RolePlayMovement movement) {
+		event.publish(movement);
 	}
 
 }
