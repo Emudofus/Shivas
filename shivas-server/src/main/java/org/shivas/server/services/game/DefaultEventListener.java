@@ -1,11 +1,14 @@
 package org.shivas.server.services.game;
 
 import org.apache.mina.core.session.IoSession;
+import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.core.actions.Action;
 import org.shivas.server.core.actions.RolePlayMovement;
+import org.shivas.server.core.channels.ChannelEvent;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
+import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 
 public class DefaultEventListener implements EventListener {
 	
@@ -24,13 +27,18 @@ public class DefaultEventListener implements EventListener {
 			break;
 			
 		case CHANNEL:
+			listenChannel((ChannelEvent) event);
 			break;
 			
 		case MAP:
 			break;
+			
+		case TELEPORTATION:
+			listenTeleportation((PlayerTeleportationEvent) event);
+			break;
 		}
 	}
-	
+
 	private void listenAction(Action action) {
 		switch (action.actionType()) {
 		case MOVEMENT:
@@ -41,6 +49,21 @@ public class DefaultEventListener implements EventListener {
 			));
 			break;
 		}
+	}
+
+	private void listenChannel(ChannelEvent event) {
+		session.write(ChannelGameMessageFormatter.clientMultiMessage(
+				event.channel(),
+				event.author().id(),
+				event.author().getName(),
+				event.message()
+		));
+	}
+	
+	private void listenTeleportation(PlayerTeleportationEvent event) {
+		if (event.getPlayer() != client.player()) return;
+		
+		// TODO
 	}
 
 }

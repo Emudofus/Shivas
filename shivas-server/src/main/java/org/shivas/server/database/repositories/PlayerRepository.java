@@ -26,11 +26,14 @@ import org.shivas.server.config.Config;
 import org.shivas.server.core.Colors;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Look;
+import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.maps.GMap;
 import org.shivas.server.core.statistics.PlayerStatistics;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
+
+import com.google.inject.Provider;
 
 @Singleton
 public class PlayerRepository extends AbstractEntityRepository<Integer, Player> {
@@ -40,6 +43,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	private final Config config;
 	private final Container ctner;
 	private final EntityRepository<Integer, Account> accounts;
+	private final Provider<EventDispatcher> events;
 	
 	private DeleteQueryBuilder deleteQuery;
 	private InsertQueryBuilder persistQuery;
@@ -47,11 +51,12 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	private SelectQueryBuilder loadQuery;
 
 	@Inject
-	public PlayerRepository(EntityManager em, Config config, Container ctner, EntityRepository<Integer, Account> accounts) {
+	public PlayerRepository(EntityManager em, Config config, Container ctner, EntityRepository<Integer, Account> accounts, Provider<EventDispatcher> events) {
 		super(em, new IntegerPrimaryKeyGenerator());
 		this.config = config;
 		this.ctner = ctner;
 		this.accounts = accounts;
+		this.events = events;
 		
 		this.deleteQuery = em.builder().delete(TABLE_NAME).where("id", Op.EQ);
 		this.persistQuery = em.builder()
@@ -82,7 +87,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 						new Colors(color1, color2, color3)
 				),
 				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
-				new Location(config.startMap(), config.startCell(), OrientationEnum.SOUTH_EAST)
+				new Location(config.startMap(), config.startCell(), OrientationEnum.SOUTH_EAST),
+				events.get()
 		);
 		player.setStats(new PlayerStatistics(
 				player,
@@ -214,7 +220,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 						ctner.get(GMap.class).byId(result.getInt("map_id")), 
 						result.getShort("cell"),
 						OrientationEnum.valueOf(result.getInt("orientation"))
-				)
+				),
+				events.get()
 		);
 		
 		player.setStats(new PlayerStatistics(

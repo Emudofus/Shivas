@@ -4,4 +4,5 @@ public enum EventType {
 	CHANNEL,
 	MAP,
 	ACTION,
+	TELEPORTATION,
 }

@@ -13,6 +13,8 @@ import org.shivas.protocol.client.types.RolePlayCharacterType;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Look;
+import org.shivas.server.core.events.EventDispatcher;
+import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.maps.GMap;
 import org.shivas.server.core.statistics.PlayerStatistics;
@@ -33,9 +35,11 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private PlayerExperience experience;
 	private Location location;
 	private PlayerStatistics stats;
+	
+	private EventDispatcher event;
 
 	public Player(LazyReference<Integer, Account> owner, String name, Breed breed, Gender gender,
-			Look look, PlayerExperience experience, Location location) {
+			Look look, PlayerExperience experience, Location location, EventDispatcher event) {
 		this.owner = owner;
 		this.name = name;
 		this.breed = breed;
@@ -43,11 +47,12 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		this.look = look;
 		this.experience = experience;
 		this.location = location;
+		this.event = event;
 	}
 
 	public Player(int id, LazyReference<Integer, Account> owner, String name,
 			Breed breed, Gender gender, Look look,
-			PlayerExperience experience, Location location) {
+			PlayerExperience experience, Location location, EventDispatcher event) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
@@ -56,6 +61,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		this.look = look;
 		this.experience = experience;
 		this.location = location;
+		this.event = event;
 	}
 
 	/**
@@ -185,17 +191,18 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		this.stats = stats;
 	}
 
-	@Override
-	public void teleport(GMap map, short cell) {
-		// TODO
+	public EventDispatcher getEvent() {
+		return event;
 	}
 
-	@Override
+	public void teleport(GMap map, short cell) {
+		event.publish(new PlayerTeleportationEvent(this, new Location(map, cell, location.getOrientation())));
+	}
+
 	public int hashCode() {
 		return id;
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -231,7 +238,6 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		});
 	}
 
-	@Override
 	public BaseRolePlayActorType toBaseRolePlayActorType() {
 		return new RolePlayCharacterType(
 				id,
