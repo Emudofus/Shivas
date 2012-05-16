@@ -38,6 +38,10 @@ public class ChannelGameMessageFormatter {
     public static String clientMultiMessage(char channel, long actorId, String playerName, String message){
         return "cMK" + Character.toString(channel) + "|" + actorId + "|" + playerName + "|" + message;
     }
+    
+    public static String clientMultiMessage(ChannelEnum chan, Number authorId, String authorName, String message) {
+    	return clientMultiMessage(chan.value(), authorId.longValue(), authorName, message);
+    }
 
     public static String clientPrivateMessage(boolean copy, long senderId, String senderName, String message){
         return "cMK" + (copy ? "F" : "T") + "|" + senderId + "|" + senderName + "|" + message;
