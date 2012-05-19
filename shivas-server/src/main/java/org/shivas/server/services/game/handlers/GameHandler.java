@@ -55,18 +55,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	private void parseGameCreationMessage() {
 		session.write(GameMessageFormatter.gameCreationSuccessMessage());
 
-		session.write(GameMessageFormatter.statisticsMessage(
-				client.player().getExperience().current(),
-				client.player().getExperience().min(),
-				client.player().getExperience().max(),
-				1000L, // TODO bag
-				client.player().getStats().statPoints(),
-				client.player().getStats().spellPoints(),
-				0, (short) 0, (short) 0, 0, 0, false, // TODO pvp
-				client.player().getStats().life(),
-				client.player().getStats().energy(),
-				client.player().getStats()
-		));
+		session.write(client.player().getStats().packet());
 		
 		session.write(GameMessageFormatter.mapDataMessage(
 				client.player().getLocation().getMap().getId(),

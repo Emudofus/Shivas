@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50508
+Source Server Version : 50520
 Source Host           : localhost:3306
 Source Database       : shivas
 
 Target Server Type    : MYSQL
-Target Server Version : 50508
+Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2012-05-05 01:27:21
+Date: 2012-05-19 18:26:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,6 +28,7 @@ CREATE TABLE `accounts` (
   `answer` varchar(255) NOT NULL,
   `rights` tinyint(1) NOT NULL,
   `banned` tinyint(1) NOT NULL,
+  `muted` tinyint(1) NOT NULL,
   `community` int(11) NOT NULL,
   `points` int(11) NOT NULL,
   `subscription_end` datetime NOT NULL,
@@ -39,12 +40,13 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `accounts_name_index` (`name`) USING BTREE,
   UNIQUE KEY `accounts_nickname_index` (`nickname`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of accounts
 -- ----------------------------
-INSERT INTO `accounts` VALUES ('1', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush', 'DELETE?', 'DELETE', '1', '0', '0', '0', '2013-05-03 13:43:59', '1', '!#$%*:?i', '0000-00-00 00:00:00', '', '0');
+INSERT INTO `accounts` VALUES ('1', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush', 'DELETE?', 'DELETE', '1', '0', '0', '0', '0', '2013-05-19 13:43:59', '0', '!#$%:?i@*', '2012-05-19 17:50:38', '127.0.0.1', '8');
+INSERT INTO `accounts` VALUES ('2', 'test2', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush2', 'DELETE?', 'DELETE', '0', '0', '0', '0', '0', '2012-05-19 17:27:07', '0', 'i*#$p%:', '2012-05-19 17:50:40', '127.0.0.1', '7');
 
 -- ----------------------------
 -- Table structure for `players`
@@ -87,3 +89,5 @@ CREATE TABLE `players` (
 -- ----------------------------
 -- Records of players
 -- ----------------------------
+INSERT INTO `players` VALUES ('1', '1', 'Vjya', '9', '0', '90', '100', '-1', '-1', '-1', '200', '7407232000', '7411', '355', '1', '995', '199', '10000', '44', '6', '3', '0', '0', '0', '0', '0', '0');
+INSERT INTO `players` VALUES ('2', '2', 'Oqsyk', '8', '0', '80', '100', '-1', '-1', '-1', '200', '7407232000', '7411', '355', '1', '995', '199', '10000', '48', '6', '3', '0', '0', '0', '0', '0', '0');

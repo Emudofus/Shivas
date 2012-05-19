@@ -32,7 +32,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		session.write(ChannelGameMessageFormatter.addChannelsMessage(client.account().getChannels()));
 		session.write(SpellGameMessageFormatter.spellListMessage(new ArrayList<BaseSpellType>(0))); // TODO spells
 		session.write(ChannelGameMessageFormatter.enabledEmotesMessage("")); // TODO emotes
-		session.write(ItemGameMessageFormatter.inventoryStatsMessage(new BasicLimitedValue(1000))); // TODO statistics
+		session.write(ItemGameMessageFormatter.inventoryStatsMessage(new BasicLimitedValue(1000))); // TODO bag
 		session.write(FriendGameMessageFormatter.notifyFriendOnConnectMessage(false)); // TODO friends
 		session.write(InfoGameMessageFormatter.welcomeMessage());
 		if (!client.account().firstConnection()) {

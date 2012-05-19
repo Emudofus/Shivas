@@ -6,6 +6,7 @@ import org.shivas.common.maths.LimitedValue;
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
+import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.database.models.Player;
 
 import com.google.common.collect.Maps;
@@ -128,6 +129,21 @@ public class PlayerStatistics implements Statistics {
 	@Override
 	public Characteristic get(CharacteristicType charac) {
 		return characs.get(charac);
+	}
+	
+	public String packet() {
+		return GameMessageFormatter.statisticsMessage(
+				owner.getExperience().current(),
+				owner.getExperience().min(),
+				owner.getExperience().max(),
+				1000L, // TODO bag
+				statPoints,
+				spellPoints,
+				0, (short) 0, (short) 0, 0, 0, false, // TODO pvp
+				life,
+				energy,
+				this
+		);
 	}
 
 }
