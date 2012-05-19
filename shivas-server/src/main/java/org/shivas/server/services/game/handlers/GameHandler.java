@@ -23,6 +23,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	public void init() throws Exception {
+		client.player().getEvent().subscribe(client.eventListener());
 	}
 
 	public void handle(String message) throws Exception {

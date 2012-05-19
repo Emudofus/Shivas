@@ -95,8 +95,8 @@ public class DefaultEventListener implements EventListener {
 		if (event.source() == client.player()) { // this client is the pm's author
 			session.write(ChannelGameMessageFormatter.clientPrivateMessage(
 					false,
-					client.player().id(),
-					client.player().getName(),
+					event.target().id(),
+					event.target().getName(),
 					event.message()
 			));
 		} else { // this client is the pm's target

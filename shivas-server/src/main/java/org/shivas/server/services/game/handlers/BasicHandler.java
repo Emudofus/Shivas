@@ -60,9 +60,12 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseSendClientMultiMessage(ChannelEnum chan, String message) {
-		Channel channel = client.service().channels().get(chan);
-		
-		channel.send(client.player(), message);
+		if (client.account().getChannels().contains(chan)) {
+			Channel channel = client.service().channels().get(chan);
+			channel.send(client.player(), message);
+		} else {
+			session.write(BasicGameMessageFormatter.noOperationMessage());
+		}
 	}
 
 	private void parseSendPrivateMessage(Player target, String message) {

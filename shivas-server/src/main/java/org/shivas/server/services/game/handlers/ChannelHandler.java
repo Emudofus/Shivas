@@ -3,6 +3,7 @@ package org.shivas.server.services.game.handlers;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
+import org.shivas.server.core.channels.Channel;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 
@@ -35,20 +36,30 @@ public class ChannelHandler extends AbstractBaseHandler<GameClient> {
 		client.service().channels().unsubscribeAll(client.account().getChannels(), client.eventListener());
 	}
 
-	private void parseAddChannelMessage(ChannelEnum channel) {
-		if (!client.account().getChannels().contains(channel)) {
-			client.account().getChannels().add(channel);
+	private void parseAddChannelMessage(ChannelEnum chan) {
+		if (!client.account().getChannels().contains(chan)) {
+			client.account().getChannels().add(chan);
 			client.service().repositories().accounts().saveLater(client.account());
+			
+			Channel channel = client.service().channels().get(chan);
+			if (channel != null) {
+				channel.subscribe(client.eventListener());
+			}
 		}
-		session.write(ChannelGameMessageFormatter.addChannelMessage(channel));
+		session.write(ChannelGameMessageFormatter.addChannelMessage(chan));
 	}
 
-	private void parseRemoveChannelMessage(ChannelEnum channel) {
-		if (client.account().getChannels().contains(channel)) {
-			client.account().getChannels().remove(channel);
+	private void parseRemoveChannelMessage(ChannelEnum chan) {
+		if (client.account().getChannels().contains(chan)) {
+			client.account().getChannels().remove(chan);
 			client.service().repositories().accounts().saveLater(client.account());
+			
+			Channel channel = client.service().channels().get(chan);
+			if (channel != null) {
+				channel.unsubscribe(client.eventListener());
+			}
 		}
-		session.write(ChannelGameMessageFormatter.removeChannelMessage(channel));
+		session.write(ChannelGameMessageFormatter.removeChannelMessage(chan));
 	}
 
 }

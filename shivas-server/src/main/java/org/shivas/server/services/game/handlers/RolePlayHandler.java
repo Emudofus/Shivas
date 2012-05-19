@@ -61,7 +61,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 	protected void configure() {
 		add('A', new ApproachHandler(client, session));
 		add('B', new BasicHandler(client, session));
-		add('C', new ChannelHandler(client, session));
+		add('c', new ChannelHandler(client, session));
 		add('G', new GameHandler(client, session));
 	}
 
