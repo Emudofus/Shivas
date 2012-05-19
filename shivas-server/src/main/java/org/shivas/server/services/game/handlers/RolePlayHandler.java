@@ -46,7 +46,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		client.account().setLastConnection(DateTime.now());
 		client.account().setLastAddress(getClearAddress());
 		client.account().incrementNbConnections();
-		client.service().repositories().accounts().save(client.account());
+		client.service().repositories().accounts().saveLater(client.account());
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		super.onClosed();
 		
 		client.account().setConnected(false);
-		client.service().repositories().accounts().save(client.account());
+		client.service().repositories().accounts().saveLater(client.account());
 	}
 
 	@Override

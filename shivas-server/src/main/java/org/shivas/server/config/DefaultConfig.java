@@ -26,7 +26,12 @@ public class DefaultConfig implements Config {
 	}
 
 	public int databaseFlushDelay() {
-		return 1000 * 30; // 30 seconds
+		return 1000 * 30; // milliseconds
+	}
+
+	@Override
+	public int databaseSaveDelay() {
+		return 45; // seconds
 	}
 
 	public String dataPath() {

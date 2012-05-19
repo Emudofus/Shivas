@@ -8,6 +8,7 @@ public interface Config {
 	String databaseUser();
 	String databasePassword();
 	int databaseFlushDelay();
+	int databaseSaveDelay();
 	
 	String dataPath();
 	String dataExtension();
