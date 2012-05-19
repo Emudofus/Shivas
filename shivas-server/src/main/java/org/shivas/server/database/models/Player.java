@@ -14,6 +14,7 @@ import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Look;
 import org.shivas.server.core.events.EventDispatcher;
+import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.maps.GMap;
@@ -36,10 +37,10 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private Location location;
 	private PlayerStatistics stats;
 	
-	private EventDispatcher event;
+	private final EventDispatcher event = EventDispatchers.create();
 
 	public Player(LazyReference<Integer, Account> owner, String name, Breed breed, Gender gender,
-			Look look, PlayerExperience experience, Location location, EventDispatcher event) {
+			Look look, PlayerExperience experience, Location location) {
 		this.owner = owner;
 		this.name = name;
 		this.breed = breed;
@@ -47,12 +48,11 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		this.look = look;
 		this.experience = experience;
 		this.location = location;
-		this.event = event;
 	}
 
 	public Player(int id, LazyReference<Integer, Account> owner, String name,
 			Breed breed, Gender gender, Look look,
-			PlayerExperience experience, Location location, EventDispatcher event) {
+			PlayerExperience experience, Location location) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
@@ -61,7 +61,6 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		this.look = look;
 		this.experience = experience;
 		this.location = location;
-		this.event = event;
 	}
 
 	/**

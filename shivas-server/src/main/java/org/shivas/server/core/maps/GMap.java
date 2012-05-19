@@ -8,6 +8,7 @@ import org.shivas.server.core.GameActor;
 import org.shivas.server.core.GameActorWithoutId;
 import org.shivas.server.core.actions.RolePlayMovement;
 import org.shivas.server.core.events.EventDispatcher;
+import org.shivas.server.core.events.EventDispatchers;
 
 import com.google.common.collect.Maps;
 
@@ -15,14 +16,10 @@ public class GMap extends GameMap {
 
 	private static final long serialVersionUID = 6687106835430542049L;
 	
-	private final EventDispatcher event;
+	private final EventDispatcher event = EventDispatchers.create();
 	
 	private final Map<Integer, GameActor> actors = Maps.newConcurrentMap();
 	private int actorId;
-
-	public GMap(EventDispatcher event) {
-		this.event = event;
-	}
 	
 	public int count() {
 		return actors.size();
