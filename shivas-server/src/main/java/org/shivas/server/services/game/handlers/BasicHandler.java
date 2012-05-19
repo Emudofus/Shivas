@@ -33,7 +33,7 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 			
 		case 'M':
 			if (client.account().isMuted()) {
-				// TODO logging
+				tchat().error("Vous ne pouvez pas parler car un modérateur vous a retiré la parole.");
 			} else {
 				args = message.substring(2).split("\\|");
 				if (args[0].length() > 1){

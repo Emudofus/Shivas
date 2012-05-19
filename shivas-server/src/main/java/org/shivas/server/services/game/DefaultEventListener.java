@@ -86,7 +86,7 @@ public class DefaultEventListener implements EventListener {
 	private void listenTeleportation(PlayerTeleportationEvent event) {
 		if (event.getPlayer() != client.player()) return;
 		
-		// TODO
+		// TODO listen teleportation
 	}
 
 	private void listenPrivateMessage(PrivateMessageEvent event) {

@@ -70,7 +70,7 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 	}
 
 	private void parseQueueInformationsMessage() {
-		//TODO
+		//TODO login queue
 	}
 
 }

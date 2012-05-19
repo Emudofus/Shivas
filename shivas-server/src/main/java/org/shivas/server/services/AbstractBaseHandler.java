@@ -22,7 +22,7 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 	}
 	
 	public boolean isLoopback() {
-		return session.getRemoteAddress().toString().contains("127.0.0.1"); // TODO
+		return session.getRemoteAddress().toString().contains("127.0.0.1"); // TODO better implementation
 	}
 	
 	protected void assertTrue(boolean b, String message, Object... obj) throws Exception {
