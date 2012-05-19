@@ -129,4 +129,34 @@ public class DefaultConfig implements Config {
 		return 0;
 	}
 
+	@Override
+	public String infoName() {
+		return "Informations";
+	}
+
+	@Override
+	public String infoColor() {
+		return "#00FF00";
+	}
+
+	@Override
+	public String errorName() {
+		return "Erreur";
+	}
+
+	@Override
+	public String errorColor() {
+		return "#DF0101";
+	}
+
+	@Override
+	public String warnName() {
+		return "Avertissement";
+	}
+
+	@Override
+	public String warnColor() {
+		return "#FF8000";
+	}
+
 }

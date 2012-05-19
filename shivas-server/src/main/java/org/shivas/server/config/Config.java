@@ -37,4 +37,11 @@ public interface Config {
 	short startChance();
 	short startAgility();
 	
+	String infoName();
+	String infoColor();
+	String errorName();
+	String errorColor();
+	String warnName();
+	String warnColor();
+	
 }
