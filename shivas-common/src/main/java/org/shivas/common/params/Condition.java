@@ -4,14 +4,16 @@ public class Condition {
 
 	private String name;
 	private Type type;
+	private String help;
 	private boolean optional;
 	
 	public Condition() {
 	}
 
-	public Condition(String name, Type type, boolean optional) {
+	public Condition(String name, Type type, String help, boolean optional) {
 		this.name = name;
 		this.type = type;
+		this.help = help;
 		this.optional = optional;
 	}
 
@@ -41,6 +43,20 @@ public class Condition {
 	 */
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	/**
+	 * @return the help
+	 */
+	public String getHelp() {
+		return help;
+	}
+
+	/**
+	 * @param help the help to set
+	 */
+	public void setHelp(String help) {
+		this.help = help;
 	}
 
 	/**

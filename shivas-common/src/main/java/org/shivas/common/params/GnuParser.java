@@ -37,4 +37,15 @@ public class GnuParser implements ParametersParser {
 		return new Parameters(values);
 	}
 
+	@Override
+	public String buildHelpMessage(Conditions conditions) {
+		StringBuilder sb = new StringBuilder();
+		
+		for (Condition cond : conditions) {
+			sb.append("    * --").append(cond.getName()).append(" => ").append(cond.getHelp()).append('\n');
+		}
+		
+		return sb.toString();
+	}
+
 }

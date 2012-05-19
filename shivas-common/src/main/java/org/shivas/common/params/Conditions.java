@@ -1,10 +1,11 @@
 package org.shivas.common.params;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-public class Conditions {
+public class Conditions implements Iterable<Condition> {
 
 	private Map<String, Condition> conditions = Maps.newHashMap();
 	
@@ -12,12 +13,12 @@ public class Conditions {
 		conditions.put(condition.getName(), condition);
 	}
 	
-	public void add(String name, Type type, boolean optional) {
-		add(new Condition(name, type, optional));
+	public void add(String name, Type type, String help, boolean optional) {
+		add(new Condition(name, type, help, optional));
 	}
 	
-	public void add(String name, Type type) {
-		add(name, type, false);
+	public void add(String name, Type type, String help) {
+		add(name, type, help, false);
 	}
 	
 	public Condition get(String name) {
@@ -26,6 +27,11 @@ public class Conditions {
 	
 	public Map<String, Condition> asMap() {
 		return Maps.newHashMap(conditions);
+	}
+
+	@Override
+	public Iterator<Condition> iterator() {
+		return conditions.values().iterator();
 	}
 	
 }
