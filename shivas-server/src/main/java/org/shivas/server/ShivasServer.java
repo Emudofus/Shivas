@@ -18,8 +18,6 @@ public class ShivasServer {
 	
 	private static final Logger log = LoggerFactory.getLogger(ShivasServer.class);
 	public static final ExecutorService EVENT_WORKER = Executors.newSingleThreadExecutor();
-	
-	private final Module[] modules;
 
 	private EntityManager em;
 	private RepositoryContainer repos;
@@ -27,31 +25,28 @@ public class ShivasServer {
 	private LoginService ls;
 	
 	public ShivasServer(Module... modules) {
-		this.modules = modules;
+		Injector inject = Guice.createInjector(modules);
+		em = inject.getInstance(EntityManager.class);
+		repos = inject.getInstance(RepositoryContainer.class);
+		gs = inject.getInstance(GameService.class);
+		ls = inject.getInstance(LoginService.class);
 	}
 	
 	public void start() {
-		Injector inject = Guice.createInjector(modules);
-
-		em = inject.getInstance(EntityManager.class);
-		em.start();
+		em.start(); // start entity manager
+		repos.load(); // load users' data
 		
-		repos = inject.getInstance(RepositoryContainer.class);
-		repos.load();
-
-		gs = inject.getInstance(GameService.class);
-		ls = inject.getInstance(LoginService.class);
-
-		gs.start();
-		ls.start();
+		gs.start(); // start game server
+		ls.start(); // start login server
 		
 		log.info("started");
 	}
 	
 	public void stop() {
-		ls.stop();
-		gs.stop();
-		em.stop();
+		ls.stop(); // stop login server
+		gs.stop(); // stop game server
+		
+		em.stop(); // stop entity manager
 		
 		log.info("stopped");
 	}
