@@ -9,6 +9,7 @@ import org.shivas.server.core.channels.ChannelEvent;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
+import org.shivas.server.core.events.events.PrivateMessageEvent;
 
 public class DefaultEventListener implements EventListener {
 	
@@ -35,6 +36,10 @@ public class DefaultEventListener implements EventListener {
 			
 		case TELEPORTATION:
 			listenTeleportation((PlayerTeleportationEvent) event);
+			break;
+			
+		case PRIVATE_MESSAGE:
+			listenPrivateMessage((PrivateMessageEvent) event);
 			break;
 		}
 	}
@@ -64,6 +69,26 @@ public class DefaultEventListener implements EventListener {
 		if (event.getPlayer() != client.player()) return;
 		
 		// TODO
+	}
+
+	private void listenPrivateMessage(PrivateMessageEvent event) {
+		if (event.source() != client.player() && event.target() != client.player()) return; // this client can't see other's private message
+		
+		if (event.source() == client.player()) { // this client is the pm's author
+			session.write(ChannelGameMessageFormatter.clientPrivateMessage(
+					false,
+					client.player().id(),
+					client.player().getName(),
+					event.message()
+			));
+		} else { // this client is the pm's target
+			session.write(ChannelGameMessageFormatter.clientPrivateMessage(
+					true,
+					event.source().id(),
+					event.source().getName(),
+					event.message()
+			));
+		}
 	}
 
 }

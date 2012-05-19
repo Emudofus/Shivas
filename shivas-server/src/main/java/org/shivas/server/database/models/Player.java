@@ -13,9 +13,11 @@ import org.shivas.protocol.client.types.RolePlayCharacterType;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Look;
+import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
+import org.shivas.server.core.events.events.PrivateMessageEvent;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.maps.GMap;
 import org.shivas.server.core.statistics.PlayerStatistics;
@@ -196,6 +198,13 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 
 	public void teleport(GMap map, short cell) {
 		event.publish(new PlayerTeleportationEvent(this, new Location(map, cell, location.getOrientation())));
+	}
+	
+	public void sendMessage(Player source, String message) {
+		Event pm = new PrivateMessageEvent(source, this, message);
+		
+		event.publish(pm);
+		source.event.publish(pm);
 	}
 
 	public int hashCode() {

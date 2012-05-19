@@ -66,7 +66,7 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseSendPrivateMessage(Player target, String message) {
-		// TODO
+		target.sendMessage(client.player(), message);
 	}
 
 	private void parseAdminCommandMessage(String command) {

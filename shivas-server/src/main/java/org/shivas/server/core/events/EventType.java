@@ -4,5 +4,6 @@ public enum EventType {
 	CHANNEL,
 	MAP,
 	ACTION,
-	TELEPORTATION,
+	TELEPORTATION, 
+	PRIVATE_MESSAGE,
 }
