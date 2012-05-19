@@ -1,6 +1,9 @@
 package org.shivas.server.services;
 
 import org.apache.mina.core.session.IoSession;
+import org.shivas.server.core.logging.ConsoleLogger;
+import org.shivas.server.core.logging.DofusLogger;
+import org.shivas.server.core.logging.TchatLogger;
 
 public abstract class AbstractBaseHandler<C extends Client<?>>
 	implements BaseHandler
@@ -29,6 +32,14 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 	protected String getClearAddress() {
         String address = session.getRemoteAddress().toString();
         return address.substring(1, address.indexOf(':'));
+	}
+	
+	protected DofusLogger tchat(){
+		return new TchatLogger(session, client.service().config());
+	}
+	
+	protected DofusLogger console(){
+		return new ConsoleLogger(session);
 	}
 	
 }
