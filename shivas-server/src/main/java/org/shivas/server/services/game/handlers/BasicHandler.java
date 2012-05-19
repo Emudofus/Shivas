@@ -1,5 +1,7 @@
 package org.shivas.server.services.game.handlers;
 
+import java.util.Arrays;
+
 import org.apache.mina.core.session.IoSession;
 import org.joda.time.DateTime;
 import org.shivas.protocol.client.enums.ChannelEnum;
@@ -20,6 +22,10 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 	public void handle(String message) throws Exception {
 		String[] args;
 		switch (message.charAt(1)) {
+		case 'A':
+			parseAdminCommandMessage(message.substring(2));
+			break;
+		
 		case 'D':
 			parseCurrentDateMessage();
 			break;
@@ -45,6 +51,15 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 		Channel channel = client.service().channels().get(chan);
 		
 		channel.send(client.player(), message);
+	}
+
+	private void parseAdminCommandMessage(String command) {
+		String[] args = command.split(" ");
+		
+		String name = args[0];
+		args = Arrays.copyOfRange(args, 1, args.length);
+		
+		// TODO admin commands
 	}
 
 }

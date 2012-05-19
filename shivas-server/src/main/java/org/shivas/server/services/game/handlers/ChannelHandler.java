@@ -14,6 +14,7 @@ public class ChannelHandler extends AbstractBaseHandler<GameClient> {
 
 	@Override
 	public void init() throws Exception {
+		client.service().channels().subscribeAll(client.account().getChannels(), client.eventListener());
 	}
 
 	@Override
@@ -31,6 +32,7 @@ public class ChannelHandler extends AbstractBaseHandler<GameClient> {
 
 	@Override
 	public void onClosed() {
+		client.service().channels().unsubscribeAll(client.account().getChannels(), client.eventListener());
 	}
 
 	private void parseAddChannelMessage(ChannelEnum channel) {
