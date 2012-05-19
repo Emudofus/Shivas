@@ -20,7 +20,7 @@ public class ApproachHandler extends AbstractBaseHandler<GameClient> {
 	public void handle(String message) throws Exception {
 		switch (message.charAt(1)){
 		case 'B':
-			parseBoostCharacteristicMessage(CharacteristicType.valueOf(Integer.valueOf(message.substring(2))));
+			parseBoostCharacteristicMessage(CharacteristicType.valueOf(Integer.valueOf(message.substring(2)) - 6));
 			break;
 		}
 	}

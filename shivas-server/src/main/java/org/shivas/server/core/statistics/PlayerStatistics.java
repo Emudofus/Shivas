@@ -14,7 +14,7 @@ import com.google.common.collect.Maps;
 public class PlayerStatistics implements Statistics {
 	
 	private Player owner;
-	private LimitedValue life, pods = new PlayerPodsValue(this), energy;
+	private LimitedValue life, energy, pods = new PlayerPodsValue(this);
 	private short statPoints, spellPoints;
 	private Map<CharacteristicType, Characteristic> characs = Maps.newHashMap();
 	
@@ -140,7 +140,6 @@ public class PlayerStatistics implements Statistics {
 				statPoints,
 				spellPoints,
 				0, (short) 0, (short) 0, 0, 0, false, // TODO pvp
-				life,
 				energy,
 				this
 		);

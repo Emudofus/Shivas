@@ -37,126 +37,123 @@ public class GameMessageFormatter {
     }
 
     public static String statisticsMessage
-            (long currentExperience, long minExp, long maxExp,
-             long kamas,
-             short statsPoints, short spellsPoints,
+            (long curExp, long minExp, long maxExp,
+             long kamas, short statsPoints, short spellsPoints,
              int alignId, short alignLevel, short alignGrade, int honor, int dishonor, boolean pvpEnabled,
-             short lifePoints, short maxLifePoints,
              short energy, short maxEnergy,
-             short initiative,
-             short prospection,
-             Statistics statistics)
+             Statistics stats)
     {
-        Characteristic actionPoints = statistics.get(CharacteristicType.ActionPoints),
-                       movementPoints = statistics.get(CharacteristicType.MovementPoints);
-
         StringBuilder sb = new StringBuilder(500).append("As");
 
-        sb.append(currentExperience).append(',').append(minExp).append(',').append(maxExp).append('|');
-        sb.append(kamas).append('|');
-        sb.append(statsPoints).append('|').append(spellsPoints).append('|');
-        sb.append(alignId).append('~').append(alignId).append(',')
+        sb.append(curExp).append(',') // experience
+          .append(minExp).append(',')
+          .append(maxExp).append('|');
+        
+        sb.append(kamas).append('|')
+	      .append(statsPoints).append('|')
+          .append(spellsPoints).append('|');
+        
+        sb.append(alignId).append('~').append(alignId).append(',') // PVP
           .append(alignLevel).append(',')
           .append(alignGrade).append(',')
           .append(honor).append(',')
           .append(dishonor).append(',')
           .append(pvpEnabled ? "1|" : "0|");
-        sb.append(lifePoints).append(',').append(maxLifePoints).append('|');
-        sb.append(energy).append(',').append(maxEnergy).append('|');
-        sb.append(initiative).append('|')
-          .append(prospection).append('|');
+        
+        sb.append(stats.life().current()).append(',')
+		  .append(stats.life().max()).append('|');
+        
+        sb.append(energy).append(',')
+          .append(maxEnergy).append('|');
 
-        sb.append(actionPoints.base()).append(',')
-          .append(actionPoints.equipment()).append(',')
-          .append(actionPoints.gift()).append(',')
-          .append(actionPoints.context()).append(',')
-          .append(actionPoints.safeTotal()).append('|');
-
-        sb.append(movementPoints.base()).append(',')
-          .append(movementPoints.equipment()).append(',')
-          .append(movementPoints.gift()).append(',')
-          .append(movementPoints.context()).append(',')
-          .append(movementPoints.safeTotal());
-
-        Characteristic charac = statistics.get(CharacteristicType.Strength);
+        Characteristic charac;
+        charac = stats.get(CharacteristicType.Initiative);
+        sb.append(charac.total()).append('|');
+        charac = stats.get(CharacteristicType.Prospection);
+        sb.append(charac.total()).append('|');
+        charac = stats.get(CharacteristicType.ActionPoints);
+        sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append(',').append(charac.total()).append('|');
+        charac = stats.get(CharacteristicType.MovementPoints);
+        sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append(',').append(charac.total()).append('|');
+        charac = stats.get(CharacteristicType.Strength);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.Vitality);
+        charac = stats.get(CharacteristicType.Vitality);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.Wisdom);
+        charac = stats.get(CharacteristicType.Wisdom);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.Chance);
+        charac = stats.get(CharacteristicType.Chance);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.Agility);
+        charac = stats.get(CharacteristicType.Agility);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.Intelligence);
+        charac = stats.get(CharacteristicType.Intelligence);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.RangePoints);
+        charac = stats.get(CharacteristicType.RangePoints);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.Summons);
+        charac = stats.get(CharacteristicType.Summons);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.Damage);
+        charac = stats.get(CharacteristicType.Damage);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.PhysicalDamage);
+        charac = stats.get(CharacteristicType.PhysicalDamage);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.WeaponControl);
+        charac = stats.get(CharacteristicType.WeaponControl);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.DamagePer);
+        charac = stats.get(CharacteristicType.DamagePer);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.HealPoints);
+        charac = stats.get(CharacteristicType.HealPoints);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.TrapDamage);
+        charac = stats.get(CharacteristicType.TrapDamage);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.TrapDamagePer);
+        charac = stats.get(CharacteristicType.TrapDamagePer);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.DamageReturn);
+        charac = stats.get(CharacteristicType.DamageReturn);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.CriticalHit);
+        charac = stats.get(CharacteristicType.CriticalHit);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.CriticalFailure);
+        charac = stats.get(CharacteristicType.CriticalFailure);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.DodgeActionPoints);
+        charac = stats.get(CharacteristicType.DodgeActionPoints);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.DodgeMovementPoints);
+        charac = stats.get(CharacteristicType.DodgeMovementPoints);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistanceNeutral);
+        charac = stats.get(CharacteristicType.ResistanceNeutral);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentNeutral);
+        charac = stats.get(CharacteristicType.ResistancePercentNeutral);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePvpNeutral);
+        charac = stats.get(CharacteristicType.ResistancePvpNeutral);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentPvpNeutral);
+        charac = stats.get(CharacteristicType.ResistancePercentPvpNeutral);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistanceEarth);
+        charac = stats.get(CharacteristicType.ResistanceEarth);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentEarth);
+        charac = stats.get(CharacteristicType.ResistancePercentEarth);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePvpEarth);
+        charac = stats.get(CharacteristicType.ResistancePvpEarth);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentPvpEarth);
+        charac = stats.get(CharacteristicType.ResistancePercentPvpEarth);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistanceWater);
+        charac = stats.get(CharacteristicType.ResistanceWater);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentWater);
+        charac = stats.get(CharacteristicType.ResistancePercentWater);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePvpWater);
+        charac = stats.get(CharacteristicType.ResistancePvpWater);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentPvpWater);
+        charac = stats.get(CharacteristicType.ResistancePercentPvpWater);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistanceWind);
+        charac = stats.get(CharacteristicType.ResistanceWind);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentWind);
+        charac = stats.get(CharacteristicType.ResistancePercentWind);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePvpWind);
+        charac = stats.get(CharacteristicType.ResistancePvpWind);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentPvpWind);
+        charac = stats.get(CharacteristicType.ResistancePercentPvpWind);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistanceFire);
+        charac = stats.get(CharacteristicType.ResistanceFire);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentFire);
+        charac = stats.get(CharacteristicType.ResistancePercentFire);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePvpFire);
+        charac = stats.get(CharacteristicType.ResistancePvpFire);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context()).append('|');
-        charac = statistics.get(CharacteristicType.ResistancePercentPvpFire);
+        charac = stats.get(CharacteristicType.ResistancePercentPvpFire);
         sb.append(charac.base()).append(',').append(charac.equipment()).append(',').append(charac.gift()).append(',').append(charac.context());
 
         return sb.toString();
@@ -167,17 +164,13 @@ public class GameMessageFormatter {
 	     long kamas,
 	     short statsPoints, short spellsPoints,
 	     int alignId, short alignLevel, short alignGrade, int honor, int dishonor, boolean pvpEnabled,
-	     LimitedValue life, LimitedValue energy,
-	     Statistics statistics)
+	     LimitedValue energy, Statistics statistics)
     {
     	return statisticsMessage(
     			currentExperience, minExp, maxExp,
     			kamas, statsPoints, spellsPoints, 
     			alignId, alignLevel, alignGrade, honor, dishonor, pvpEnabled,
-    			(short)life.current(), (short)life.max(),
     			(short)energy.current(), (short)energy.max(),
-    			statistics.get(CharacteristicType.Initiative).total(),
-    			statistics.get(CharacteristicType.Prospection).total(),
     			statistics
     	);
     }
