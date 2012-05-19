@@ -1,4 +1,4 @@
-package org.shivas.server.core;
+package org.shivas.server.core.channels;
 
 import java.util.ArrayList;
 

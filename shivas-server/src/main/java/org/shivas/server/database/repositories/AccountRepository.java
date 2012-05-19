@@ -20,7 +20,7 @@ import org.shivas.common.collections.Maps2;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1Cipher;
 import org.shivas.protocol.client.enums.ChannelEnum;
-import org.shivas.server.core.ChannelList;
+import org.shivas.server.core.channels.ChannelList;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.utils.Converters;
