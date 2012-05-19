@@ -22,6 +22,7 @@ public class Account implements Serializable, Entity<Integer> {
 	private String secretAnswer;
 	private boolean rights;
 	private boolean banned;
+	private boolean muted;
 	private int community;
 	private int points;
 	private DateTime subscriptionEnd;
@@ -34,7 +35,7 @@ public class Account implements Serializable, Entity<Integer> {
 
 	public Account(int id, long version, String name, String password,
 			String nickname, String secretQuestion, String secretAnswer,
-			boolean rights, boolean banned, int community, int points,
+			boolean rights, boolean banned, boolean muted, int community, int points,
 			DateTime subscriptionEnd, boolean connected, ChannelList channels,
 			DateTime lastConnection, String lastAddress, int nbConnections,
 			Map<Integer, Player> players) {
@@ -47,6 +48,7 @@ public class Account implements Serializable, Entity<Integer> {
 		this.secretAnswer = secretAnswer;
 		this.rights = rights;
 		this.banned = banned;
+		this.muted = muted;
 		this.community = community;
 		this.points = points;
 		this.subscriptionEnd = subscriptionEnd;
@@ -182,6 +184,20 @@ public class Account implements Serializable, Entity<Integer> {
 	 */
 	public void setBanned(boolean banned) {
 		this.banned = banned;
+	}
+
+	/**
+	 * @return the muted
+	 */
+	public boolean isMuted() {
+		return muted;
+	}
+
+	/**
+	 * @param muted the muted to set
+	 */
+	public void setMuted(boolean muted) {
+		this.muted = muted;
 	}
 
 	/**

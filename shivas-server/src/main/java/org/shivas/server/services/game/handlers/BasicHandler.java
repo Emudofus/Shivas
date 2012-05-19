@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.server.core.channels.Channel;
+import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 
@@ -31,11 +32,22 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 			break;
 			
 		case 'M':
-			args = message.substring(2).split("\\|");
-			parseSendClientMultiMessage(
-					ChannelEnum.valueOf(message.charAt(2)),
-					args[1]
-			);
+			if (client.account().isMuted()) {
+				// TODO logging
+			} else {
+				args = message.substring(2).split("\\|");
+				if (args[0].length() > 1){
+					parseSendPrivateMessage(
+							client.service().repositories().players().find(args[0]),
+							args[1]
+					);
+				} else {
+					parseSendClientMultiMessage(
+							ChannelEnum.valueOf(message.charAt(2)),
+							args[1]
+					);
+				}
+			}
 			break;
 		}
 	}
@@ -51,6 +63,10 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 		Channel channel = client.service().channels().get(chan);
 		
 		channel.send(client.player(), message);
+	}
+
+	private void parseSendPrivateMessage(Player target, String message) {
+		// TODO
 	}
 
 	private void parseAdminCommandMessage(String command) {

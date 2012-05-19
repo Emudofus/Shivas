@@ -45,7 +45,7 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 		this.loadByNameQuery = em.builder().select(TABLE_NAME).where("name", Op.EQ);
 		this.saveQuery = em.builder()
 				.update(TABLE_NAME)
-				.value("rights").value("banned")
+				.value("rights").value("banned").value("muted")
 				.value("points").value("connected").value("channels")
 				.value("last_connection").value("last_address").value("nb_connections")
 				.where("id", Op.EQ);
@@ -90,6 +90,7 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 		query.setParameter("id", entity.id());
 		query.setParameter("rights", entity.hasRights());
 		query.setParameter("banned", entity.isBanned());
+		query.setParameter("muted", entity.isMuted());
 		query.setParameter("points", entity.getPoints());
 		query.setParameter("connected", entity.isConnected());
 		query.setParameter("channels", entity.getChannels());
@@ -114,6 +115,7 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 				result.getString("answer"),
 				result.getBoolean("rights"),
 				result.getBoolean("banned"),
+				result.getBoolean("muted"),
 				result.getInt("community"),
 				result.getInt("points"),
 				em.builder().dateTimeFormatter().parseDateTime(result.getString("subscription_end")),

@@ -110,6 +110,24 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		}
 		return false;
 	}
+	
+	public Player find(String name){
+		for (Player player : entities.values()) {
+			if (player.getName().equals(name)) {
+				return player;
+			}
+		}
+		return null;
+	}
+	
+	public Player findByIdOrName(String raw){
+		try {
+			int playerId = Integer.parseInt(raw);
+			return find(playerId);
+		} catch (NumberFormatException e) {
+			return find(raw);
+		}
+	}
 
 	@Override
 	protected Query buildDeleteQuery(Player entity) {
