@@ -34,7 +34,7 @@ public class DefaultConfig implements Config {
 		if (linux) {
 			return "/home/blackrush/Workspace/Shivas/data/";
 		} else {
-			return "C:\\Users\\Blackrush\\workspace\\Shivas\\data\\";
+			return "D:\\Workspace\\Shivas\\data\\";
 		}
 	}
 

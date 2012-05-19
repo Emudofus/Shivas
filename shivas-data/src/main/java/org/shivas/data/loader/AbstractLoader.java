@@ -11,10 +11,13 @@ import org.shivas.data.Loader;
 import org.shivas.data.container.SimpleContainer;
 import org.shivas.data.repository.BaseRepository;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 
 public abstract class AbstractLoader implements Loader {
+	
+	private static final Logger log = LoggerFactory.getLogger(AbstractLoader.class);
 	
 	protected final SimpleContainer ctner = new SimpleContainer();
 	protected final EntityFactory factory;
@@ -25,8 +28,6 @@ public abstract class AbstractLoader implements Loader {
 	public AbstractLoader(EntityFactory factory) {
 		this.factory = factory;
 	}
-	
-	protected abstract Logger log();
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private <T> FileLoader<T> getLoader(Class<T> clazz) {
@@ -43,7 +44,7 @@ public abstract class AbstractLoader implements Loader {
 		FileLoader<T> loader = getLoader(entity);
 		if (loader != null)  {
 			BaseRepository<T> repo = new BaseRepository<T>(entity);
-			log().debug("start load {}", repo.getEntityClass().getSimpleName());
+			log.debug("start load {}", repo.getEntityClass().getSimpleName());
 			
 			loadEntities(
 					repo,
@@ -52,9 +53,9 @@ public abstract class AbstractLoader implements Loader {
 			);
 			ctner.add(repo);
 			
-			log().debug("{} {} loaded", repo.count(), repo.getEntityClass().getSimpleName());
+			log.debug("{} {} loaded", repo.count(), repo.getEntityClass().getSimpleName());
 		} else {
-			log().error("unknown class \"{}\"", entity.getName());
+			log.error("unknown class \"{}\"", entity.getName());
 		}
 	}
 
@@ -72,9 +73,9 @@ public abstract class AbstractLoader implements Loader {
 				try {
 					loader.load(repo, file);
 					
-					log().trace("{} loaded", file.getName());
+					log.trace("{} loaded", file.getName());
 				} catch (Exception e) {
-					log().error(String.format("can't load \"%s\" because of %s : %s",
+					log.error(String.format("can't load \"%s\" because of %s : %s",
 							file.getName(),
 							e.getClass().getSimpleName(),
 							e.getMessage()

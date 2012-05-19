@@ -16,14 +16,10 @@ import org.shivas.data.entity.Experience;
 import org.shivas.data.entity.GameMap;
 import org.shivas.data.entity.MapTrigger;
 import org.shivas.data.repository.BaseRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 
 public class XmlLoader extends AbstractLoader {
-	
-	private static final Logger log = LoggerFactory.getLogger(XmlLoader.class);
 	
 	private final SAXBuilder builder = new SAXBuilder();
 	
@@ -47,11 +43,6 @@ public class XmlLoader extends AbstractLoader {
 				loadMap(repo, file);
 			}
 		});
-	}
-
-	@Override
-	protected Logger log() {
-		return log;
 	}
 	
 	private void loadBreed(BaseRepository<Breed> repo, File file) throws Exception {		

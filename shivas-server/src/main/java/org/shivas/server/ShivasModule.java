@@ -23,11 +23,11 @@ public class ShivasModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(Config.class).to(DefaultConfig.class).asEagerSingleton();
+		bind(EntityFactory.class).to(ShivasEntityFactory.class).asEagerSingleton();
 		bind(RepositoryContainer.class).to(DefaultRepositoryContainer.class);
 		bind(LoginService.class).to(DefaultLoginService.class);
 		bind(GameService.class).to(DefaultGameService.class);
 		bind(Container.class).toProvider(ContainerProvider.class);
-		bind(EntityFactory.class).to(ShivasEntityFactory.class);
 		bind(EntityManager.class).to(ShivasEntityManager.class);
 		install(new ShivasDatabaseModule());
 	}
