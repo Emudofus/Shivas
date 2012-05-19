@@ -10,6 +10,7 @@ import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.PrivateMessageEvent;
+import org.shivas.server.core.maps.MapEvent;
 
 public class DefaultEventListener implements EventListener {
 	
@@ -32,6 +33,7 @@ public class DefaultEventListener implements EventListener {
 			break;
 			
 		case MAP:
+			listenMap((MapEvent) event);
 			break;
 			
 		case TELEPORTATION:
@@ -63,6 +65,22 @@ public class DefaultEventListener implements EventListener {
 				event.author().getName(),
 				event.message()
 		));
+	}
+
+	private void listenMap(MapEvent event) {
+		switch (event.mapEventType()) {
+		case ENTER:
+			session.write(GameMessageFormatter.showActorMessage(event.actor().toBaseRolePlayActorType()));
+			break;
+			
+		case LEAVE:
+			session.write(GameMessageFormatter.removeActorMessage(event.actor().id()));
+			break;
+			
+		case UPDATE:
+			session.write(GameMessageFormatter.updateActorMessage(event.actor().toBaseRolePlayActorType()));
+			break;
+		}
 	}
 	
 	private void listenTeleportation(PlayerTeleportationEvent event) {
