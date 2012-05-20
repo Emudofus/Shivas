@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.google.common.collect.Maps;
 
 public class App {
-	public static final String VERSION = "2.2ALPHA";
+	public static final String VERSION = "1.0BETA";
 	public static final Scanner in = new Scanner(System.in);
 	
 	private static final Map<Integer, Converter> CONVERTERS = Maps.newHashMap();
@@ -39,6 +39,7 @@ public class App {
 		
 		CONVERTERS.put(Converters.D2J_ID, new d2jConverter());
 		CONVERTERS.put(Converters.ANCESTRA_ID, new AncestraConverter());
+		CONVERTERS.put(Converters.VEMU_ID, new VemuConverter());
 		
 		OUTPUTTERS.put("XML", new XMLDataOutputter());
 		
@@ -87,7 +88,6 @@ public class App {
 				log("Choix impossible, veuillez recommencer");
 			}
 		}
-		in.nextLine();
 		return out;
 	}
 	

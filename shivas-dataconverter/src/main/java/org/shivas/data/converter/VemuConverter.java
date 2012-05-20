@@ -7,16 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.atomium.util.Action1;
-import org.atomium.util.query.Order;
-import org.shivas.common.maths.Point;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public class AncestraConverter extends MySqlUserConverter {
+public class VemuConverter extends MySqlUserConverter {
 	
 	private final Map<Integer, Structs.GameMap> maps = Maps.newHashMap();
-	
+
 	private void init() {
 		initConnection(
 				App.prompt("Veuillez entrer l'adresse de votre serveur MySQL"),
@@ -28,14 +26,14 @@ public class AncestraConverter extends MySqlUserConverter {
 
 	@Override
 	public void start(final DataOutputter out) {
-		App.log("Vous avez choisit le convertisseur pour base de donnée Ancestra.");
+		App.log("Vous avez choisis le convertisseur de base de donnée Vemu.");
 		
 		init();
 		
 		//////////// EXPERIENCES /////////////////
 		
 		App.log("Les niveaux d'expérience vont être chargés puis écris, cela peut prendre quelques secondes.");
-		super.query(q.select("experience").orderBy("lvl", Order.ASC).toQuery(), new Action1<ResultSet>() {
+		super.query(q.select("exp_data").toQuery(), new Action1<ResultSet>() {
 			public Void invoke(ResultSet arg1) throws Exception {
 				createExperiences(
 						arg1,
@@ -50,7 +48,7 @@ public class AncestraConverter extends MySqlUserConverter {
 		//////////// MAPS /////////////////
 		
 		App.log("Les cartes vont être chargées, cela peut prendre quelques minutes.");
-		super.query(q.select("maps").toQuery(), new Action1<ResultSet>(){
+		super.query(q.select("maps_data").toQuery(), new Action1<ResultSet>(){
 			public Void invoke(ResultSet arg1) throws Exception {
 				loadMaps(arg1);
 				return null;
@@ -59,7 +57,7 @@ public class AncestraConverter extends MySqlUserConverter {
 		App.log("%d cartes ont été chargées.", maps.size());
 		
 		App.log("Les triggers de cartes vont être chargés, cela peut prendre quelques minutes.");
-		super.query(q.select("scripted_cells").toQuery(), new Action1<ResultSet>() {
+		super.query(q.select("maps_triggers").toQuery(), new Action1<ResultSet>() {
 			public Void invoke(ResultSet arg1) throws Exception {
 				loadTriggers(arg1);
 				return null;
@@ -78,17 +76,17 @@ public class AncestraConverter extends MySqlUserConverter {
 		App.log("Tout s'est bien passé, vous pouvez à présent lancer l'émulateur");
 	}
 	
-	private void createExperiences(ResultSet results, String directory, DataOutputter out) throws SQLException, IOException {
+	private void createExperiences(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {
 		List<Structs.Experience> exps = Lists.newArrayList();
 		
-		while (results.next()) {
+		while (r.next()) {
 			/*** INPUT : MySQL ***/
 			Structs.Experience exp = new Structs.Experience();
-			exp.level = results.getInt("lvl");
-			exp.player = results.getLong("perso");
-			exp.job = results.getInt("metier");
-			exp.mount = results.getInt("dinde");
-			exp.alignment = results.getShort("pvp");
+			exp.level = r.getInt("Level");
+			exp.player = r.getLong("Character");
+			exp.job = r.getInt("Job");
+			exp.mount = r.getInt("mount");
+			exp.alignment = r.getShort("Pvp");
 			
 			/*** OUTPUT ***/
 			exps.add(exp);
@@ -97,25 +95,17 @@ public class AncestraConverter extends MySqlUserConverter {
 		out.outputExperiences(exps, directory + "experiences");
 	}
 	
-	public static Point parsePosition(String string) {
-		String[] args = string.split(","); // <x>,<y>,<subarea>
-		return new Point(
-				Integer.parseInt(args[0]),
-				Integer.parseInt(args[1])
-		);
-	}
-	
 	private void loadMaps(ResultSet r) throws SQLException {
 		while (r.next()) {
 			Structs.GameMap map = new Structs.GameMap();
-			map.id = r.getInt("id");
-			map.position = parsePosition(r.getString("mappos"));
-			map.width = r.getInt("width");
-			map.height = r.getInt("heigth");
-			map.data = r.getString("mapData");
-			map.date = r.getString("date");
-			map.key = r.getString("key");
-			map.subscriber = false; // there isn't column "subscriber" in ancestra's static db
+			map.id = r.getInt("ID");
+			map.position = AncestraConverter.parsePosition(r.getString("pos"));
+			map.width = r.getInt("Width");
+			map.height = r.getInt("Height");
+			map.data = r.getString("MapData");
+			map.date = r.getString("CreateTime");
+			map.key = r.getString("DecryptKey");
+			map.subscriber = r.getBoolean("NeedRegister");
 			
 			maps.put(map.id, map);
 		}
@@ -123,9 +113,8 @@ public class AncestraConverter extends MySqlUserConverter {
 	
 	private void loadTriggers(ResultSet r) throws SQLException {
 		int nextId = 0;
+		
 		while (r.next()) {
-			if (r.getInt("EventID") != 1) continue; // not a triggers
-			
 			Structs.GameMap map = maps.get(r.getInt("MapID"));
 			if (map == null) {
 				App.log("Un trigger fait référence à une carte inconnue (%d), il est par conséquent ignoré.", r.getInt("MapID"));
@@ -136,13 +125,15 @@ public class AncestraConverter extends MySqlUserConverter {
 			trigger.id = ++nextId;
 			trigger.cell = r.getShort("CellID");
 			
-			String[] args = r.getString("ActionsArgs").split(",");
+			String action = r.getString("Action");
+			
+			int actionType = Integer.parseInt(action.substring(0, action.indexOf('/')));
+			if (actionType != 1) continue; // not a trigger
+			
+			String[] args = action.substring(action.indexOf('/') + 1).split(";");
 			if (args.length == 2) {
-				trigger.nextMap = maps.get(Integer.parseInt(args[0].trim()));
-				trigger.nextCell = Short.parseShort(args[1].trim());
-			} else {
-				App.log("Un trigger n'a aucune référence à une autre carte, il est par conséquent ignoré.");
-				continue;
+				trigger.nextMap = maps.get(Integer.parseInt(args[0]));
+				trigger.nextCell = Short.parseShort(args[1]);
 			}
 			
 			map.triggers.add(trigger);
