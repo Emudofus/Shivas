@@ -1,78 +1,50 @@
 package org.shivas.data.converter;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 
 import org.atomium.util.Action1;
-import org.atomium.util.Function1;
-import org.atomium.util.query.Query;
-import org.atomium.util.query.QueryBuilderFactory;
-import org.atomium.util.query.mysql.MySqlQueryBuilderFactory;
 import org.shivas.common.maths.Range;
 import org.shivas.common.statistics.CharacteristicType;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public class d2jConverter implements Converter {
+public class d2jConverter extends MySqlUserConverter {
 	
-	private Connection connection;
-	private QueryBuilderFactory q;
-	
-	private void init() {		
-		String hostname = "localhost";
-		String user 	= "root";
-		String password = "";
-		String database = "d2j_static";
+	public static Structs.BreedLevel parseLevel(String string) {
+		String[] args = string.split("-");
 		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":3306/" + database + "?zeroDateTimeBehavior=convertToNull", user, password);
-			q = new MySqlQueryBuilderFactory();
-		} catch (ClassNotFoundException e) {
-			App.log("can't load driver because : %s", e.getMessage());
-			System.exit(1);
-		} catch (SQLException e) {
-			App.log("can't open connection because : %s", e.getMessage());
-			System.exit(1);
-		}
+		Structs.BreedLevel level = new Structs.BreedLevel();
+		level.bonus = Integer.parseInt(args[0]);
+		level.cost = Integer.parseInt(args[1]);
+		
+		return level;
 	}
 	
-	protected <T> T useStatement(Function1<T, Statement> action) {
-		Statement statement = null;
-		T result = null;
-		try {
-			statement = connection.createStatement();
+	public static Map<Range, Structs.BreedLevel> loadLevels(String string) {
+		Map<Range, Structs.BreedLevel> levels = Maps.newHashMap();
+		for (String s : string.split("\\|")) {
+			String[] args = s.split(":");
 			
-			result = action.invoke(statement);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			Range range = Range.parseRange(args[0], "\\,");
+			Structs.BreedLevel level = parseLevel(args[1]);
+			
+			levels.put(range, level);
 		}
-		return result;
+		return levels;
 	}
 	
-	protected void query(final Query query, final Action1<ResultSet> action) {
-		useStatement(new Action1<Statement>() {
-			public Void invoke(Statement arg1) throws Exception {
-				ResultSet result = arg1.executeQuery(query.toString());
-				action.invoke(result);
-				result.close();
-				return null;
-			}
-		});
+	private Map<Integer, Structs.GameMap> maps = Maps.newHashMap();
+	
+	private void init() {
+		initConnection(
+				App.prompt("Veuillez entrer l'adresse de votre serveur MySQL"),
+				App.prompt("Veuillez entrer le nom de votre base de donnée"),
+				App.prompt("Veuillez entrer votre nom d'utilisateur"),
+				App.prompt("Veuillez entrer votre mot de passe")
+		);
 	}
 
 	@Override
@@ -128,29 +100,6 @@ public class d2jConverter implements Converter {
 		
 		App.log("Tout s'est bien passé, vous pouvez à présent lancer l'émulateur");
 	}
-	
-	private Structs.BreedLevel parseLevel(String string) {
-		String[] args = string.split("-");
-		
-		Structs.BreedLevel level = new Structs.BreedLevel();
-		level.bonus = Integer.parseInt(args[0]);
-		level.cost = Integer.parseInt(args[1]);
-		
-		return level;
-	}
-	
-	private Map<Range, Structs.BreedLevel> loadLevels(String string) {
-		Map<Range, Structs.BreedLevel> levels = Maps.newHashMap();
-		for (String s : string.split("\\|")) {
-			String[] args = s.split(":");
-			
-			Range range = Range.parseRange(args[0], "\\,");
-			Structs.BreedLevel level = parseLevel(args[1]);
-			
-			levels.put(range, level);
-		}
-		return levels;
-	}
 
 	private void createBreeds(ResultSet result, String directory, DataOutputter out) throws Exception {		
 		while (result.next()) {
@@ -196,8 +145,6 @@ public class d2jConverter implements Converter {
 
 		out.outputExperiences(exps, directory + "experiences");
 	}
-	
-	private Map<Integer, Structs.GameMap> maps = Maps.newHashMap();
 	
 	private void loadMaps(ResultSet result) throws Exception {
 		while (result.next()) {

@@ -6,11 +6,15 @@ import java.util.Scanner;
 import com.google.common.collect.Maps;
 
 public class App {
-	public static final String VERSION = "2.0ALPHA";
+	public static final String VERSION = "2.1ALPHA";
 	public static final Scanner in = new Scanner(System.in);
 	
 	private static final Map<Integer, Converter> CONVERTERS = Maps.newHashMap();
 	private static final Map<String, DataOutputter> OUTPUTTERS = Maps.newHashMap();
+	
+	public static void log(String message) {
+		System.out.println(message);
+	}
 	
 	public static void log(String pattern, Object... args) {
 		System.out.println(String.format(pattern, args));
