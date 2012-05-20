@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.atomium.util.Action1;
+import org.atomium.util.query.Order;
 import org.shivas.common.maths.Point;
 
 import com.google.common.collect.Lists;
@@ -34,7 +35,7 @@ public class AncestraConverter extends MySqlUserConverter {
 		//////////// EXPERIENCES /////////////////
 		
 		App.log("Les niveaux d'expérience vont être chargés puis écris, cela peut prendre quelques secondes.");
-		super.query(q.select("").toQuery(), new Action1<ResultSet>() {
+		super.query(q.select("experience").orderBy("lvl", Order.ASC).toQuery(), new Action1<ResultSet>() {
 			public Void invoke(ResultSet arg1) throws Exception {
 				createExperiences(
 						arg1,
@@ -58,7 +59,7 @@ public class AncestraConverter extends MySqlUserConverter {
 		App.log("%d cartes ont été chargées.", maps.size());
 		
 		App.log("Les triggers de cartes vont être chargés, cela peut prendre quelques minutes.");
-		super.query(q.select("").toQuery(), new Action1<ResultSet>() {
+		super.query(q.select("scripted_cells").toQuery(), new Action1<ResultSet>() {
 			public Void invoke(ResultSet arg1) throws Exception {
 				loadTriggers(arg1);
 				return null;
@@ -136,8 +137,13 @@ public class AncestraConverter extends MySqlUserConverter {
 			trigger.cell = r.getShort("CellID");
 			
 			String[] args = r.getString("ActionsArgs").split(",");
-			trigger.nextMap = maps.get(Integer.parseInt(args[0]));
-			trigger.nextCell = Short.parseShort(args[1]);
+			if (args.length == 2) {
+				trigger.nextMap = maps.get(Integer.parseInt(args[0].trim()));
+				trigger.nextCell = Short.parseShort(args[1].trim());
+			} else {
+				App.log("Un trigger n'a aucune référence à une autre carte, il est par conséquent ignoré.");
+				continue;
+			}
 			
 			map.triggers.add(trigger);
 		}
