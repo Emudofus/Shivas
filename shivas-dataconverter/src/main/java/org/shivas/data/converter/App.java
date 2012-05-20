@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.google.common.collect.Maps;
 
 public class App {
-	public static final String VERSION = "2.1ALPHA";
+	public static final String VERSION = "2.2ALPHA";
 	public static final Scanner in = new Scanner(System.in);
 	
 	private static final Map<Integer, Converter> CONVERTERS = Maps.newHashMap();
@@ -22,6 +22,11 @@ public class App {
 	
 	public static void log() {
 		System.out.println();
+	}
+	
+	public static String prompt(String message) {
+		log(message);
+		return in.nextLine();
 	}
 	
 	public static String prompt(String pattern, Object... args) {
