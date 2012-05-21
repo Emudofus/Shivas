@@ -32,6 +32,8 @@ public class Account implements Serializable, Entity<Integer> {
 	private String lastAddress;
 	private int nbConnections;
 	private Map<Integer, Player> players;
+	
+	private Player currentPlayer;
 
 	public Account(int id, long version, String name, String password,
 			String nickname, String secretQuestion, String secretAnswer,
@@ -311,6 +313,20 @@ public class Account implements Serializable, Entity<Integer> {
 		return players;
 	}
 	
+	/**
+	 * @return the currentPlayer
+	 */
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	/**
+	 * @param currentPlayer the currentPlayer to set
+	 */
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
 	public LazyReference<Integer, Account> toReference() {
 		return new LazyReference<Integer, Account>(this);
 	}

@@ -21,6 +21,7 @@ import org.shivas.server.core.events.events.PrivateMessageEvent;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.maps.GMap;
 import org.shivas.server.core.statistics.PlayerStatistics;
+import org.shivas.server.services.game.GameClient;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
@@ -40,6 +41,8 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private PlayerStatistics stats;
 	
 	private final EventDispatcher event = EventDispatchers.create();
+	
+	private GameClient client;
 
 	public Player(LazyReference<Integer, Account> owner, String name, Breed breed, Gender gender,
 			Look look, PlayerExperience experience, Location location) {
@@ -194,6 +197,20 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 
 	public EventDispatcher getEvent() {
 		return event;
+	}
+
+	/**
+	 * @return the client
+	 */
+	public GameClient getClient() {
+		return client;
+	}
+
+	/**
+	 * @param client the client to set
+	 */
+	public void setClient(GameClient client) {
+		this.client = client;
 	}
 
 	public void teleport(GMap map, short cell) {
