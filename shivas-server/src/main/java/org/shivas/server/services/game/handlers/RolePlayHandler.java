@@ -54,6 +54,8 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		super.onClosed();
 		
 		client.account().setConnected(false);
+		client.account().setCurrentPlayer(null);
+		client.player().setClient(null);
 		client.service().repositories().accounts().saveLater(client.account());
 	}
 
@@ -63,6 +65,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		add('B', new BasicHandler(client, session));
 		add('c', new ChannelHandler(client, session));
 		add('G', new GameHandler(client, session));
+		add('P', new PartyHandler(client, session));
 	}
 
 	@Override
