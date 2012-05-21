@@ -10,6 +10,7 @@ import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.PrivateMessageEvent;
+import org.shivas.server.core.events.events.SystemMessageEvent;
 import org.shivas.server.core.maps.MapEvent;
 
 public class DefaultEventListener implements EventListener {
@@ -42,6 +43,10 @@ public class DefaultEventListener implements EventListener {
 			
 		case PRIVATE_MESSAGE:
 			listenPrivateMessage((PrivateMessageEvent) event);
+			break;
+			
+		case SYSTEM_MESSAGE:
+			listenSystemMessage((SystemMessageEvent) event);
 			break;
 		}
 	}
@@ -107,6 +112,10 @@ public class DefaultEventListener implements EventListener {
 					event.message()
 			));
 		}
+	}
+
+	private void listenSystemMessage(SystemMessageEvent event) {
+		session.write(ChannelGameMessageFormatter.informationMessage(event.message()));
 	}
 
 }

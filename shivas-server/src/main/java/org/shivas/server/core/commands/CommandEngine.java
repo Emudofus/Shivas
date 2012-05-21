@@ -9,6 +9,7 @@ import org.shivas.common.params.GnuParser;
 import org.shivas.common.params.Parameters;
 import org.shivas.common.params.ParametersParser;
 import org.shivas.common.params.ParsingException;
+import org.shivas.server.core.channels.ChannelContainer;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.game.GameClient;
@@ -22,8 +23,8 @@ public class CommandEngine {
 	private final ParametersParser parser = new GnuParser();
 
 	@Inject
-	public CommandEngine(RepositoryContainer repo) {
-		add(new KickCommand(repo));
+	public CommandEngine(RepositoryContainer repo, ChannelContainer channels) {
+		add(new KickCommand(repo, channels));
 		add(new SaveCommand(repo));
 	}
 	

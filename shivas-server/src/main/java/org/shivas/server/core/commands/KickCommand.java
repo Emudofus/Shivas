@@ -3,6 +3,7 @@ package org.shivas.server.core.commands;
 import org.shivas.common.params.Conditions;
 import org.shivas.common.params.Parameters;
 import org.shivas.common.params.Types;
+import org.shivas.server.core.channels.ChannelContainer;
 import org.shivas.server.core.commands.types.PlayerType;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.database.RepositoryContainer;
@@ -12,9 +13,11 @@ import org.shivas.server.services.game.GameClient;
 public class KickCommand implements Command {
 	
 	private final RepositoryContainer repo;
+	private final ChannelContainer channels;
 
-	public KickCommand(RepositoryContainer repo) {
+	public KickCommand(RepositoryContainer repo, ChannelContainer channels) {
 		this.repo = repo;
+		this.channels = channels;
 	}
 
 	@Override
@@ -54,6 +57,8 @@ public class KickCommand implements Command {
 			else					target.getClient().kick();
 			
 			log.info("%s has been kicked", target.getName());
+			
+			channels.system().send(client.player(), String.format("%s has been kicked because : <i>%s</i>", target.url(), message != null ? message : "no reason"));
 		}
 	}
 

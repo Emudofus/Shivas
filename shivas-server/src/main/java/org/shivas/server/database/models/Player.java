@@ -7,6 +7,7 @@ import org.atomium.LazyReference;
 import org.atomium.PersistableEntity;
 import org.shivas.data.entity.Breed;
 import org.shivas.protocol.client.enums.Gender;
+import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
 import org.shivas.protocol.client.types.RolePlayCharacterType;
@@ -222,6 +223,10 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		
 		event.publish(pm);
 		source.event.publish(pm);
+	}
+	
+	public String url() {
+		return InfoGameMessageFormatter.urlize(name);
 	}
 
 	public int hashCode() {
