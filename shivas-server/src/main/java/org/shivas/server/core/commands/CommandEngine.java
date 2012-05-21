@@ -44,7 +44,7 @@ public class CommandEngine {
 				Parameters params = parser.parse(command, cmd.conditions());
 				cmd.use(client, log, params);
 			} catch (ParsingException e) {
-				log.error(e.getLocalizedMessage());
+				log.error("error : %s", e.getMessage());
 			}
 		}
 	}

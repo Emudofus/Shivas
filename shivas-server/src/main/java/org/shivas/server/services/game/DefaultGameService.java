@@ -9,6 +9,7 @@ import org.shivas.protocol.client.enums.WorldStateEnum;
 import org.shivas.protocol.client.types.GameServerType;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.channels.ChannelContainer;
+import org.shivas.server.core.commands.CommandEngine;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.AbstractService;
 import org.shivas.server.services.game.handlers.AuthenticationHandler;
@@ -27,9 +28,10 @@ public class DefaultGameService extends AbstractService implements GameService {
 	private final LoginService login;
 	private final GameServerType informations;
 	private final ChannelContainer channels;
+	private final CommandEngine cmdEngine;
 
 	@Inject
-	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login, ChannelContainer channels) {
+	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login, ChannelContainer channels, CommandEngine cmdengine) {
 		super(repositories, config.gamePort(), log);
 		
 		this.config = config;
@@ -43,6 +45,7 @@ public class DefaultGameService extends AbstractService implements GameService {
 				true
 		);
 		this.channels = channels;
+		this.cmdEngine = cmdengine;
 	}
 
 	public Config config() {
@@ -61,6 +64,10 @@ public class DefaultGameService extends AbstractService implements GameService {
 		return channels;
 	}
 	
+	public CommandEngine cmdEngine() {
+		return cmdEngine;
+	}
+
 	public void sessionCreated(IoSession session) throws Exception {
 		session.setAttribute(CLIENT_TOKEN, new DefaultGameClient(this));
 	}
