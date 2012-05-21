@@ -6,6 +6,7 @@ import org.shivas.common.params.Types;
 import org.shivas.server.core.commands.types.PlayerType;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.database.RepositoryContainer;
+import org.shivas.server.database.models.Player;
 import org.shivas.server.services.game.GameClient;
 
 public class KickCommand implements Command {
@@ -26,7 +27,7 @@ public class KickCommand implements Command {
 		Conditions conds = new Conditions();
 		
 		conds.add("target", new PlayerType(repo.players()), "The target");
-		conds.add("message", Types.STRING, "The message");
+		conds.add("msg", Types.STRING, "The message", true);
 		
 		return conds;
 	}
@@ -43,7 +44,17 @@ public class KickCommand implements Command {
 
 	@Override
 	public void use(GameClient client, DofusLogger log, Parameters params) {
-		// TODO
+		Player target = params.get("target", Player.class);
+		String message = params.get("msg", String.class);
+		
+		if (target.getClient() != null) {
+			log.info("%s isn't connected", target.getName());
+		} else {
+			if (!message.isEmpty()) target.getClient().kick(message);
+			else					target.getClient().kick();
+			
+			log.info("%s has been kicked", target.getName());
+		}
 	}
 
 }

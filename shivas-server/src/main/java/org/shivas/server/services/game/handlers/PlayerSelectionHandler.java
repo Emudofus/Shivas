@@ -147,8 +147,10 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 					player.getLook().getColors().third(),
 					null // TODO items
 			));
-			
+
+			client.account().setCurrentPlayer(player);
 			client.setPlayer(player);
+			player.setClient(client);
 			
 			client.newHandler(new RolePlayHandler(client, session));
 		}

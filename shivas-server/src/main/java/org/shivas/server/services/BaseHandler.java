@@ -5,5 +5,6 @@ import org.shivas.common.services.IoSessionHandler;
 public interface BaseHandler extends IoSessionHandler<String> {
 	
 	void kick();
+	void kick(String message);
 	
 }

@@ -7,6 +7,8 @@ import org.shivas.server.database.models.Player;
 import org.shivas.server.services.Client;
 
 public interface GameClient extends Client<GameService> {
+	
+	void kick(String message);
 
 	Account account();
 	void setAccount(Account account);

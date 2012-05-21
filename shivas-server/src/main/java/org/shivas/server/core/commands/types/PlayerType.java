@@ -28,15 +28,22 @@ public class PlayerType implements Type {
 
 	@Override
 	public Object parse(final String string) throws ParsingException {
+		Player player;
 		try {
 			int playerId = Integer.parseInt(string);
-			return players.find(playerId);
+			player = players.find(playerId);
 		} catch (NumberFormatException e) {
-			return players.filter(new Filter<Player>() {
+			player = players.filter(new Filter<Player>() {
 				public Boolean invoke(Player arg1) throws Exception {
 					return arg1.getName().equals(string);
 				}
-			});
+			}).get(0);
+		}
+		
+		if (player == null) {
+			throw new ParsingException("unknown player " + string);
+		} else {
+			return player;
 		}
 	}
 

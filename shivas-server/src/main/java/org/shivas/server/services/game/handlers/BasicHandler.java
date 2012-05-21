@@ -1,7 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import java.util.Arrays;
-
 import org.apache.mina.core.session.IoSession;
 import org.joda.time.DateTime;
 import org.shivas.protocol.client.enums.ChannelEnum;
@@ -9,6 +7,7 @@ import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.server.core.channels.Channel;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
+import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 
 public class BasicHandler extends AbstractBaseHandler<GameClient> {
@@ -36,16 +35,21 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 				tchat().error("Vous ne pouvez pas parler car un modérateur vous a retiré la parole.");
 			} else {
 				args = message.substring(2).split("\\|");
+				String msg = args[1];
 				if (args[0].length() > 1){
 					parseSendPrivateMessage(
 							client.service().repositories().players().find(args[0]),
-							args[1]
+							msg
 					);
 				} else {
-					parseSendClientMultiMessage(
-							ChannelEnum.valueOf(message.charAt(2)),
-							args[1]
-					);
+					if (msg.startsWith(client.service().config().cmdPrefix())) {
+						parseClientCommandMessage(message.substring(client.service().config().cmdPrefix().length()));
+					} else {
+						parseSendClientMultiMessage(
+								ChannelEnum.valueOf(message.charAt(2)),
+								msg
+						);
+					}
 				}
 			}
 			break;
@@ -72,13 +76,16 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 		target.sendMessage(client.player(), message);
 	}
 
-	private void parseAdminCommandMessage(String command) {
-		String[] args = command.split(" ");
+	private void parseAdminCommandMessage(String command) throws CriticalException {
+		if (!client.account().hasRights()) {
+			throw new CriticalException("this client hasn't enough rights");
+		}
 		
-		String name = args[0];
-		args = Arrays.copyOfRange(args, 1, args.length);
-		
-		// TODO admin commands
+		client.service().cmdEngine().use(client, console(), command);
+	}
+
+	private void parseClientCommandMessage(String command) {
+		client.service().cmdEngine().use(client, tchat(), command);
 	}
 
 }

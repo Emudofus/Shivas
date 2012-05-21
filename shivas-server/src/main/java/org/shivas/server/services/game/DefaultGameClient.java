@@ -27,6 +27,10 @@ public final class DefaultGameClient implements GameClient {
 	public void kick() {
 		handler.kick();
 	}
+
+	public void kick(String message) {
+		handler.kick(message);
+	}
 	
 	public BaseHandler handler() {
 		return handler;

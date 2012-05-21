@@ -1,6 +1,7 @@
 package org.shivas.server.services;
 
 import org.apache.mina.core.session.IoSession;
+import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.core.logging.ConsoleLogger;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.core.logging.TchatLogger;
@@ -19,6 +20,11 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 	
 	public void kick() {
 		session.close(false);
+	}
+	
+	public void kick(String message) {
+		session.write(GameMessageFormatter.kickMessage("System", message));
+		kick();
 	}
 	
 	public boolean isLoopback() {

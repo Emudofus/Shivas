@@ -21,6 +21,7 @@ public interface Config {
 	
 	String clientVersion();
 	String motd();
+	String cmdPrefix();
 	
 	int maxPlayersPerAccount();
 	short deleteAnswerLevelNeeded();

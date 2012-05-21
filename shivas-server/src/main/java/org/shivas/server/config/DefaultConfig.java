@@ -72,6 +72,11 @@ public class DefaultConfig implements Config {
 		return "Bienvenue sur la version INDEV de Shivas.";
 	}
 
+	@Override
+	public String cmdPrefix() {
+		return "!";
+	}
+
 	public int maxPlayersPerAccount() {
 		return 2;
 	}
