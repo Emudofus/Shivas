@@ -131,7 +131,9 @@ public class XmlLoader extends AbstractLoader {
 				//trigger.setId(trigger_elem.getAttribute("id").getIntValue()); <- useless
 				trigger.setMap(map);
 				trigger.setCell((short) trigger_elem.getAttribute("cell").getIntValue());
-				trigger.setNextMap(repo.byId(trigger_elem.getAttribute("next_map").getIntValue()));
+				if (!trigger_elem.getAttribute("next_map").getValue().isEmpty()) {
+					trigger.setNextMap(repo.byId(trigger_elem.getAttribute("next_map").getIntValue()));
+				}
 				trigger.setNextCell((short) trigger_elem.getAttribute("next_cell").getIntValue());
 				
 				triggers.put(trigger.getCell(), trigger);
