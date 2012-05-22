@@ -13,7 +13,7 @@ import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
-import org.shivas.data.entity.GameMap;
+import org.shivas.data.entity.MapTemplate;
 import org.shivas.data.entity.MapTrigger;
 import org.shivas.data.repository.BaseRepository;
 
@@ -38,8 +38,8 @@ public class XmlLoader extends AbstractLoader {
 			}
 		});
 		
-		loaders.put(GameMap.class, new FileLoader<GameMap>() {
-			public void load(BaseRepository<GameMap> repo, File file) throws Exception {
+		loaders.put(MapTemplate.class, new FileLoader<MapTemplate>() {
+			public void load(BaseRepository<MapTemplate> repo, File file) throws Exception {
 				loadMap(repo, file);
 			}
 		});
@@ -101,12 +101,12 @@ public class XmlLoader extends AbstractLoader {
 		}
 	}
 	
-	private void loadMap(BaseRepository<GameMap> repo, File file) throws Exception {
+	private void loadMap(BaseRepository<MapTemplate> repo, File file) throws Exception {
 		Document doc = builder.build(file);
 		
 		Element root = doc.getDescendants(new ElementFilter("maps")).next();
 		for (Element element : root.getChildren("map")) {
-			GameMap map = factory.newGameMap();
+			MapTemplate map = factory.newMapTemplate();
 			map.setId(element.getAttribute("id").getIntValue());
 			map.setPosition(new Point(
 					element.getAttribute("abscissa").getIntValue(),
@@ -123,7 +123,7 @@ public class XmlLoader extends AbstractLoader {
 		}
 		
 		for (Element element : root.getChildren("map")) {
-			GameMap map = repo.byId(element.getAttribute("id").getIntValue());
+			MapTemplate map = repo.byId(element.getAttribute("id").getIntValue());
 			
 			Map<Short, MapTrigger> triggers = Maps.newHashMap();
 			for (Element trigger_elem : element.getChildren("trigger")) {

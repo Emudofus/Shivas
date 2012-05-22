@@ -8,7 +8,7 @@ import org.shivas.server.core.Path;
 import org.shivas.server.core.actions.Action;
 import org.shivas.server.core.actions.ActionException;
 import org.shivas.server.core.actions.RolePlayMovement;
-import org.shivas.server.core.maps.GMap;
+import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
@@ -47,7 +47,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	public void onClosed() {
-		GMap map = client.player().getLocation().getMap();
+		GameMap map = client.player().getLocation().getMap();
 		map.event().unsubscribe(client.eventListener());
 		map.leave(client.player());
 	}
@@ -65,7 +65,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseGameInformationsMessage() {
-		GMap map = client.player().getLocation().getMap();
+		GameMap map = client.player().getLocation().getMap();
 		
 		map.enter(client.player());
 		

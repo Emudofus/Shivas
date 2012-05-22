@@ -3,27 +3,27 @@ package org.shivas.server.core;
 import java.io.Serializable;
 
 import org.shivas.protocol.client.enums.OrientationEnum;
-import org.shivas.server.core.maps.GMap;
+import org.shivas.server.core.maps.GameMap;
 
 public class Location implements Serializable {
 
 	private static final long serialVersionUID = -4975380217739829252L;
 	
-	private GMap map;
+	private GameMap map;
 	private short cell;
 	private OrientationEnum orientation;
 
-	public Location(GMap map, short cell, OrientationEnum orientation) {
+	public Location(GameMap map, short cell, OrientationEnum orientation) {
 		this.map = map;
 		this.cell = cell;
 		this.orientation = orientation;
 	}
 
-	public GMap getMap() {
+	public GameMap getMap() {
 		return map;
 	}
 
-	public void setMap(GMap map) {
+	public void setMap(GameMap map) {
 		this.map = map;
 	}
 

@@ -7,7 +7,7 @@ import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Path;
-import org.shivas.server.core.maps.GMap;
+import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.services.game.GameClient;
 
 public class RolePlayMovement extends AbstractAction {
@@ -54,7 +54,7 @@ public class RolePlayMovement extends AbstractAction {
         // teleport if there's a trigger
         MapTrigger trigger = location.getMap().getTrigger().get(target.cell());
         if (trigger != null) {
-        	client.player().teleport((GMap) trigger.getNextMap(), trigger.getNextCell());
+        	client.player().teleport((GameMap) trigger.getNextMap(), trigger.getNextCell());
         } else {
         	session.write(BasicGameMessageFormatter.noOperationMessage());
         }

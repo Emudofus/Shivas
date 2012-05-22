@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.shivas.data.Container;
-import org.shivas.server.core.maps.GMap;
+import org.shivas.server.core.maps.GameMap;
 
 @Singleton
 public class DefaultConfig implements Config {
@@ -90,8 +90,8 @@ public class DefaultConfig implements Config {
 	}
 
 	@Override
-	public GMap startMap() {
-		return ctner.get(GMap.class).byId(7411);
+	public GameMap startMap() {
+		return ctner.get(GameMap.class).byId(7411);
 	}
 
 	@Override

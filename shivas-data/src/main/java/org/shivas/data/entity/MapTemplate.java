@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.shivas.common.maths.Point;
 
-public class GameMap implements Serializable {
+public class MapTemplate implements Serializable {
 
 	private static final long serialVersionUID = 924299994836075322L;
 	

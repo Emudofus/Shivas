@@ -20,7 +20,7 @@ import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.PrivateMessageEvent;
 import org.shivas.server.core.experience.PlayerExperience;
-import org.shivas.server.core.maps.GMap;
+import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.statistics.PlayerStatistics;
 import org.shivas.server.services.game.GameClient;
 
@@ -214,7 +214,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		this.client = client;
 	}
 
-	public void teleport(GMap map, short cell) {
+	public void teleport(GameMap map, short cell) {
 		event.publish(new PlayerTeleportationEvent(this, new Location(map, cell, location.getOrientation())));
 	}
 	

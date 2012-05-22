@@ -3,7 +3,7 @@ package org.shivas.server.core.maps;
 import java.util.Collection;
 import java.util.Map;
 
-import org.shivas.data.entity.GameMap;
+import org.shivas.data.entity.MapTemplate;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.GameActorWithoutId;
 import org.shivas.server.core.actions.RolePlayMovement;
@@ -12,7 +12,7 @@ import org.shivas.server.core.events.EventDispatchers;
 
 import com.google.common.collect.Maps;
 
-public class GMap extends GameMap {
+public class GameMap extends MapTemplate {
 
 	private static final long serialVersionUID = 6687106835430542049L;
 	

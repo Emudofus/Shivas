@@ -7,9 +7,9 @@ public class MapTrigger implements Serializable {
 	private static final long serialVersionUID = -3959363931599403565L;
 
 	private int id;
-	private GameMap map;
+	private MapTemplate map;
 	private short cell;
-	private GameMap nextMap;
+	private MapTemplate nextMap;
 	private short nextCell;
 	
 	public int getId() {
@@ -18,10 +18,10 @@ public class MapTrigger implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public GameMap getMap() {
+	public MapTemplate getMap() {
 		return map;
 	}
-	public void setMap(GameMap map) {
+	public void setMap(MapTemplate map) {
 		this.map = map;
 	}
 	public short getCell() {
@@ -30,10 +30,10 @@ public class MapTrigger implements Serializable {
 	public void setCell(short cell) {
 		this.cell = cell;
 	}
-	public GameMap getNextMap() {
+	public MapTemplate getNextMap() {
 		return nextMap;
 	}
-	public void setNextMap(GameMap nextMap) {
+	public void setNextMap(MapTemplate nextMap) {
 		this.nextMap = nextMap;
 	}
 	public short getNextCell() {
