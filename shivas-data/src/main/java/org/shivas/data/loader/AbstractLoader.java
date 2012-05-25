@@ -8,6 +8,7 @@ import org.shivas.data.Container;
 import org.shivas.data.Containers;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.Loader;
+import org.shivas.data.Repository;
 import org.shivas.data.container.SimpleContainer;
 import org.shivas.data.repository.BaseRepository;
 import org.slf4j.Logger;
@@ -83,6 +84,10 @@ public abstract class AbstractLoader implements Loader {
 				}
 			}
 		}
+	}
+	
+	protected <T> Repository<T> get(Class<T> clazz) {
+		return ctner.get(clazz);
 	}
 
 }

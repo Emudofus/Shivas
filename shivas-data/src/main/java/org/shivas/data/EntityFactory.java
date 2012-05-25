@@ -8,4 +8,9 @@ public interface EntityFactory {
 	MapTemplate newMapTemplate();
 	MapTrigger newMapTrigger();
 	GameCell newGameCell();
+	ItemSet newItemSet();
+	ItemTemplate newItemTemplate();
+	ItemEffectTemplate newItemEffectTemplate();
+	ItemEffect newItemEffect();
+	Item newItem();
 }

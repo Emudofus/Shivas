@@ -13,6 +13,8 @@ import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
+import org.shivas.data.entity.ItemSet;
+import org.shivas.data.entity.ItemTemplate;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.data.entity.MapTrigger;
 import org.shivas.data.repository.BaseRepository;
@@ -43,9 +45,21 @@ public class XmlLoader extends AbstractLoader {
 				loadMap(repo, file);
 			}
 		});
+		
+		loaders.put(ItemSet.class, new FileLoader<ItemSet>() {
+			public void load(BaseRepository<ItemSet> repo, File file) throws Exception {
+				loadItemSet(repo, file);
+			}
+		});
+		
+		loaders.put(ItemTemplate.class, new FileLoader<ItemTemplate>() {
+			public void load(BaseRepository<ItemTemplate> repo, File file) throws Exception {
+				loadItemTemplate(repo, file);
+			}
+		});
 	}
 	
-	private void loadBreed(BaseRepository<Breed> repo, File file) throws Exception {		
+	private void loadBreed(BaseRepository<Breed> repo, File file) throws Exception {
 		Document doc = builder.build(file);
 		Element root = doc.getDescendants(new ElementFilter("breeds")).next();
 		for (Element element : root.getChildren("breed")) {
@@ -140,6 +154,24 @@ public class XmlLoader extends AbstractLoader {
 			}
 			map.setTrigger(triggers);
 		}
+	}
+	
+	private void loadItemSet(BaseRepository<ItemSet> repo, File file) throws Exception {
+		Document doc = builder.build(file);
+		
+		Element root = doc.getDescendants(new ElementFilter("itemsets")).next();
+		
+		for (Element elem : root.getChildren()) {
+			ItemSet itemset = factory.newItemSet();
+			
+			itemset.setId((short) elem.getAttribute("id").getIntValue());
+			
+			repo.put(itemset.getId(), itemset);
+		}
+	}
+	
+	private void loadItemTemplate(BaseRepository<ItemTemplate> repo, File file) throws Exception {
+		
 	}
 
 }

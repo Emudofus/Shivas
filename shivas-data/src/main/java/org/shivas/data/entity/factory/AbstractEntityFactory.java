@@ -1,13 +1,9 @@
 package org.shivas.data.entity.factory;
 
 import org.shivas.data.EntityFactory;
-import org.shivas.data.entity.Breed;
-import org.shivas.data.entity.Experience;
-import org.shivas.data.entity.GameCell;
-import org.shivas.data.entity.MapTemplate;
-import org.shivas.data.entity.MapTrigger;
+import org.shivas.data.entity.*;
 
-public class BaseEntityFactory implements EntityFactory {
+public abstract class AbstractEntityFactory implements EntityFactory {
 
 	@Override
 	public Breed newBreed() {
@@ -32,6 +28,26 @@ public class BaseEntityFactory implements EntityFactory {
 	@Override
 	public GameCell newGameCell() {
 		return new GameCell();
+	}
+
+	@Override
+	public ItemSet newItemSet() {
+		return new ItemSet();
+	}
+
+	@Override
+	public ItemTemplate newItemTemplate() {
+		return new ItemTemplate(this);
+	}
+
+	@Override
+	public ItemEffectTemplate newItemEffectTemplate() {
+		return new ItemEffectTemplate();
+	}
+
+	@Override
+	public ItemEffect newItemEffect() {
+		return new ItemEffect();
 	}
 
 }
