@@ -114,6 +114,13 @@ public class XMLDataOutputter implements DataOutputter {
 			
 			itemset_elem.setAttribute("id", String.valueOf(itemset.id));
 			
+			for (Structs.ItemTemplate item : itemset.items) {
+				Element item_elem = new Element("item");
+				item_elem.setAttribute("id", String.valueOf(item.id));
+				
+				itemset_elem.addContent(item_elem);
+			}
+			
 			for (Map.Entry<Integer, Collection<Structs.ItemEffect>> entry : itemset.effects.asMap().entrySet()) {
 				Element effects_elem = new Element("effects");
 				
@@ -145,7 +152,6 @@ public class XMLDataOutputter implements DataOutputter {
 			Element item_elem = new Element("item");
 			
 			item_elem.setAttribute("id", String.valueOf(item.id));
-			item_elem.setAttribute("set", item.itemSet != null ? String.valueOf(item.itemSet.id) : "-1");
 			item_elem.setAttribute("type", item.type != null ? String.valueOf(item.type.value()) : "-1");
 			item_elem.setAttribute("level", String.valueOf(item.level));
 			item_elem.setAttribute("weight", String.valueOf(item.weight));

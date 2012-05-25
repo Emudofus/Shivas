@@ -18,7 +18,7 @@ import com.google.common.collect.Maps;
 public class VemuConverter extends MySqlUserConverter {
 	
 	private final Map<Integer, Structs.GameMap> maps = Maps.newHashMap();
-	private final Map<Integer, Structs.ItemSet> itemsets = Maps.newHashMap();
+	private final Map<Integer, Structs.ItemTemplate> items = Maps.newHashMap();
 
 	private void init() {
 		initConnection(
@@ -59,6 +59,19 @@ public class VemuConverter extends MySqlUserConverter {
 		//////////// ITEMS /////////////////
 
 		if (canWrite("Souhaitez-vous écrire les panoplies et les objets ?")) {
+			App.log("Les objets vont être chargés puis écris, cela peut prendre quelques secondes.");
+			super.query(q.select("items_data").orderBy("ID", Order.ASC).toQuery(), new Action1<ResultSet>() {
+				public Void invoke(ResultSet arg1) throws Exception {
+					createItems(
+							arg1,
+							App.prompt("Veuillez entrer le répertoire où seront stockés les objets"),
+							out
+					);
+					return null;
+				}
+			});
+			App.log("Tous les objets ont été écris.");
+			
 			App.log("Les panoplies vont être chargés puis écris, cela peut prendre quelques secondes.");
 			super.query(q.select("items_pano").orderBy("id", Order.ASC).toQuery(), new Action1<ResultSet>() {
 				public Void invoke(ResultSet arg1) throws Exception {
@@ -72,18 +85,7 @@ public class VemuConverter extends MySqlUserConverter {
 			});
 			App.log("Toutes les panoplies ont été écris.");
 			
-			App.log("Les objets vont être chargés puis écris, cela peut prendre quelques secondes.");
-			super.query(q.select("items_data").orderBy("ID", Order.ASC).toQuery(), new Action1<ResultSet>() {
-				public Void invoke(ResultSet arg1) throws Exception {
-					createItems(
-							arg1,
-							App.prompt("Veuillez entrer le répertoire où seront stockés les objets"),
-							out
-					);
-					return null;
-				}
-			});
-			App.log("Tous les objets ont été écris.");
+			items.clear(); // free unused memory
 		}
 
 		//////////// MAPS /////////////////
@@ -184,10 +186,22 @@ public class VemuConverter extends MySqlUserConverter {
 	}
 	
 	private void createItemSets(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {
+		List<Structs.ItemSet> itemsets = Lists.newArrayList();
+		
 		while (r.next()) {
 			Structs.ItemSet itemset = new Structs.ItemSet();
 			
 			itemset.id = r.getInt("id");
+			
+			for (String item : r.getString("items").split(",")) {
+				int itemid = Integer.parseInt(item);
+				Structs.ItemTemplate i = items.get(itemid);
+				if (i != null) {
+					itemset.items.add(i);
+				} else {
+					App.log("Une panoplie possède un item inconnu (id=%d)", itemid);
+				}
+			}
 			
 			for (int level = 2; level <= 8; ++level) {
 				String effects = r.getString("effects" + level);
@@ -203,15 +217,13 @@ public class VemuConverter extends MySqlUserConverter {
 				}
 			}
 			
-			itemsets.put(itemset.id, itemset);
+			itemsets.add(itemset);
 		}
 		
-		out.outputItemSets(itemsets.values(), directory + "itemsets");
+		out.outputItemSets(itemsets, directory + "itemsets");
 	}
 
-	private void createItems(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {
-		List<Structs.ItemTemplate> items = Lists.newArrayList();
-		
+	private void createItems(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {		
 		while (r.next()) {
 			Structs.ItemTemplate item = new Structs.ItemTemplate();
 			
@@ -238,10 +250,10 @@ public class VemuConverter extends MySqlUserConverter {
 				item.effects.add(e);
 			}
 			
-			items.add(item);
+			items.put(item.id, item);
 		}
 		
-		out.outputItems(items, directory + "items");
+		out.outputItems(items.values(), directory + "items");
 	}
 
 }

@@ -13,13 +13,15 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 
 public class AncestraConverter extends MySqlUserConverter {
 	
 	private final Map<Integer, Structs.GameMap> maps = Maps.newHashMap();
-	private final Map<Integer, Structs.ItemSet> itemsets = Maps.newHashMap();
+	private final Multimap<Integer, Structs.ItemTemplate> items = ArrayListMultimap.create();
 	
 	private void init() {
 		initConnection(
@@ -60,21 +62,8 @@ public class AncestraConverter extends MySqlUserConverter {
 		//////////// ITEMS /////////////////
 
 		if (canWrite("Souhaitez-vous écrire les panoplies et objets ?")) {
-			App.log("Les panoplies vont être chargés puis écris, cela peut prendre quelques secondes.");
-			super.query(q.select("itemsets").toQuery(), new Action1<ResultSet>() {
-				public Void invoke(ResultSet arg1) throws Exception {
-					createItemSets(
-							arg1,
-							App.prompt("Veuillez entrer le répertoire où seront stockés les panoplies"),
-							out
-					);
-					return null;
-				}
-			});
-			App.log("Tous les panoplies ont été écris.");
-			
 			App.log("Les objets vont être chargés puis écris, cela peut prendre quelques secondes.");
-			super.query(q.select("item_template").toQuery(), new Action1<ResultSet>() {
+			super.query(q.select("item_template").orderBy("id", Order.ASC).toQuery(), new Action1<ResultSet>() {
 				public Void invoke(ResultSet arg1) throws Exception {
 					createItems(
 							arg1,
@@ -85,6 +74,19 @@ public class AncestraConverter extends MySqlUserConverter {
 				}
 			});
 			App.log("Tous les objets ont été écris.");
+			
+			App.log("Les panoplies vont être chargées puis écrites, cela peut prendre quelques secondes.");
+			super.query(q.select("itemsets").orderBy("id", Order.ASC).toQuery(), new Action1<ResultSet>() {
+				public Void invoke(ResultSet arg1) throws Exception {
+					createItemSets(
+							arg1,
+							App.prompt("Veuillez entrer le répertoire où seront stockées les panoplies"),
+							out
+					);
+					return null;
+				}
+			});
+			App.log("Tous les panoplies ont été écrites.");
 		}
 
 		//////////// MAPS /////////////////
@@ -192,9 +194,7 @@ public class AncestraConverter extends MySqlUserConverter {
 		}
 	}
 	
-	private void createItems(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {
-		List<Structs.ItemTemplate> items = Lists.newArrayList();
-		
+	private void createItems(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {		
 		while (r.next()) {
 			Structs.ItemTemplate item = new Structs.ItemTemplate();
 			
@@ -218,18 +218,19 @@ public class AncestraConverter extends MySqlUserConverter {
 			}
 			
 			item.weight = r.getShort("pod");
-			item.itemSet = itemsets.get(r.getInt("panoplie"));
 			item.price = r.getLong("prix");
 			item.conditions = r.getString("condition");
 			item.forgemageable = true; // there is not column "forgemageable"
 			
-			items.add(item);
+			items.put(r.getInt("panoplie"), item);
 		}
 		
-		out.outputItems(items, directory + "items");
+		out.outputItems(items.values(), directory + "items");
 	}
 	
 	private void createItemSets(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {
+		List<Structs.ItemSet> itemsets = Lists.newArrayList();
+		
 		while (r.next()) {
 			Structs.ItemSet itemset = new Structs.ItemSet();
 			
@@ -253,10 +254,12 @@ public class AncestraConverter extends MySqlUserConverter {
 				++level;
 			}
 			
-			itemsets.put(itemset.id, itemset);
+			itemset.items.addAll(items.get(itemset.id));
+			
+			itemsets.add(itemset);
 		}
 		
-		out.outputItemSets(itemsets.values(), directory + "itemsets");
+		out.outputItemSets(itemsets, directory + "itemsets");
 	}
 
 }

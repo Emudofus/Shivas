@@ -57,11 +57,11 @@ public final class Structs {
 	public static final class ItemSet {
 		public int id;
 		public Multimap<Integer, ItemEffect> effects = ArrayListMultimap.create();
+		public List<ItemTemplate> items = Lists.newArrayList();
 	}
 	
 	public static final class ItemTemplate {
 		public int id;
-		public ItemSet itemSet;
 		public ItemTypeEnum type;
 		public short level;
 		public short weight;
