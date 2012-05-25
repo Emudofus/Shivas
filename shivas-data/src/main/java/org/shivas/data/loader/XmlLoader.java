@@ -1,6 +1,8 @@
 package org.shivas.data.loader;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.jdom2.Document;
@@ -9,17 +11,25 @@ import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
 import org.shivas.common.maths.Point;
 import org.shivas.common.maths.Range;
+import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
+import org.shivas.data.entity.ItemEffect;
+import org.shivas.data.entity.ItemEffectTemplate;
 import org.shivas.data.entity.ItemSet;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.data.entity.MapTrigger;
 import org.shivas.data.repository.BaseRepository;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
+import org.shivas.protocol.client.enums.ItemTypeEnum;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 
 public class XmlLoader extends AbstractLoader {
 	
@@ -163,15 +173,59 @@ public class XmlLoader extends AbstractLoader {
 		
 		for (Element elem : root.getChildren()) {
 			ItemSet itemset = factory.newItemSet();
-			
 			itemset.setId((short) elem.getAttribute("id").getIntValue());
+			itemset.setItems(new ArrayList<ItemTemplate>());
+			
+			Multimap<Integer, ItemEffect> effects = ArrayListMultimap.create();
+			
+			for (Element effects_elem : elem.getChildren("effects")) {
+				int level = effects_elem.getAttribute("level").getIntValue();
+				
+				for (Element effect_elem : effects_elem.getChildren("effect")) {
+					ItemEffect effect = factory.newItemEffect();
+					effect.setEffect(ItemEffectEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
+					effect.setBonus((short) effect_elem.getAttribute("bonus").getIntValue());
+					
+					itemset.getEffects().put(level, effect);
+				}
+			}
+			
+			itemset.setEffects(effects);
 			
 			repo.put(itemset.getId(), itemset);
 		}
 	}
 	
 	private void loadItemTemplate(BaseRepository<ItemTemplate> repo, File file) throws Exception {
+		Document doc = builder.build(file);
 		
+		Element root = doc.getDescendants(new ElementFilter("items")).next();
+		for (Element item_elem : root.getChildren("item")) {
+			ItemTemplate item = factory.newItemTemplate();
+			
+			item.setId((short) item_elem.getAttribute("id").getIntValue());
+			
+			item.setItemSet(get(ItemSet.class).byId(item_elem.getAttribute("set").getIntValue()));
+			item.getItemSet().getItems().add(item);
+			
+			item.setType(ItemTypeEnum.valueOf(item_elem.getAttribute("type").getIntValue()));
+			item.setLevel((short) item_elem.getAttribute("level").getIntValue());
+			item.setWeight((short) item_elem.getAttribute("weight").getIntValue());
+			item.setForgemageable(item_elem.getAttribute("forgemageable").getBooleanValue());
+			item.setPrice((short) item_elem.getAttribute("price").getIntValue());
+			item.setConditions(item_elem.getChildText("conditions"));
+			
+			List<ItemEffectTemplate> effects = Lists.newArrayList();
+			for (Element effect_elem : item_elem.getChildren("effect")) {
+				ItemEffectTemplate effect = factory.newItemEffectTemplate();
+				
+				effect.setEffect(ItemEffectEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
+				effect.setBonus(Dofus1Dice.parseDice(effect_elem.getAttributeValue("bonus")));
+			}
+			item.setEffects(effects);
+			
+			repo.put(item.getId(), item);
+		}
 	}
 
 }
