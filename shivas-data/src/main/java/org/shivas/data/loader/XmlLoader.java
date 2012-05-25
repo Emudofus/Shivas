@@ -1,7 +1,6 @@
 package org.shivas.data.loader;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -174,7 +173,18 @@ public class XmlLoader extends AbstractLoader {
 		for (Element elem : root.getChildren()) {
 			ItemSet itemset = factory.newItemSet();
 			itemset.setId((short) elem.getAttribute("id").getIntValue());
-			itemset.setItems(new ArrayList<ItemTemplate>());
+			
+			List<ItemTemplate> items = Lists.newArrayList();
+			for (Element item_elem : elem.getChildren("item")) {
+				int itemid = item_elem.getAttribute("id").getIntValue();
+				
+				ItemTemplate item = get(ItemTemplate.class).byId(itemid);
+				if (item != null) {
+					item.setItemSet(itemset);
+					items.add(item);
+				}
+			}
+			itemset.setItems(items);
 			
 			Multimap<Integer, ItemEffect> effects = ArrayListMultimap.create();
 			
@@ -203,11 +213,7 @@ public class XmlLoader extends AbstractLoader {
 		for (Element item_elem : root.getChildren("item")) {
 			ItemTemplate item = factory.newItemTemplate();
 			
-			item.setId((short) item_elem.getAttribute("id").getIntValue());
-			
-			item.setItemSet(get(ItemSet.class).byId(item_elem.getAttribute("set").getIntValue()));
-			item.getItemSet().getItems().add(item);
-			
+			item.setId((short) item_elem.getAttribute("id").getIntValue());			
 			item.setType(ItemTypeEnum.valueOf(item_elem.getAttribute("type").getIntValue()));
 			item.setLevel((short) item_elem.getAttribute("level").getIntValue());
 			item.setWeight((short) item_elem.getAttribute("weight").getIntValue());
