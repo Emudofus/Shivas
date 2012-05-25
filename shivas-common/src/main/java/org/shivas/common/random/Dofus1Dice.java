@@ -12,8 +12,8 @@ public class Dofus1Dice implements Dice {
 			b = string.indexOf('+');
 
 		int round = Integer.parseInt(string.substring(0, a)),
-			num   = b >= 0 ? Integer.parseInt(string.substring(a, b)) : Integer.parseInt(string.substring(a)),
-			add   = b >= 0 ? Integer.parseInt(string.substring(b)) : 0;
+			num   = b >= 0 ? Integer.parseInt(string.substring(a + 1, b)) : Integer.parseInt(string.substring(a + 1)),
+			add   = b >= 0 ? Integer.parseInt(string.substring(b + 1)) : 0;
 			
 		return new Dofus1Dice(round, num, add);
 	}
