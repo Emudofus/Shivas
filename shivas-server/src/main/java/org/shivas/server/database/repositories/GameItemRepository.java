@@ -3,6 +3,9 @@ package org.shivas.server.database.repositories;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.atomium.EntityManager;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.LongPrimaryKeyGenerator;
@@ -11,11 +14,13 @@ import org.atomium.util.query.Query;
 import org.atomium.util.query.QueryBuilder;
 import org.shivas.server.database.models.GameItem;
 
+@Singleton
 public class GameItemRepository extends AbstractEntityRepository<Long, GameItem> {
 	
 	private final QueryBuilder delete, persist, save;
 	private final Query load;
 
+	@Inject
 	public GameItemRepository(EntityManager em) {
 		super(em, new LongPrimaryKeyGenerator());
 		

@@ -39,7 +39,7 @@ public class DefaultConfig implements Config {
 		if (linux) {
 			return "/home/blackrush/Workspace/Shivas/data/";
 		} else {
-			return "D:\\Workspace\\Shivas\\data\\";
+			return "D:\\shivas-data\\ancestra\\";
 		}
 	}
 

@@ -170,7 +170,7 @@ public class XmlLoader extends AbstractLoader {
 		
 		Element root = doc.getDescendants(new ElementFilter("itemsets")).next();
 		
-		for (Element elem : root.getChildren()) {
+		for (Element elem : root.getChildren("itemset")) {
 			ItemSet itemset = factory.newItemSet();
 			itemset.setId((short) elem.getAttribute("id").getIntValue());
 			
@@ -196,7 +196,7 @@ public class XmlLoader extends AbstractLoader {
 					effect.setEffect(ItemEffectEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
 					effect.setBonus((short) effect_elem.getAttribute("bonus").getIntValue());
 					
-					itemset.getEffects().put(level, effect);
+					effects.put(level, effect);
 				}
 			}
 			
