@@ -27,6 +27,9 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	@Inject
 	private PlayerRepository players;
 	
+	@Inject
+	private GameItemRepository items;
+	
 	private Timer timer;
 	
 	public void load() {
@@ -60,6 +63,11 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	
 	public PlayerRepository players() {
 		return players;
+	}
+
+	@Override
+	public GameItemRepository items() {
+		return items;
 	}
 
 }

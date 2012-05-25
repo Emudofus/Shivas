@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import org.shivas.data.entity.Item;
 import org.shivas.data.entity.factory.AbstractEntityFactory;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.database.models.GameItem;
 
 @Singleton
 public class ShivasEntityFactory extends AbstractEntityFactory {
@@ -15,7 +16,7 @@ public class ShivasEntityFactory extends AbstractEntityFactory {
 
 	@Override
 	public Item newItem() {
-		return null; // TODO create Item model
+		return new GameItem();
 	}
 	
 }

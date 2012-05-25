@@ -8,4 +8,5 @@ public interface RepositoryContainer {
 	
 	AccountRepository accounts();
 	PlayerRepository players();
+	GameItemRepository items();
 }
