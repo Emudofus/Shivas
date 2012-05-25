@@ -5,10 +5,15 @@ import java.util.Map;
 
 import org.shivas.common.maths.Point;
 import org.shivas.common.maths.Range;
+import org.shivas.common.random.Dice;
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
+import org.shivas.protocol.client.enums.ItemTypeEnum;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 
 public final class Structs {
 	private Structs(){}
@@ -47,5 +52,32 @@ public final class Structs {
 		public int id;
 		public GameMap nextMap;
 		public short cell, nextCell;
+	}
+	
+	public static final class ItemSet {
+		public int id;
+		public Multimap<Integer, ItemEffect> effects = ArrayListMultimap.create();
+	}
+	
+	public static final class ItemTemplate {
+		public int id;
+		public ItemSet itemSet;
+		public ItemTypeEnum type;
+		public short level;
+		public short weight;
+		public boolean forgemageable;
+		public long price;
+		public String conditions;
+		public List<ItemEffectTemplate> effects = Lists.newArrayList();
+	}
+	
+	public static final class ItemEffect {
+		public ItemEffectEnum effect;
+		public int bonus;
+	}
+	
+	public static final class ItemEffectTemplate {
+		public ItemEffectEnum effect;
+		public Dice bonus;
 	}
 }

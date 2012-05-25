@@ -11,6 +11,8 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.shivas.common.maths.Range;
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.data.converter.Structs.ItemSet;
+import org.shivas.data.converter.Structs.ItemTemplate;
 
 public class XMLDataOutputter implements DataOutputter {
 	
@@ -100,6 +102,69 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(map_elem);
 		}
 		
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+	}
+
+	@Override
+	public void outputItemSets(Collection<ItemSet> itemsets, String fileName) throws IOException {
+		Element root_elem = new Element("itemsets");
+		
+		for (Structs.ItemSet itemset : itemsets) {
+			Element itemset_elem = new Element("itemset");
+			
+			itemset_elem.setAttribute("id", String.valueOf(itemset.id));
+			
+			for (Map.Entry<Integer, Collection<Structs.ItemEffect>> entry : itemset.effects.asMap().entrySet()) {
+				Element effects_elem = new Element("effects");
+				
+				effects_elem.setAttribute("level", entry.getKey().toString());
+				
+				for (Structs.ItemEffect effect : entry.getValue()) {
+					Element effect_elem = new Element("effect");
+					
+					effect_elem.setAttribute("type", String.valueOf(effect.effect.value()));
+					effect_elem.setAttribute("bonus", String.valueOf(effect.bonus));
+					
+					effects_elem.addContent(effect_elem);
+				}
+				
+				itemset_elem.addContent(effects_elem);
+			}
+			
+			root_elem.addContent(itemset_elem);
+		}
+
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+	}
+
+	@Override
+	public void outputItems(Collection<ItemTemplate> items, String fileName) throws IOException {
+		Element root_elem = new Element("items");
+		
+		for (Structs.ItemTemplate item : items) {
+			Element item_elem = new Element("item");
+			
+			item_elem.setAttribute("id", String.valueOf(item.id));
+			item_elem.setAttribute("set", item.itemSet != null ? String.valueOf(item.itemSet.id) : "-1");
+			item_elem.setAttribute("type", item.type != null ? String.valueOf(item.type.value()) : "-1");
+			item_elem.setAttribute("level", String.valueOf(item.level));
+			item_elem.setAttribute("weight", String.valueOf(item.weight));
+			item_elem.setAttribute("forgemageable", String.valueOf(item.forgemageable));
+			item_elem.setAttribute("price", String.valueOf(item.price));
+			item_elem.addContent(new Element("conditions").setText(item.conditions));
+			
+			for (Structs.ItemEffectTemplate effect : item.effects) {
+				Element effect_elem = new Element("effect");
+				
+				effect_elem.setAttribute("type", String.valueOf(effect.effect.value()));
+				effect_elem.setAttribute("bonus", effect.bonus.toString());
+				
+				item_elem.addContent(effect_elem);
+			}
+			
+			root_elem.addContent(item_elem);
+		}
+
 		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
 	}
 
