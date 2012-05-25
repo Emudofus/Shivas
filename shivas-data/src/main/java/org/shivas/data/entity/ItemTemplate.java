@@ -6,6 +6,9 @@ import java.util.Collection;
 import org.shivas.data.EntityFactory;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+
 public class ItemTemplate implements Serializable {
 
 	private static final long serialVersionUID = -4455899142517688060L;
@@ -137,7 +140,17 @@ public class ItemTemplate implements Serializable {
 	}
 	
 	public Item generate() {
-		return factory.newItem();
+		Item item = factory.newItem();
+		
+		item.setTemplate(this);
+		
+		item.setEffects(Collections2.transform(effects, new Function<ItemEffectTemplate, ItemEffect>() {
+			public ItemEffect apply(ItemEffectTemplate arg0) {
+				return arg0.generate();
+			}
+		}));
+		
+		return item;
 	}
 
 }
