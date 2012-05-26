@@ -7,6 +7,10 @@ import org.shivas.data.entity.Item;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
+import org.shivas.protocol.client.types.BaseItemType;
+import org.shivas.server.utils.Converters;
+
+import com.google.common.collect.Collections2;
 
 public class GameItem implements Item, PersistableEntity<Long> {
 
@@ -114,6 +118,16 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	 */
 	public void minusQuantity(int quantity) {
 		this.quantity -= quantity;
+	}
+	
+	public BaseItemType toBaseItemType() {
+		return new BaseItemType(
+				id,
+				template.getId(),
+				quantity,
+				position,
+				Collections2.transform(effects, Converters.ITEMEFFECT_TO_BASEITEMEFFECTTYPE)
+		);
 	}
 
 }
