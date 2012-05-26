@@ -50,6 +50,7 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 		List<ItemEffect> effects = Lists.newArrayList();
 		
 		for (String s : string.split(";")) {
+			if (s.isEmpty()) continue;
 			String[] args = s.split(",");
 
 			ItemEffectEnum effect = ItemEffectEnum.valueOf(Integer.parseInt(args[0], RADIX));

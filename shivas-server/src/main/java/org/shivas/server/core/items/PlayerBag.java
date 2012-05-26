@@ -44,6 +44,7 @@ public class PlayerBag extends SimpleBag implements PersistentBag {
 
 	@Override
 	public GameItem persist(GameItem item) {
+		item.setOwner(owner);
 		repo.persistLater(item);
 		add(item);
 		return item;

@@ -26,6 +26,7 @@ public class CommandEngine {
 	public CommandEngine(RepositoryContainer repo, ChannelContainer channels) {
 		add(new KickCommand(repo, channels));
 		add(new SaveCommand(repo));
+		add(new GiveItemCommand(repo));
 	}
 	
 	protected void add(Command command) {
@@ -34,8 +35,14 @@ public class CommandEngine {
 	
 	public void use(GameClient client, DofusLogger log, String command) {
 		int index = command.indexOf(" ");
-		String name = command.substring(0, index);
-		command = command.substring(index);
+		String name;
+		if (index >= 0) {
+			name = command.substring(0, index);
+			command = command.substring(index);
+		} else {
+			name = command;
+			command = "";
+		}
 		
 		Command cmd = commands.get(name);
 		if (cmd == null || !cmd.canUse(client)) {
@@ -45,7 +52,7 @@ public class CommandEngine {
 				Parameters params = parser.parse(command, cmd.conditions());
 				cmd.use(client, log, params);
 			} catch (ParsingException e) {
-				log.error("error : %s", e.getMessage());
+				log.error(e.getMessage());
 			}
 		}
 	}

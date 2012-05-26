@@ -227,6 +227,8 @@ public class XmlLoader extends AbstractLoader {
 				
 				effect.setEffect(ItemEffectEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
 				effect.setBonus(Dofus1Dice.parseDice(effect_elem.getAttributeValue("bonus")));
+				
+				effects.add(effect);
 			}
 			item.setEffects(effects);
 			

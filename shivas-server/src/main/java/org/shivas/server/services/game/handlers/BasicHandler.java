@@ -43,7 +43,7 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 					);
 				} else {
 					if (msg.startsWith(client.service().config().cmdPrefix())) {
-						parseClientCommandMessage(message.substring(client.service().config().cmdPrefix().length()));
+						parseClientCommandMessage(msg.substring(client.service().config().cmdPrefix().length()));
 					} else {
 						parseSendClientMultiMessage(
 								ChannelEnum.valueOf(message.charAt(2)),

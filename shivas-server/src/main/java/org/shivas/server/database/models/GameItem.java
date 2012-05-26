@@ -24,6 +24,8 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	private int quantity;
 	
 	public GameItem() {
+		position = ItemPositionEnum.NotEquiped;
+		quantity = 1;
 	}
 
 	public GameItem(long id, ItemTemplate template, Player owner, Collection<ItemEffect> effects, ItemPositionEnum position, int quantity) {

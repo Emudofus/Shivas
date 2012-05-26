@@ -13,7 +13,7 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 
 	public void init() throws Exception {
 		client.account().setConnected(true);
-		client.service().repositories().accounts().saveLater(client.account());
+		client.service().repositories().accounts().save(client.account());
 	}
 
 	public void handle(String message) throws Exception {
@@ -41,7 +41,7 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 
 	public void onClosed() {
 		client.account().setConnected(false);
-		client.service().repositories().accounts().saveLater(client.account());
+		client.service().repositories().accounts().save(client.account());
 	}
 
 	private void parseCharactersListMessage() {		
