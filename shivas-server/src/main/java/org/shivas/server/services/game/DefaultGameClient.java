@@ -2,6 +2,7 @@ package org.shivas.server.services.game;
 
 import org.shivas.server.core.actions.ActionList;
 import org.shivas.server.core.events.EventListener;
+import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.BaseHandler;
@@ -67,6 +68,10 @@ public final class DefaultGameClient implements GameClient {
 
 	public ActionList actions() {
 		return actions;
+	}
+
+	public DofusLogger tchat() {
+		return handler.tchat();
 	}
 
 }

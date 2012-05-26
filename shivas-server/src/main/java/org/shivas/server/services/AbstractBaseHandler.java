@@ -40,11 +40,11 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
         return address.substring(1, address.indexOf(':'));
 	}
 	
-	protected DofusLogger tchat(){
+	public DofusLogger tchat(){
 		return new TchatLogger(session, client.service().config());
 	}
 	
-	protected DofusLogger console(){
+	public DofusLogger console(){
 		return new ConsoleLogger(session);
 	}
 	
