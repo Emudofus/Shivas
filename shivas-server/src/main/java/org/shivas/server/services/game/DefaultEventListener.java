@@ -3,11 +3,13 @@ package org.shivas.server.services.game;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
+import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 import org.shivas.server.core.actions.Action;
 import org.shivas.server.core.actions.RolePlayMovement;
 import org.shivas.server.core.channels.ChannelEvent;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
+import org.shivas.server.core.events.events.ItemCreationEvent;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.PrivateMessageEvent;
 import org.shivas.server.core.events.events.SystemMessageEvent;
@@ -48,6 +50,9 @@ public class DefaultEventListener implements EventListener {
 		case SYSTEM_MESSAGE:
 			listenSystemMessage((SystemMessageEvent) event);
 			break;
+			
+		case ITEM_CREATION:
+			listenItemCreation((ItemCreationEvent) event);
 		}
 	}
 
@@ -91,7 +96,17 @@ public class DefaultEventListener implements EventListener {
 	private void listenTeleportation(PlayerTeleportationEvent event) {
 		if (event.getPlayer() != client.player()) return;
 		
-		// TODO listen teleportation
+		client.player().getLocation().getMap().event().unsubscribe(this);
+		client.player().getLocation().getMap().leave(client.player());
+		
+		client.player().setLocation(event.getTarget());
+		
+		session.write(GameMessageFormatter.changeMapMessage(client.player().id()));
+		session.write(GameMessageFormatter.mapDataMessage(
+				client.player().getLocation().getMap().getId(),
+				client.player().getLocation().getMap().getDate(),
+				client.player().getLocation().getMap().getKey()
+		));
 	}
 
 	private void listenPrivateMessage(PrivateMessageEvent event) {
@@ -116,6 +131,10 @@ public class DefaultEventListener implements EventListener {
 
 	private void listenSystemMessage(SystemMessageEvent event) {
 		session.write(ChannelGameMessageFormatter.informationMessage(event.message()));
+	}
+
+	private void listenItemCreation(ItemCreationEvent event) {
+		session.write(ItemGameMessageFormatter.addItemMessage(event.item().toBaseItemType()));
 	}
 
 }

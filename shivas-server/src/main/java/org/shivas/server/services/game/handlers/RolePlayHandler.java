@@ -64,6 +64,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		add('B', new BasicHandler(client, session));
 		add('c', new ChannelHandler(client, session));
 		add('G', new GameHandler(client, session));
+		add('O', new ItemHandler(client, session));
 		add('P', new PartyHandler(client, session));
 	}
 

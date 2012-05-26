@@ -50,7 +50,7 @@ public class KickCommand implements Command {
 		Player target = params.get("target", Player.class);
 		String message = params.get("msg", String.class);
 		
-		if (target.getClient() != null) {
+		if (target.getClient() == null) {
 			log.info("%s isn't connected", target.getName());
 		} else {
 			if (!message.isEmpty()) target.getClient().kick(message);

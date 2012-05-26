@@ -43,7 +43,7 @@ public class GameMap extends MapTemplate {
 	}
 	
 	public void leave(GameActor actor) {
-		actors.remove(actor);
+		actors.remove(actor.id());
 		
 		event.publish(new BaseMapEvent(actor, MapEventType.LEAVE));
 	}

@@ -7,4 +7,5 @@ public enum EventType {
 	TELEPORTATION, 
 	PRIVATE_MESSAGE, 
 	SYSTEM_MESSAGE,
+	ITEM_CREATION,
 }
