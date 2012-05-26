@@ -20,6 +20,7 @@ import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.PrivateMessageEvent;
 import org.shivas.server.core.experience.PlayerExperience;
+import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.statistics.PlayerStatistics;
 import org.shivas.server.services.game.GameClient;
@@ -40,6 +41,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private PlayerExperience experience;
 	private Location location;
 	private PlayerStatistics stats;
+	private PlayerBag bag;
 	
 	private final EventDispatcher event = EventDispatchers.create();
 	
@@ -194,6 +196,20 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 
 	public void setStats(PlayerStatistics stats) {
 		this.stats = stats;
+	}
+
+	/**
+	 * @return the bag
+	 */
+	public PlayerBag getBag() {
+		return bag;
+	}
+
+	/**
+	 * @param bag the bag to set
+	 */
+	public void setBag(PlayerBag bag) {
+		this.bag = bag;
 	}
 
 	public EventDispatcher getEvent() {

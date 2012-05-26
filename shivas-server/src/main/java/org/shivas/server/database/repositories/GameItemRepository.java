@@ -137,8 +137,8 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 				ItemPositionEnum.valueOf(result.getInt("position")), 
 				result.getInt("quantity")
 		);
-		
-		// TODO add item to its owner's bag
+
+		item.getOwner().getBag().add(item);
 		
 		return item;
 	}
