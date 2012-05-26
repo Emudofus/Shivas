@@ -27,6 +27,7 @@ public interface Config {
 	short deleteAnswerLevelNeeded();
 	
 	short startLevel();
+	long startKamas();
 	GameMap startMap();
 	short startCell();
 	

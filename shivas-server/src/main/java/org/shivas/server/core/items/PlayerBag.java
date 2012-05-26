@@ -9,10 +9,37 @@ public class PlayerBag extends SimpleBag implements PersistentBag {
 	
 	private final Player owner;
 	private final PersistableEntityRepository<Long, GameItem> repo;
+	
+	private long kamas;
 
-	public PlayerBag(Player owner, PersistableEntityRepository<Long, GameItem> repo) {
+	public PlayerBag(Player owner, PersistableEntityRepository<Long, GameItem> repo, long kamas) {
 		this.owner = owner;
 		this.repo = repo;
+		this.kamas = kamas;
+	}
+
+	/**
+	 * @return the kamas
+	 */
+	public long getKamas() {
+		return kamas;
+	}
+
+	/**
+	 * @param kamas the kamas to set
+	 */
+	public void setKamas(long kamas) {
+		this.kamas = kamas;
+	}
+	
+	public PlayerBag plusKamas(long kamas) {
+		this.kamas += kamas;
+		return this;
+	}
+	
+	public PlayerBag minusKamas(long kamas) {
+		this.kamas -= kamas;
+		return this;
 	}
 
 	@Override

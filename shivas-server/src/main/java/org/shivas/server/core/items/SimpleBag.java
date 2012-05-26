@@ -68,6 +68,25 @@ public class SimpleBag implements Bag {
         return accessories;
 	}
 	
+	public int[] accessoriesTemplateId() {
+        int[] accessories = new int[5];
+        
+        GameItem item;
+        
+        item = get(ItemPositionEnum.Weapon);
+        accessories[0] = item != null ? item.getTemplate().getId() : -1;
+        item = get(ItemPositionEnum.Hat);
+        accessories[1] = item != null ? item.getTemplate().getId() : -1;
+        item = get(ItemPositionEnum.Cloak);
+        accessories[2] = item != null ? item.getTemplate().getId() : -1;
+        item = get(ItemPositionEnum.Pet);
+        accessories[3] = item != null ? item.getTemplate().getId() : -1;
+        item = get(ItemPositionEnum.Shield);
+        accessories[4] = item != null ? item.getTemplate().getId() : -1;
+        
+        return accessories;
+	}
+	
 	public Collection<GameItem> equiped() {
 		List<GameItem> equiped = Lists.newArrayList();
 		for (GameItem item : this) {

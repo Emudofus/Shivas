@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.apache.mina.core.session.IoSession;
 import org.joda.time.DateTime;
-import org.shivas.common.maths.BasicLimitedValue;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.protocol.client.formatters.FriendGameMessageFormatter;
@@ -32,7 +31,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		session.write(ChannelGameMessageFormatter.addChannelsMessage(client.account().getChannels()));
 		session.write(SpellGameMessageFormatter.spellListMessage(new ArrayList<BaseSpellType>(0))); // TODO spells
 		session.write(ChannelGameMessageFormatter.enabledEmotesMessage("")); // TODO emotes
-		session.write(ItemGameMessageFormatter.inventoryStatsMessage(new BasicLimitedValue(1000))); // TODO bag
+		session.write(ItemGameMessageFormatter.inventoryStatsMessage(client.player().getStats().pods()));
 		session.write(FriendGameMessageFormatter.notifyFriendOnConnectMessage(false)); // TODO friends
 		session.write(InfoGameMessageFormatter.welcomeMessage());
 		if (!client.account().firstConnection()) {

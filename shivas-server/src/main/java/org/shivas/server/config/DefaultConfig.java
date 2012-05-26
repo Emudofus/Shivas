@@ -85,6 +85,11 @@ public class DefaultConfig implements Config {
 		return 200;
 	}
 
+	@Override
+	public long startKamas() {
+		return 1000000L;
+	}
+
 	public short deleteAnswerLevelNeeded() {
 		return 20;
 	}

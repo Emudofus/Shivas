@@ -136,7 +136,7 @@ public class PlayerStatistics implements Statistics {
 				owner.getExperience().current(),
 				owner.getExperience().min(),
 				owner.getExperience().max(),
-				1000L, // TODO bag
+				owner.getBag().getKamas(),
 				statPoints,
 				spellPoints,
 				0, (short) 0, (short) 0, 0, 0, false, // TODO pvp

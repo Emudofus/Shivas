@@ -271,7 +271,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 				look.getColors().first(),
 				look.getColors().second(),
 				look.getColors().third(),
-				null, // TODO items
+				bag.accessoriesTemplateId(),
 				false // TODO store
 		);
 	}

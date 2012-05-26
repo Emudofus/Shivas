@@ -1,6 +1,7 @@
 package org.shivas.server.core.statistics;
 
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.server.database.models.GameItem;
 
 public class PlayerPodsValue extends PodsValue {
 	
@@ -12,7 +13,11 @@ public class PlayerPodsValue extends PodsValue {
 
 	@Override
 	public int current() {
-		return 0; // TODO items
+		int current = 0;
+		for (GameItem item : stats.owner().getBag()) {
+			current += item.getTemplate().getWeight();
+		}
+		return current;
 	}
 
 	@Override

@@ -145,7 +145,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 					player.getLook().getColors().first(), 
 					player.getLook().getColors().second(),
 					player.getLook().getColors().third(),
-					null // TODO items
+					player.getBag().toBaseItemType()
 			));
 
 			client.account().setCurrentPlayer(player);

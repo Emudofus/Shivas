@@ -63,14 +63,14 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				.insert(TABLE_NAME)
 				.values("id", "owner_id", "name", "breed_id", "gender",
 						"skin", "size", "color1", "color2", "color3",
-						"level", "experience",
+						"level", "experience", "kamas",
 						"map_id", "cell", "orientation",
 						"stat_points", "spell_points", "energy", "life", "action_points", "movement_points",
 						"vitality", "wisdom", "strength", "intelligence", "chance", "agility");
 		this.saveQuery = em.builder()
 				.update(TABLE_NAME)
 				.value("gender").value("skin").value("size").value("color1").value("color2").value("color3")
-				.value("level").value("experience").value("map_id").value("cell").value("orientation")
+				.value("level").value("experience").value("kamas").value("map_id").value("cell").value("orientation")
 				.where("id", Op.EQ);
 		this.loadQuery = em.builder().select(TABLE_NAME);
 	}
@@ -100,7 +100,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				config.startChance(),
 				config.startAgility()
 		));
-		player.setBag(new PlayerBag(player, items));
+		player.setBag(new PlayerBag(player, items, config.startKamas()));
 		
 		persist(player);
 		owner.getPlayers().put(player.id(), player);
@@ -158,6 +158,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		query.setParameter("color3", entity.getLook().getColors().third());
 		query.setParameter("level", entity.getExperience().level());
 		query.setParameter("experience", entity.getExperience().current());
+		query.setParameter("kamas", entity.getBag().getKamas());
 		query.setParameter("map_id", entity.getLocation().getMap().getId());
 		query.setParameter("cell", entity.getLocation().getCell());
 		query.setParameter("orientation", entity.getLocation().getOrientation());
@@ -189,6 +190,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		query.setParameter("color3", entity.getLook().getColors().third());
 		query.setParameter("level", entity.getExperience().level());
 		query.setParameter("experience", entity.getExperience().current());
+		query.setParameter("kamas", entity.getBag().getKamas());
 		query.setParameter("map_id", entity.getLocation().getMap().getId());
 		query.setParameter("cell", entity.getLocation().getCell());
 		query.setParameter("orientation", entity.getLocation().getOrientation());
@@ -257,7 +259,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				result.getShort("agility")
 		));
 		
-		player.setBag(new PlayerBag(player, items));
+		player.setBag(new PlayerBag(player, items, result.getLong("kamas")));
 		
 		return player;
 	}
