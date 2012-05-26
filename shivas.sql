@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2012-05-26 10:39:23
+Date: 2012-05-26 11:32:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,6 +85,7 @@ CREATE TABLE `players` (
   `color3` int(11) NOT NULL,
   `level` smallint(6) NOT NULL,
   `experience` bigint(20) NOT NULL,
+  `kamas` bigint(20) NOT NULL,
   `map_id` int(11) NOT NULL,
   `cell` smallint(6) NOT NULL,
   `orientation` tinyint(4) NOT NULL,
@@ -109,5 +110,5 @@ CREATE TABLE `players` (
 -- ----------------------------
 -- Records of players
 -- ----------------------------
-INSERT INTO `players` VALUES ('1', '1', 'Vjya', '9', '0', '90', '100', '-1', '-1', '-1', '200', '7407232000', '7411', '355', '1', '995', '199', '10000', '44', '6', '3', '0', '0', '0', '0', '0', '0');
-INSERT INTO `players` VALUES ('2', '2', 'Oqsyk', '8', '0', '80', '100', '-1', '-1', '-1', '200', '7407232000', '7411', '355', '1', '995', '199', '10000', '48', '6', '3', '0', '0', '1', '0', '0', '0');
+INSERT INTO `players` VALUES ('1', '1', 'Vjya', '9', '0', '90', '100', '-1', '-1', '-1', '200', '7407232000', '0', '7411', '355', '1', '995', '199', '10000', '44', '6', '3', '0', '0', '0', '0', '0', '0');
+INSERT INTO `players` VALUES ('2', '2', 'Oqsyk', '8', '0', '80', '100', '-1', '-1', '-1', '200', '7407232000', '0', '7411', '355', '1', '995', '199', '10000', '48', '6', '3', '0', '0', '1', '0', '0', '0');
