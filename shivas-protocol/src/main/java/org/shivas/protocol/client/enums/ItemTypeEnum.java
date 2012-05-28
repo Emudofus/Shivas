@@ -133,12 +133,71 @@ public enum ItemTypeEnum {
         return value;
     }
     
+    public boolean isEquipment() {
+    	return this == Amulet 	||
+    		   this == Ring 	||
+    		   this == Belt 	||
+    		   this == Boot 	||
+    		   this == Hat 		||
+    		   this == Cloack 	||
+    		   this == Pet 		||
+    		   this == Dofus 	||
+    		   this == Backpack ||
+    		   this == Shield 	||
+    		  this == Dragodinde||
+    		   this == Obvijevan||
+    		   this.isWeapon();
+    }
+    
     public boolean isWeapon() {
-    	return false; // TODO
+    	return this == Bow 		||
+    		   this == Wand 	||
+    		   this == Staff 	||
+    		   this == Dagger 	||
+    		   this == Sword 	||
+    		   this == Hammer 	||
+    		   this == Shovel 	||
+    		   this == Axe 		||
+    		   this == Tool 	||
+    		   this == Pickaxe 	||
+    		   this == Scythe 	||
+    		   this == Crossbow ||
+    		   this == Soulstone||
+    		   this == MagicWeapon;
     }
     
     public boolean isUsable() {
-    	return false; // TODO
+    	return  this == Potion 			||
+    	     this == ExperienceParchment||
+    			this == Gift 			||
+    			this == BoostFood 		||
+    			this == Benediction 	||
+    			this == Malediction 	||
+    			this == Bread 			||
+    			this == Beer 			||
+    			this == Candy 			||
+    			this == ForgetPotion 	||
+    			this == JobPotion 		||
+    			this == SpellPotion 	||
+    			this == GuttedFish 		||
+    			this == Meat 			||
+    			this == PreservedMeat 	||
+    			this == ComestibleMeat 	||
+    			this == WeaponControl 	||
+    			this == FeeArtifice 	||
+    			this == SpellParchment 	||
+    			this == StatParchment 	||
+    			this == Drink 			||
+    			this == FullSoulstone 	||
+    			this == Gifts 			||
+    			this == UsableObject 	||
+    			this == CatchNet 		||
+    			this == Prism 			||
+    			this == PetPotion;
+    }
+    
+    public boolean isResource() {
+    	return !isEquipment() || !isUsable();
     }
 
     private static final Map<Integer, ItemTypeEnum> values = new HashMap<Integer, ItemTypeEnum>();
