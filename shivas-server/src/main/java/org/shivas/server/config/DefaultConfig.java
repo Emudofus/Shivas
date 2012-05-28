@@ -151,7 +151,7 @@ public class DefaultConfig implements Config {
 
 	@Override
 	public String infoColor() {
-		return "#00FF00";
+		return "#009900";
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class DefaultConfig implements Config {
 
 	@Override
 	public String errorColor() {
-		return "#DF0101";
+		return "#C10000";
 	}
 
 	@Override

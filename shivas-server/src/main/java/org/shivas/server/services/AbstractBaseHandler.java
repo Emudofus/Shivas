@@ -32,7 +32,7 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 	}
 	
 	public DofusLogger console(){
-		return new ConsoleLogger(client);
+		return new ConsoleLogger(client, client.service().config());
 	}
 	
 }
