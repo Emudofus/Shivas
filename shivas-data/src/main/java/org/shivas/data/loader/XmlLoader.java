@@ -21,6 +21,7 @@ import org.shivas.data.entity.ItemSet;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.data.entity.MapTrigger;
+import org.shivas.data.entity.WeaponTemplate;
 import org.shivas.data.repository.BaseRepository;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
@@ -211,10 +212,24 @@ public class XmlLoader extends AbstractLoader {
 		
 		Element root = doc.getDescendants(new ElementFilter("items")).next();
 		for (Element item_elem : root.getChildren("item")) {
-			ItemTemplate item = factory.newItemTemplate();
+			ItemTypeEnum type = ItemTypeEnum.valueOf(item_elem.getAttribute("type").getIntValue());
+			
+			ItemTemplate item;
+			
+			if (type.isWeapon()) {
+				WeaponTemplate weapon = factory.newWeaponTemplate();
+				weapon.setTwoHands(item_elem.getAttribute("twoHands").getBooleanValue());
+				weapon.setEthereal(item_elem.getAttribute("ethereal").getBooleanValue());
+				
+				item = weapon;
+			} else if (type.isUsable()) {
+				item = factory.newItemTemplate(); // TODO usable items
+			} else {
+				item = factory.newItemTemplate();
+			}
 			
 			item.setId((short) item_elem.getAttribute("id").getIntValue());			
-			item.setType(ItemTypeEnum.valueOf(item_elem.getAttribute("type").getIntValue()));
+			item.setType(type);
 			item.setLevel((short) item_elem.getAttribute("level").getIntValue());
 			item.setWeight((short) item_elem.getAttribute("weight").getIntValue());
 			item.setForgemageable(item_elem.getAttribute("forgemageable").getBooleanValue());
