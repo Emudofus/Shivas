@@ -4,9 +4,9 @@ import org.shivas.common.params.Conditions;
 import org.shivas.common.params.Parameters;
 import org.shivas.common.params.Types;
 import org.shivas.data.entity.ItemTemplate;
+import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 import org.shivas.server.core.commands.types.ItemTemplateType;
 import org.shivas.server.core.commands.types.PlayerType;
-import org.shivas.server.core.events.events.ItemCreationEvent;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.database.models.GameItem;
@@ -62,8 +62,8 @@ public class GiveItemCommand implements Command {
 		if (target.getClient() != null && target.getClient() != client) {
 			target.getClient().tchat().info("\"%s\" gave you %d item (id=%d).", client.player().url(), quantity, template.getId());
 		}
-		
-		target.getEvent().publish(new ItemCreationEvent(item));
+
+		client.write(ItemGameMessageFormatter.addItemMessage(item.toBaseItemType()));
 		
 		log.info("You successfully gave %d item (id=%d).", quantity, template.getId());
 	}
