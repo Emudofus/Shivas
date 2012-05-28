@@ -1,13 +1,18 @@
 package org.shivas.server.services.game;
 
+import org.apache.mina.core.future.IoFuture;
+import org.apache.mina.core.future.IoFutureListener;
+import org.apache.mina.core.session.IoSession;
+import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.core.actions.ActionList;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.BaseHandler;
+import org.shivas.server.services.IoSessionDecorator;
 
-public final class DefaultGameClient implements GameClient {
+public final class DefaultGameClient extends IoSessionDecorator implements GameClient {
 	
 	private final GameService service;
 	
@@ -17,7 +22,8 @@ public final class DefaultGameClient implements GameClient {
 	private EventListener eventListener;
 	private ActionList actions = new ActionList(this);
 
-	public DefaultGameClient(GameService service) {
+	public DefaultGameClient(IoSession session, GameService service) {
+		super(session);
 		this.service = service;
 	}
 
@@ -26,11 +32,16 @@ public final class DefaultGameClient implements GameClient {
 	}
 
 	public void kick() {
-		handler.kick();
+		close(false);
 	}
 
 	public void kick(String message) {
-		handler.kick(message);
+		write(GameMessageFormatter.kickMessage("un administrateur", message))
+			.addListener(new IoFutureListener<IoFuture>() {
+				public void operationComplete(IoFuture arg0) {
+					close(true);
+				}
+			});
 	}
 	
 	public BaseHandler handler() {

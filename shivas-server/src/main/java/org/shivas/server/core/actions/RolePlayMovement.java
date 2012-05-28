@@ -1,6 +1,5 @@
 package org.shivas.server.core.actions;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.data.entity.MapTrigger;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
@@ -13,12 +12,10 @@ import org.shivas.server.services.game.GameClient;
 public class RolePlayMovement extends AbstractAction {
 	
 	private GameClient client;
-	private IoSession session;
 	private Path path;
 
-	public RolePlayMovement(GameClient client, IoSession session, Path path) {
+	public RolePlayMovement(GameClient client, Path path) {
 		this.client = client;
-		this.session = session;
 		this.path = path;
 		
 		// add current location to the path
@@ -56,7 +53,7 @@ public class RolePlayMovement extends AbstractAction {
         if (trigger != null) {
         	client.player().teleport((GameMap) trigger.getNextMap(), trigger.getNextCell());
         } else {
-        	session.write(BasicGameMessageFormatter.noOperationMessage());
+        	client.write(BasicGameMessageFormatter.noOperationMessage());
         }
 	}
 

@@ -2,7 +2,6 @@ package org.shivas.server.services.game.handlers;
 
 import java.util.ArrayList;
 
-import org.apache.mina.core.session.IoSession;
 import org.joda.time.DateTime;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
@@ -20,27 +19,27 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 	
 	private static final Logger log = LoggerFactory.getLogger(RolePlayHandler.class);
 
-	public RolePlayHandler(GameClient client, IoSession session) {
-		super(client, session);
+	public RolePlayHandler(GameClient client) {
+		super(client);
 	}
 
 	@Override
 	public void init() throws Exception {
 		super.init();
 		
-		session.write(ChannelGameMessageFormatter.addChannelsMessage(client.account().getChannels()));
-		session.write(SpellGameMessageFormatter.spellListMessage(new ArrayList<BaseSpellType>(0))); // TODO spells
-		session.write(ChannelGameMessageFormatter.enabledEmotesMessage("")); // TODO emotes
-		session.write(ItemGameMessageFormatter.inventoryStatsMessage(client.player().getStats().pods()));
-		session.write(FriendGameMessageFormatter.notifyFriendOnConnectMessage(false)); // TODO friends
-		session.write(InfoGameMessageFormatter.welcomeMessage());
+		client.write(ChannelGameMessageFormatter.addChannelsMessage(client.account().getChannels()));
+		client.write(SpellGameMessageFormatter.spellListMessage(new ArrayList<BaseSpellType>(0))); // TODO spells
+		client.write(ChannelGameMessageFormatter.enabledEmotesMessage("")); // TODO emotes
+		client.write(ItemGameMessageFormatter.inventoryStatsMessage(client.player().getStats().pods()));
+		client.write(FriendGameMessageFormatter.notifyFriendOnConnectMessage(false)); // TODO friends
+		client.write(InfoGameMessageFormatter.welcomeMessage());
 		if (!client.account().firstConnection()) {
-			session.write(InfoGameMessageFormatter.lastConnectionInformationMessage(
+			client.write(InfoGameMessageFormatter.lastConnectionInformationMessage(
 					client.account().getLastConnection(),
 					client.account().getLastAddress()
 			));
 		}
-		session.write(InfoGameMessageFormatter.currentAddressInformationMessage(getClearAddress()));
+		client.write(InfoGameMessageFormatter.currentAddressInformationMessage(getClearAddress()));
 
 		client.account().setLastConnection(DateTime.now());
 		client.account().setLastAddress(getClearAddress());
@@ -60,19 +59,19 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 
 	@Override
 	protected void configure() {
-		add('A', new ApproachHandler(client, session));
-		add('B', new BasicHandler(client, session));
-		add('c', new ChannelHandler(client, session));
-		add('G', new GameHandler(client, session));
-		add('O', new ItemHandler(client, session));
-		add('P', new PartyHandler(client, session));
+		add('A', new ApproachHandler(client));
+		add('B', new BasicHandler(client));
+		add('c', new ChannelHandler(client));
+		add('G', new GameHandler(client));
+		add('O', new ItemHandler(client));
+		add('P', new PartyHandler(client));
 	}
 
 	@Override
 	protected void onReceivedUnknownMessage(String message) {
 		log.debug("unknown message {}", message);
 		
-		session.write(BasicGameMessageFormatter.noOperationMessage());
+		client.write(BasicGameMessageFormatter.noOperationMessage());
 	}
 
 }

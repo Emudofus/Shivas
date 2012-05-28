@@ -1,6 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.services.AbstractBaseHandler;
@@ -8,12 +7,12 @@ import org.shivas.server.services.game.GameClient;
 
 public class AuthenticationHandler extends AbstractBaseHandler<GameClient> {
 
-	public AuthenticationHandler(GameClient client, IoSession session) {
-		super(client, session);
+	public AuthenticationHandler(GameClient client) {
+		super(client);
 	}
 
 	public void init() throws Exception {
-		session.write(ApproachGameMessageFormatter.helloGameMessage());
+		client.write(ApproachGameMessageFormatter.helloGameMessage());
 	}
 
 	public void handle(String message) throws Exception {
@@ -23,14 +22,14 @@ public class AuthenticationHandler extends AbstractBaseHandler<GameClient> {
 		Account account = client.service().login().getAccount(ticket);
 		
 		if (account == null) {
-			session.write(ApproachGameMessageFormatter.authenticationFailureMessage());
-			kick();
+			client.write(ApproachGameMessageFormatter.authenticationFailureMessage());
+			client.kick();
 		} else {
-			session.write(ApproachGameMessageFormatter.
+			client.write(ApproachGameMessageFormatter.
 					authenticationSuccessMessage(account.getCommunity()));
 			
 			client.setAccount(account);
-			client.newHandler(new PlayerSelectionHandler(client, session));
+			client.newHandler(new PlayerSelectionHandler(client));
 		}
 	}
 

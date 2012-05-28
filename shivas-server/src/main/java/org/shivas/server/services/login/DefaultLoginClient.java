@@ -1,9 +1,11 @@
 package org.shivas.server.services.login;
 
+import org.apache.mina.core.session.IoSession;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.services.BaseHandler;
+import org.shivas.server.services.IoSessionDecorator;
 
-public final class DefaultLoginClient implements LoginClient {
+public final class DefaultLoginClient extends IoSessionDecorator implements LoginClient {
 	
 	private final LoginService service;
 	
@@ -11,7 +13,8 @@ public final class DefaultLoginClient implements LoginClient {
 	private String ticket;
 	private BaseHandler handler;
 
-	public DefaultLoginClient(LoginService service) {
+	public DefaultLoginClient(IoSession session, LoginService service) {
+		super(session);
 		this.service = service;
 	}
 
@@ -36,7 +39,7 @@ public final class DefaultLoginClient implements LoginClient {
 	}
 
 	public void kick() {
-		handler.kick();
+		close(false);
 	}
 	
 	public BaseHandler handler() {

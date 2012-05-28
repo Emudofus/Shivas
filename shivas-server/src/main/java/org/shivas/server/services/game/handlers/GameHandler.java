@@ -1,6 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.enums.ActionTypeEnum;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
@@ -18,8 +17,8 @@ import com.google.common.collect.Collections2;
 
 public class GameHandler extends AbstractBaseHandler<GameClient> {
 
-	public GameHandler(GameClient client, IoSession session) {
-		super(client, session);
+	public GameHandler(GameClient client) {
+		super(client);
 	}
 
 	public void init() throws Exception {
@@ -53,11 +52,11 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseGameCreationMessage() {
-		session.write(GameMessageFormatter.gameCreationSuccessMessage());
+		client.write(GameMessageFormatter.gameCreationSuccessMessage());
 
-		session.write(client.player().getStats().packet());
+		client.write(client.player().getStats().packet());
 		
-		session.write(GameMessageFormatter.mapDataMessage(
+		client.write(GameMessageFormatter.mapDataMessage(
 				client.player().getLocation().getMap().getId(),
 				client.player().getLocation().getMap().getDate(),
 				client.player().getLocation().getMap().getKey()
@@ -69,9 +68,9 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		
 		map.enter(client.player());
 		
-		session.write(GameMessageFormatter.showActorsMessage(Collections2.transform(map.actors(), Converters.GAMEACTOR_TO_BASEROLEPLAYACTORTYPE)));
-		session.write(GameMessageFormatter.mapLoadedMessage());
-		session.write(GameMessageFormatter.fightCountMessage(0)); // TODO fights
+		client.write(GameMessageFormatter.showActorsMessage(Collections2.transform(map.actors(), Converters.GAMEACTOR_TO_BASEROLEPLAYACTORTYPE)));
+		client.write(GameMessageFormatter.mapLoadedMessage());
+		client.write(GameMessageFormatter.fightCountMessage(0)); // TODO fights
 		
 		map.event().subscribe(client.eventListener());
 	}
@@ -85,7 +84,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseMovementMessage(Path path) throws ActionException {
-		client.actions().push(new RolePlayMovement(client, session, path)).begin();
+		client.actions().push(new RolePlayMovement(client, path)).begin();
 	}
 
 	private void parseGameActionEndMessage(boolean success, String args) throws Exception {

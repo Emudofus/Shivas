@@ -1,7 +1,5 @@
 package org.shivas.server.services;
 
-import org.apache.mina.core.session.IoSession;
-import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.core.logging.ConsoleLogger;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.core.logging.TchatLogger;
@@ -11,24 +9,13 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 {
 	
 	protected final C client;
-	protected final IoSession session;
 	
-	public AbstractBaseHandler(C client, IoSession session) {
+	public AbstractBaseHandler(C client) {
 		this.client = client;
-		this.session = session;
 	}
 	
-	public void kick() {
-		session.close(false);
-	}
-	
-	public void kick(String message) {
-		session.write(GameMessageFormatter.kickMessage("System", message));
-		kick();
-	}
-	
-	public boolean isLoopback() {
-		return session.getRemoteAddress().toString().contains("127.0.0.1"); // TODO better implementation
+	protected boolean isLoopback() {
+		return client.getRemoteAddress().toString().contains("127.0.0.1"); // TODO better implementation
 	}
 	
 	protected void assertTrue(boolean b, String message, Object... obj) throws Exception {
@@ -36,16 +23,16 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 	}
 	
 	protected String getClearAddress() {
-        String address = session.getRemoteAddress().toString();
+        String address = client.getRemoteAddress().toString();
         return address.substring(1, address.indexOf(':'));
 	}
 	
 	public DofusLogger tchat(){
-		return new TchatLogger(session, client.service().config());
+		return new TchatLogger(client, client.service().config());
 	}
 	
 	public DofusLogger console(){
-		return new ConsoleLogger(session);
+		return new ConsoleLogger(client);
 	}
 	
 }

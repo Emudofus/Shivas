@@ -64,14 +64,14 @@ public class DefaultLoginService extends AbstractService implements LoginService
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
-		session.setAttribute(CLIENT_TOKEN, new DefaultLoginClient(this));
+		session.setAttribute(CLIENT_TOKEN, new DefaultLoginClient(session, this));
 	}
 
 	public void sessionOpened(IoSession session) throws Exception {
 		log.debug("{} is connected", session.getRemoteAddress());
 		
 		DefaultLoginClient client = (DefaultLoginClient) session.getAttribute(CLIENT_TOKEN);
-		client.newHandler(new VersionHandler(client, session));
+		client.newHandler(new VersionHandler(client));
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {

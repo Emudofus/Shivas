@@ -1,6 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.joda.time.DateTime;
 import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
@@ -12,8 +11,8 @@ import org.shivas.server.services.game.GameClient;
 
 public class BasicHandler extends AbstractBaseHandler<GameClient> {
 
-	public BasicHandler(GameClient client, IoSession session) {
-		super(client, session);
+	public BasicHandler(GameClient client) {
+		super(client);
 	}
 
 	public void init() throws Exception {
@@ -60,7 +59,7 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseCurrentDateMessage() {
-		session.write(BasicGameMessageFormatter.currentDateMessage(DateTime.now()));
+		client.write(BasicGameMessageFormatter.currentDateMessage(DateTime.now()));
 	}
 
 	private void parseSendClientMultiMessage(ChannelEnum chan, String message) {
@@ -68,7 +67,7 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 			Channel channel = client.service().channels().get(chan);
 			channel.send(client.player(), message);
 		} else {
-			session.write(BasicGameMessageFormatter.noOperationMessage());
+			client.write(BasicGameMessageFormatter.noOperationMessage());
 		}
 	}
 

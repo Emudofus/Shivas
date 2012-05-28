@@ -1,8 +1,9 @@
 package org.shivas.server.services;
 
+import org.apache.mina.core.session.IoSession;
 import org.shivas.server.database.models.Account;
 
-public interface Client<S extends Service> {
+public interface Client<S extends Service> extends IoSession {
 	
 	S service();
 	

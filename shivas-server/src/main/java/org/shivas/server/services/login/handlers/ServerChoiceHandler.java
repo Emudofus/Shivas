@@ -1,14 +1,13 @@
 package org.shivas.server.services.login.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.login.LoginClient;
 
 public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 
-	public ServerChoiceHandler(LoginClient client, IoSession session) {
-		super(client, session);
+	public ServerChoiceHandler(LoginClient client) {
+		super(client);
 	}
 
 	public void init() throws Exception {
@@ -45,7 +44,7 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 	}
 
 	private void parseCharactersListMessage() {		
-		session.write(LoginMessageFormatter.charactersListMessage(
+		client.write(LoginMessageFormatter.charactersListMessage(
 				client.account().getRemainingSubscription().getMillis(), 
 				client.service().game().informations().getId(),
 				client.account().getPlayers().size()
@@ -59,14 +58,14 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 		
 		client.service().putAccount(client.ticket(), client.account());
 		
-		session.write(LoginMessageFormatter.selectedHostInformationMessage(
+		client.write(LoginMessageFormatter.selectedHostInformationMessage(
 				client.service().game().informations().getAddress(),
 				client.service().game().informations().getConnexionPort(),
 				client.ticket(),
 				isLoopback()
 		));
 		
-		kick();
+		client.kick();
 	}
 
 	private void parseQueueInformationsMessage() {

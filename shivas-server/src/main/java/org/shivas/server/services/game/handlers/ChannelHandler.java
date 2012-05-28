@@ -1,6 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.server.core.channels.Channel;
@@ -9,8 +8,8 @@ import org.shivas.server.services.game.GameClient;
 
 public class ChannelHandler extends AbstractBaseHandler<GameClient> {
 
-	public ChannelHandler(GameClient client, IoSession session) {
-		super(client, session);
+	public ChannelHandler(GameClient client) {
+		super(client);
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class ChannelHandler extends AbstractBaseHandler<GameClient> {
 				channel.subscribe(client.eventListener());
 			}
 		}
-		session.write(ChannelGameMessageFormatter.addChannelMessage(chan));
+		client.write(ChannelGameMessageFormatter.addChannelMessage(chan));
 	}
 
 	private void parseRemoveChannelMessage(ChannelEnum chan) {
@@ -59,7 +58,7 @@ public class ChannelHandler extends AbstractBaseHandler<GameClient> {
 				channel.unsubscribe(client.eventListener());
 			}
 		}
-		session.write(ChannelGameMessageFormatter.removeChannelMessage(chan));
+		client.write(ChannelGameMessageFormatter.removeChannelMessage(chan));
 	}
 
 }

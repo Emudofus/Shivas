@@ -1,6 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.common.StringUtils;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
@@ -11,8 +10,8 @@ import org.shivas.server.services.game.GameClient;
 
 public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 
-	public PlayerSelectionHandler(GameClient client, IoSession session) {
-		super(client, session);
+	public PlayerSelectionHandler(GameClient client) {
+		super(client);
 	}
 
 	public void init() throws Exception {
@@ -70,12 +69,12 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseRegionalVersionMessage() {
-		session.write(ApproachGameMessageFormatter.
+		client.write(ApproachGameMessageFormatter.
 				regionalVersionResponseMessage(client.account().getCommunity()));
 	}
 	
 	private void parsePlayersListMessage() {
-		session.write(ApproachGameMessageFormatter.charactersListMessage(
+		client.write(ApproachGameMessageFormatter.charactersListMessage(
 				client.service().informations().getId(),
 				client.account().getRemainingSubscription().getMillis(),
 				Player.toBaseCharacterType(client.account().getPlayers().values())
@@ -83,15 +82,15 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseRandomNameMessage() {
-		session.write(ApproachGameMessageFormatter.
+		client.write(ApproachGameMessageFormatter.
 				characterNameSuggestionSuccessMessage(StringUtils.randomPseudo()));
 	}
 
 	private void parsePlayerCreationMessage(String name, int breed, Gender gender, int color1, int color2, int color3) {
 		if (client.account().getPlayers().size() >= client.service().config().maxPlayersPerAccount()) {
-			session.write(ApproachGameMessageFormatter.accountFullMessage());
+			client.write(ApproachGameMessageFormatter.accountFullMessage());
 		} else if (client.service().repositories().players().nameExists(name)) {
-			session.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
+			client.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
 		} else {
 			client.service().repositories().players().createDefault(
 					client.account(),
@@ -103,7 +102,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 					color3
 			);
 			
-			session.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
+			client.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
 			parsePlayersListMessage();
 		}
 	}
@@ -120,7 +119,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		} else if (player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded() &&
 				   !client.account().getSecretAnswer().equals(secretAnswer))
 		{
-			session.write(ApproachGameMessageFormatter.characterDeletionFailureMessage());
+			client.write(ApproachGameMessageFormatter.characterDeletionFailureMessage());
 		} else {
 			client.account().getPlayers().remove(player);
 			client.service().repositories().players().delete(player);
@@ -135,7 +134,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		if (player == null) {
 			throw new CriticalException("unknown player #%d !", playerId);
 		} else {
-			session.write(ApproachGameMessageFormatter.characterSelectionSucessMessage(
+			client.write(ApproachGameMessageFormatter.characterSelectionSucessMessage(
 					player.id(),
 					player.getName(),
 					player.getExperience().level(),
@@ -152,7 +151,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			client.setPlayer(player);
 			player.setClient(client);
 			
-			client.newHandler(new RolePlayHandler(client, session));
+			client.newHandler(new RolePlayHandler(client));
 		}
 	}
 

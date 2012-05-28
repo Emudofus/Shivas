@@ -69,14 +69,14 @@ public class DefaultGameService extends AbstractService implements GameService {
 	}
 
 	public void sessionCreated(IoSession session) throws Exception {
-		session.setAttribute(CLIENT_TOKEN, new DefaultGameClient(this));
+		session.setAttribute(CLIENT_TOKEN, new DefaultGameClient(session, this));
 	}
 
 	public void sessionOpened(IoSession session) throws Exception {
 		log.debug("{} is connected", session.getRemoteAddress());
 		
 		DefaultGameClient client = (DefaultGameClient) session.getAttribute(CLIENT_TOKEN);
-		client.newHandler(new AuthenticationHandler(client, session));
+		client.newHandler(new AuthenticationHandler(client));
 		client.setEventListener(new DefaultEventListener(client, session));
 	}
 

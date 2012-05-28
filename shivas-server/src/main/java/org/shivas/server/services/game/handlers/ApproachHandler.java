@@ -1,6 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.entity.Breed;
@@ -10,8 +9,8 @@ import org.shivas.server.services.game.GameClient;
 
 public class ApproachHandler extends AbstractBaseHandler<GameClient> {
 
-	public ApproachHandler(GameClient client, IoSession session) {
-		super(client, session);
+	public ApproachHandler(GameClient client) {
+		super(client);
 	}
 
 	public void init() throws Exception {
@@ -34,12 +33,12 @@ public class ApproachHandler extends AbstractBaseHandler<GameClient> {
 		Breed.Level level = client.player().getBreed().getLevel(characteristic);
 		
 		if (client.player().getStats().statPoints() < level.cost()) {
-			session.write(ApproachGameMessageFormatter.boostCharacteristicErrorMessage());
+			client.write(ApproachGameMessageFormatter.boostCharacteristicErrorMessage());
 		} else {
 			characteristic.plusBase((short) level.bonus());
 			client.player().getStats().addStatPoints((short) -level.cost());
 			
-			session.write(client.player().getStats().packet());
+			client.write(client.player().getStats().packet());
 		}
 	}
 

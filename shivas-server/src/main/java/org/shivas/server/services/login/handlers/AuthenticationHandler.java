@@ -1,6 +1,5 @@
 package org.shivas.server.services.login.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.CipherException;
 import org.shivas.protocol.client.formatters.LoginMessageFormatter;
@@ -12,8 +11,8 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 	
 	private Cipher cipher;
 
-	public AuthenticationHandler(LoginClient client, IoSession session) {
-		super(client, session);
+	public AuthenticationHandler(LoginClient client) {
+		super(client);
 	}
 
 	public void init() throws Exception {
@@ -53,17 +52,17 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 		
 		String error = getError(account, args[1].substring(2));
 		if (error != null) {
-			session.write(error);
-			kick();
+			client.write(error);
+			client.kick();
 		} else {
-			session.write(LoginMessageFormatter.nicknameInformationMessage(account.getNickname()));
-			session.write(LoginMessageFormatter.communityInformationMessage(account.getCommunity()));
-			session.write(LoginMessageFormatter.serverInformationMessage(client.service().game().informations()));
-			session.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
-			session.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));
+			client.write(LoginMessageFormatter.nicknameInformationMessage(account.getNickname()));
+			client.write(LoginMessageFormatter.communityInformationMessage(account.getCommunity()));
+			client.write(LoginMessageFormatter.serverInformationMessage(client.service().game().informations()));
+			client.write(LoginMessageFormatter.identificationSuccessMessage(account.hasRights()));
+			client.write(LoginMessageFormatter.accountQuestionInformationMessage(account.getSecretQuestion()));
 			
 			client.setAccount(account);
-			client.newHandler(new ServerChoiceHandler(client, session));
+			client.newHandler(new ServerChoiceHandler(client));
 		}
 	}
 

@@ -2,8 +2,6 @@ package org.shivas.server.services;
 
 import java.util.Map;
 
-import org.apache.mina.core.session.IoSession;
-
 import com.google.common.collect.Maps;
 
 public abstract class AbstractBaseHandlerContainer<C extends Client<?>>
@@ -14,8 +12,8 @@ public abstract class AbstractBaseHandlerContainer<C extends Client<?>>
 	private Map<Character, BaseHandler> handlers = Maps.newHashMap();
 	private boolean configured;
 
-	public AbstractBaseHandlerContainer(C client, IoSession session) {
-		super(client, session);
+	public AbstractBaseHandlerContainer(C client) {
+		super(client);
 	}
 	
 	protected void add(Character prefix, BaseHandler handler) {

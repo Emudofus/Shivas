@@ -1,6 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 import org.shivas.server.database.models.GameItem;
@@ -10,8 +9,8 @@ import org.shivas.server.services.game.GameClient;
 
 public class ItemHandler extends AbstractBaseHandler<GameClient> {
 
-	public ItemHandler(GameClient client, IoSession session) {
-		super(client, session);
+	public ItemHandler(GameClient client) {
+		super(client);
 	}
 
 	@Override
@@ -50,14 +49,14 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		} else if (quantity < item.getQuantity()) {
 			item.minusQuantity(quantity);
 			
-			session.write(ItemGameMessageFormatter.quantityMessage(item.id(), item.getQuantity()));
+			client.write(ItemGameMessageFormatter.quantityMessage(item.id(), item.getQuantity()));
 		} else {
 			client.player().getBag().delete(item);
 			
-			session.write(ItemGameMessageFormatter.deleteMessage(item.id()));
+			client.write(ItemGameMessageFormatter.deleteMessage(item.id()));
 		}
 		
-		session.write(client.player().getStats().packet());
+		client.write(client.player().getStats().packet());
 	}
 
 	private void parseMoveMessage(GameItem item, ItemPositionEnum position) {

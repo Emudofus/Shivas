@@ -1,13 +1,12 @@
 package org.shivas.server.services.game.handlers;
 
-import org.apache.mina.core.session.IoSession;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 
 public class PartyHandler extends AbstractBaseHandler<GameClient> {
 
-	public PartyHandler(GameClient client, IoSession session) {
-		super(client, session);
+	public PartyHandler(GameClient client) {
+		super(client);
 	}
 
 	@Override
