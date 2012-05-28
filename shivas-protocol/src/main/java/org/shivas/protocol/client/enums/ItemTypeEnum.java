@@ -132,6 +132,14 @@ public enum ItemTypeEnum {
     public int value() {
         return value;
     }
+    
+    public boolean isWeapon() {
+    	return false; // TODO
+    }
+    
+    public boolean isUsable() {
+    	return false; // TODO
+    }
 
     private static final Map<Integer, ItemTypeEnum> values = new HashMap<Integer, ItemTypeEnum>();
 

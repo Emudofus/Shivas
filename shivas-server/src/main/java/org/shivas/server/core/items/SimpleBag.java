@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
+import org.shivas.protocol.client.enums.ItemTypeEnum;
 import org.shivas.protocol.client.types.BaseItemType;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.utils.Converters;
@@ -16,6 +17,49 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class SimpleBag implements Bag {
+	
+	public static boolean validMovement(ItemTypeEnum type, ItemPositionEnum position) {
+		switch (position) {
+		case Amulet:
+			return type == ItemTypeEnum.Amulet;
+			
+		case Belt:
+			return type == ItemTypeEnum.Belt;
+			
+		case Boot:
+			return type == ItemTypeEnum.Boot;
+			
+		case Cloak:
+			return type == ItemTypeEnum.Cloack;
+			
+		case Dofus1:
+		case Dofus2:
+		case Dofus3:
+		case Dofus4:
+		case Dofus5:
+		case Dofus6:
+			return type == ItemTypeEnum.Dofus;
+			
+		case Hat:
+			return type == ItemTypeEnum.Hat;
+			
+		case LeftRing:
+		case RightRing:
+			return type == ItemTypeEnum.Ring;
+			
+		case Pet:
+			return type == ItemTypeEnum.Pet;
+			
+		case Shield:
+			return type == ItemTypeEnum.Shield;
+			
+		case Weapon:
+			return type.isWeapon();
+			
+		default:
+			return true;
+		}
+	}
 	
 	private final Map<Long, GameItem> items = Maps.newHashMap();
 	

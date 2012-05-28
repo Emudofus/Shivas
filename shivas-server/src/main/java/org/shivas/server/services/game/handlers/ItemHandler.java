@@ -1,6 +1,7 @@
 package org.shivas.server.services.game.handlers;
 
 import org.apache.mina.core.session.IoSession;
+import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.services.AbstractBaseHandler;
@@ -32,6 +33,14 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 					Integer.parseInt(args[1])
 			);
 			break;
+			
+		case 'M':
+			args = message.substring(2).split("\\|");
+			parseMoveMessage(
+					client.player().getBag().get(Long.parseLong(args[0])),
+					ItemPositionEnum.valueOf(Integer.parseInt(args[1]))
+			);
+			break;
 		}
 	}
 
@@ -49,6 +58,10 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		}
 		
 		session.write(client.player().getStats().packet());
+	}
+
+	private void parseMoveMessage(GameItem item, ItemPositionEnum position) {
+		
 	}
 
 }
