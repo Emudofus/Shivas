@@ -157,6 +157,15 @@ public class XMLDataOutputter implements DataOutputter {
 			item_elem.setAttribute("weight", String.valueOf(item.weight));
 			item_elem.setAttribute("forgemageable", String.valueOf(item.forgemageable));
 			item_elem.setAttribute("price", String.valueOf(item.price));
+			
+			if (item.type.isWeapon()) {
+				Structs.WeaponItemTemplate weapon = (Structs.WeaponItemTemplate) item;
+				item_elem.setAttribute("twoHands", String.valueOf(weapon.twoHands));
+				item_elem.setAttribute("ethereal", String.valueOf(weapon.ethereal));
+			} else if (item.type.isUsable()) {
+				// TODO usable items
+			}
+			
 			item_elem.addContent(new Element("conditions").setText(item.conditions));
 			
 			for (Structs.ItemEffectTemplate effect : item.effects) {

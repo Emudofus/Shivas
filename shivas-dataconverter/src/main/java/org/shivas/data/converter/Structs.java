@@ -60,7 +60,7 @@ public final class Structs {
 		public List<ItemTemplate> items = Lists.newArrayList();
 	}
 	
-	public static final class ItemTemplate {
+	public static class ItemTemplate {
 		public int id;
 		public ItemTypeEnum type;
 		public short level;
@@ -69,6 +69,11 @@ public final class Structs {
 		public long price;
 		public String conditions;
 		public List<ItemEffectTemplate> effects = Lists.newArrayList();
+	}
+	
+	public static final class WeaponItemTemplate extends ItemTemplate {
+		public boolean twoHands;
+		public boolean ethereal;
 	}
 	
 	public static final class ItemEffect {

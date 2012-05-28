@@ -225,10 +225,23 @@ public class VemuConverter extends MySqlUserConverter {
 
 	private void createItems(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {		
 		while (r.next()) {
-			Structs.ItemTemplate item = new Structs.ItemTemplate();
+			ItemTypeEnum type = ItemTypeEnum.valueOf(r.getInt("Type"));
+			
+			Structs.ItemTemplate item;
+			if (type.isWeapon()) {
+				Structs.WeaponItemTemplate weapon = new Structs.WeaponItemTemplate();
+				weapon.twoHands = r.getBoolean("TwoHands");
+				weapon.ethereal = r.getBoolean("IsEthereal");
+				
+				item = weapon;
+			} else if (type.isUsable()) {
+				item = new Structs.ItemTemplate(); // TODO usable items
+			} else {
+				item = new Structs.ItemTemplate();
+			}
 			
 			item.id = r.getInt("ID");
-			item.type = ItemTypeEnum.valueOf(r.getInt("Type"));
+			item.type = type;
 			item.level = r.getShort("Level");
 			item.weight = r.getShort("Weight");
 			item.forgemageable = r.getBoolean("Forgemageable");

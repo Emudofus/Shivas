@@ -196,10 +196,27 @@ public class AncestraConverter extends MySqlUserConverter {
 	
 	private void createItems(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {		
 		while (r.next()) {
-			Structs.ItemTemplate item = new Structs.ItemTemplate();
+			ItemTypeEnum type = ItemTypeEnum.valueOf(r.getInt("type"));
+			
+			Structs.ItemTemplate item;
+			
+			if (type.isWeapon()) {
+				String weaponInfos;
+				if ((weaponInfos = r.getString("armesInfos")) == null || !weaponInfos.isEmpty()) continue;
+				
+				Structs.WeaponItemTemplate weapon = new Structs.WeaponItemTemplate();
+				weapon.ethereal = false;
+				weapon.twoHands = weaponInfos.split("\\|")[6].equals("1");
+				
+				item = weapon;
+			} else if (type.isUsable()) {
+				item = new Structs.ItemTemplate(); // TODO usable items
+			} else {
+				item = new Structs.ItemTemplate();
+			}
 			
 			item.id = r.getInt("id");
-			item.type = ItemTypeEnum.valueOf(r.getInt("type"));
+			item.type = type;
 			item.level = r.getShort("level");
 			
 			for (String e : r.getString("statsTemplate").split(",")) {
