@@ -13,4 +13,5 @@ public interface EntityFactory {
 	ItemEffectTemplate newItemEffectTemplate();
 	ItemEffect newItemEffect();
 	Item newItem();
+	WeaponTemplate newWeaponTemplate();
 }

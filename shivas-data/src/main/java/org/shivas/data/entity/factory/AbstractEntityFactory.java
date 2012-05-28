@@ -50,4 +50,9 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 		return new ItemEffect();
 	}
 
+	@Override
+	public WeaponTemplate newWeaponTemplate() {
+		return new WeaponTemplate(this);
+	}
+
 }
