@@ -44,9 +44,10 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseDeleteMessage(GameItem item, int quantity) throws CriticalException {
-		if (quantity > item.getQuantity()) {
-			throw new CriticalException("not enough quantity");
-		} else if (quantity < item.getQuantity()) {
+		assertFalse(item == null, "unknown item");
+		assertTrue(quantity <= item.getQuantity(), "not enough");
+		
+		if (quantity < item.getQuantity()) {
 			item.minusQuantity(quantity);
 			
 			client.write(ItemGameMessageFormatter.quantityMessage(item.id(), item.getQuantity()));
@@ -59,8 +60,24 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		client.write(client.player().getStats().packet());
 	}
 
-	private void parseMoveMessage(GameItem item, ItemPositionEnum position) {
+	private void parseMoveMessage(GameItem item, ItemPositionEnum position) throws CriticalException {
+		assertFalse(item == null, "unknown item");
+		assertTrue(item.getQuantity() >= 1, "not enough");
+		assertFalse(item.getPosition() == position, "this item is already on %s", position);
+		assertTrue(client.player().getBag().validMovement(item, position), "invalid movement");
+
+		if (position == ItemPositionEnum.NotEquiped) {
+			GameItem same = client.player().getBag().sameAs(item);
+			if (same != null) {
+				
+			} else {
+				
+			}
+		} else {
+			
+		}
 		
+		client.write(client.player().getStats().refresh().packet());
 	}
 
 }

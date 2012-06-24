@@ -18,8 +18,12 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 		return client.getRemoteAddress().toString().contains("127.0.0.1"); // TODO better implementation
 	}
 	
-	protected void assertTrue(boolean b, String message, Object... obj) throws Exception {
-		if (!b) throw new Exception(String.format(message, obj));
+	protected void assertTrue(boolean b, String message, Object... obj) throws CriticalException {
+		if (!b) throw new CriticalException(String.format(message, obj));
+	}
+	
+	protected void assertFalse(boolean b, String message, Object... obj) throws CriticalException {
+		if (b) throw new CriticalException(String.format(message, obj));
 	}
 	
 	protected String getClearAddress() {

@@ -1,12 +1,15 @@
 package org.shivas.server.core.statistics;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.shivas.common.maths.LimitedValue;
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
+import org.shivas.data.entity.ItemEffect;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
+import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
 
 import com.google.common.collect.Maps;
@@ -143,6 +146,39 @@ public class PlayerStatistics implements Statistics {
 				energy,
 				this
 		);
+	}
+	
+	public PlayerStatistics reset() {
+		for (Characteristic charac : characs.values()) {
+			charac.equipment((short) 0);
+			charac.gift((short) 0);
+			charac.context((short) 0);
+		}
+		
+		return this;
+	}
+	
+	public PlayerStatistics refresh() {
+		reset();
+		
+		for (GameItem item : owner.getBag()) {
+			if (!item.getPosition().equipment()) continue;
+			
+			for (ItemEffect effect : item.getEffects()) {
+				AtomicReference<Boolean> add = new AtomicReference<Boolean>(false);
+				
+				Characteristic charac = get(effect.getEffect().toCharacteristicType(add));
+				if (charac == null) continue;
+				
+				if (add.get()) {
+					charac.plusEquipment(effect.getBonus());
+				} else {
+					charac.minusEquipment(effect.getBonus());
+				}
+			}
+		}
+		
+		return this;
 	}
 
 }

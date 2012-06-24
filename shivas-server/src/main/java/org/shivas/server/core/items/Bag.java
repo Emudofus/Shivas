@@ -16,6 +16,7 @@ public interface Bag extends Iterable<GameItem> {
 	GameItem remove(long itemId);
 	boolean remove(GameItem item);
 	int count();
+	boolean contains(GameItem item);
 	
 	GameItem[] accessories();
 	Collection<GameItem> equiped();

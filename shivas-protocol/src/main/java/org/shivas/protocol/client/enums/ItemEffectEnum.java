@@ -7,6 +7,9 @@ package org.shivas.protocol.client.enums; /**
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.shivas.common.statistics.CharacteristicType;
 
 public enum ItemEffectEnum {
     NONE(0),
@@ -54,16 +57,16 @@ public enum ItemEffectEnum {
 	SubHealPoints(179),
 	SubVitality(153),
 
-	AddReduceDamagePourcentWater(211),
-	AddReduceDamagePourcentEarth(210),
-	AddReduceDamagePourcentWind(212),
-	AddReduceDamagePourcentFire(213),
-	AddReduceDamagePourcentNeutral(214),
-	AddReduceDamagePourcentPvPWater(251),
-	AddReduceDamagePourcentPvPEarth(250),
-	AddReduceDamagePourcentPvPWind(252),
-	AddReduceDamagePourcentPvPFire(253),
-	AddReduceDamagePourcentPvpNeutral(254),
+	AddReduceDamagePercentWater(211),
+	AddReduceDamagePercentEarth(210),
+	AddReduceDamagePercentWind(212),
+	AddReduceDamagePercentFire(213),
+	AddReduceDamagePercentNeutral(214),
+	AddReduceDamagePercentPvPWater(251),
+	AddReduceDamagePercentPvPEarth(250),
+	AddReduceDamagePercentPvPWind(252),
+	AddReduceDamagePercentPvPFire(253),
+	AddReduceDamagePercentPvpNeutral(254),
 	AddReduceDamageWater(241),
 	AddReduceDamageEarth(240),
 	AddReduceDamageWind(242),
@@ -75,16 +78,16 @@ public enum ItemEffectEnum {
 	AddReduceDamagePvPFire(263),
 	AddReduceDamagePvPNeutral(264),
 
-	SubReduceDamagePourcentWater(216),
-	SubReduceDamagePourcentEarth(215),
-	SubReduceDamagePourcentWind(217),
-	SubReduceDamagePourcentFire(218),
-	SubReduceDamagePourcentNeutral(219),
-	SubReduceDamagePourcentPvPWater(255),
-	SubReduceDamagePourcentPvPEarth(256),
-	SubReduceDamagePourcentPvPWind(257),
-	SubReduceDamagePourcentPvPFire(258),
-	SubReduceDamagePourcentPvpNeutral(259),
+	SubReduceDamagePercentWater(216),
+	SubReduceDamagePercentEarth(215),
+	SubReduceDamagePercentWind(217),
+	SubReduceDamagePercentFire(218),
+	SubReduceDamagePercentNeutral(219),
+	SubReduceDamagePercentPvPWater(255),
+	SubReduceDamagePercentPvPEarth(256),
+	SubReduceDamagePercentPvPWind(257),
+	SubReduceDamagePercentPvPFire(258),
+	SubReduceDamagePercentPvpNeutral(259),
 	SubReduceDamageWater(246),
 	SubReduceDamageEarth(245),
 	SubReduceDamageWind(247),
@@ -112,8 +115,8 @@ public enum ItemEffectEnum {
     AddCharactPoint(612),
     AddSpellPoint(613),
 
-    SubPAEsquive(101),
-    SubPMEsquive(127),
+    SubActionPointsDodge(101),
+    SubMovementPointsDodge(127),
 
     AddReduceDamagePhysic(183),
     AddReduceDamageMagic(184),
@@ -137,5 +140,102 @@ public enum ItemEffectEnum {
     public static ItemEffectEnum valueOf(int value) {
         ItemEffectEnum val = values.get(value);
         return val != null ? val : NONE;
+    }
+    
+    public CharacteristicType toCharacteristicType(AtomicReference<Boolean> add) {
+    	add.set(false);
+    	
+    	switch (this) {
+    	case AddProspection:
+    		add.set(true);
+    	case SubProspection:
+    		return CharacteristicType.Prospection;
+    		
+    	case AddInitiative:
+    		add.set(true);
+    	case SubInitiative:
+    		return CharacteristicType.Initiative;
+    		
+    	case AddActionPoints:
+    		add.set(true);
+    	case SubActionPoints:
+    		return CharacteristicType.ActionPoints;
+    		
+    	case AddMovementPoints:
+    		add.set(true);
+    	case SubMovementPoints:
+    		return CharacteristicType.MovementPoints;
+    		
+    	case AddStrength:
+    		add.set(true);
+    	case SubStrength:
+    		return CharacteristicType.Strength;
+    		
+    	case AddIntelligence:
+    		add.set(true);
+    	case SubIntelligence:
+    		return CharacteristicType.Intelligence;
+    		
+    	case AddChance:
+    		add.set(true);
+    	case SubChance:
+    		return CharacteristicType.Chance;
+    		
+    	case AddAgility:
+    		add.set(true);
+    	case SubAgility:
+    		return CharacteristicType.Agility;
+    		
+    	case AddVitality:
+    		add.set(true);
+    	case SubVitality:
+    		return CharacteristicType.Vitality;
+    		
+    	case AddWisdom:
+    		add.set(true);
+    	case SubWisdom:
+    		return CharacteristicType.Wisdom;
+    		
+    	case AddRangePoints:
+    		add.set(true);
+    	case SubRangePoints:
+    		return CharacteristicType.RangePoints;
+    		
+    	case AddSummons:
+    		add.set(true);
+    		return CharacteristicType.Summons;
+    		
+    	case AddDamage:
+    		add.set(true);
+    	case SubDamage:
+    		return CharacteristicType.Damage;
+    		
+    	case AddDamagePercent:
+    		add.set(true);
+    		return CharacteristicType.DamagePer;
+    		
+    	case AddCriticalHit:
+    		add.set(true);
+    	case SubCriticalHit:
+    		return CharacteristicType.CriticalHit;
+    		
+    	case AddCriticalFailure:
+    		add.set(true);
+    		return CharacteristicType.CriticalFailure;
+    		
+    	case AddDodgeAP:
+    		add.set(true);
+    	case SubDodgeAP:
+    		return CharacteristicType.DodgeActionPoints;
+    		
+    	case AddDodgeMP:
+    		add.set(true);
+    	case SubDodgeMP:
+    		return CharacteristicType.DodgeMovementPoints;
+    		
+    	// TODO resistances
+    		
+		default: return null;
+    	}
     }
 }

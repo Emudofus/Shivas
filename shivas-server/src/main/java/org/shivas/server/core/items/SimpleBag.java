@@ -101,6 +101,19 @@ public class SimpleBag implements Bag {
 	public int count() {
 		return items.size();
 	}
+
+	public boolean contains(GameItem item) {
+		return items.containsValue(item);
+	}
+	
+	public GameItem sameAs(GameItem item) {
+		for (GameItem i : items.values()) {
+			if (i.equals(item)) {
+				return i;
+			}
+		}
+		return null;
+	}
 	
 	public GameItem[] accessories() {
         GameItem[] accessories = new GameItem[5];
@@ -139,6 +152,22 @@ public class SimpleBag implements Bag {
 			}
 		}
 		return equiped;
+	}
+	
+	public boolean validMovement(GameItem item, ItemPositionEnum pos) {
+		if (!validMovement(item.getTemplate().getType(), pos)) return false;
+		
+		if (pos != ItemPositionEnum.NotEquiped && get(pos) != null) return false;
+		
+		if (item.getTemplate().getType() == ItemTypeEnum.Ring) {
+			ItemPositionEnum other = pos == ItemPositionEnum.LeftRing ? ItemPositionEnum.RightRing : ItemPositionEnum.LeftRing;
+			
+			GameItem otherItem = get(other);
+
+			if (otherItem != null) return otherItem.getTemplate() != item.getTemplate();
+		}
+		
+		return true;
 	}
 
 	@Override

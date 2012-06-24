@@ -57,6 +57,7 @@ public enum ItemTypeEnum {
 	Fruit(46),
 	Bone(47),
 	Powder(48),
+	ComestibleFish(49),
 	PreciousStone(50),
 	Stone(51),
 	Flour(52),

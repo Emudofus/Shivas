@@ -3,7 +3,6 @@ package org.shivas.server.database.repositories;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,6 +14,7 @@ import org.atomium.util.pk.LongPrimaryKeyGenerator;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.QueryBuilder;
+import org.shivas.common.collections.Collections3;
 import org.shivas.data.Container;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
@@ -23,43 +23,33 @@ import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
 
-import com.google.common.collect.Lists;
+import com.google.common.base.Function;
 
 @Singleton
 public class GameItemRepository extends AbstractEntityRepository<Long, GameItem> {
 	
 	public static final int RADIX = 16;
 	
-	public static String effectsToString(Collection<ItemEffect> effects) {
-		StringBuilder sb = new StringBuilder();
-		
-		boolean first = true;
-		for (ItemEffect effect : effects) {
-			if (first) first = false;
-			else sb.append(";");
-			
-			sb.append(Integer.toString(effect.getEffect().value(), RADIX));
-			sb.append(',');
-			sb.append(Integer.toString(effect.getBonus(), RADIX));
-		}
-		
-		return sb.toString();
+	public static String effectsToString(Collection<ItemEffect> effects) {		
+		return Collections3.toString(effects, ";", new Function<ItemEffect, String>() {
+			public String apply(ItemEffect input) {
+				return Integer.toString(input.getEffect().value(), RADIX) + "," +
+					   Integer.toString(input.getBonus(), RADIX);
+			}
+		});
 	}
 	
 	public static Collection<ItemEffect> stringToEffects(String string) {
-		List<ItemEffect> effects = Lists.newArrayList();
-		
-		for (String s : string.split(";")) {
-			if (s.isEmpty()) continue;
-			String[] args = s.split(",");
+		return Collections3.fromString(string, ";", new Function<String, ItemEffect>() {
+			public ItemEffect apply(String input) {
+				int index = input.indexOf(',');
 
-			ItemEffectEnum effect = ItemEffectEnum.valueOf(Integer.parseInt(args[0], RADIX));
-			short bonus = Short.parseShort(args[1], RADIX);
-			
-			effects.add(new ItemEffect(effect, bonus));
-		}
-		
-		return effects;
+				ItemEffectEnum effect = ItemEffectEnum.valueOf(Integer.parseInt(input.substring(0, index), RADIX));
+				short bonus = Short.parseShort(input.substring(index + 1), RADIX);
+				
+				return new ItemEffect(effect, bonus);
+			}
+		});
 	}
 	
 	private final QueryBuilder delete, persist, save;

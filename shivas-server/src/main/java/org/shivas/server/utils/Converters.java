@@ -36,4 +36,10 @@ public class Converters {
 			return arg0.toBaseItemType();
 		}
 	};
+	
+	public static Function<ItemEffect, ItemEffect> ITEMEFFECT_COPY = new Function<ItemEffect, ItemEffect>() {
+		public ItemEffect apply(ItemEffect input) {
+			return input.copy();
+		}
+	};
 }

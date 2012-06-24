@@ -28,15 +28,14 @@
     <effects level="6">
       <effect type="118" bonus="40" />
       <effect type="126" bonus="40" />
-      <effect type="112" bonus="4" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="20" />
       <effect type="118" bonus="50" />
       <effect type="126" bonus="50" />
+      <effect type="112" bonus="4" />
+      <effect type="124" bonus="20" />
+      <effect type="125" bonus="30" />
       <effect type="111" bonus="1" />
-      <effect type="112" bonus="5" />
     </effects>
   </itemset>
   <itemset id="2">
@@ -49,53 +48,53 @@
     <item id="2424" />
     <item id="2427" />
     <effects level="2">
-      <effect type="125" bonus="15" />
       <effect type="126" bonus="15" />
+      <effect type="125" bonus="15" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="20" />
       <effect type="126" bonus="20" />
+      <effect type="125" bonus="20" />
       <effect type="119" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="25" />
-      <effect type="124" bonus="5" />
       <effect type="126" bonus="25" />
+      <effect type="125" bonus="25" />
       <effect type="119" bonus="15" />
+      <effect type="124" bonus="5" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="10" />
       <effect type="126" bonus="30" />
+      <effect type="125" bonus="30" />
       <effect type="119" bonus="20" />
+      <effect type="124" bonus="10" />
       <effect type="117" bonus="1" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="35" />
-      <effect type="124" bonus="15" />
       <effect type="126" bonus="35" />
+      <effect type="125" bonus="35" />
       <effect type="119" bonus="25" />
-      <effect type="128" bonus="1" />
+      <effect type="124" bonus="15" />
       <effect type="117" bonus="1" />
+      <effect type="128" bonus="1" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="45" />
-      <effect type="124" bonus="20" />
       <effect type="126" bonus="45" />
+      <effect type="125" bonus="45" />
       <effect type="119" bonus="30" />
-      <effect type="111" bonus="1" />
-      <effect type="128" bonus="1" />
+      <effect type="124" bonus="20" />
       <effect type="117" bonus="1" />
+      <effect type="128" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
     <effects level="8">
-      <effect type="125" bonus="55" />
-      <effect type="124" bonus="25" />
       <effect type="126" bonus="55" />
+      <effect type="125" bonus="55" />
       <effect type="119" bonus="35" />
-      <effect type="111" bonus="1" />
-      <effect type="128" bonus="1" />
+      <effect type="124" bonus="25" />
+      <effect type="214" bonus="10" />
       <effect type="117" bonus="1" />
-      <effect type="253" bonus="10" />
+      <effect type="128" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="3">
@@ -110,37 +109,37 @@
       <effect type="118" bonus="10" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="10" />
       <effect type="118" bonus="10" />
+      <effect type="110" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="20" />
       <effect type="118" bonus="20" />
-      <effect type="254" bonus="10" />
+      <effect type="110" bonus="20" />
+      <effect type="215" bonus="10" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="30" />
       <effect type="118" bonus="30" />
-      <effect type="250" bonus="15" />
-      <effect type="254" bonus="15" />
+      <effect type="110" bonus="30" />
+      <effect type="215" bonus="20" />
+      <effect type="211" bonus="20" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="40" />
       <effect type="118" bonus="40" />
-      <effect type="250" bonus="20" />
-      <effect type="254" bonus="20" />
-      <effect type="217" bonus="20" />
+      <effect type="110" bonus="40" />
+      <effect type="215" bonus="20" />
+      <effect type="211" bonus="20" />
       <effect type="218" bonus="20" />
+      <effect type="217" bonus="20" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="50" />
       <effect type="118" bonus="50" />
-      <effect type="111" bonus="1" />
-      <effect type="112" bonus="4" />
-      <effect type="250" bonus="20" />
-      <effect type="254" bonus="20" />
-      <effect type="217" bonus="20" />
+      <effect type="110" bonus="50" />
+      <effect type="215" bonus="20" />
+      <effect type="211" bonus="20" />
       <effect type="218" bonus="20" />
+      <effect type="217" bonus="20" />
+      <effect type="112" bonus="4" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="4">
@@ -178,8 +177,8 @@
       <effect type="125" bonus="70" />
       <effect type="118" bonus="70" />
       <effect type="126" bonus="70" />
-      <effect type="111" bonus="1" />
       <effect type="112" bonus="6" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="5">
@@ -190,44 +189,44 @@
     <item id="2477" />
     <item id="2478" />
     <effects level="2">
+      <effect type="123" bonus="10" />
       <effect type="125" bonus="10" />
-      <effect type="124" bonus="10" />
       <effect type="118" bonus="10" />
       <effect type="126" bonus="10" />
-      <effect type="123" bonus="10" />
       <effect type="119" bonus="10" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="3">
+      <effect type="123" bonus="15" />
       <effect type="125" bonus="15" />
-      <effect type="124" bonus="15" />
       <effect type="118" bonus="15" />
       <effect type="126" bonus="15" />
-      <effect type="123" bonus="15" />
       <effect type="119" bonus="15" />
+      <effect type="124" bonus="15" />
     </effects>
     <effects level="4">
+      <effect type="123" bonus="20" />
       <effect type="125" bonus="20" />
-      <effect type="124" bonus="20" />
       <effect type="118" bonus="20" />
       <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
       <effect type="119" bonus="20" />
+      <effect type="124" bonus="20" />
     </effects>
     <effects level="5">
+      <effect type="123" bonus="25" />
       <effect type="125" bonus="25" />
-      <effect type="124" bonus="25" />
       <effect type="118" bonus="25" />
       <effect type="126" bonus="25" />
-      <effect type="123" bonus="25" />
       <effect type="119" bonus="25" />
+      <effect type="124" bonus="25" />
     </effects>
     <effects level="6">
+      <effect type="123" bonus="40" />
       <effect type="125" bonus="40" />
-      <effect type="124" bonus="40" />
       <effect type="118" bonus="40" />
       <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
       <effect type="119" bonus="40" />
+      <effect type="124" bonus="40" />
     </effects>
   </itemset>
   <itemset id="6">
@@ -261,8 +260,8 @@
     <item id="2641" />
     <effects level="2">
       <effect type="119" bonus="50" />
-      <effect type="115" bonus="5" />
       <effect type="112" bonus="5" />
+      <effect type="115" bonus="5" />
     </effects>
   </itemset>
   <itemset id="8">
@@ -284,10 +283,10 @@
       <effect type="112" bonus="5" />
     </effects>
     <effects level="5">
-      <effect type="124" bonus="30" />
       <effect type="111" bonus="1" />
       <effect type="128" bonus="1" />
       <effect type="117" bonus="1" />
+      <effect type="124" bonus="30" />
       <effect type="112" bonus="10" />
     </effects>
   </itemset>
@@ -306,9 +305,9 @@
       <effect type="112" bonus="3" />
     </effects>
     <effects level="4">
+      <effect type="117" bonus="1" />
       <effect type="123" bonus="80" />
       <effect type="176" bonus="30" />
-      <effect type="117" bonus="1" />
       <effect type="112" bonus="6" />
     </effects>
   </itemset>
@@ -333,35 +332,35 @@
     <item id="6500" />
     <item id="6501" />
     <effects level="2">
-      <effect type="125" bonus="50" />
+      <effect type="110" bonus="50" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="100" />
+      <effect type="110" bonus="100" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="100" />
+      <effect type="110" bonus="100" />
       <effect type="176" bonus="10" />
       <effect type="112" bonus="5" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="100" />
-      <effect type="128" bonus="1" />
+      <effect type="110" bonus="100" />
       <effect type="176" bonus="10" />
       <effect type="112" bonus="5" />
+      <effect type="128" bonus="1" />
     </effects>
     <effects level="6">
-      <effect type="174" bonus="500" />
-      <effect type="125" bonus="200" />
-      <effect type="128" bonus="1" />
+      <effect type="110" bonus="200" />
       <effect type="176" bonus="10" />
       <effect type="112" bonus="8" />
+      <effect type="128" bonus="1" />
+      <effect type="174" bonus="500" />
     </effects>
     <effects level="7">
-      <effect type="174" bonus="1000" />
-      <effect type="125" bonus="250" />
-      <effect type="128" bonus="2" />
-      <effect type="176" bonus="15" />
+      <effect type="110" bonus="250" />
+      <effect type="176" bonus="16" />
       <effect type="112" bonus="16" />
+      <effect type="128" bonus="2" />
+      <effect type="174" bonus="1000" />
     </effects>
   </itemset>
   <itemset id="12">
@@ -377,39 +376,36 @@
       <effect type="119" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="174" bonus="10" />
       <effect type="125" bonus="10" />
       <effect type="119" bonus="10" />
+      <effect type="174" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="174" bonus="15" />
       <effect type="125" bonus="15" />
       <effect type="119" bonus="15" />
+      <effect type="174" bonus="15" />
       <effect type="138" bonus="5" />
     </effects>
     <effects level="5">
-      <effect type="174" bonus="20" />
       <effect type="125" bonus="20" />
       <effect type="119" bonus="20" />
-      <effect type="183" bonus="2" />
+      <effect type="174" bonus="20" />
       <effect type="138" bonus="10" />
+      <effect type="183" bonus="2" />
     </effects>
     <effects level="6">
-      <effect type="174" bonus="25" />
       <effect type="125" bonus="25" />
       <effect type="119" bonus="25" />
-      <effect type="182" bonus="1" />
-      <effect type="183" bonus="4" />
+      <effect type="174" bonus="25" />
       <effect type="138" bonus="15" />
+      <effect type="183" bonus="4" />
     </effects>
     <effects level="7">
-      <effect type="174" bonus="30" />
       <effect type="125" bonus="30" />
-      <effect type="119" bonus="30" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="2" />
-      <effect type="183" bonus="6" />
+      <effect type="174" bonus="30" />
       <effect type="138" bonus="20" />
+      <effect type="183" bonus="6" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="13">
@@ -422,53 +418,50 @@
     <item id="6750" />
     <item id="6753" />
     <effects level="2">
-      <effect type="125" bonus="15" />
       <effect type="123" bonus="15" />
+      <effect type="125" bonus="15" />
     </effects>
     <effects level="3">
+      <effect type="123" bonus="20" />
       <effect type="125" bonus="20" />
       <effect type="126" bonus="10" />
-      <effect type="123" bonus="20" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="25" />
-      <effect type="124" bonus="5" />
-      <effect type="126" bonus="15" />
       <effect type="123" bonus="25" />
+      <effect type="125" bonus="25" />
+      <effect type="126" bonus="15" />
+      <effect type="124" bonus="5" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="10" />
-      <effect type="126" bonus="20" />
       <effect type="123" bonus="30" />
+      <effect type="125" bonus="30" />
+      <effect type="126" bonus="20" />
+      <effect type="124" bonus="10" />
       <effect type="117" bonus="1" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="35" />
-      <effect type="124" bonus="10" />
-      <effect type="126" bonus="25" />
       <effect type="123" bonus="35" />
-      <effect type="128" bonus="1" />
+      <effect type="125" bonus="35" />
+      <effect type="126" bonus="25" />
       <effect type="117" bonus="1" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="45" />
-      <effect type="124" bonus="15" />
-      <effect type="126" bonus="30" />
       <effect type="123" bonus="45" />
-      <effect type="111" bonus="1" />
+      <effect type="125" bonus="45" />
+      <effect type="126" bonus="30" />
+      <effect type="124" bonus="20" />
       <effect type="128" bonus="1" />
-      <effect type="117" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
     <effects level="8">
+      <effect type="123" bonus="45" />
       <effect type="125" bonus="55" />
-      <effect type="124" bonus="25" />
       <effect type="126" bonus="35" />
-      <effect type="123" bonus="55" />
-      <effect type="111" bonus="1" />
-      <effect type="128" bonus="1" />
+      <effect type="124" bonus="25" />
+      <effect type="212" bonus="10" />
       <effect type="117" bonus="1" />
-      <effect type="251" bonus="10" />
+      <effect type="128" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="14">
@@ -481,53 +474,52 @@
     <item id="6758" />
     <item id="6760" />
     <effects level="2">
-      <effect type="125" bonus="15" />
       <effect type="118" bonus="15" />
+      <effect type="125" bonus="15" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="20" />
       <effect type="118" bonus="20" />
+      <effect type="125" bonus="20" />
       <effect type="123" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="25" />
-      <effect type="124" bonus="5" />
       <effect type="118" bonus="25" />
+      <effect type="125" bonus="25" />
       <effect type="123" bonus="15" />
+      <effect type="124" bonus="5" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="10" />
       <effect type="118" bonus="30" />
+      <effect type="125" bonus="30" />
       <effect type="123" bonus="20" />
+      <effect type="124" bonus="10" />
       <effect type="117" bonus="1" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="35" />
-      <effect type="124" bonus="15" />
       <effect type="118" bonus="35" />
+      <effect type="125" bonus="35" />
       <effect type="123" bonus="25" />
-      <effect type="128" bonus="1" />
+      <effect type="124" bonus="15" />
       <effect type="117" bonus="1" />
+      <effect type="128" bonus="1" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="45" />
-      <effect type="124" bonus="20" />
       <effect type="118" bonus="45" />
+      <effect type="125" bonus="45" />
       <effect type="123" bonus="30" />
-      <effect type="111" bonus="1" />
-      <effect type="128" bonus="1" />
+      <effect type="124" bonus="20" />
       <effect type="117" bonus="1" />
+      <effect type="128" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
     <effects level="8">
-      <effect type="125" bonus="55" />
-      <effect type="124" bonus="25" />
       <effect type="118" bonus="55" />
+      <effect type="125" bonus="55" />
       <effect type="123" bonus="30" />
-      <effect type="111" bonus="1" />
-      <effect type="128" bonus="1" />
+      <effect type="211" bonus="10" />
       <effect type="117" bonus="1" />
-      <effect type="250" bonus="10" />
+      <effect type="128" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="15">
@@ -540,53 +532,53 @@
     <item id="6759" />
     <item id="6761" />
     <effects level="2">
-      <effect type="125" bonus="15" />
       <effect type="119" bonus="15" />
+      <effect type="125" bonus="15" />
     </effects>
     <effects level="3">
+      <effect type="119" bonus="20" />
       <effect type="125" bonus="20" />
       <effect type="118" bonus="10" />
-      <effect type="119" bonus="20" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="25" />
-      <effect type="124" bonus="5" />
-      <effect type="118" bonus="15" />
       <effect type="119" bonus="25" />
+      <effect type="125" bonus="25" />
+      <effect type="118" bonus="15" />
+      <effect type="124" bonus="5" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="10" />
-      <effect type="118" bonus="20" />
       <effect type="119" bonus="30" />
+      <effect type="125" bonus="30" />
+      <effect type="118" bonus="20" />
+      <effect type="124" bonus="10" />
       <effect type="117" bonus="1" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="35" />
-      <effect type="124" bonus="15" />
-      <effect type="118" bonus="25" />
       <effect type="119" bonus="35" />
-      <effect type="128" bonus="1" />
+      <effect type="125" bonus="35" />
+      <effect type="118" bonus="25" />
+      <effect type="124" bonus="15" />
       <effect type="117" bonus="1" />
+      <effect type="128" bonus="1" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="45" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="30" />
       <effect type="119" bonus="45" />
-      <effect type="111" bonus="1" />
-      <effect type="128" bonus="1" />
+      <effect type="125" bonus="45" />
+      <effect type="118" bonus="30" />
+      <effect type="124" bonus="20" />
       <effect type="117" bonus="1" />
+      <effect type="128" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
     <effects level="8">
-      <effect type="125" bonus="55" />
-      <effect type="124" bonus="25" />
-      <effect type="118" bonus="35" />
       <effect type="119" bonus="55" />
-      <effect type="111" bonus="1" />
-      <effect type="128" bonus="1" />
+      <effect type="125" bonus="55" />
+      <effect type="118" bonus="30" />
+      <effect type="124" bonus="25" />
+      <effect type="211" bonus="10" />
       <effect type="117" bonus="1" />
-      <effect type="252" bonus="10" />
+      <effect type="128" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="16">
@@ -602,39 +594,38 @@
       <effect type="115" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="174" bonus="20" />
       <effect type="125" bonus="20" />
       <effect type="115" bonus="6" />
+      <effect type="174" bonus="20" />
     </effects>
     <effects level="4">
-      <effect type="174" bonus="40" />
       <effect type="125" bonus="30" />
       <effect type="115" bonus="7" />
       <effect type="112" bonus="3" />
+      <effect type="174" bonus="40" />
     </effects>
     <effects level="5">
-      <effect type="174" bonus="60" />
       <effect type="125" bonus="40" />
       <effect type="115" bonus="8" />
+      <effect type="174" bonus="60" />
       <effect type="117" bonus="1" />
-      <effect type="112" bonus="4" />
     </effects>
     <effects level="6">
-      <effect type="174" bonus="80" />
       <effect type="125" bonus="50" />
-      <effect type="128" bonus="1" />
       <effect type="115" bonus="8" />
-      <effect type="117" bonus="1" />
       <effect type="112" bonus="5" />
+      <effect type="174" bonus="80" />
+      <effect type="117" bonus="1" />
+      <effect type="128" bonus="1" />
     </effects>
     <effects level="7">
-      <effect type="174" bonus="100" />
       <effect type="125" bonus="60" />
-      <effect type="111" bonus="1" />
-      <effect type="128" bonus="1" />
-      <effect type="115" bonus="10" />
-      <effect type="117" bonus="2" />
+      <effect type="115" bonus="8" />
       <effect type="112" bonus="6" />
+      <effect type="174" bonus="100" />
+      <effect type="117" bonus="1" />
+      <effect type="128" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="17">
@@ -646,43 +637,43 @@
     <item id="6776" />
     <item id="6778" />
     <effects level="2">
-      <effect type="125" bonus="10" />
       <effect type="118" bonus="10" />
+      <effect type="125" bonus="10" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="20" />
       <effect type="118" bonus="20" />
+      <effect type="125" bonus="20" />
       <effect type="119" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="30" />
       <effect type="118" bonus="30" />
+      <effect type="125" bonus="30" />
       <effect type="119" bonus="20" />
-      <effect type="250" bonus="5" />
+      <effect type="210" bonus="5" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="40" />
       <effect type="118" bonus="40" />
+      <effect type="125" bonus="40" />
       <effect type="119" bonus="30" />
+      <effect type="210" bonus="10" />
       <effect type="184" bonus="6" />
-      <effect type="250" bonus="10" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="50" />
-      <effect type="124" bonus="20" />
       <effect type="118" bonus="50" />
+      <effect type="125" bonus="50" />
       <effect type="119" bonus="40" />
+      <effect type="124" bonus="20" />
+      <effect type="210" bonus="15" />
       <effect type="184" bonus="8" />
-      <effect type="250" bonus="15" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="60" />
-      <effect type="124" bonus="30" />
       <effect type="118" bonus="60" />
+      <effect type="125" bonus="60" />
       <effect type="119" bonus="50" />
-      <effect type="128" bonus="1" />
+      <effect type="124" bonus="30" />
+      <effect type="210" bonus="20" />
       <effect type="184" bonus="10" />
-      <effect type="250" bonus="20" />
+      <effect type="128" bonus="1" />
     </effects>
   </itemset>
   <itemset id="18">
@@ -699,38 +690,32 @@
     </effects>
     <effects level="3">
       <effect type="125" bonus="10" />
-      <effect type="126" bonus="5" />
       <effect type="119" bonus="10" />
+      <effect type="126" bonus="5" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="15" />
-      <effect type="126" bonus="10" />
-      <effect type="119" bonus="15" />
-      <effect type="254" bonus="4" />
+      <effect type="125" bonus="20" />
+      <effect type="119" bonus="20" />
+      <effect type="126" bonus="15" />
+      <effect type="215" bonus="8" />
+      <effect type="174" bonus="10" />
     </effects>
     <effects level="5">
-      <effect type="174" bonus="10" />
-      <effect type="125" bonus="20" />
-      <effect type="126" bonus="15" />
-      <effect type="119" bonus="20" />
-      <effect type="254" bonus="8" />
+      <effect type="125" bonus="25" />
+      <effect type="119" bonus="25" />
+      <effect type="126" bonus="20" />
+      <effect type="215" bonus="12" />
+      <effect type="174" bonus="20" />
+      <effect type="117" bonus="1" />
     </effects>
     <effects level="6">
-      <effect type="174" bonus="20" />
-      <effect type="125" bonus="25" />
-      <effect type="126" bonus="20" />
-      <effect type="119" bonus="25" />
-      <effect type="117" bonus="1" />
-      <effect type="254" bonus="12" />
-    </effects>
-    <effects level="7">
-      <effect type="174" bonus="30" />
       <effect type="125" bonus="30" />
-      <effect type="126" bonus="25" />
       <effect type="119" bonus="30" />
-      <effect type="111" bonus="1" />
+      <effect type="126" bonus="25" />
+      <effect type="215" bonus="16" />
+      <effect type="174" bonus="30" />
       <effect type="117" bonus="1" />
-      <effect type="254" bonus="16" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="19">
@@ -747,38 +732,38 @@
     </effects>
     <effects level="3">
       <effect type="174" bonus="120" />
-      <effect type="125" bonus="20" />
       <effect type="158" bonus="200" />
+      <effect type="125" bonus="20" />
     </effects>
     <effects level="4">
       <effect type="174" bonus="140" />
+      <effect type="158" bonus="300" />
       <effect type="125" bonus="40" />
       <effect type="118" bonus="20" />
-      <effect type="158" bonus="300" />
     </effects>
     <effects level="5">
       <effect type="174" bonus="160" />
+      <effect type="158" bonus="400" />
       <effect type="125" bonus="60" />
       <effect type="118" bonus="40" />
       <effect type="119" bonus="20" />
-      <effect type="158" bonus="400" />
     </effects>
     <effects level="6">
       <effect type="174" bonus="180" />
+      <effect type="158" bonus="500" />
       <effect type="125" bonus="80" />
-      <effect type="124" bonus="10" />
       <effect type="118" bonus="60" />
       <effect type="119" bonus="40" />
-      <effect type="158" bonus="500" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="7">
       <effect type="174" bonus="200" />
+      <effect type="158" bonus="600" />
       <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
       <effect type="118" bonus="80" />
       <effect type="119" bonus="60" />
+      <effect type="124" bonus="20" />
       <effect type="128" bonus="1" />
-      <effect type="158" bonus="600" />
     </effects>
   </itemset>
   <itemset id="20">
@@ -802,31 +787,31 @@
       <effect type="125" bonus="30" />
       <effect type="123" bonus="25" />
       <effect type="119" bonus="25" />
-      <effect type="252" bonus="10" />
+      <effect type="212" bonus="10" />
     </effects>
     <effects level="5">
       <effect type="125" bonus="40" />
       <effect type="123" bonus="30" />
       <effect type="119" bonus="30" />
-      <effect type="252" bonus="12" />
-      <effect type="250" bonus="12" />
+      <effect type="212" bonus="12" />
+      <effect type="210" bonus="12" />
     </effects>
     <effects level="6">
       <effect type="125" bonus="50" />
-      <effect type="124" bonus="10" />
       <effect type="123" bonus="35" />
       <effect type="119" bonus="35" />
-      <effect type="252" bonus="14" />
-      <effect type="250" bonus="14" />
+      <effect type="124" bonus="10" />
+      <effect type="212" bonus="14" />
+      <effect type="210" bonus="14" />
     </effects>
     <effects level="7">
+      <effect type="111" bonus="1" />
       <effect type="125" bonus="60" />
-      <effect type="124" bonus="20" />
       <effect type="123" bonus="40" />
       <effect type="119" bonus="40" />
-      <effect type="111" bonus="1" />
-      <effect type="252" bonus="16" />
-      <effect type="250" bonus="16" />
+      <effect type="124" bonus="20" />
+      <effect type="212" bonus="16" />
+      <effect type="210" bonus="16" />
     </effects>
   </itemset>
   <itemset id="21">
@@ -838,8 +823,8 @@
       <effect type="184" bonus="2" />
     </effects>
     <effects level="3">
+      <effect type="125" bonus="30" />
       <effect type="174" bonus="50" />
-      <effect type="125" bonus="40" />
       <effect type="184" bonus="4" />
     </effects>
   </itemset>
@@ -849,17 +834,17 @@
     <item id="6913" />
     <item id="6914" />
     <effects level="2">
-      <effect type="125" bonus="5" />
       <effect type="119" bonus="10" />
+      <effect type="125" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="10" />
       <effect type="119" bonus="20" />
+      <effect type="125" bonus="10" />
       <effect type="112" bonus="1" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="20" />
       <effect type="119" bonus="30" />
+      <effect type="125" bonus="20" />
       <effect type="112" bonus="2" />
     </effects>
   </itemset>
@@ -869,17 +854,17 @@
     <item id="6917" />
     <item id="6918" />
     <effects level="2">
-      <effect type="125" bonus="5" />
       <effect type="123" bonus="10" />
+      <effect type="125" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="10" />
       <effect type="123" bonus="30" />
+      <effect type="125" bonus="10" />
       <effect type="184" bonus="1" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="20" />
       <effect type="123" bonus="40" />
+      <effect type="125" bonus="20" />
       <effect type="184" bonus="3" />
     </effects>
   </itemset>
@@ -912,14 +897,14 @@
       <effect type="112" bonus="3" />
     </effects>
     <effects level="3">
-      <effect type="174" bonus="50" />
       <effect type="125" bonus="40" />
       <effect type="112" bonus="5" />
+      <effect type="174" bonus="50" />
     </effects>
     <effects level="4">
-      <effect type="174" bonus="100" />
       <effect type="125" bonus="50" />
       <effect type="112" bonus="7" />
+      <effect type="174" bonus="100" />
     </effects>
   </itemset>
   <itemset id="26">
@@ -934,26 +919,26 @@
     </effects>
     <effects level="3">
       <effect type="118" bonus="20" />
-      <effect type="184" bonus="1" />
       <effect type="183" bonus="1" />
+      <effect type="184" bonus="1" />
     </effects>
     <effects level="4">
       <effect type="118" bonus="30" />
-      <effect type="184" bonus="2" />
       <effect type="183" bonus="2" />
-      <effect type="254" bonus="5" />
+      <effect type="184" bonus="2" />
+      <effect type="215" bonus="5" />
     </effects>
     <effects level="5">
       <effect type="118" bonus="40" />
-      <effect type="184" bonus="4" />
       <effect type="183" bonus="4" />
-      <effect type="254" bonus="10" />
+      <effect type="184" bonus="4" />
+      <effect type="215" bonus="10" />
     </effects>
     <effects level="6">
       <effect type="118" bonus="50" />
-      <effect type="184" bonus="6" />
       <effect type="183" bonus="6" />
-      <effect type="254" bonus="15" />
+      <effect type="184" bonus="6" />
+      <effect type="215" bonus="15" />
     </effects>
   </itemset>
   <itemset id="27">
@@ -963,17 +948,17 @@
     <item id="6948" />
     <effects level="2">
       <effect type="118" bonus="10" />
-      <effect type="250" bonus="5" />
+      <effect type="211" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="40" />
       <effect type="118" bonus="40" />
-      <effect type="250" bonus="10" />
+      <effect type="125" bonus="40" />
+      <effect type="211" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="80" />
       <effect type="118" bonus="60" />
-      <effect type="250" bonus="20" />
+      <effect type="125" bonus="80" />
+      <effect type="211" bonus="20" />
     </effects>
   </itemset>
   <itemset id="28">
@@ -983,17 +968,17 @@
     <item id="6950" />
     <effects level="2">
       <effect type="126" bonus="10" />
-      <effect type="253" bonus="5" />
+      <effect type="214" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="40" />
       <effect type="126" bonus="40" />
-      <effect type="253" bonus="10" />
+      <effect type="125" bonus="40" />
+      <effect type="214" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="80" />
       <effect type="126" bonus="60" />
-      <effect type="253" bonus="20" />
+      <effect type="125" bonus="80" />
+      <effect type="214" bonus="20" />
     </effects>
   </itemset>
   <itemset id="29">
@@ -1003,17 +988,17 @@
     <item id="6949" />
     <effects level="2">
       <effect type="119" bonus="10" />
-      <effect type="252" bonus="5" />
+      <effect type="213" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="40" />
       <effect type="119" bonus="40" />
-      <effect type="252" bonus="10" />
+      <effect type="125" bonus="40" />
+      <effect type="213" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="80" />
       <effect type="119" bonus="60" />
-      <effect type="252" bonus="20" />
+      <effect type="125" bonus="80" />
+      <effect type="213" bonus="20" />
     </effects>
   </itemset>
   <itemset id="30">
@@ -1023,17 +1008,17 @@
     <item id="6951" />
     <effects level="2">
       <effect type="123" bonus="10" />
-      <effect type="251" bonus="5" />
+      <effect type="212" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="40" />
       <effect type="123" bonus="40" />
-      <effect type="251" bonus="10" />
+      <effect type="125" bonus="40" />
+      <effect type="212" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="80" />
       <effect type="123" bonus="60" />
-      <effect type="251" bonus="20" />
+      <effect type="125" bonus="40" />
+      <effect type="212" bonus="20" />
     </effects>
   </itemset>
   <itemset id="31">
@@ -1042,18 +1027,18 @@
     <item id="6928" />
     <item id="6929" />
     <effects level="2">
-      <effect type="0" bonus="2" />
+      <effect type="107" bonus="2" />
       <effect type="112" bonus="2" />
     </effects>
     <effects level="3">
-      <effect type="124" bonus="15" />
-      <effect type="0" bonus="5" />
+      <effect type="107" bonus="5" />
       <effect type="112" bonus="5" />
+      <effect type="124" bonus="15" />
     </effects>
     <effects level="4">
-      <effect type="124" bonus="30" />
-      <effect type="0" bonus="8" />
+      <effect type="107" bonus="8" />
       <effect type="112" bonus="8" />
+      <effect type="124" bonus="30" />
     </effects>
   </itemset>
   <itemset id="32">
@@ -1065,39 +1050,38 @@
     <item id="8129" />
     <item id="8130" />
     <effects level="2">
-      <effect type="125" bonus="10" />
       <effect type="118" bonus="10" />
+      <effect type="125" bonus="10" />
       <effect type="178" bonus="2" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="20" />
       <effect type="118" bonus="20" />
+      <effect type="125" bonus="20" />
       <effect type="178" bonus="4" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="30" />
       <effect type="118" bonus="30" />
-      <effect type="176" bonus="5" />
+      <effect type="125" bonus="30" />
       <effect type="178" bonus="6" />
+      <effect type="176" bonus="5" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="40" />
       <effect type="118" bonus="40" />
-      <effect type="176" bonus="10" />
+      <effect type="125" bonus="40" />
       <effect type="178" bonus="8" />
+      <effect type="176" bonus="10" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="60" />
       <effect type="118" bonus="60" />
-      <effect type="176" bonus="15" />
+      <effect type="125" bonus="60" />
       <effect type="178" bonus="10" />
+      <effect type="176" bonus="15" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="80" />
-      <effect type="124" bonus="30" />
       <effect type="118" bonus="80" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="12" />
+      <effect type="125" bonus="80" />
+      <effect type="178" bonus="10" />
+      <effect type="176" bonus="15" />
     </effects>
   </itemset>
   <itemset id="33">
@@ -1113,19 +1097,19 @@
     <effects level="3">
       <effect type="125" bonus="40" />
       <effect type="126" bonus="20" />
-      <effect type="263" bonus="2" />
+      <effect type="213" bonus="2" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="60" />
       <effect type="126" bonus="40" />
+      <effect type="213" bonus="4" />
       <effect type="178" bonus="6" />
-      <effect type="263" bonus="4" />
     </effects>
     <effects level="5">
       <effect type="125" bonus="80" />
       <effect type="126" bonus="60" />
+      <effect type="213" bonus="8" />
       <effect type="178" bonus="10" />
-      <effect type="263" bonus="8" />
     </effects>
   </itemset>
   <itemset id="34">
@@ -1160,18 +1144,18 @@
     </effects>
     <effects level="7">
       <effect type="125" bonus="80" />
-      <effect type="124" bonus="20" />
       <effect type="123" bonus="40" />
-      <effect type="111" bonus="1" />
       <effect type="176" bonus="20" />
+      <effect type="124" bonus="20" />
+      <effect type="111" bonus="1" />
     </effects>
     <effects level="8">
       <effect type="125" bonus="100" />
-      <effect type="124" bonus="30" />
       <effect type="123" bonus="60" />
+      <effect type="176" bonus="30" />
+      <effect type="124" bonus="30" />
       <effect type="111" bonus="1" />
       <effect type="128" bonus="1" />
-      <effect type="176" bonus="30" />
     </effects>
   </itemset>
   <itemset id="35">
@@ -1184,46 +1168,46 @@
     <item id="7256" />
     <item id="9030" />
     <effects level="2">
-      <effect type="125" bonus="10" />
       <effect type="119" bonus="10" />
+      <effect type="125" bonus="10" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="20" />
       <effect type="119" bonus="20" />
+      <effect type="125" bonus="20" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="30" />
       <effect type="119" bonus="30" />
+      <effect type="125" bonus="30" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="40" />
       <effect type="119" bonus="40" />
-      <effect type="0" bonus="4" />
+      <effect type="125" bonus="40" />
       <effect type="0" bonus="5" />
+      <effect type="0" bonus="4" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="50" />
-      <effect type="124" bonus="5" />
       <effect type="119" bonus="50" />
-      <effect type="0" bonus="6" />
+      <effect type="125" bonus="50" />
       <effect type="0" bonus="10" />
+      <effect type="0" bonus="6" />
+      <effect type="124" bonus="5" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="60" />
-      <effect type="124" bonus="15" />
       <effect type="119" bonus="60" />
-      <effect type="117" bonus="1" />
-      <effect type="0" bonus="8" />
+      <effect type="125" bonus="60" />
       <effect type="0" bonus="20" />
+      <effect type="0" bonus="8" />
+      <effect type="124" bonus="15" />
+      <effect type="117" bonus="1" />
     </effects>
     <effects level="8">
-      <effect type="125" bonus="80" />
-      <effect type="124" bonus="30" />
       <effect type="119" bonus="80" />
-      <effect type="128" bonus="1" />
-      <effect type="117" bonus="1" />
-      <effect type="0" bonus="12" />
+      <effect type="125" bonus="80" />
       <effect type="0" bonus="40" />
+      <effect type="0" bonus="12" />
+      <effect type="124" bonus="30" />
+      <effect type="117" bonus="1" />
+      <effect type="128" bonus="1" />
     </effects>
   </itemset>
   <itemset id="36">
@@ -1244,32 +1228,32 @@
     </effects>
     <effects level="4">
       <effect type="125" bonus="40" />
-      <effect type="118" bonus="10" />
       <effect type="112" bonus="4" />
+      <effect type="118" bonus="10" />
     </effects>
     <effects level="5">
       <effect type="125" bonus="60" />
-      <effect type="118" bonus="20" />
       <effect type="112" bonus="6" />
+      <effect type="118" bonus="20" />
     </effects>
     <effects level="6">
       <effect type="125" bonus="100" />
-      <effect type="118" bonus="40" />
       <effect type="112" bonus="8" />
-      <effect type="254" bonus="5" />
+      <effect type="214" bonus="5" />
+      <effect type="118" bonus="40" />
     </effects>
     <effects level="7">
       <effect type="125" bonus="150" />
-      <effect type="118" bonus="60" />
       <effect type="112" bonus="10" />
-      <effect type="254" bonus="10" />
+      <effect type="214" bonus="10" />
+      <effect type="118" bonus="60" />
     </effects>
     <effects level="8">
       <effect type="125" bonus="250" />
+      <effect type="112" bonus="12" />
+      <effect type="214" bonus="20" />
       <effect type="118" bonus="80" />
       <effect type="111" bonus="1" />
-      <effect type="112" bonus="12" />
-      <effect type="254" bonus="20" />
     </effects>
   </itemset>
   <itemset id="37">
@@ -1290,38 +1274,38 @@
       <effect type="178" bonus="4" />
     </effects>
     <effects level="4">
-      <effect type="174" bonus="100" />
       <effect type="125" bonus="30" />
       <effect type="178" bonus="6" />
+      <effect type="176" bonus="100" />
     </effects>
     <effects level="5">
-      <effect type="174" bonus="150" />
       <effect type="125" bonus="40" />
       <effect type="178" bonus="8" />
+      <effect type="176" bonus="150" />
     </effects>
     <effects level="6">
-      <effect type="174" bonus="200" />
       <effect type="125" bonus="50" />
+      <effect type="178" bonus="10" />
+      <effect type="176" bonus="200" />
       <effect type="124" bonus="10" />
       <effect type="126" bonus="20" />
-      <effect type="178" bonus="10" />
     </effects>
     <effects level="7">
-      <effect type="174" bonus="250" />
       <effect type="125" bonus="60" />
+      <effect type="178" bonus="12" />
+      <effect type="176" bonus="250" />
       <effect type="124" bonus="20" />
       <effect type="126" bonus="40" />
       <effect type="117" bonus="1" />
-      <effect type="178" bonus="12" />
     </effects>
     <effects level="8">
-      <effect type="174" bonus="500" />
       <effect type="125" bonus="80" />
+      <effect type="178" bonus="14" />
+      <effect type="176" bonus="500" />
       <effect type="124" bonus="40" />
       <effect type="126" bonus="80" />
-      <effect type="128" bonus="1" />
       <effect type="117" bonus="1" />
-      <effect type="178" bonus="14" />
+      <effect type="128" bonus="1" />
     </effects>
   </itemset>
   <itemset id="38">
@@ -1331,20 +1315,20 @@
     <item id="7012" />
     <effects level="2">
       <effect type="125" bonus="20" />
-      <effect type="124" bonus="5" />
       <effect type="126" bonus="10" />
+      <effect type="124" bonus="5" />
       <effect type="115" bonus="2" />
     </effects>
     <effects level="3">
       <effect type="125" bonus="40" />
-      <effect type="124" bonus="10" />
       <effect type="126" bonus="20" />
+      <effect type="124" bonus="10" />
       <effect type="115" bonus="4" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="80" />
-      <effect type="124" bonus="20" />
       <effect type="126" bonus="40" />
+      <effect type="124" bonus="20" />
       <effect type="115" bonus="8" />
     </effects>
   </itemset>
@@ -1359,14 +1343,14 @@
     </effects>
     <effects level="3">
       <effect type="125" bonus="100" />
-      <effect type="126" bonus="40" />
       <effect type="178" bonus="12" />
+      <effect type="126" bonus="40" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="150" />
+      <effect type="178" bonus="16" />
       <effect type="126" bonus="60" />
       <effect type="117" bonus="1" />
-      <effect type="178" bonus="16" />
     </effects>
   </itemset>
   <itemset id="40">
@@ -1374,10 +1358,10 @@
     <item id="970" />
     <item id="971" />
     <effects level="2">
-      <effect type="125" bonus="50" />
+      <effect type="110" bonus="50" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="100" />
+      <effect type="110" bonus="100" />
     </effects>
   </itemset>
   <itemset id="41">
@@ -1389,13 +1373,13 @@
       <effect type="125" bonus="40" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="60" />
-      <effect type="124" bonus="30" />
+      <effect type="125" bonus="40" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="60" />
       <effect type="111" bonus="1" />
+      <effect type="125" bonus="40" />
+      <effect type="124" bonus="60" />
     </effects>
   </itemset>
   <itemset id="42">
@@ -1404,19 +1388,21 @@
     <item id="7554" />
     <item id="7555" />
     <effects level="2">
-      <effect type="125" bonus="40" />
       <effect type="119" bonus="40" />
+      <effect type="125" bonus="40" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="50" />
       <effect type="119" bonus="50" />
+      <effect type="125" bonus="50" />
+      <effect type="112" bonus="5" />
       <effect type="176" bonus="20" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="60" />
       <effect type="119" bonus="60" />
-      <effect type="128" bonus="1" />
+      <effect type="125" bonus="60" />
+      <effect type="112" bonus="7" />
       <effect type="176" bonus="20" />
+      <effect type="128" bonus="1" />
     </effects>
   </itemset>
   <itemset id="43">
@@ -1428,35 +1414,34 @@
     <item id="7885" />
     <item id="7886" />
     <effects level="2">
-      <effect type="123" bonus="5" />
       <effect type="119" bonus="5" />
+      <effect type="123" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="123" bonus="10" />
       <effect type="119" bonus="10" />
+      <effect type="123" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="123" bonus="20" />
       <effect type="119" bonus="20" />
+      <effect type="123" bonus="20" />
       <effect type="112" bonus="2" />
     </effects>
     <effects level="5">
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="112" bonus="4" />
+      <effect type="119" bonus="30" />
+      <effect type="123" bonus="30" />
+      <effect type="112" bonus="3" />
     </effects>
     <effects level="6">
-      <effect type="123" bonus="60" />
-      <effect type="119" bonus="60" />
-      <effect type="112" bonus="5" />
+      <effect type="119" bonus="40" />
+      <effect type="123" bonus="40" />
+      <effect type="112" bonus="4" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="50" />
-      <effect type="124" bonus="30" />
-      <effect type="123" bonus="70" />
       <effect type="119" bonus="70" />
-      <effect type="111" bonus="1" />
+      <effect type="123" bonus="70" />
       <effect type="112" bonus="7" />
+      <effect type="124" bonus="30" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="44">
@@ -1469,30 +1454,15 @@
       <effect type="112" bonus="8" />
     </effects>
     <effects level="3">
-      <effect type="115" bonus="6" />
       <effect type="178" bonus="12" />
       <effect type="112" bonus="12" />
+      <effect type="115" bonus="6" />
     </effects>
     <effects level="4">
+      <effect type="178" bonus="16" />
+      <effect type="116" bonus="12" />
       <effect type="115" bonus="10" />
       <effect type="176" bonus="30" />
-      <effect type="178" bonus="16" />
-      <effect type="112" bonus="16" />
-    </effects>
-  </itemset>
-  <itemset id="45">
-    <item id="8067" />
-    <item id="8068" />
-    <item id="8069" />
-    <item id="8070" />
-    <item id="8071" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
     </effects>
   </itemset>
   <itemset id="46">
@@ -1508,38 +1478,29 @@
       <effect type="119" bonus="20" />
     </effects>
     <effects level="3">
-      <effect type="124" bonus="10" />
-      <effect type="119" bonus="40" />
+      <effect type="119" bonus="30" />
+      <effect type="124" bonus="5" />
     </effects>
     <effects level="4">
-      <effect type="124" bonus="20" />
-      <effect type="119" bonus="60" />
+      <effect type="119" bonus="40" />
+      <effect type="124" bonus="10" />
       <effect type="115" bonus="4" />
     </effects>
     <effects level="5">
-      <effect type="124" bonus="30" />
-      <effect type="119" bonus="80" />
+      <effect type="119" bonus="60" />
+      <effect type="124" bonus="15" />
       <effect type="115" bonus="6" />
     </effects>
     <effects level="6">
-      <effect type="124" bonus="40" />
-      <effect type="119" bonus="100" />
+      <effect type="119" bonus="80" />
+      <effect type="124" bonus="20" />
       <effect type="115" bonus="8" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="80" />
-      <effect type="124" bonus="50" />
-      <effect type="119" bonus="120" />
-      <effect type="111" bonus="1" />
-      <effect type="115" bonus="12" />
-    </effects>
-    <effects level="8">
-      <effect type="125" bonus="150" />
-      <effect type="124" bonus="60" />
-      <effect type="119" bonus="150" />
-      <effect type="111" bonus="1" />
-      <effect type="115" bonus="20" />
-      <effect type="117" bonus="1" />
+      <effect type="119" bonus="100" />
+      <effect type="124" bonus="30" />
+      <effect type="115" bonus="10" />
+      <effect type="125" bonus="60" />
     </effects>
   </itemset>
   <itemset id="47">
@@ -1565,21 +1526,21 @@
     </effects>
     <effects level="5">
       <effect type="125" bonus="40" />
-      <effect type="124" bonus="10" />
       <effect type="123" bonus="20" />
       <effect type="112" bonus="3" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="6">
       <effect type="125" bonus="50" />
-      <effect type="124" bonus="20" />
       <effect type="123" bonus="25" />
       <effect type="112" bonus="5" />
+      <effect type="124" bonus="20" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="60" />
-      <effect type="124" bonus="40" />
+      <effect type="125" bonus="50" />
       <effect type="123" bonus="30" />
       <effect type="112" bonus="7" />
+      <effect type="124" bonus="40" />
     </effects>
   </itemset>
   <itemset id="49">
@@ -1590,17 +1551,17 @@
     <effects level="2">
       <effect type="125" bonus="25" />
       <effect type="138" bonus="15" />
-      <effect type="254" bonus="5" />
+      <effect type="215" bonus="5" />
     </effects>
     <effects level="3">
       <effect type="125" bonus="50" />
       <effect type="138" bonus="30" />
-      <effect type="254" bonus="10" />
+      <effect type="215" bonus="10" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="100" />
       <effect type="138" bonus="60" />
-      <effect type="254" bonus="20" />
+      <effect type="215" bonus="20" />
     </effects>
   </itemset>
   <itemset id="50">
@@ -1612,40 +1573,40 @@
     <item id="8113" />
     <item id="8114" />
     <effects level="2">
-      <effect type="174" bonus="50" />
       <effect type="112" bonus="2" />
+      <effect type="174" bonus="50" />
     </effects>
     <effects level="3">
-      <effect type="174" bonus="100" />
-      <effect type="125" bonus="5" />
-      <effect type="119" bonus="5" />
       <effect type="112" bonus="3" />
+      <effect type="174" bonus="100" />
+      <effect type="119" bonus="5" />
+      <effect type="125" bonus="5" />
     </effects>
     <effects level="4">
-      <effect type="174" bonus="150" />
-      <effect type="125" bonus="10" />
-      <effect type="119" bonus="10" />
       <effect type="112" bonus="4" />
+      <effect type="174" bonus="150" />
+      <effect type="119" bonus="10" />
+      <effect type="125" bonus="10" />
     </effects>
     <effects level="5">
-      <effect type="174" bonus="200" />
-      <effect type="125" bonus="20" />
-      <effect type="119" bonus="20" />
       <effect type="112" bonus="5" />
+      <effect type="174" bonus="200" />
+      <effect type="119" bonus="20" />
+      <effect type="125" bonus="20" />
     </effects>
     <effects level="6">
+      <effect type="112" bonus="6" />
       <effect type="174" bonus="250" />
+      <effect type="119" bonus="40" />
       <effect type="125" bonus="40" />
       <effect type="124" bonus="15" />
-      <effect type="119" bonus="40" />
-      <effect type="112" bonus="6" />
     </effects>
     <effects level="7">
+      <effect type="112" bonus="7" />
       <effect type="174" bonus="300" />
+      <effect type="119" bonus="60" />
       <effect type="125" bonus="60" />
       <effect type="124" bonus="30" />
-      <effect type="119" bonus="60" />
-      <effect type="112" bonus="7" />
     </effects>
   </itemset>
   <itemset id="51">
@@ -1658,36 +1619,36 @@
     <item id="8122" />
     <effects level="2">
       <effect type="125" bonus="20" />
-      <effect type="178" bonus="1" />
       <effect type="112" bonus="1" />
+      <effect type="178" bonus="1" />
     </effects>
     <effects level="3">
       <effect type="125" bonus="30" />
-      <effect type="178" bonus="2" />
       <effect type="112" bonus="2" />
+      <effect type="178" bonus="2" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="40" />
-      <effect type="178" bonus="3" />
       <effect type="112" bonus="3" />
+      <effect type="178" bonus="3" />
     </effects>
     <effects level="5">
       <effect type="125" bonus="50" />
-      <effect type="124" bonus="20" />
-      <effect type="178" bonus="4" />
       <effect type="112" bonus="4" />
+      <effect type="178" bonus="4" />
+      <effect type="124" bonus="20" />
     </effects>
     <effects level="6">
       <effect type="125" bonus="60" />
-      <effect type="124" bonus="40" />
-      <effect type="178" bonus="5" />
       <effect type="112" bonus="5" />
+      <effect type="178" bonus="5" />
+      <effect type="124" bonus="40" />
     </effects>
     <effects level="7">
       <effect type="125" bonus="80" />
-      <effect type="124" bonus="60" />
-      <effect type="178" bonus="10" />
       <effect type="112" bonus="10" />
+      <effect type="178" bonus="10" />
+      <effect type="124" bonus="60" />
     </effects>
   </itemset>
   <itemset id="52">
@@ -1704,34 +1665,34 @@
     </effects>
     <effects level="3">
       <effect type="174" bonus="20" />
-      <effect type="119" bonus="11" />
       <effect type="115" bonus="1" />
+      <effect type="119" bonus="11" />
     </effects>
     <effects level="4">
       <effect type="174" bonus="40" />
-      <effect type="119" bonus="12" />
       <effect type="115" bonus="2" />
+      <effect type="119" bonus="12" />
     </effects>
     <effects level="5">
       <effect type="174" bonus="60" />
+      <effect type="115" bonus="4" />
       <effect type="124" bonus="10" />
       <effect type="119" bonus="13" />
-      <effect type="115" bonus="4" />
     </effects>
     <effects level="6">
       <effect type="174" bonus="80" />
+      <effect type="115" bonus="6" />
       <effect type="124" bonus="20" />
       <effect type="119" bonus="14" />
-      <effect type="115" bonus="6" />
     </effects>
     <effects level="7">
       <effect type="174" bonus="100" />
-      <effect type="124" bonus="30" />
-      <effect type="119" bonus="15" />
-      <effect type="111" bonus="1" />
       <effect type="115" bonus="8" />
-      <effect type="250" bonus="10" />
-      <effect type="251" bonus="10" />
+      <effect type="124" bonus="30" />
+      <effect type="111" bonus="1" />
+      <effect type="210" bonus="10" />
+      <effect type="211" bonus="10" />
+      <effect type="119" bonus="15" />
     </effects>
   </itemset>
   <itemset id="53">
@@ -1755,37 +1716,36 @@
       <effect type="125" bonus="30" />
       <effect type="126" bonus="30" />
       <effect type="123" bonus="20" />
-      <effect type="253" bonus="5" />
+      <effect type="213" bonus="5" />
     </effects>
     <effects level="5">
       <effect type="125" bonus="40" />
       <effect type="126" bonus="40" />
       <effect type="123" bonus="30" />
-      <effect type="262" bonus="6" />
-      <effect type="263" bonus="6" />
-      <effect type="261" bonus="6" />
-      <effect type="253" bonus="10" />
+      <effect type="213" bonus="10" />
+      <effect type="212" bonus="6" />
+      <effect type="211" bonus="6" />
+      <effect type="213" bonus="6" />
     </effects>
     <effects level="6">
       <effect type="125" bonus="50" />
-      <effect type="124" bonus="20" />
       <effect type="126" bonus="50" />
       <effect type="123" bonus="40" />
-      <effect type="262" bonus="8" />
-      <effect type="263" bonus="8" />
-      <effect type="261" bonus="8" />
-      <effect type="253" bonus="15" />
+      <effect type="213" bonus="15" />
+      <effect type="212" bonus="8" />
+      <effect type="211" bonus="8" />
+      <effect type="213" bonus="8" />
     </effects>
     <effects level="7">
       <effect type="125" bonus="60" />
-      <effect type="124" bonus="30" />
       <effect type="126" bonus="60" />
       <effect type="123" bonus="50" />
+      <effect type="213" bonus="20" />
+      <effect type="212" bonus="10" />
+      <effect type="211" bonus="10" />
+      <effect type="213" bonus="10" />
+      <effect type="124" bonus="30" />
       <effect type="128" bonus="1" />
-      <effect type="262" bonus="10" />
-      <effect type="263" bonus="10" />
-      <effect type="261" bonus="10" />
-      <effect type="253" bonus="20" />
     </effects>
   </itemset>
   <itemset id="54">
@@ -1813,14 +1773,14 @@
     </effects>
     <effects level="6">
       <effect type="125" bonus="150" />
-      <effect type="124" bonus="10" />
       <effect type="178" bonus="6" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="7">
       <effect type="125" bonus="200" />
+      <effect type="178" bonus="8" />
       <effect type="124" bonus="40" />
       <effect type="111" bonus="1" />
-      <effect type="178" bonus="8" />
     </effects>
   </itemset>
   <itemset id="55">
@@ -1831,27 +1791,27 @@
     <item id="8266" />
     <item id="8267" />
     <effects level="2">
-      <effect type="125" bonus="20" />
       <effect type="112" bonus="2" />
+      <effect type="125" bonus="20" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="40" />
       <effect type="112" bonus="4" />
+      <effect type="125" bonus="40" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="60" />
       <effect type="112" bonus="6" />
+      <effect type="125" bonus="60" />
     </effects>
     <effects level="5">
+      <effect type="112" bonus="7" />
       <effect type="125" bonus="80" />
       <effect type="117" bonus="1" />
-      <effect type="112" bonus="7" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="117" bonus="1" />
       <effect type="112" bonus="8" />
+      <effect type="125" bonus="100" />
+      <effect type="117" bonus="1" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="56">
@@ -1863,47 +1823,47 @@
     <item id="8291" />
     <effects level="2">
       <effect type="118" bonus="5" />
+      <effect type="119" bonus="5" />
       <effect type="126" bonus="5" />
       <effect type="123" bonus="5" />
-      <effect type="119" bonus="5" />
-      <effect type="112" bonus="1" />
       <effect type="138" bonus="5" />
+      <effect type="112" bonus="1" />
     </effects>
     <effects level="3">
       <effect type="118" bonus="20" />
+      <effect type="119" bonus="20" />
       <effect type="126" bonus="20" />
       <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="112" bonus="2" />
       <effect type="138" bonus="20" />
+      <effect type="112" bonus="2" />
     </effects>
     <effects level="4">
-      <effect type="124" bonus="10" />
       <effect type="118" bonus="30" />
+      <effect type="119" bonus="30" />
       <effect type="126" bonus="30" />
       <effect type="123" bonus="30" />
-      <effect type="119" bonus="30" />
-      <effect type="112" bonus="3" />
       <effect type="138" bonus="30" />
+      <effect type="112" bonus="3" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="5">
-      <effect type="124" bonus="20" />
       <effect type="118" bonus="40" />
+      <effect type="119" bonus="40" />
       <effect type="126" bonus="40" />
       <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="112" bonus="4" />
       <effect type="138" bonus="40" />
+      <effect type="112" bonus="4" />
+      <effect type="124" bonus="20" />
     </effects>
     <effects level="6">
-      <effect type="124" bonus="30" />
       <effect type="118" bonus="50" />
-      <effect type="126" bonus="50" />
-      <effect type="123" bonus="50" />
       <effect type="119" bonus="50" />
-      <effect type="128" bonus="1" />
-      <effect type="112" bonus="5" />
+      <effect type="126" bonus="40" />
+      <effect type="123" bonus="50" />
       <effect type="138" bonus="50" />
+      <effect type="112" bonus="5" />
+      <effect type="124" bonus="30" />
+      <effect type="128" bonus="1" />
     </effects>
   </itemset>
   <itemset id="57">
@@ -1930,23 +1890,23 @@
       <effect type="178" bonus="3" />
     </effects>
     <effects level="5">
-      <effect type="124" bonus="10" />
       <effect type="126" bonus="40" />
       <effect type="123" bonus="40" />
       <effect type="178" bonus="4" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="6">
-      <effect type="124" bonus="20" />
       <effect type="126" bonus="50" />
       <effect type="123" bonus="50" />
       <effect type="178" bonus="5" />
+      <effect type="124" bonus="20" />
     </effects>
     <effects level="7">
-      <effect type="124" bonus="30" />
       <effect type="126" bonus="60" />
       <effect type="123" bonus="60" />
-      <effect type="117" bonus="1" />
       <effect type="178" bonus="6" />
+      <effect type="124" bonus="30" />
+      <effect type="117" bonus="1" />
     </effects>
   </itemset>
   <itemset id="58">
@@ -1967,30 +1927,30 @@
     <effects level="4">
       <effect type="125" bonus="40" />
       <effect type="124" bonus="20" />
-      <effect type="123" bonus="10" />
       <effect type="119" bonus="10" />
+      <effect type="123" bonus="10" />
     </effects>
     <effects level="5">
       <effect type="125" bonus="50" />
       <effect type="124" bonus="30" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
+      <effect type="119" bonus="30" />
+      <effect type="123" bonus="30" />
       <effect type="176" bonus="10" />
     </effects>
     <effects level="6">
       <effect type="125" bonus="60" />
       <effect type="124" bonus="40" />
-      <effect type="123" bonus="30" />
       <effect type="119" bonus="30" />
+      <effect type="123" bonus="30" />
       <effect type="176" bonus="15" />
     </effects>
     <effects level="7">
       <effect type="125" bonus="120" />
       <effect type="124" bonus="60" />
-      <effect type="123" bonus="50" />
       <effect type="119" bonus="50" />
-      <effect type="128" bonus="1" />
+      <effect type="123" bonus="50" />
       <effect type="176" bonus="30" />
+      <effect type="128" bonus="1" />
     </effects>
   </itemset>
   <itemset id="59">
@@ -2012,149 +1972,26 @@
     <effects level="4">
       <effect type="126" bonus="15" />
       <effect type="123" bonus="15" />
-      <effect type="182" bonus="1" />
+      <effect type="0" bonus="1" />
     </effects>
     <effects level="5">
-      <effect type="124" bonus="10" />
       <effect type="126" bonus="20" />
       <effect type="123" bonus="20" />
-      <effect type="182" bonus="2" />
+      <effect type="0" bonus="2" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="6">
-      <effect type="124" bonus="20" />
       <effect type="126" bonus="30" />
       <effect type="123" bonus="30" />
-      <effect type="182" bonus="3" />
+      <effect type="0" bonus="3" />
+      <effect type="124" bonus="30" />
     </effects>
     <effects level="7">
-      <effect type="124" bonus="40" />
       <effect type="126" bonus="40" />
       <effect type="123" bonus="40" />
+      <effect type="0" bonus="4" />
+      <effect type="124" bonus="40" />
       <effect type="128" bonus="1" />
-      <effect type="182" bonus="4" />
-    </effects>
-  </itemset>
-  <itemset id="60">
-    <item id="8213" />
-    <item id="8219" />
-    <item id="8225" />
-    <item id="8231" />
-    <item id="8237" />
-    <item id="8243" />
-    <effects level="2">
-      <effect type="126" bonus="1" />
-    </effects>
-    <effects level="3">
-      <effect type="126" bonus="2" />
-    </effects>
-    <effects level="4">
-      <effect type="126" bonus="4" />
-    </effects>
-    <effects level="5">
-      <effect type="174" bonus="30" />
-      <effect type="126" bonus="8" />
-    </effects>
-    <effects level="6">
-      <effect type="174" bonus="60" />
-      <effect type="126" bonus="16" />
-      <effect type="178" bonus="1" />
-      <effect type="112" bonus="1" />
-    </effects>
-  </itemset>
-  <itemset id="61">
-    <item id="8214" />
-    <item id="8220" />
-    <item id="8226" />
-    <item id="8232" />
-    <item id="8238" />
-    <item id="8244" />
-    <effects level="2">
-      <effect type="123" bonus="1" />
-    </effects>
-    <effects level="3">
-      <effect type="123" bonus="2" />
-    </effects>
-    <effects level="4">
-      <effect type="123" bonus="4" />
-    </effects>
-    <effects level="5">
-      <effect type="174" bonus="30" />
-      <effect type="123" bonus="8" />
-    </effects>
-    <effects level="6">
-      <effect type="174" bonus="60" />
-      <effect type="123" bonus="16" />
-      <effect type="178" bonus="1" />
-      <effect type="112" bonus="1" />
-    </effects>
-  </itemset>
-  <itemset id="62">
-    <item id="8215" />
-    <item id="8221" />
-    <item id="8227" />
-    <item id="8234" />
-    <item id="8239" />
-    <item id="8245" />
-    <effects level="2">
-      <effect type="124" bonus="1" />
-    </effects>
-    <effects level="3">
-      <effect type="124" bonus="2" />
-    </effects>
-    <effects level="4">
-      <effect type="124" bonus="3" />
-    </effects>
-    <effects level="5">
-      <effect type="174" bonus="30" />
-      <effect type="124" bonus="4" />
-    </effects>
-    <effects level="6">
-      <effect type="174" bonus="60" />
-      <effect type="124" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="63">
-    <item id="7077" />
-    <item id="8253" />
-    <item id="8254" />
-    <item id="8255" />
-    <item id="8256" />
-    <item id="8257" />
-    <item id="8258" />
-    <item id="8259" />
-    <effects level="2">
-      <effect type="174" bonus="50" />
-      <effect type="125" bonus="5" />
-    </effects>
-    <effects level="3">
-      <effect type="174" bonus="60" />
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="174" bonus="70" />
-      <effect type="125" bonus="15" />
-    </effects>
-    <effects level="5">
-      <effect type="174" bonus="80" />
-      <effect type="125" bonus="20" />
-      <effect type="124" bonus="5" />
-    </effects>
-    <effects level="6">
-      <effect type="174" bonus="90" />
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="10" />
-    </effects>
-    <effects level="7">
-      <effect type="174" bonus="100" />
-      <effect type="125" bonus="40" />
-      <effect type="124" bonus="20" />
-    </effects>
-    <effects level="8">
-      <effect type="174" bonus="200" />
-      <effect type="125" bonus="50" />
-      <effect type="124" bonus="30" />
-      <effect type="117" bonus="1" />
-      <effect type="112" bonus="2" />
     </effects>
   </itemset>
   <itemset id="64">
@@ -2179,15 +2016,15 @@
     </effects>
     <effects level="5">
       <effect type="125" bonus="80" />
-      <effect type="124" bonus="10" />
       <effect type="126" bonus="35" />
       <effect type="119" bonus="35" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="6">
       <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
       <effect type="126" bonus="50" />
       <effect type="119" bonus="50" />
+      <effect type="124" bonus="20" />
       <effect type="128" bonus="1" />
     </effects>
   </itemset>
@@ -2203,35 +2040,35 @@
       <effect type="138" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="174" bonus="20" />
-      <effect type="115" bonus="1" />
       <effect type="112" bonus="2" />
       <effect type="138" bonus="10" />
+      <effect type="115" bonus="1" />
+      <effect type="174" bonus="20" />
     </effects>
     <effects level="4">
-      <effect type="174" bonus="40" />
-      <effect type="115" bonus="2" />
       <effect type="112" bonus="3" />
       <effect type="138" bonus="15" />
-      <effect type="250" bonus="2" />
-      <effect type="254" bonus="2" />
+      <effect type="115" bonus="2" />
+      <effect type="174" bonus="40" />
+      <effect type="214" bonus="2" />
+      <effect type="210" bonus="2" />
     </effects>
     <effects level="5">
-      <effect type="174" bonus="60" />
-      <effect type="115" bonus="4" />
       <effect type="112" bonus="4" />
       <effect type="138" bonus="20" />
-      <effect type="250" bonus="3" />
-      <effect type="254" bonus="3" />
+      <effect type="115" bonus="4" />
+      <effect type="174" bonus="60" />
+      <effect type="214" bonus="3" />
+      <effect type="210" bonus="3" />
     </effects>
     <effects level="6">
-      <effect type="174" bonus="100" />
-      <effect type="115" bonus="6" />
-      <effect type="117" bonus="1" />
       <effect type="112" bonus="5" />
       <effect type="138" bonus="25" />
-      <effect type="250" bonus="4" />
-      <effect type="254" bonus="4" />
+      <effect type="115" bonus="6" />
+      <effect type="174" bonus="100" />
+      <effect type="214" bonus="4" />
+      <effect type="210" bonus="4" />
+      <effect type="117" bonus="1" />
     </effects>
   </itemset>
   <itemset id="66">
@@ -2246,29 +2083,29 @@
     </effects>
     <effects level="3">
       <effect type="125" bonus="40" />
-      <effect type="178" bonus="1" />
       <effect type="112" bonus="1" />
+      <effect type="178" bonus="1" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="60" />
-      <effect type="124" bonus="10" />
-      <effect type="178" bonus="2" />
       <effect type="112" bonus="2" />
+      <effect type="178" bonus="2" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="5">
       <effect type="125" bonus="80" />
-      <effect type="124" bonus="20" />
-      <effect type="178" bonus="3" />
       <effect type="112" bonus="3" />
+      <effect type="178" bonus="3" />
+      <effect type="124" bonus="20" />
       <effect type="138" bonus="10" />
     </effects>
     <effects level="6">
       <effect type="125" bonus="100" />
-      <effect type="124" bonus="30" />
-      <effect type="128" bonus="1" />
-      <effect type="178" bonus="4" />
       <effect type="112" bonus="4" />
+      <effect type="178" bonus="4" />
+      <effect type="124" bonus="30" />
       <effect type="138" bonus="20" />
+      <effect type="128" bonus="1" />
     </effects>
   </itemset>
   <itemset id="67">
@@ -2283,36 +2120,36 @@
       <effect type="125" bonus="10" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="15" />
-      <effect type="118" bonus="10" />
+      <effect type="125" bonus="20" />
       <effect type="119" bonus="10" />
+      <effect type="118" bonus="10" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="20" />
-      <effect type="118" bonus="15" />
       <effect type="119" bonus="15" />
+      <effect type="118" bonus="15" />
     </effects>
     <effects level="5">
       <effect type="125" bonus="30" />
-      <effect type="118" bonus="20" />
       <effect type="119" bonus="20" />
-      <effect type="252" bonus="2" />
-      <effect type="254" bonus="2" />
+      <effect type="118" bonus="20" />
+      <effect type="212" bonus="2" />
+      <effect type="214" bonus="2" />
     </effects>
     <effects level="6">
       <effect type="125" bonus="40" />
-      <effect type="118" bonus="30" />
       <effect type="119" bonus="30" />
-      <effect type="252" bonus="5" />
-      <effect type="254" bonus="5" />
+      <effect type="118" bonus="30" />
+      <effect type="212" bonus="5" />
+      <effect type="214" bonus="5" />
     </effects>
     <effects level="7">
       <effect type="125" bonus="50" />
-      <effect type="118" bonus="40" />
       <effect type="119" bonus="40" />
+      <effect type="118" bonus="40" />
+      <effect type="212" bonus="10" />
+      <effect type="214" bonus="10" />
       <effect type="111" bonus="1" />
-      <effect type="252" bonus="10" />
-      <effect type="254" bonus="10" />
     </effects>
   </itemset>
   <itemset id="68">
@@ -2324,43 +2161,43 @@
     <item id="8447" />
     <item id="8448" />
     <effects level="2">
-      <effect type="125" bonus="10" />
       <effect type="119" bonus="5" />
+      <effect type="125" bonus="10" />
       <effect type="0" bonus="1" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="20" />
       <effect type="119" bonus="10" />
-      <effect type="0" bonus="2" />
+      <effect type="125" bonus="20" />
       <effect type="0" bonus="5" />
+      <effect type="0" bonus="2" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="30" />
       <effect type="119" bonus="20" />
-      <effect type="0" bonus="4" />
+      <effect type="125" bonus="30" />
       <effect type="0" bonus="10" />
+      <effect type="0" bonus="4" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="35" />
       <effect type="119" bonus="25" />
-      <effect type="115" bonus="1" />
-      <effect type="0" bonus="6" />
+      <effect type="125" bonus="35" />
       <effect type="0" bonus="15" />
+      <effect type="0" bonus="6" />
+      <effect type="115" bonus="1" />
     </effects>
     <effects level="6">
-      <effect type="125" bonus="40" />
       <effect type="119" bonus="30" />
-      <effect type="115" bonus="3" />
-      <effect type="0" bonus="8" />
+      <effect type="125" bonus="40" />
       <effect type="0" bonus="20" />
+      <effect type="0" bonus="8" />
+      <effect type="115" bonus="3" />
     </effects>
     <effects level="7">
-      <effect type="125" bonus="50" />
       <effect type="119" bonus="40" />
+      <effect type="125" bonus="50" />
+      <effect type="0" bonus="30" />
+      <effect type="0" bonus="10" />
       <effect type="115" bonus="5" />
       <effect type="117" bonus="1" />
-      <effect type="0" bonus="10" />
-      <effect type="0" bonus="30" />
     </effects>
   </itemset>
   <itemset id="69">
@@ -2371,137 +2208,44 @@
     <item id="8537" />
     <item id="8538" />
     <effects level="2">
+      <effect type="123" bonus="5" />
       <effect type="125" bonus="5" />
-      <effect type="124" bonus="5" />
       <effect type="118" bonus="5" />
       <effect type="126" bonus="5" />
-      <effect type="123" bonus="5" />
       <effect type="119" bonus="5" />
+      <effect type="124" bonus="5" />
     </effects>
     <effects level="3">
+      <effect type="123" bonus="10" />
       <effect type="125" bonus="10" />
-      <effect type="124" bonus="10" />
       <effect type="118" bonus="10" />
       <effect type="126" bonus="10" />
-      <effect type="123" bonus="10" />
       <effect type="119" bonus="10" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="4">
+      <effect type="123" bonus="15" />
       <effect type="125" bonus="15" />
-      <effect type="124" bonus="15" />
       <effect type="118" bonus="15" />
       <effect type="126" bonus="15" />
-      <effect type="123" bonus="15" />
       <effect type="119" bonus="15" />
+      <effect type="124" bonus="15" />
     </effects>
     <effects level="5">
+      <effect type="123" bonus="20" />
       <effect type="125" bonus="20" />
-      <effect type="124" bonus="20" />
       <effect type="118" bonus="20" />
       <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
       <effect type="119" bonus="20" />
+      <effect type="124" bonus="20" />
     </effects>
     <effects level="6">
+      <effect type="123" bonus="25" />
       <effect type="125" bonus="25" />
-      <effect type="124" bonus="25" />
       <effect type="118" bonus="25" />
       <effect type="126" bonus="25" />
-      <effect type="123" bonus="25" />
       <effect type="119" bonus="25" />
-    </effects>
-  </itemset>
-  <itemset id="70">
-    <item id="8218" />
-    <item id="8224" />
-    <item id="8230" />
-    <item id="8235" />
-    <item id="8242" />
-    <item id="8248" />
-    <effects level="2">
-      <effect type="125" bonus="2" />
-      <effect type="178" bonus="1" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="4" />
-      <effect type="178" bonus="2" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="6" />
-      <effect type="178" bonus="3" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="8" />
-      <effect type="178" bonus="4" />
-    </effects>
-    <effects level="6">
-      <effect type="125" bonus="12" />
-      <effect type="178" bonus="6" />
-    </effects>
-  </itemset>
-  <itemset id="71">
-    <item id="8216" />
-    <item id="8222" />
-    <item id="8228" />
-    <item id="8233" />
-    <item id="8240" />
-    <item id="8246" />
-    <effects level="2">
-      <effect type="119" bonus="1" />
-    </effects>
-    <effects level="3">
-      <effect type="119" bonus="2" />
-    </effects>
-    <effects level="4">
-      <effect type="119" bonus="4" />
-    </effects>
-    <effects level="5">
-      <effect type="174" bonus="30" />
-      <effect type="119" bonus="8" />
-    </effects>
-    <effects level="6">
-      <effect type="174" bonus="60" />
-      <effect type="119" bonus="16" />
-      <effect type="178" bonus="1" />
-      <effect type="112" bonus="1" />
-    </effects>
-  </itemset>
-  <itemset id="72">
-    <item id="8217" />
-    <item id="8223" />
-    <item id="8229" />
-    <item id="8236" />
-    <item id="8241" />
-    <item id="8247" />
-    <effects level="2">
-      <effect type="118" bonus="1" />
-    </effects>
-    <effects level="3">
-      <effect type="118" bonus="2" />
-    </effects>
-    <effects level="4">
-      <effect type="118" bonus="4" />
-    </effects>
-    <effects level="5">
-      <effect type="174" bonus="30" />
-      <effect type="118" bonus="8" />
-    </effects>
-    <effects level="6">
-      <effect type="174" bonus="60" />
-      <effect type="118" bonus="16" />
-      <effect type="178" bonus="1" />
-      <effect type="112" bonus="1" />
-    </effects>
-  </itemset>
-  <itemset id="74">
-    <item id="7422" />
-    <item id="7999" />
-    <item id="8341" />
-    <effects level="2">
-      <effect type="176" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="176" bonus="20" />
+      <effect type="124" bonus="25" />
     </effects>
   </itemset>
   <itemset id="75">
@@ -2511,17 +2255,17 @@
     <item id="2524" />
     <effects level="2">
       <effect type="126" bonus="10" />
-      <effect type="253" bonus="5" />
+      <effect type="214" bonus="5" />
     </effects>
     <effects level="3">
       <effect type="125" bonus="40" />
       <effect type="126" bonus="40" />
-      <effect type="253" bonus="10" />
+      <effect type="214" bonus="10" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="80" />
       <effect type="126" bonus="60" />
-      <effect type="253" bonus="20" />
+      <effect type="214" bonus="20" />
     </effects>
   </itemset>
   <itemset id="76">
@@ -2531,17 +2275,17 @@
     <item id="2523" />
     <effects level="2">
       <effect type="123" bonus="10" />
-      <effect type="251" bonus="5" />
+      <effect type="212" bonus="5" />
     </effects>
     <effects level="3">
       <effect type="125" bonus="40" />
       <effect type="123" bonus="40" />
-      <effect type="251" bonus="10" />
+      <effect type="212" bonus="10" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="80" />
       <effect type="123" bonus="60" />
-      <effect type="251" bonus="20" />
+      <effect type="212" bonus="20" />
     </effects>
   </itemset>
   <itemset id="77">
@@ -2555,17 +2299,16 @@
       <effect type="178" bonus="1" />
     </effects>
     <effects level="3">
-      <effect type="124" bonus="10" />
       <effect type="126" bonus="10" />
       <effect type="119" bonus="10" />
       <effect type="178" bonus="3" />
+      <effect type="124" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="124" bonus="20" />
       <effect type="126" bonus="20" />
       <effect type="119" bonus="20" />
-      <effect type="117" bonus="1" />
       <effect type="178" bonus="5" />
+      <effect type="124" bonus="20" />
     </effects>
   </itemset>
   <itemset id="78">
@@ -2573,14 +2316,14 @@
     <item id="8844" />
     <item id="8859" />
     <effects level="2">
-      <effect type="125" bonus="30" />
       <effect type="124" bonus="10" />
       <effect type="176" bonus="5" />
+      <effect type="125" bonus="30" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="60" />
       <effect type="124" bonus="20" />
       <effect type="176" bonus="10" />
+      <effect type="125" bonus="60" />
       <effect type="117" bonus="1" />
     </effects>
   </itemset>
@@ -2591,21 +2334,21 @@
     <item id="8871" />
     <effects level="2">
       <effect type="125" bonus="30" />
-      <effect type="115" bonus="2" />
       <effect type="112" bonus="2" />
+      <effect type="115" bonus="2" />
     </effects>
     <effects level="3">
       <effect type="125" bonus="50" />
+      <effect type="112" bonus="3" />
       <effect type="115" bonus="3" />
       <effect type="117" bonus="1" />
-      <effect type="112" bonus="3" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="80" />
-      <effect type="124" bonus="20" />
+      <effect type="112" bonus="6" />
       <effect type="115" bonus="5" />
       <effect type="117" bonus="1" />
-      <effect type="112" bonus="6" />
+      <effect type="124" bonus="20" />
     </effects>
   </itemset>
   <itemset id="80">
@@ -2617,785 +2360,17 @@
       <effect type="112" bonus="3" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="40" />
       <effect type="178" bonus="6" />
-      <effect type="112" bonus="6" />
-    </effects>
-  </itemset>
-  <itemset id="81">
-    <item id="8619" />
-    <item id="8639" />
-    <item id="8651" />
-    <item id="8663" />
-    <item id="8717" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
       <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="82">
-    <item id="8636" />
-    <item id="8648" />
-    <item id="8660" />
-    <item id="8714" />
-    <item id="8728" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="83">
-    <item id="8631" />
-    <item id="8643" />
-    <item id="8655" />
-    <item id="8667" />
-    <item id="8720" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="84">
-    <item id="8634" />
-    <item id="8646" />
-    <item id="8658" />
-    <item id="8670" />
-    <item id="8716" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="2" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="3" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="85">
-    <item id="8638" />
-    <item id="8650" />
-    <item id="8662" />
-    <item id="8719" />
-    <item id="8726" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="86">
-    <item id="8630" />
-    <item id="8642" />
-    <item id="8654" />
-    <item id="8666" />
-    <item id="8723" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="87">
-    <item id="8633" />
-    <item id="8645" />
-    <item id="8657" />
-    <item id="8669" />
-    <item id="8725" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="88">
-    <item id="8628" />
-    <item id="8640" />
-    <item id="8652" />
-    <item id="8664" />
-    <item id="8715" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="89">
-    <item id="8629" />
-    <item id="8641" />
-    <item id="8653" />
-    <item id="8665" />
-    <item id="8722" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="112" bonus="7" />
-      <effect type="138" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="90">
-    <item id="8632" />
-    <item id="8644" />
-    <item id="8656" />
-    <item id="8668" />
-    <item id="8724" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="91">
-    <item id="8637" />
-    <item id="8649" />
-    <item id="8661" />
-    <item id="8718" />
-    <item id="8727" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="92">
-    <item id="8635" />
-    <item id="8647" />
-    <item id="8659" />
-    <item id="8713" />
-    <item id="8721" />
-    <effects level="2">
-      <effect type="125" bonus="100" />
-      <effect type="124" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="178" bonus="3" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="200" />
-      <effect type="124" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="126" bonus="40" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="176" bonus="20" />
-      <effect type="178" bonus="7" />
-      <effect type="112" bonus="7" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="500" />
-      <effect type="124" bonus="70" />
-      <effect type="118" bonus="70" />
-      <effect type="126" bonus="70" />
-      <effect type="123" bonus="70" />
-      <effect type="119" bonus="70" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="30" />
-      <effect type="178" bonus="12" />
-      <effect type="112" bonus="12" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="800" />
-      <effect type="124" bonus="100" />
-      <effect type="118" bonus="100" />
-      <effect type="126" bonus="100" />
-      <effect type="123" bonus="100" />
-      <effect type="119" bonus="100" />
-      <effect type="111" bonus="1" />
-      <effect type="182" bonus="1" />
-      <effect type="176" bonus="40" />
-      <effect type="178" bonus="20" />
-      <effect type="112" bonus="20" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
+      <effect type="125" bonus="40" />
     </effects>
   </itemset>
   <itemset id="93">
     <item id="8826" />
     <item id="8846" />
     <effects level="2">
-      <effect type="174" bonus="100" />
       <effect type="125" bonus="80" />
+      <effect type="174" bonus="100" />
     </effects>
   </itemset>
   <itemset id="94">
@@ -3418,16 +2393,16 @@
     <item id="8864" />
     <item id="8865" />
     <effects level="2">
+      <effect type="112" bonus="4" />
       <effect type="118" bonus="20" />
       <effect type="123" bonus="20" />
-      <effect type="112" bonus="4" />
     </effects>
     <effects level="3">
-      <effect type="124" bonus="20" />
+      <effect type="112" bonus="6" />
       <effect type="118" bonus="30" />
       <effect type="123" bonus="30" />
+      <effect type="124" bonus="20" />
       <effect type="111" bonus="1" />
-      <effect type="112" bonus="6" />
     </effects>
   </itemset>
   <itemset id="97">
@@ -3448,29 +2423,32 @@
     <item id="9158" />
     <item id="9167" />
     <effects level="2">
+      <effect type="211" bonus="5" />
+      <effect type="213" bonus="5" />
+      <effect type="215" bonus="5" />
+      <effect type="218" bonus="10" />
+      <effect type="216" bonus="60" />
       <effect type="125" bonus="10" />
       <effect type="126" bonus="10" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="253" bonus="10" />
-      <effect type="254" bonus="5" />
     </effects>
     <effects level="3">
+      <effect type="211" bonus="10" />
+      <effect type="213" bonus="10" />
+      <effect type="215" bonus="10" />
+      <effect type="218" bonus="20" />
+      <effect type="216" bonus="55" />
       <effect type="125" bonus="30" />
       <effect type="126" bonus="30" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="20" />
-      <effect type="254" bonus="10" />
     </effects>
     <effects level="4">
+      <effect type="111" bonus="1" />
+      <effect type="211" bonus="15" />
+      <effect type="213" bonus="15" />
+      <effect type="215" bonus="15" />
+      <effect type="218" bonus="30" />
+      <effect type="216" bonus="50" />
       <effect type="125" bonus="50" />
       <effect type="126" bonus="50" />
-      <effect type="111" bonus="1" />
-      <effect type="252" bonus="15" />
-      <effect type="250" bonus="15" />
-      <effect type="253" bonus="30" />
-      <effect type="254" bonus="15" />
     </effects>
   </itemset>
   <itemset id="99">
@@ -3479,32 +2457,32 @@
     <item id="9159" />
     <item id="9168" />
     <effects level="2">
+      <effect type="213" bonus="10" />
+      <effect type="215" bonus="60" />
+      <effect type="215" bonus="5" />
+      <effect type="218" bonus="5" />
+      <effect type="216" bonus="5" />
       <effect type="125" bonus="10" />
-      <effect type="118" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-      <effect type="217" bonus="60" />
+      <effect type="119" bonus="10" />
     </effects>
     <effects level="3">
+      <effect type="213" bonus="20" />
+      <effect type="215" bonus="55" />
+      <effect type="215" bonus="10" />
+      <effect type="218" bonus="10" />
+      <effect type="216" bonus="10" />
       <effect type="125" bonus="30" />
-      <effect type="118" bonus="30" />
-      <effect type="250" bonus="20" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-      <effect type="217" bonus="55" />
+      <effect type="119" bonus="30" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="50" />
-      <effect type="118" bonus="50" />
       <effect type="111" bonus="1" />
-      <effect type="250" bonus="30" />
-      <effect type="253" bonus="15" />
-      <effect type="251" bonus="15" />
-      <effect type="254" bonus="15" />
-      <effect type="217" bonus="50" />
+      <effect type="213" bonus="30" />
+      <effect type="215" bonus="50" />
+      <effect type="215" bonus="15" />
+      <effect type="218" bonus="15" />
+      <effect type="216" bonus="15" />
+      <effect type="125" bonus="50" />
+      <effect type="119" bonus="50" />
     </effects>
   </itemset>
   <itemset id="100">
@@ -3513,32 +2491,32 @@
     <item id="9160" />
     <item id="9169" />
     <effects level="2">
+      <effect type="214" bonus="5" />
+      <effect type="212" bonus="5" />
+      <effect type="215" bonus="5" />
+      <effect type="211" bonus="10" />
+      <effect type="217" bonus="60" />
       <effect type="125" bonus="10" />
-      <effect type="119" bonus="10" />
-      <effect type="252" bonus="10" />
-      <effect type="253" bonus="5" />
-      <effect type="251" bonus="5" />
-      <effect type="254" bonus="5" />
-      <effect type="215" bonus="60" />
+      <effect type="118" bonus="10" />
     </effects>
     <effects level="3">
+      <effect type="214" bonus="10" />
+      <effect type="212" bonus="10" />
+      <effect type="215" bonus="10" />
+      <effect type="211" bonus="20" />
+      <effect type="217" bonus="55" />
       <effect type="125" bonus="30" />
-      <effect type="119" bonus="30" />
-      <effect type="252" bonus="20" />
-      <effect type="253" bonus="10" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="10" />
-      <effect type="215" bonus="55" />
+      <effect type="118" bonus="30" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="50" />
-      <effect type="119" bonus="50" />
       <effect type="111" bonus="1" />
-      <effect type="252" bonus="30" />
-      <effect type="253" bonus="15" />
-      <effect type="251" bonus="15" />
-      <effect type="254" bonus="15" />
-      <effect type="215" bonus="50" />
+      <effect type="214" bonus="15" />
+      <effect type="212" bonus="15" />
+      <effect type="215" bonus="15" />
+      <effect type="211" bonus="30" />
+      <effect type="217" bonus="50" />
+      <effect type="125" bonus="50" />
+      <effect type="118" bonus="50" />
     </effects>
   </itemset>
   <itemset id="101">
@@ -3547,32 +2525,32 @@
     <item id="9161" />
     <item id="9170" />
     <effects level="2">
+      <effect type="211" bonus="5" />
+      <effect type="213" bonus="5" />
+      <effect type="215" bonus="5" />
+      <effect type="212" bonus="10" />
+      <effect type="218" bonus="60" />
       <effect type="125" bonus="10" />
       <effect type="123" bonus="10" />
-      <effect type="252" bonus="5" />
-      <effect type="250" bonus="5" />
-      <effect type="251" bonus="10" />
-      <effect type="254" bonus="5" />
-      <effect type="218" bonus="60" />
     </effects>
     <effects level="3">
+      <effect type="211" bonus="10" />
+      <effect type="213" bonus="10" />
+      <effect type="215" bonus="10" />
+      <effect type="212" bonus="20" />
+      <effect type="218" bonus="55" />
       <effect type="125" bonus="30" />
       <effect type="123" bonus="30" />
-      <effect type="252" bonus="10" />
-      <effect type="250" bonus="10" />
-      <effect type="251" bonus="20" />
-      <effect type="254" bonus="10" />
-      <effect type="218" bonus="55" />
     </effects>
     <effects level="4">
+      <effect type="111" bonus="1" />
+      <effect type="211" bonus="15" />
+      <effect type="213" bonus="15" />
+      <effect type="215" bonus="15" />
+      <effect type="212" bonus="30" />
+      <effect type="218" bonus="50" />
       <effect type="125" bonus="50" />
       <effect type="123" bonus="50" />
-      <effect type="111" bonus="1" />
-      <effect type="252" bonus="15" />
-      <effect type="250" bonus="15" />
-      <effect type="251" bonus="30" />
-      <effect type="254" bonus="15" />
-      <effect type="218" bonus="50" />
     </effects>
   </itemset>
   <itemset id="102">
@@ -3581,18 +2559,18 @@
     <item id="9162" />
     <item id="9171" />
     <effects level="2">
-      <effect type="124" bonus="10" />
       <effect type="126" bonus="10" />
+      <effect type="124" bonus="10" />
       <effect type="115" bonus="2" />
     </effects>
     <effects level="3">
-      <effect type="124" bonus="20" />
       <effect type="126" bonus="20" />
+      <effect type="124" bonus="20" />
       <effect type="115" bonus="4" />
     </effects>
     <effects level="4">
-      <effect type="124" bonus="30" />
       <effect type="126" bonus="30" />
+      <effect type="124" bonus="30" />
       <effect type="115" bonus="6" />
     </effects>
   </itemset>
@@ -3602,18 +2580,18 @@
     <item id="9163" />
     <item id="9172" />
     <effects level="2">
-      <effect type="124" bonus="10" />
       <effect type="118" bonus="10" />
+      <effect type="124" bonus="10" />
       <effect type="115" bonus="2" />
     </effects>
     <effects level="3">
-      <effect type="124" bonus="20" />
       <effect type="118" bonus="20" />
+      <effect type="124" bonus="20" />
       <effect type="115" bonus="4" />
     </effects>
     <effects level="4">
-      <effect type="124" bonus="30" />
       <effect type="118" bonus="30" />
+      <effect type="124" bonus="30" />
       <effect type="115" bonus="6" />
     </effects>
   </itemset>
@@ -3623,18 +2601,18 @@
     <item id="9164" />
     <item id="9173" />
     <effects level="2">
-      <effect type="124" bonus="10" />
       <effect type="119" bonus="10" />
+      <effect type="124" bonus="10" />
       <effect type="115" bonus="2" />
     </effects>
     <effects level="3">
-      <effect type="124" bonus="20" />
       <effect type="119" bonus="20" />
+      <effect type="124" bonus="20" />
       <effect type="115" bonus="4" />
     </effects>
     <effects level="4">
-      <effect type="124" bonus="30" />
       <effect type="119" bonus="30" />
+      <effect type="124" bonus="30" />
       <effect type="115" bonus="6" />
     </effects>
   </itemset>
@@ -3644,18 +2622,18 @@
     <item id="9165" />
     <item id="9174" />
     <effects level="2">
-      <effect type="124" bonus="10" />
       <effect type="123" bonus="10" />
+      <effect type="124" bonus="10" />
       <effect type="115" bonus="2" />
     </effects>
     <effects level="3">
-      <effect type="124" bonus="20" />
       <effect type="123" bonus="20" />
+      <effect type="124" bonus="20" />
       <effect type="115" bonus="4" />
     </effects>
     <effects level="4">
-      <effect type="124" bonus="30" />
       <effect type="123" bonus="30" />
+      <effect type="124" bonus="30" />
       <effect type="115" bonus="6" />
     </effects>
   </itemset>
@@ -3666,19 +2644,19 @@
     <item id="9175" />
     <effects level="2">
       <effect type="125" bonus="10" />
-      <effect type="178" bonus="1" />
       <effect type="112" bonus="1" />
+      <effect type="178" bonus="1" />
     </effects>
     <effects level="3">
       <effect type="125" bonus="20" />
-      <effect type="178" bonus="2" />
       <effect type="112" bonus="2" />
+      <effect type="178" bonus="2" />
     </effects>
     <effects level="4">
       <effect type="125" bonus="30" />
-      <effect type="117" bonus="1" />
-      <effect type="178" bonus="4" />
       <effect type="112" bonus="4" />
+      <effect type="178" bonus="4" />
+      <effect type="117" bonus="1" />
     </effects>
   </itemset>
   <itemset id="107">
@@ -3687,19 +2665,19 @@
     <item id="9143" />
     <item id="9463" />
     <effects level="2">
-      <effect type="124" bonus="5" />
       <effect type="126" bonus="20" />
+      <effect type="124" bonus="5" />
     </effects>
     <effects level="3">
-      <effect type="124" bonus="10" />
       <effect type="126" bonus="30" />
+      <effect type="124" bonus="10" />
       <effect type="182" bonus="1" />
     </effects>
     <effects level="4">
-      <effect type="124" bonus="20" />
       <effect type="126" bonus="40" />
-      <effect type="111" bonus="1" />
+      <effect type="124" bonus="20" />
       <effect type="182" bonus="2" />
+      <effect type="111" bonus="1" />
     </effects>
   </itemset>
   <itemset id="108">
@@ -3708,19 +2686,23 @@
     <item id="9179" />
     <item id="9180" />
     <effects level="2">
-      <effect type="126" bonus="15" />
       <effect type="123" bonus="15" />
+      <effect type="126" bonus="15" />
     </effects>
     <effects level="3">
-      <effect type="126" bonus="30" />
-      <effect type="123" bonus="30" />
-      <effect type="115" bonus="2" />
+      <effect type="123" bonus="15" />
+      <effect type="126" bonus="15" />
     </effects>
     <effects level="4">
-      <effect type="126" bonus="50" />
+      <effect type="123" bonus="30" />
+      <effect type="126" bonus="30" />
+      <effect type="115" bonus="2" />
+    </effects>
+    <effects level="5">
       <effect type="123" bonus="50" />
-      <effect type="128" bonus="1" />
+      <effect type="126" bonus="50" />
       <effect type="115" bonus="4" />
+      <effect type="128" bonus="1" />
     </effects>
   </itemset>
   <itemset id="109">
@@ -3733,170 +2715,14 @@
       <effect type="119" bonus="15" />
     </effects>
     <effects level="3">
-      <effect type="118" bonus="30" />
-      <effect type="119" bonus="30" />
-      <effect type="115" bonus="2" />
+      <effect type="118" bonus="15" />
+      <effect type="119" bonus="15" />
     </effects>
     <effects level="4">
       <effect type="118" bonus="50" />
       <effect type="119" bonus="50" />
+      <effect type="115" bonus="4" />
       <effect type="111" bonus="1" />
-      <effect type="115" bonus="4" />
-    </effects>
-  </itemset>
-  <itemset id="110">
-    <item id="9192" />
-    <item id="9193" />
-    <item id="9194" />
-    <item id="9195" />
-    <effects level="2">
-      <effect type="118" bonus="10" />
-      <effect type="250" bonus="5" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="40" />
-      <effect type="118" bonus="40" />
-      <effect type="250" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="80" />
-      <effect type="118" bonus="60" />
-      <effect type="250" bonus="20" />
-    </effects>
-  </itemset>
-  <itemset id="111">
-    <item id="9196" />
-    <item id="9197" />
-    <item id="9198" />
-    <item id="9199" />
-    <effects level="2">
-      <effect type="119" bonus="10" />
-      <effect type="252" bonus="5" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="252" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="80" />
-      <effect type="119" bonus="60" />
-      <effect type="252" bonus="20" />
-    </effects>
-  </itemset>
-  <itemset id="112">
-    <item id="9402" />
-    <item id="9403" />
-    <item id="9404" />
-    <item id="9405" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-      <effect type="112" bonus="2" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="112" bonus="4" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="182" bonus="1" />
-      <effect type="112" bonus="8" />
-    </effects>
-  </itemset>
-  <itemset id="113">
-    <item id="9406" />
-    <item id="9407" />
-    <item id="9408" />
-    <item id="9409" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-      <effect type="115" bonus="2" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="115" bonus="4" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="10" />
-      <effect type="115" bonus="6" />
-    </effects>
-  </itemset>
-  <itemset id="114">
-    <item id="9410" />
-    <item id="9411" />
-    <item id="9412" />
-    <item id="9413" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-      <effect type="119" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="119" bonus="20" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="119" bonus="30" />
-      <effect type="112" bonus="3" />
-    </effects>
-  </itemset>
-  <itemset id="115">
-    <item id="9414" />
-    <item id="9415" />
-    <item id="9416" />
-    <item id="9417" />
-    <effects level="2">
-      <effect type="126" bonus="10" />
-      <effect type="123" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="126" bonus="20" />
-      <effect type="123" bonus="20" />
-    </effects>
-    <effects level="4">
-      <effect type="126" bonus="30" />
-      <effect type="123" bonus="30" />
-      <effect type="115" bonus="3" />
-    </effects>
-  </itemset>
-  <itemset id="116">
-    <item id="9937" />
-    <item id="9939" />
-    <item id="9943" />
-    <item id="9944" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="138" bonus="20" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="112" bonus="4" />
-      <effect type="138" bonus="30" />
-    </effects>
-  </itemset>
-  <itemset id="117">
-    <item id="9936" />
-    <item id="9938" />
-    <item id="9942" />
-    <item id="9945" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-      <effect type="118" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="118" bonus="20" />
-      <effect type="112" bonus="4" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="118" bonus="30" />
-      <effect type="117" bonus="1" />
-      <effect type="112" bonus="8" />
     </effects>
   </itemset>
   <itemset id="118">
@@ -3905,20 +2731,20 @@
     <item id="9130" />
     <item id="9146" />
     <effects level="2">
+      <effect type="112" bonus="2" />
       <effect type="124" bonus="10" />
       <effect type="176" bonus="10" />
-      <effect type="112" bonus="2" />
     </effects>
     <effects level="3">
+      <effect type="112" bonus="4" />
       <effect type="124" bonus="20" />
       <effect type="176" bonus="20" />
-      <effect type="112" bonus="4" />
     </effects>
     <effects level="4">
+      <effect type="112" bonus="6" />
       <effect type="124" bonus="30" />
       <effect type="176" bonus="30" />
       <effect type="117" bonus="1" />
-      <effect type="112" bonus="6" />
     </effects>
   </itemset>
   <itemset id="119">
@@ -3927,22 +2753,19 @@
     <item id="9141" />
     <item id="9147" />
     <effects level="2">
+      <effect type="0" bonus="25" />
       <effect type="119" bonus="10" />
-      <effect type="0" bonus="25" />
-      <effect type="0" bonus="25" />
     </effects>
     <effects level="3">
+      <effect type="0" bonus="50" />
       <effect type="124" bonus="10" />
       <effect type="119" bonus="20" />
-      <effect type="0" bonus="50" />
-      <effect type="0" bonus="50" />
     </effects>
     <effects level="4">
+      <effect type="0" bonus="80" />
       <effect type="124" bonus="20" />
       <effect type="119" bonus="40" />
       <effect type="111" bonus="1" />
-      <effect type="0" bonus="80" />
-      <effect type="0" bonus="80" />
     </effects>
   </itemset>
   <itemset id="120">
@@ -3950,15 +2773,15 @@
     <item id="9139" />
     <item id="9145" />
     <effects level="2">
-      <effect type="123" bonus="15" />
       <effect type="115" bonus="2" />
       <effect type="112" bonus="2" />
+      <effect type="123" bonus="15" />
     </effects>
     <effects level="3">
-      <effect type="123" bonus="30" />
       <effect type="115" bonus="4" />
-      <effect type="176" bonus="15" />
       <effect type="112" bonus="4" />
+      <effect type="123" bonus="30" />
+      <effect type="176" bonus="15" />
     </effects>
   </itemset>
   <itemset id="121">
@@ -3966,473 +2789,90 @@
     <item id="9140" />
     <item id="9144" />
     <effects level="2">
-      <effect type="118" bonus="10" />
       <effect type="112" bonus="2" />
+      <effect type="118" bonus="10" />
     </effects>
     <effects level="3">
+      <effect type="112" bonus="4" />
       <effect type="118" bonus="30" />
       <effect type="117" bonus="1" />
-      <effect type="112" bonus="4" />
     </effects>
   </itemset>
-  <itemset id="122">
-    <item id="9482" />
-    <item id="9485" />
-    <item id="9486" />
+  <itemset id="152">
+    <item id="10847" />
+    <item id="10849" />
+    <item id="10852" />
+    <item id="10856" />
     <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="123">
-    <item id="9479" />
-    <item id="9480" />
-    <item id="9481" />
-    <effects level="2">
-      <effect type="174" bonus="100" />
-    </effects>
-    <effects level="3">
-      <effect type="174" bonus="200" />
-      <effect type="112" bonus="5" />
-    </effects>
-  </itemset>
-  <itemset id="124">
-    <item id="9454" />
-    <item id="9455" />
-    <item id="9456" />
-    <item id="9457" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="182" bonus="1" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="40" />
-      <effect type="182" bonus="2" />
-    </effects>
-  </itemset>
-  <itemset id="125">
-    <item id="9418" />
-    <item id="9451" />
-    <item id="9452" />
-    <item id="9453" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-      <effect type="178" bonus="2" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="178" bonus="4" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="117" bonus="1" />
-      <effect type="178" bonus="8" />
-    </effects>
-  </itemset>
-  <itemset id="126">
-    <item id="9540" />
-    <item id="9541" />
-    <item id="9542" />
-    <item id="9543" />
-    <item id="9549" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-      <effect type="123" bonus="10" />
-      <effect type="119" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
+      <effect type="118" bonus="20" />
       <effect type="123" bonus="20" />
-      <effect type="119" bonus="20" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
       <effect type="124" bonus="20" />
-      <effect type="123" bonus="30" />
-      <effect type="119" bonus="30" />
-      <effect type="117" bonus="1" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="40" />
-      <effect type="124" bonus="30" />
-      <effect type="123" bonus="40" />
-      <effect type="119" bonus="40" />
-      <effect type="128" bonus="1" />
-      <effect type="117" bonus="2" />
-    </effects>
-  </itemset>
-  <itemset id="127">
-    <item id="9567" />
-    <item id="9569" />
-    <item id="9575" />
-    <item id="9576" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="138" bonus="10" />
-    </effects>
-    <effects level="4">
       <effect type="125" bonus="30" />
-      <effect type="182" bonus="1" />
-      <effect type="138" bonus="20" />
-    </effects>
-  </itemset>
-  <itemset id="128">
-    <item id="9660" />
-    <item id="9662" />
-    <item id="9663" />
-    <item id="9667" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-      <effect type="178" bonus="1" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="124" bonus="10" />
-      <effect type="178" bonus="2" />
+      <effect type="118" bonus="50" />
+      <effect type="124" bonus="50" />
+      <effect type="123" bonus="50" />
+      <effect type="125" bonus="70" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="40" />
-      <effect type="124" bonus="20" />
-      <effect type="117" bonus="1" />
-      <effect type="178" bonus="4" />
+      <effect type="125" bonus="100" />
+      <effect type="118" bonus="80" />
+      <effect type="123" bonus="80" />
+      <effect type="124" bonus="80" />
+      <effect type="212" bonus="5" />
     </effects>
   </itemset>
-  <itemset id="129">
-    <item id="9652" />
-    <item id="9654" />
-    <item id="9655" />
-    <item id="9658" />
+  <itemset id="153">
+    <item id="10854" />
+    <item id="10850" />
+    <item id="10848" />
+    <item id="10857" />
     <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="138" bonus="5" />
-    </effects>
-    <effects level="4">
       <effect type="125" bonus="30" />
-      <effect type="176" bonus="10" />
-      <effect type="138" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="130">
-    <item id="10054" />
-    <item id="10055" />
-    <item id="10056" />
-    <item id="10058" />
-    <item id="10061" />
-    <item id="10102" />
-    <effects level="2">
-      <effect type="125" bonus="20" />
-      <effect type="112" bonus="1" />
+      <effect type="126" bonus="15" />
     </effects>
     <effects level="3">
-      <effect type="125" bonus="30" />
-      <effect type="112" bonus="2" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="40" />
-      <effect type="112" bonus="3" />
-    </effects>
-    <effects level="5">
       <effect type="125" bonus="50" />
-      <effect type="117" bonus="1" />
-      <effect type="112" bonus="4" />
+      <effect type="124" bonus="30" />
+      <effect type="126" bonus="40" />
     </effects>
-    <effects level="6">
+    <effects level="4">
+      <effect type="125" bonus="90" />
+      <effect type="124" bonus="50" />
+      <effect type="126" bonus="50" />
+      <effect type="115" bonus="5" />
+      <effect type="111" bonus="1" />
+    </effects>
+  </itemset>
+  <itemset id="154">
+    <item id="10853" />
+    <item id="10858" />
+    <item id="10851" />
+    <item id="10855" />
+    <effects level="2">
+      <effect type="125" bonus="40" />
+      <effect type="119" bonus="25" />
+    </effects>
+    <effects level="3">
       <effect type="125" bonus="60" />
-      <effect type="128" bonus="1" />
-      <effect type="117" bonus="2" />
-      <effect type="112" bonus="5" />
-    </effects>
-  </itemset>
-  <itemset id="131">
-    <item id="9928" />
-    <item id="9929" />
-    <item id="9930" />
-    <item id="9933" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-      <effect type="176" bonus="5" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="176" bonus="10" />
-      <effect type="112" bonus="2" />
+      <effect type="119" bonus="50" />
+      <effect type="124" bonus="40" />
+      <effect type="210" bonus="10" />
     </effects>
     <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="176" bonus="15" />
-      <effect type="112" bonus="4" />
-    </effects>
-  </itemset>
-  <itemset id="132">
-    <item id="9921" />
-    <item id="9922" />
-    <item id="9923" />
-    <item id="9931" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="126" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="126" bonus="20" />
+      <effect type="125" bonus="100" />
+      <effect type="119" bonus="90" />
+      <effect type="210" bonus="10" />
+      <effect type="124" bonus="50" />
       <effect type="117" bonus="1" />
-    </effects>
-  </itemset>
-  <itemset id="133">
-    <item id="10188" />
-    <item id="10189" />
-    <item id="10190" />
-    <item id="10191" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="124" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="20" />
-      <effect type="112" bonus="5" />
-    </effects>
-  </itemset>
-  <itemset id="134">
-    <item id="10155" />
-    <item id="10156" />
-    <item id="10157" />
-    <item id="10552" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="112" bonus="2" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="182" bonus="1" />
-      <effect type="112" bonus="4" />
-    </effects>
-  </itemset>
-  <itemset id="135">
-    <item id="10184" />
-    <item id="10185" />
-    <item id="10186" />
-    <item id="10187" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="124" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="20" />
-      <effect type="115" bonus="2" />
-    </effects>
-  </itemset>
-  <itemset id="136">
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="123" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="123" bonus="20" />
-      <effect type="182" bonus="1" />
-    </effects>
-  </itemset>
-  <itemset id="137">
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="126" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="15" />
-      <effect type="126" bonus="20" />
-    </effects>
-  </itemset>
-  <itemset id="138" />
-  <itemset id="139" />
-  <itemset id="140">
-    <item id="9653" />
-    <item id="9656" />
-    <item id="9657" />
-    <item id="9659" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="115" bonus="1" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="20" />
-      <effect type="115" bonus="2" />
-    </effects>
-  </itemset>
-  <itemset id="142">
-    <item id="10553" />
-    <item id="10555" />
-    <item id="10557" />
-    <item id="10559" />
-    <item id="10561" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="124" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="20" />
-      <effect type="112" bonus="4" />
     </effects>
     <effects level="5">
-      <effect type="125" bonus="40" />
-      <effect type="124" bonus="30" />
-      <effect type="182" bonus="1" />
-      <effect type="112" bonus="8" />
-    </effects>
-  </itemset>
-  <itemset id="143">
-    <item id="10554" />
-    <item id="10556" />
-    <item id="10558" />
-    <item id="10560" />
-    <item id="10562" />
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="124" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="20" />
-      <effect type="112" bonus="4" />
-    </effects>
-    <effects level="5">
-      <effect type="125" bonus="40" />
-      <effect type="124" bonus="30" />
-      <effect type="182" bonus="1" />
-      <effect type="112" bonus="8" />
-    </effects>
-  </itemset>
-  <itemset id="144">
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="124" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="20" />
+      <effect type="125" bonus="120" />
+      <effect type="119" bonus="100" />
+      <effect type="210" bonus="12" />
+      <effect type="124" bonus="60" />
       <effect type="117" bonus="1" />
-    </effects>
-  </itemset>
-  <itemset id="145">
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="124" bonus="10" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="124" bonus="20" />
-      <effect type="112" bonus="5" />
-    </effects>
-  </itemset>
-  <itemset id="146">
-    <effects level="2">
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="125" bonus="20" />
-      <effect type="119" bonus="20" />
-    </effects>
-    <effects level="4">
-      <effect type="125" bonus="30" />
-      <effect type="119" bonus="30" />
-      <effect type="115" bonus="8" />
-    </effects>
-  </itemset>
-  <itemset id="147">
-    <effects level="2">
-      <effect type="174" bonus="50" />
-      <effect type="125" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="174" bonus="100" />
-      <effect type="125" bonus="20" />
-      <effect type="0" bonus="3" />
-    </effects>
-    <effects level="4">
-      <effect type="174" bonus="200" />
-      <effect type="125" bonus="30" />
-      <effect type="0" bonus="5" />
-      <effect type="112" bonus="5" />
-    </effects>
-  </itemset>
-  <itemset id="148">
-    <effects level="2">
-      <effect type="126" bonus="10" />
-      <effect type="112" bonus="1" />
-    </effects>
-    <effects level="3">
-      <effect type="126" bonus="20" />
-      <effect type="112" bonus="2" />
-      <effect type="138" bonus="5" />
-    </effects>
-    <effects level="4">
-      <effect type="126" bonus="30" />
-      <effect type="178" bonus="6" />
-      <effect type="112" bonus="4" />
-      <effect type="138" bonus="10" />
-    </effects>
-  </itemset>
-  <itemset id="149">
-    <effects level="2">
-      <effect type="123" bonus="10" />
-    </effects>
-    <effects level="3">
-      <effect type="123" bonus="20" />
-      <effect type="112" bonus="2" />
-    </effects>
-    <effects level="4">
-      <effect type="123" bonus="30" />
-      <effect type="117" bonus="1" />
-      <effect type="112" bonus="4" />
     </effects>
   </itemset>
 </itemsets>

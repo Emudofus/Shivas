@@ -1,15 +1,19 @@
 package org.shivas.server.database.models;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.atomium.PersistableEntity;
+import org.shivas.common.collections.Maps2;
 import org.shivas.data.entity.Item;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.types.BaseItemType;
 import org.shivas.server.utils.Converters;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 
 public class GameItem implements Item, PersistableEntity<Long> {
@@ -19,7 +23,7 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	private long id;
 	private ItemTemplate template;
 	private Player owner;
-	private Collection<ItemEffect> effects;
+	private Map<ItemEffectEnum, ItemEffect> effects;
 	private ItemPositionEnum position;
 	private int quantity;
 	
@@ -32,7 +36,11 @@ public class GameItem implements Item, PersistableEntity<Long> {
 		this.id = id;
 		this.template = template;
 		this.owner = owner;
-		this.effects = effects;
+		this.effects = Maps2.toMap(effects, new Function<ItemEffect, ItemEffectEnum>() {
+			public ItemEffectEnum apply(ItemEffect input) {
+				return input.getEffect();
+			}
+		});
 		this.position = position;
 		this.quantity = quantity;
 	}
@@ -72,12 +80,16 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	}
 	@Override
 	public Collection<ItemEffect> getEffects() {
-		return effects;
+		return effects.values();
 	}
 
 	@Override
 	public void setEffects(Collection<ItemEffect> effects) {
-		this.effects = effects;
+		this.effects = Maps2.toMap(effects, new Function<ItemEffect, ItemEffectEnum>() {
+			public ItemEffectEnum apply(ItemEffect input) {
+				return input.getEffect();
+			}
+		});
 	}
 
 	/**
@@ -122,14 +134,73 @@ public class GameItem implements Item, PersistableEntity<Long> {
 		this.quantity -= quantity;
 	}
 	
+	public GameItem slice(int quantity) {
+		GameItem copy = copy();
+		copy.setQuantity(quantity);
+		
+		minusQuantity(quantity);
+		
+		return copy;
+	}
+	
+	public GameItem sliceOne() {
+		return slice(1);
+	}
+	
+	public GameItem copy() {
+		return new GameItem(-1, template, owner, Collections2.transform(effects.values(), Converters.ITEMEFFECT_COPY), position, 0);
+	}
+	
 	public BaseItemType toBaseItemType() {
 		return new BaseItemType(
 				id,
 				template.getId(),
 				quantity,
 				position,
-				Collections2.transform(effects, Converters.ITEMEFFECT_TO_BASEITEMEFFECTTYPE)
+				Collections2.transform(effects.values(), Converters.ITEMEFFECT_TO_BASEITEMEFFECTTYPE)
 		);
 	}
+	
+	private static int sum(Item item) {
+		int i = 0;
+		for (ItemEffect effect : item.getEffects()) {
+			i += effect.getBonus();
+		}
+		return i;
+	}
+
+	@Override
+	public int compareTo(Item other) {
+		return sum(this) - sum(other);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		
+		GameItem other = (GameItem) obj;
+		
+		if (other.template == template)
+			return true;
+		if (sum(this) != sum(other))
+			return false;
+		
+		for (ItemEffectEnum e : effects.keySet()) {
+			ItemEffect first  = effects.get(e),
+					   second = other.effects.get(e);
+			
+			if (first == null || second == null) return false;
+			if (first.getBonus() != second.getBonus()) return false;
+		}
+		
+		return true;
+	}
+	
+	
 
 }

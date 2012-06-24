@@ -76,11 +76,7 @@ public abstract class AbstractLoader implements Loader {
 					
 					log.trace("{} loaded", file.getName());
 				} catch (Exception e) {
-					log.error(String.format("can't load \"%s\" because of %s : %s",
-							file.getName(),
-							e.getClass().getSimpleName(),
-							e.getMessage()
-					));
+					e.printStackTrace();
 				}
 			}
 		}
