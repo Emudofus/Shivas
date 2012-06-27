@@ -66,15 +66,34 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		assertFalse(item.getPosition() == position, "this item is already on %s", position);
 		assertTrue(client.player().getBag().validMovement(item, position), "invalid movement");
 
-		if (position == ItemPositionEnum.NotEquiped) {
-			GameItem same = client.player().getBag().sameAs(item);
-			if (same != null) {
+		GameItem same;
+		if (position == ItemPositionEnum.NotEquiped && (same = client.player().getBag().sameAs(item)) != null) {
+				same.plusQuantity(1);
+				item.setQuantity(0);
 				
-			} else {
+				client.service().repositories().items().saveLater(same);
+				client.player().getBag().delete(item);
 				
-			}
+				client.write(ItemGameMessageFormatter.deleteMessage(item.id()));
+				client.write(ItemGameMessageFormatter.quantityMessage(same.id(), same.getQuantity()));
 		} else {
+			if (item.getQuantity() > 1) {
+				GameItem sliced = item.sliceOne();
+				
+				client.player().getBag().persist(sliced);
+				client.service().repositories().items().saveLater(item);
+				
+				client.write(ItemGameMessageFormatter.addItemMessage(sliced.toBaseItemType()));
+				client.write(ItemGameMessageFormatter.quantityMessage(item.id(), item.getQuantity()));
+				
+				item = sliced;
+			}
 			
+			item.setPosition(position);
+			
+			client.write(ItemGameMessageFormatter.itemMovementMessage(item.id(), position));
+			
+			assertTrue(item.getQuantity() == 1, "t'as mal codé, connard");
 		}
 		
 		client.write(client.player().getStats().refresh().packet());
