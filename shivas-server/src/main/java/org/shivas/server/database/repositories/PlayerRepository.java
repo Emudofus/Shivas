@@ -267,8 +267,6 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		player.setBag(new PlayerBag(player, items, result.getLong("kamas")));
 		
-		player.getStats().refresh();
-		
 		return player;
 	}
 
