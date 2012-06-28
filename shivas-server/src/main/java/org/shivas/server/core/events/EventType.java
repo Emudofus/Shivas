@@ -6,4 +6,5 @@ public enum EventType {
 	ACTION,
 	TELEPORTATION,
 	SYSTEM_MESSAGE,
+	NEW_ACTION,
 }

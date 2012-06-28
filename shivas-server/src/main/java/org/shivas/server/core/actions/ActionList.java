@@ -2,38 +2,37 @@ package org.shivas.server.core.actions;
 
 import java.util.List;
 
-import org.shivas.common.observable.AbstractObservable;
-import org.shivas.server.ShivasServer;
-import org.shivas.server.database.models.Player;
+import org.shivas.server.core.events.EventDispatcher;
+import org.shivas.server.core.events.EventDispatchers;
+import org.shivas.server.core.events.EventListener;
+import org.shivas.server.core.events.events.NewActionEvent;
 import org.shivas.server.services.game.GameClient;
 
 import com.google.common.collect.Lists;
 
-public class ActionList extends AbstractObservable<ActionList.Listener, Action> {
-
-	public static interface Listener {
-		void listenAction(Player player, Action action);
-	}
+public class ActionList {
 	
 	private GameClient client;
 	private List<Action> actions = Lists.newArrayList();
+	
+	protected final EventDispatcher event = EventDispatchers.create();
 
 	public ActionList(GameClient client) {
 		this.client = client;
 	}
 
-	protected void notifyObserver(Listener observer, Action arg) {
-		observer.listenAction(client.player(), arg);
+	public void subscribe(EventListener listener) {
+		event.subscribe(listener);
+	}
+
+	public void unsubscribe(EventListener listener) {
+		event.unsubscribe(listener);
 	}
 	
 	public <T extends Action> T push(final T action) {
 		actions.add(action);
-
-		ShivasServer.EVENT_WORKER.execute(new Runnable() {
-			public void run() {
-				notifyObservers(action);
-			}
-		});
+		
+		event.publish(new NewActionEvent(client, action));
 		
 		return action;
 	}

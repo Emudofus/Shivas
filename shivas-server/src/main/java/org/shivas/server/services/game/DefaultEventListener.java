@@ -40,6 +40,9 @@ public class DefaultEventListener implements EventListener {
 		case SYSTEM_MESSAGE:
 			listenSystemMessage((SystemMessageEvent) event);
 			break;
+			
+		case NEW_ACTION: // not implemented
+			break;
 		}
 	}
 

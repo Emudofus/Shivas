@@ -12,10 +12,14 @@ import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 import org.shivas.server.utils.Converters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Collections2;
 
 public class GameHandler extends AbstractBaseHandler<GameClient> {
+	
+	private static final Logger log = LoggerFactory.getLogger(GameHandler.class);
 
 	public GameHandler(GameClient client) {
 		super(client);
@@ -79,6 +83,10 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		switch (action) {
 		case MOVEMENT:
 			parseMovementMessage(Path.parsePath(args));
+			break;
+			
+		default:
+			log.trace("action {} is not implemented", action);
 			break;
 		}
 	}
