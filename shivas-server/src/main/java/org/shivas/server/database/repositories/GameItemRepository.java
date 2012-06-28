@@ -18,38 +18,21 @@ import org.shivas.common.collections.Collections3;
 import org.shivas.data.Container;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
-import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
-
-import com.google.common.base.Function;
+import org.shivas.server.utils.Converters;
 
 @Singleton
 public class GameItemRepository extends AbstractEntityRepository<Long, GameItem> {
 	
-	public static final int RADIX = 16;
 	
 	public static String effectsToString(Collection<ItemEffect> effects) {		
-		return Collections3.toString(effects, ";", new Function<ItemEffect, String>() {
-			public String apply(ItemEffect input) {
-				return Integer.toString(input.getEffect().value(), RADIX) + "," +
-					   Integer.toString(input.getBonus(), RADIX);
-			}
-		});
+		return Collections3.toString(effects, ";", Converters.ITEMEFFECT_TO_STRING);
 	}
 	
 	public static Collection<ItemEffect> stringToEffects(String string) {
-		return Collections3.fromString(string, ";", new Function<String, ItemEffect>() {
-			public ItemEffect apply(String input) {
-				int index = input.indexOf(',');
-
-				ItemEffectEnum effect = ItemEffectEnum.valueOf(Integer.parseInt(input.substring(0, index), RADIX));
-				short bonus = Short.parseShort(input.substring(index + 1), RADIX);
-				
-				return new ItemEffect(effect, bonus);
-			}
-		});
+		return Collections3.fromString(string, ";", Converters.STRING_TO_ITEMEFFECT);
 	}
 	
 	private final QueryBuilder delete, persist, save;

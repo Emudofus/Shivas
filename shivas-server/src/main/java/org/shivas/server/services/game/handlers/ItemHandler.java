@@ -90,13 +90,13 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 			}
 			
 			item.setPosition(position);
+			client.service().repositories().items().saveLater(item);
 			
 			client.write(ItemGameMessageFormatter.itemMovementMessage(item.id(), position));
-			
-			assertTrue(item.getQuantity() == 1, "t'as mal codé, connard");
 		}
 		
 		client.write(client.player().getStats().refresh().packet());
+		client.player().getLocation().getMap().updateAccessories(client.player());
 	}
 
 }

@@ -25,17 +25,17 @@ public class ConsoleLogger implements DofusLogger { // TODO console logger
 
 	@Override
 	public void info(String pattern, Object... args) {
-		logColor(config.infoName(), 1, pattern, args);
+		logColor(config.infoName(), 0, pattern, args);
 	}
 
 	@Override
 	public void error(String pattern, Object... args) {
-		logColor(config.errorName(), 0, pattern, args);
+		logColor(config.errorName(), 1, pattern, args);
 	}
 
 	@Override
 	public void warn(String pattern, Object... args) {
-		logColor(config.warnName(), 0, pattern, args);
+		logColor(config.warnName(), 2, pattern, args);
 	}
 
 }

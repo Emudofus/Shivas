@@ -140,10 +140,10 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 					player.getExperience().level(),
 					player.getBreed().getId(),
 					player.getGender(),
-					player.getLook().getSkin(),
-					player.getLook().getColors().first(), 
-					player.getLook().getColors().second(),
-					player.getLook().getColors().third(),
+					player.getLook().skin(),
+					player.getLook().colors().first(), 
+					player.getLook().colors().second(),
+					player.getLook().colors().third(),
 					player.getBag().toBaseItemType()
 			));
 

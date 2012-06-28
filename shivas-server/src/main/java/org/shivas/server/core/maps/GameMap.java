@@ -51,5 +51,13 @@ public class GameMap extends MapTemplate {
 	public void movement(RolePlayMovement movement) {
 		event.publish(movement);
 	}
+	
+	public void update(GameActor actor) {
+		event.publish(new BaseMapEvent(actor, MapEventType.UPDATE));
+	}
+	
+	public void updateAccessories(GameActor actor) {
+		event.publish(new BaseMapEvent(actor, MapEventType.ACCESSORIES));
+	}
 
 }

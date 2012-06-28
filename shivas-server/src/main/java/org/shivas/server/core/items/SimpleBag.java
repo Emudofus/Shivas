@@ -108,7 +108,7 @@ public class SimpleBag implements Bag {
 	
 	public GameItem sameAs(GameItem item) {
 		for (GameItem i : items.values()) {
-			if (i.equals(item)) {
+			if (i.getPosition() == ItemPositionEnum.NotEquiped && i.equals(item)) {
 				return i;
 			}
 		}

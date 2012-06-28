@@ -7,6 +7,7 @@ public interface GameActor {
 	Integer id();
 	String getName();
 	Location getLocation();
+	Look getLook();
 	
 	void teleport(GameMap map, short cell);
 	

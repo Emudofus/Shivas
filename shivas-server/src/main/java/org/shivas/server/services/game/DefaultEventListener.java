@@ -2,6 +2,7 @@ package org.shivas.server.services.game;
 
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
+import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 import org.shivas.server.core.actions.Action;
 import org.shivas.server.core.actions.RolePlayMovement;
 import org.shivas.server.core.channels.ChannelEvent;
@@ -79,6 +80,10 @@ public class DefaultEventListener implements EventListener {
 			
 		case UPDATE:
 			client.write(GameMessageFormatter.updateActorMessage(event.actor().toBaseRolePlayActorType()));
+			break;
+			
+		case ACCESSORIES:
+			client.write(ItemGameMessageFormatter.accessoriesMessage(event.actor().id(), event.actor().getLook().accessories()));
 			break;
 		}
 	}

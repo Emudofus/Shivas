@@ -26,7 +26,7 @@ import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.Colors;
 import org.shivas.server.core.Location;
-import org.shivas.server.core.Look;
+import org.shivas.server.core.PlayerLook;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
@@ -81,14 +81,17 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				name,
 				ctner.get(Breed.class).byId(breed),
 				gender,
-				new Look(
-						(short) (breed * 10 + gender.ordinal()),
-						(short) 100,
-						new Colors(color1, color2, color3)
-				),
 				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
 				new Location(config.startMap(), config.startCell(), OrientationEnum.SOUTH_EAST)
 		);
+		
+		player.setLook(new PlayerLook(
+				player,
+				(short) (breed * 10 + gender.ordinal()),
+				(short) 100,
+				new Colors(color1, color2, color3)
+		));
+		
 		player.setStats(new PlayerStatistics(
 				player,
 				config.startActionPoints() != null ? config.startActionPoints() : player.getBreed().getStartActionPoints(),
@@ -100,6 +103,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				config.startChance(),
 				config.startAgility()
 		));
+		
 		player.setBag(new PlayerBag(player, items, config.startKamas()));
 		
 		persist(player);
@@ -151,11 +155,11 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		query.setParameter("name", entity.getName());
 		query.setParameter("breed_id", entity.getBreed().getId());
 		query.setParameter("gender", entity.getGender());
-		query.setParameter("skin", entity.getLook().getSkin());
-		query.setParameter("size", entity.getLook().getSize());
-		query.setParameter("color1", entity.getLook().getColors().first());
-		query.setParameter("color2", entity.getLook().getColors().second());
-		query.setParameter("color3", entity.getLook().getColors().third());
+		query.setParameter("skin", entity.getLook().skin());
+		query.setParameter("size", entity.getLook().size());
+		query.setParameter("color1", entity.getLook().colors().first());
+		query.setParameter("color2", entity.getLook().colors().second());
+		query.setParameter("color3", entity.getLook().colors().third());
 		query.setParameter("level", entity.getExperience().level());
 		query.setParameter("experience", entity.getExperience().current());
 		query.setParameter("kamas", entity.getBag().getKamas());
@@ -183,11 +187,11 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		Query query = saveQuery.toQuery();
 		query.setParameter("id", entity.id());
 		query.setParameter("gender", entity.getGender());
-		query.setParameter("skin", entity.getLook().getSkin());
-		query.setParameter("size", entity.getLook().getSize());
-		query.setParameter("color1", entity.getLook().getColors().first());
-		query.setParameter("color2", entity.getLook().getColors().second());
-		query.setParameter("color3", entity.getLook().getColors().third());
+		query.setParameter("skin", entity.getLook().skin());
+		query.setParameter("size", entity.getLook().size());
+		query.setParameter("color1", entity.getLook().colors().first());
+		query.setParameter("color2", entity.getLook().colors().second());
+		query.setParameter("color3", entity.getLook().colors().third());
 		query.setParameter("level", entity.getExperience().level());
 		query.setParameter("experience", entity.getExperience().current());
 		query.setParameter("kamas", entity.getBag().getKamas());
@@ -223,15 +227,6 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				result.getString("name"),
 				ctner.get(Breed.class).byId(result.getInt("breed_id")),
 				Gender.valueOf(result.getInt("gender")),
-				new Look(
-						result.getShort("skin"),
-						result.getShort("size"),
-						new Colors(
-								result.getInt("color1"),
-								result.getInt("color2"),
-								result.getInt("color3")
-						)
-				),
 				new PlayerExperience(
 						ctner.get(Experience.class).byId(result.getInt("level")),
 						result.getLong("experience")
@@ -242,6 +237,17 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 						OrientationEnum.valueOf(result.getInt("orientation"))
 				)
 		);
+		
+		player.setLook(new PlayerLook(
+				player,
+				result.getShort("skin"),
+				result.getShort("size"),
+				new Colors(
+						result.getInt("color1"),
+						result.getInt("color2"),
+						result.getInt("color3")
+				)
+		));
 		
 		player.setStats(new PlayerStatistics(
 				player,
@@ -260,6 +266,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		));
 		
 		player.setBag(new PlayerBag(player, items, result.getLong("kamas")));
+		
+		player.getStats().refresh();
 		
 		return player;
 	}

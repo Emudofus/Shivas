@@ -4,4 +4,5 @@ public enum MapEventType {
 	ENTER,
 	LEAVE,
 	UPDATE,
+	ACCESSORIES,
 }

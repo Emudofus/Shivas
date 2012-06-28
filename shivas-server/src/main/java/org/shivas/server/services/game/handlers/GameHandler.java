@@ -26,6 +26,8 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	public void init() throws Exception {
+		client.player().getStats().refresh();
+		
 		client.player().getEvent().subscribe(client.eventListener());
 	}
 
