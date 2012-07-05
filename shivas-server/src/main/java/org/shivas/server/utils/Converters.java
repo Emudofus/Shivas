@@ -1,7 +1,5 @@
 package org.shivas.server.utils;
 
-import javax.annotation.Nullable;
-
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
@@ -49,8 +47,7 @@ public class Converters {
 	};
 	
 	public static Function<GameItem, ItemTemplate> GAMEITEM_TO_ITEMTEMPLATE = new Function<GameItem, ItemTemplate>() {
-		@Nullable
-		public ItemTemplate apply(@Nullable GameItem input) {
+		public ItemTemplate apply(GameItem input) {
 			return input == null ?
 						null :
 						input.getTemplate();

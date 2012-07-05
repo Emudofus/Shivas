@@ -3,8 +3,6 @@ package org.shivas.server.services.game.handlers;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.annotation.Nullable;
-
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemSet;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
@@ -146,7 +144,7 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		final ItemSet set = item.getTemplate().getItemSet();
 		
 		Collection<GameItem> items = Collections2.filter(client.player().getBag().equiped(), new Predicate<GameItem>() {
-			public boolean apply(@Nullable GameItem input) {
+			public boolean apply(GameItem input) {
 				return input == null ? false :
 					input.getTemplate().getItemSet() == set;
 			}
