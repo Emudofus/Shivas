@@ -10,6 +10,10 @@ public interface LimitedValue {
 	int min();
 	int max();
 	
+	void plusMax(int p);
+	void minusMax(int p);
+	void resetMax();
+	
 	void setMin();
 	void setMax();
 }

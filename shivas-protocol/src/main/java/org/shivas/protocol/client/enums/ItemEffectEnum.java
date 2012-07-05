@@ -233,6 +233,24 @@ public enum ItemEffectEnum {
     	case SubDodgeMP:
     		return CharacteristicType.DodgeMovementPoints;
     		
+    	case AddLife:
+    		add.set(true);
+    		return CharacteristicType.Life;
+    		
+    	case AddPods:
+    		add.set(true);
+    	case SubPods:
+    		return CharacteristicType.Pods;
+    		
+		case AddHealPoints:
+			add.set(true);
+		case SubHealPoints:
+			return CharacteristicType.HealPoints;
+			
+		case AddRenvoiDamage:
+			add.set(true);
+			return CharacteristicType.DamageReturn;
+    		
     	// TODO resistances
     		
 		default: return null;

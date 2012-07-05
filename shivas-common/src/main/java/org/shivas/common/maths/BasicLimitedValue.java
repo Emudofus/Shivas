@@ -2,24 +2,27 @@ package org.shivas.common.maths;
 
 public class BasicLimitedValue implements LimitedValue {
 	
-	private int current, min, max;
+	private int current, min, max, maxReset;
 	
 	public BasicLimitedValue(int max) {
 		this.current = 0;
 		this.min = 0;
 		this.max = max;
+		this.maxReset = max;
 	}
 
 	public BasicLimitedValue(int min, int max) {
 		this.current = min;
 		this.min = min;
 		this.max = max;
+		this.maxReset = max;
 	}
 
 	public BasicLimitedValue(int current, int min, int max) {
 		this.current = current;
 		this.min = min;
 		this.max = max;
+		this.maxReset = max;
 	}
 
 	public int current() {
@@ -71,6 +74,21 @@ public class BasicLimitedValue implements LimitedValue {
 
 	public int max() {
 		return max;
+	}
+
+	public void plusMax(int p) {
+		max += p;
+	}
+
+	public void minusMax(int m) {
+		max -= m;
+		
+		if (max < min)
+			max = min + 1;
+	}
+
+	public void resetMax() {
+		max = maxReset;
 	}
 
 	public void setMin() {

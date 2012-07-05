@@ -1,5 +1,6 @@
 package org.shivas.server.core.statistics;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -8,16 +9,23 @@ import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
 import org.shivas.data.entity.ItemEffect;
+import org.shivas.data.entity.ItemSet;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multiset;
 
 public class PlayerStatistics implements Statistics {
 	
 	private Player owner;
-	private LimitedValue life, energy, pods = new PlayerPodsValue(this);
+	
+	private LifeValue life;
+	private LimitedValue energy;
+	private PodsValue pods = new PlayerPodsValue(this);
+	
 	private short statPoints, spellPoints;
 	private Map<CharacteristicType, Characteristic> characs = Maps.newHashMap();
 	
@@ -55,7 +63,7 @@ public class PlayerStatistics implements Statistics {
 				break;
 				
 			case Vitality:
-				characs.put(charac, new BaseCharacteristic(charac, vitality));
+				characs.put(charac, new VitalityCharacteristic(this, charac, vitality));
 				break;
 				
 			case Wisdom:
@@ -78,6 +86,14 @@ public class PlayerStatistics implements Statistics {
 				characs.put(charac, new BaseCharacteristic(charac, agility));
 				break;
 				
+			case Summons:
+				characs.put(charac, new BaseCharacteristic(charac, (short) 1));
+				break;
+				
+			case Life:
+			case Pods:
+				break;
+				
 			default:
 				characs.put(charac, new BaseCharacteristic(charac));
 				break;
@@ -92,7 +108,7 @@ public class PlayerStatistics implements Statistics {
 	}
 	
 	@Override
-	public LimitedValue life() {
+	public LifeValue life() {
 		return life;
 	}
 
@@ -149,6 +165,9 @@ public class PlayerStatistics implements Statistics {
 	}
 	
 	public PlayerStatistics reset() {
+		life.resetMax();
+		pods.resetMax();
+		
 		for (Characteristic charac : characs.values()) {
 			charac.equipment((short) 0);
 			charac.gift((short) 0);
@@ -158,23 +177,58 @@ public class PlayerStatistics implements Statistics {
 		return this;
 	}
 	
+	protected LimitedValue getValue(CharacteristicType charac) {
+		switch (charac) {
+		case Life:
+			return life;
+			
+		case Pods:
+			return pods;
+			
+		default:
+			return null;
+		}
+	}
+	
+	protected void apply(ItemEffect effect) {
+		AtomicReference<Boolean> add = new AtomicReference<Boolean>(false);
+		
+		CharacteristicType characType = effect.getEffect().toCharacteristicType(add);
+		if (characType == null) return;
+		
+		Characteristic charac = get(characType);
+		
+		if (charac != null) {
+			if (add.get()) 	charac.plusEquipment(effect.getBonus());
+			else 			charac.minusEquipment(effect.getBonus());
+		} else {
+			LimitedValue value = getValue(characType);
+			if (value != null) {
+				if (add.get()) value.plusMax(effect.getBonus());
+				else		   value.minusMax(effect.getBonus());
+			}
+		}
+	}
+	
 	public PlayerStatistics refresh() {
 		reset();
-		
-		for (GameItem item : owner.getBag()) {
-			if (!item.getPosition().equipment()) continue;
+
+		Multiset<ItemSet> multiset = HashMultiset.create();
+		for (GameItem item : owner.getBag().equiped()) {
+			if (item.getTemplate().getItemSet() != null) {
+				multiset.add(item.getTemplate().getItemSet());
+			}
 			
 			for (ItemEffect effect : item.getEffects()) {
-				AtomicReference<Boolean> add = new AtomicReference<Boolean>(false);
-				
-				Characteristic charac = get(effect.getEffect().toCharacteristicType(add));
-				if (charac == null) continue;
-				
-				if (add.get()) {
-					charac.plusEquipment(effect.getBonus());
-				} else {
-					charac.minusEquipment(effect.getBonus());
-				}
+				apply(effect);
+			}
+		}
+		
+		for (Multiset.Entry<ItemSet> entry : multiset.entrySet()) {	
+			Collection<ItemEffect> effects = entry.getElement().getEffects(entry.getCount());
+			
+			for (ItemEffect effect : effects) {
+				apply(effect);
 			}
 		}
 		

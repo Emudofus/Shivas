@@ -70,7 +70,12 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		this.saveQuery = em.builder()
 				.update(TABLE_NAME)
 				.value("gender").value("skin").value("size").value("color1").value("color2").value("color3")
-				.value("level").value("experience").value("kamas").value("map_id").value("cell").value("orientation")
+				.value("level").value("experience").value("kamas")
+				.value("map_id").value("cell").value("orientation")
+				.value("stat_points").value("spell_points").value("energy").value("life")
+				.value("action_points").value("movement_points")
+				.value("vitality").value("wisdom")
+				.value("strength").value("intelligence").value("chance").value("agility")
 				.where("id", Op.EQ);
 		this.loadQuery = em.builder().select(TABLE_NAME);
 	}

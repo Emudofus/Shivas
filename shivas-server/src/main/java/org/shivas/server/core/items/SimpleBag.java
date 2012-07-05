@@ -11,6 +11,7 @@ import org.shivas.protocol.client.enums.ItemTypeEnum;
 import org.shivas.protocol.client.types.BaseItemType;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.utils.Converters;
+import org.shivas.server.utils.Filters;
 
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -145,13 +146,7 @@ public class SimpleBag implements Bag {
 	}
 	
 	public Collection<GameItem> equiped() {
-		List<GameItem> equiped = Lists.newArrayList();
-		for (GameItem item : this) {
-			if (item.getPosition().equipment()) {
-				equiped.add(item);
-			}
-		}
-		return equiped;
+		return Collections2.filter(items.values(), Filters.EQUIPED_ITEM_FILTER);
 	}
 	
 	public boolean validMovement(GameItem item, ItemPositionEnum pos) {
@@ -178,6 +173,11 @@ public class SimpleBag implements Bag {
 	@Override
 	public Collection<BaseItemType> toBaseItemType() {
 		return Collections2.transform(items.values(), Converters.GAMEITEM_TO_BASEITEMTYPE);
+	}
+
+	@Override
+	public Collection<GameItem> toCollection() {
+		return items.values();
 	}
 
 }

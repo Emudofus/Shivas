@@ -22,4 +22,5 @@ public interface Bag extends Iterable<GameItem> {
 	Collection<GameItem> equiped();
 	
 	Collection<BaseItemType> toBaseItemType();
+	Collection<GameItem> toCollection();
 }

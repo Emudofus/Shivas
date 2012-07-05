@@ -45,6 +45,8 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		client.account().setLastAddress(getClearAddress());
 		client.account().incrementNbConnections();
 		client.service().repositories().accounts().saveLater(client.account());
+		
+		super.initChildren();
 	}
 
 	@Override

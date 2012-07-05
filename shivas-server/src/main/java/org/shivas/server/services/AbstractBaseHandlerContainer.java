@@ -23,15 +23,17 @@ public abstract class AbstractBaseHandlerContainer<C extends Client<?>>
 	protected abstract void configure();
 	
 	protected abstract void onReceivedUnknownMessage(String message);
+	
+	protected void initChildren() throws Exception {
+		for (BaseHandler handler : handlers.values()) {
+			handler.init();
+		}
+	}
 
 	public void init() throws Exception {
 		if (!configured) {
 			configure();
 			configured = true;
-		}
-		
-		for (BaseHandler handler : handlers.values()) {
-			handler.init();
 		}
 	}
 

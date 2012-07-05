@@ -9,6 +9,8 @@ import java.util.HashMap;
  * IDE : IntelliJ IDEA
  */
 public enum CharacteristicType {
+	Life,
+	Pods,
     Prospection,
     Initiative,
     ActionPoints,

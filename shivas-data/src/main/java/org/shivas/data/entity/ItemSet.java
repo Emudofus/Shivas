@@ -1,6 +1,7 @@
 package org.shivas.data.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.collect.Multimap;
@@ -48,6 +49,10 @@ public class ItemSet implements Serializable {
 	 */
 	public void setEffects(Multimap<Integer, ItemEffect> effects) {
 		this.effects = effects;
+	}
+	
+	public Collection<ItemEffect> getEffects(int count) {
+		return effects.get(count);
 	}
 
 }

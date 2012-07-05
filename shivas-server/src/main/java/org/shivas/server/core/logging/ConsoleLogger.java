@@ -20,7 +20,7 @@ public class ConsoleLogger implements DofusLogger { // TODO console logger
 	}
 	
 	private void logColor(String level, int color, String pattern, Object... args) {
-		session.write(BasicGameMessageFormatter.consoleMessage("(" + level + ")" + String.format(pattern, args), color));
+		session.write(BasicGameMessageFormatter.consoleMessage("(" + level + ") " + String.format(pattern, args), color));
 	}
 
 	@Override

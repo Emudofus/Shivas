@@ -139,7 +139,7 @@ public class ItemGameMessageFormatter {
             if (first) first = false;
             else sb.append(';');
 
-            sb.append(item.getId());
+            sb.append(item.getTemplateId());
         }
         sb.append('|');
 

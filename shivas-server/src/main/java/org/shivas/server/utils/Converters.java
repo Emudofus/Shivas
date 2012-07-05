@@ -1,6 +1,9 @@
 package org.shivas.server.utils;
 
+import javax.annotation.Nullable;
+
 import org.shivas.data.entity.ItemEffect;
+import org.shivas.data.entity.ItemTemplate;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.protocol.client.types.BaseItemEffectType;
@@ -42,6 +45,15 @@ public class Converters {
 	public static Function<GameItem, BaseItemType> GAMEITEM_TO_BASEITEMTYPE = new Function<GameItem, BaseItemType>() {
 		public BaseItemType apply(GameItem arg0) {
 			return arg0.toBaseItemType();
+		}
+	};
+	
+	public static Function<GameItem, ItemTemplate> GAMEITEM_TO_ITEMTEMPLATE = new Function<GameItem, ItemTemplate>() {
+		@Nullable
+		public ItemTemplate apply(@Nullable GameItem input) {
+			return input == null ?
+						null :
+						input.getTemplate();
 		}
 	};
 	

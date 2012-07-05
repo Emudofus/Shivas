@@ -6,9 +6,11 @@ import org.shivas.server.database.models.GameItem;
 public class PlayerPodsValue extends PodsValue {
 	
 	private PlayerStatistics stats;
+	private int max;
 
 	public PlayerPodsValue(PlayerStatistics stats) {
 		this.stats = stats;
+		this.max = 1000;
 	}
 
 	@Override
@@ -22,7 +24,22 @@ public class PlayerPodsValue extends PodsValue {
 
 	@Override
 	public int max() {
-		return 1000 + stats.get(CharacteristicType.Strength).safeTotal() * 5; // TODO jobs
+		return max + stats.get(CharacteristicType.Strength).safeTotal() * 5; // TODO jobs
+	}
+
+	@Override
+	public void plusMax(int p) {
+		max += p;
+	}
+
+	@Override
+	public void minusMax(int m) {
+		max -= m;
+	}
+
+	@Override
+	public void resetMax() {
+		max = 1000;
 	}
 
 }
