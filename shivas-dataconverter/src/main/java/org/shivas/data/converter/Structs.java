@@ -10,7 +10,6 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
-import org.shivas.protocol.client.enums.SpellEffectsEnum;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
@@ -89,7 +88,7 @@ public final class Structs {
 	}
 	
 	public static final class SpellEffect {
-		public SpellEffectsEnum type;
+		public int type;
 		public short first, second, third;
 		public short turns = -1, chance = -1;
 		public Dice dice = Dofus1Dice.ZERO;
@@ -100,7 +99,7 @@ public final class Structs {
 		public byte id;
 		public byte costAP;
 		public byte minRange, maxRange;
-		public byte criticalRate, failureRate;
+		public short criticalRate, failureRate;
 		public boolean inline, lov, emptyCell, adjustableRange, endsTurnOnFailure;
 		public byte maxPerTurn, maxPerPlayer, turns;
 		public String rangeType;

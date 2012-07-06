@@ -11,7 +11,6 @@ import org.atomium.util.query.Order;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
-import org.shivas.protocol.client.enums.SpellEffectsEnum;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -97,7 +96,7 @@ public class VemuConverter extends MySqlUserConverter {
 				public Void invoke(ResultSet arg1) throws Exception {
 					createSpells(
 							arg1,
-							App.prompt("Veuillez entrer le répertoire où seront stockés les panoplies"),
+							App.prompt("Veuillez entrer le répertoire où seront stockés les sorts"),
 							out
 					);
 					return null;
@@ -288,13 +287,14 @@ public class VemuConverter extends MySqlUserConverter {
 	}
 	
 	private void loadEffects(String string, List<Structs.SpellEffect> effects) {
-		for (String str : string.split("|")) {
+		for (String str : string.split("\\|")) {
 			if (str.equalsIgnoreCase("-1") || str.isEmpty()) continue;
 			
 			String[] args = str.split(";");
+			if (args.length <= 1) continue;
 			
 			Structs.SpellEffect effect = new Structs.SpellEffect();
-			effect.type = SpellEffectsEnum.valueOf(Integer.parseInt(args[0]));
+			effect.type = Integer.parseInt(args[0]);
 			effect.first = Short.parseShort(args[1]);
 			effect.second = Short.parseShort(args[2]);
 			effect.third = Short.parseShort(args[3]);
@@ -317,29 +317,31 @@ public class VemuConverter extends MySqlUserConverter {
 			spell.spriteInfos = r.getString("spriteInfos");
 			
 			for (byte i = 1; i <= 6; ++i) {
-				String[] args = r.getString("lvl" + i).split(",");
+				String str = r.getString("lvl" + i);
+				if (str.equalsIgnoreCase("-1") || str.isEmpty()) continue;
+				String[] args = str.split(",");
 				
 				Structs.SpellLevel level = new Structs.SpellLevel();
 				level.id = i;
-				level.costAP = Byte.parseByte(args[2]);
-				level.minRange = Byte.parseByte(args[3]);
-				level.maxRange = Byte.parseByte(args[4]);
-				level.criticalRate = Byte.parseByte(args[5]);
-				level.failureRate = Byte.parseByte(args[6]);
+				level.costAP = args[2].isEmpty() ? 6 : Byte.parseByte(args[2].trim());
+				level.minRange = Byte.parseByte(args[3].trim());
+				level.maxRange = Byte.parseByte(args[4].trim());
+				level.criticalRate = Short.parseShort(args[5].trim());
+				level.failureRate = Short.parseShort(args[6].trim());
 				level.inline = args[7].trim().equalsIgnoreCase("true");
 				level.lov = args[8].trim().equalsIgnoreCase("true");
 				level.emptyCell = args[9].trim().equalsIgnoreCase("true");
 				level.adjustableRange = args[10].trim().equalsIgnoreCase("true");
-				level.maxPerTurn = Byte.parseByte(args[12]);
-				level.maxPerPlayer = Byte.parseByte(args[13]);
-				level.turns = Byte.parseByte(args[14]);
+				level.maxPerTurn = Byte.parseByte(args[12].trim());
+				level.maxPerPlayer = Byte.parseByte(args[13].trim());
+				level.turns = Byte.parseByte(args[14].trim());
 				level.rangeType = args[15].trim();
 				level.endsTurnOnFailure = args[19].trim().equalsIgnoreCase("true");
 				
 				loadEffects(args[0], level.effects);
 				loadEffects(args[1], level.criticalEffects);
 				
-				spell.levels[i] = level;
+				spell.levels[i - 1] = level;
 			}
 			
 			spells.add(spell);

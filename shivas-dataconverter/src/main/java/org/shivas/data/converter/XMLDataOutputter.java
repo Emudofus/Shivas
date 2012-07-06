@@ -184,7 +184,7 @@ public class XMLDataOutputter implements DataOutputter {
 	
 	private Element toElement(Structs.SpellEffect effect) {
 		Element effect_elem = new Element("effect");
-		effect_elem.setAttribute("type", String.valueOf(effect.type.value()));
+		effect_elem.setAttribute("type", String.valueOf(effect.type));
 		effect_elem.setAttribute("first", String.valueOf(effect.first));
 		effect_elem.setAttribute("second", String.valueOf(effect.second));
 		effect_elem.setAttribute("third", String.valueOf(effect.third));
@@ -210,6 +210,8 @@ public class XMLDataOutputter implements DataOutputter {
 			spell_elem.addContent(sprite_elem);
 			
 			for (Structs.SpellLevel level : spell.levels) {
+				if (level == null) continue;
+				
 				Element level_elem = new Element("level");
 				level_elem.setAttribute("id", String.valueOf(level.id));
 				level_elem.setAttribute("costAP", String.valueOf(level.costAP));
