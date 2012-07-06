@@ -54,5 +54,20 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 	public WeaponTemplate newWeaponTemplate() {
 		return new WeaponTemplate(this);
 	}
+	
+	@Override
+	public SpellTemplate newSpellTemplate() {
+		return new SpellTemplate();
+	}
+	
+	@Override
+	public SpellLevel newSpellLevel() {
+		return new SpellLevel();
+	}
+	
+	@Override
+	public SpellEffect newSpellEffect() {
+		return new SpellEffect();
+	}
 
 }
