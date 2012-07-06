@@ -30,6 +30,9 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	@Inject
 	private GameItemRepository items;
 	
+	@Inject
+	private SpellRepository spells;
+	
 	private Timer timer;
 	
 	public void load() {
@@ -69,6 +72,11 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	@Override
 	public GameItemRepository items() {
 		return items;
+	}
+
+	@Override
+	public SpellRepository spells() {
+		return spells;
 	}
 
 }

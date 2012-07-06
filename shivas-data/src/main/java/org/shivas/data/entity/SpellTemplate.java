@@ -6,6 +6,8 @@ public class SpellTemplate implements Serializable {
 
 	private static final long serialVersionUID = 1449677293634775838L;
 	
+	public static final int MAX_LEVELS = 6;
+	
 	private short id;
 	private short sprite;
 	private String spriteInfos;

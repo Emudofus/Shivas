@@ -262,7 +262,7 @@ public class XmlLoader extends AbstractLoader {
 			spell.setSprite((short) sprite_elem.getAttribute("id").getIntValue());
 			spell.setSpriteInfos(sprite_elem.getAttributeValue("infos"));
 			
-			SpellLevel[] levels = new SpellLevel[6];
+			SpellLevel[] levels = new SpellLevel[SpellTemplate.MAX_LEVELS];
 			for (Element level_elem : spell_elem.getChildren("level")) {
 				SpellLevel level = factory.newSpellLevel();
 				level.setId((byte) level_elem.getAttribute("id").getIntValue());
