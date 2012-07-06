@@ -11,12 +11,7 @@ import org.atomium.repository.EntityRepository;
 import org.atomium.repository.PersistableEntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
-import org.atomium.util.query.DeleteQueryBuilder;
-import org.atomium.util.query.InsertQueryBuilder;
-import org.atomium.util.query.Op;
-import org.atomium.util.query.Query;
-import org.atomium.util.query.SelectQueryBuilder;
-import org.atomium.util.query.UpdateQueryBuilder;
+import org.atomium.util.query.*;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Breed;
@@ -30,10 +25,9 @@ import org.shivas.server.core.PlayerLook;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.core.spells.SpellList;
 import org.shivas.server.core.statistics.PlayerStatistics;
-import org.shivas.server.database.models.Account;
-import org.shivas.server.database.models.GameItem;
-import org.shivas.server.database.models.Player;
+import org.shivas.server.database.models.*;
 
 @Singleton
 public class PlayerRepository extends AbstractEntityRepository<Integer, Player> {
@@ -44,6 +38,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	private final Container ctner;
 	private final EntityRepository<Integer, Account> accounts;
 	private final PersistableEntityRepository<Long, GameItem> items;
+	private final PersistableEntityRepository<Long, Spell> spells;
 	
 	private DeleteQueryBuilder deleteQuery;
 	private InsertQueryBuilder persistQuery;
@@ -51,12 +46,13 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	private SelectQueryBuilder loadQuery;
 
 	@Inject
-	public PlayerRepository(EntityManager em, Config config, Container ctner, EntityRepository<Integer, Account> accounts, PersistableEntityRepository<Long, GameItem> items) {
+	public PlayerRepository(EntityManager em, Config config, Container ctner, EntityRepository<Integer, Account> accounts, PersistableEntityRepository<Long, GameItem> items, PersistableEntityRepository<Long, Spell> spells) {
 		super(em, new IntegerPrimaryKeyGenerator());
 		this.config = config;
 		this.ctner = ctner;
 		this.accounts = accounts;
 		this.items = items;
+		this.spells = spells;
 		
 		this.deleteQuery = em.builder().delete(TABLE_NAME).where("id", Op.EQ);
 		this.persistQuery = em.builder()
@@ -110,6 +106,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		));
 		
 		player.setBag(new PlayerBag(player, items, config.startKamas()));
+		
+		player.setSpells(new SpellList(player, ctner, spells));
 		
 		persist(player);
 		owner.getPlayers().put(player.id(), player);
@@ -271,6 +269,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		));
 		
 		player.setBag(new PlayerBag(player, items, result.getLong("kamas")));
+		
+		player.setSpells(new SpellList(player, ctner, spells));
 		
 		return player;
 	}

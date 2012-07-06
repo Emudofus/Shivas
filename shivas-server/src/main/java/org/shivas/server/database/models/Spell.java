@@ -28,6 +28,13 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 		this.position = position;
 	}
 
+	public Spell(Player player, SpellTemplate spell) {
+		this.player = player;
+		this.spell = spell;
+		this.level = spell.getLevels()[0]; // first level
+		this.position = -1;
+	}
+
 	@Override
 	public Long id() {
 		return id;

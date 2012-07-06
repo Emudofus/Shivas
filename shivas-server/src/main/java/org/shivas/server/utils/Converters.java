@@ -7,9 +7,11 @@ import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.protocol.client.types.BaseItemEffectType;
 import org.shivas.protocol.client.types.BaseItemType;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
+import org.shivas.protocol.client.types.BaseSpellType;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
+import org.shivas.server.database.models.Spell;
 
 import com.google.common.base.Function;
 
@@ -57,6 +59,14 @@ public class Converters {
 	public static Function<ItemEffect, ItemEffect> ITEMEFFECT_COPY = new Function<ItemEffect, ItemEffect>() {
 		public ItemEffect apply(ItemEffect input) {
 			return input.copy();
+		}
+	};
+
+	public static final Function<Spell, BaseSpellType> SPELL_TO_BASESPELLTYPE = new Function<Spell, BaseSpellType>() {
+		public BaseSpellType apply(Spell input) {
+			return input == null ?
+						null :
+						input.toBaseSpellType();
 		}
 	};
 	

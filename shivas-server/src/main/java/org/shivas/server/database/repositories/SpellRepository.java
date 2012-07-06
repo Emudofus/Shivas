@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 import org.atomium.EntityManager;
 import org.atomium.repository.EntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
-import org.atomium.util.pk.PrimaryKeyGenerator;
+import org.atomium.util.pk.LongPrimaryKeyGenerator;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.QueryBuilder;
@@ -31,8 +31,8 @@ public class SpellRepository extends AbstractEntityRepository<Long, Spell> {
 	private final Query loadQuery;
 
 	@Inject
-	protected SpellRepository(EntityManager em, PrimaryKeyGenerator<Long> pkgen, EntityRepository<Integer, Player> players, Container ctner) {
-		super(em, pkgen);
+	protected SpellRepository(EntityManager em, EntityRepository<Integer, Player> players, Container ctner) {
+		super(em, new LongPrimaryKeyGenerator());
 		this.players = players;
 		this.ctner = ctner;
 		
@@ -83,16 +83,19 @@ public class SpellRepository extends AbstractEntityRepository<Long, Spell> {
 
 	@Override
 	protected Spell load(ResultSet result) throws SQLException {
-		SpellTemplate spell = ctner.get(SpellTemplate.class).byId(result.getInt("spell"));
-		SpellLevel level = spell.getLevels()[result.getInt("level") - 1];
-		
-		return new Spell(
+		SpellTemplate tpl = ctner.get(SpellTemplate.class).byId(result.getInt("spell"));
+		SpellLevel level = tpl.getLevels()[result.getInt("level") - 1];
+		Spell spell = new Spell(
 				result.getLong("id"),
 				players.find(result.getInt("player")),
-				spell,
+				tpl,
 				level,
 				result.getByte("position")
 		);
+		
+		spell.getPlayer().getSpells().add(spell);
+		
+		return spell;
 	}
 
 	@Override

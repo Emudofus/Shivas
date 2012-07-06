@@ -21,6 +21,7 @@ import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.core.spells.SpellList;
 import org.shivas.server.core.statistics.PlayerStatistics;
 import org.shivas.server.services.game.GameClient;
 import org.shivas.server.utils.Converters;
@@ -41,6 +42,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private Location location;
 	private PlayerStatistics stats;
 	private PlayerBag bag;
+	private SpellList spells;
 	
 	private final EventDispatcher event = EventDispatchers.create();
 	
@@ -207,6 +209,20 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	 */
 	public void setBag(PlayerBag bag) {
 		this.bag = bag;
+	}
+
+	/**
+	 * @return the spells
+	 */
+	public SpellList getSpells() {
+		return spells;
+	}
+
+	/**
+	 * @param spells the spells to set
+	 */
+	public void setSpells(SpellList spells) {
+		this.spells = spells;
 	}
 
 	public EventDispatcher getEvent() {
