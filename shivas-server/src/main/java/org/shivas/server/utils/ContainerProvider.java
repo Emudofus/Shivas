@@ -11,6 +11,7 @@ import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
 import org.shivas.data.entity.ItemSet;
 import org.shivas.data.entity.ItemTemplate;
+import org.shivas.data.entity.SpellTemplate;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.maps.GameMap;
 import org.slf4j.Logger;
@@ -43,6 +44,7 @@ public class ContainerProvider implements Provider<Container> {
 			loader.load(GameMap.class, config.dataPath() + "maps/");
 			loader.load(ItemTemplate.class, config.dataPath() + "items/");
 			loader.load(ItemSet.class, config.dataPath() + "itemsets/");
+			loader.load(SpellTemplate.class, config.dataPath() + "spells/");
 			
 			ctner = loader.create();
 		}
