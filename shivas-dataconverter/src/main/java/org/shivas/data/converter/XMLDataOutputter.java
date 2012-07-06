@@ -181,6 +181,20 @@ public class XMLDataOutputter implements DataOutputter {
 
 		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
 	}
+	
+	private Element toElement(Structs.SpellEffect effect) {
+		Element effect_elem = new Element("effect");
+		effect_elem.setAttribute("type", String.valueOf(effect.type.value()));
+		effect_elem.setAttribute("first", String.valueOf(effect.first));
+		effect_elem.setAttribute("second", String.valueOf(effect.second));
+		effect_elem.setAttribute("third", String.valueOf(effect.third));
+		if (effect.turns >= 0) effect_elem.setAttribute("turns", String.valueOf(effect.turns));
+		if (effect.chance >= 0) effect_elem.setAttribute("chance", String.valueOf(effect.chance));
+		if (!effect.dice.equals(Dofus1Dice.ZERO)) effect_elem.setAttribute("dice", String.valueOf(effect.dice.toString()));
+		if (effect.target != "") effect_elem.setAttribute("target", String.valueOf(effect.target));
+		
+		return effect_elem;
+	}
 
 	@Override
 	public void outputSpells(Collection<Structs.SpellTemplate> spells, String fileName) throws IOException {
@@ -213,16 +227,12 @@ public class XMLDataOutputter implements DataOutputter {
 				level_elem.setAttribute("turns", String.valueOf(level.turns));
 				level_elem.setAttribute("rangeType", String.valueOf(level.rangeType));
 				
-				for (Structs.SpellEffect effect : level.effects) {
-					Element effect_elem = new Element("effect");
-					effect_elem.setAttribute("type", String.valueOf(effect.type.value()));
-					effect_elem.setAttribute("first", String.valueOf(effect.first));
-					effect_elem.setAttribute("second", String.valueOf(effect.second));
-					effect_elem.setAttribute("third", String.valueOf(effect.third));
-					if (effect.turns >= 0) effect_elem.setAttribute("turns", String.valueOf(effect.turns));
-					if (effect.chance >= 0) effect_elem.setAttribute("chance", String.valueOf(effect.chance));
-					if (!effect.dice.equals(Dofus1Dice.ZERO)) effect_elem.setAttribute("dice", String.valueOf(effect.dice.toString()));
-					if (effect.target != "") effect_elem.setAttribute("target", String.valueOf(effect.target));
+				for (Structs.SpellEffect effect : level.effects) {					
+					level_elem.addContent(toElement(effect));
+				}
+				for (Structs.SpellEffect effect : level.criticalEffects) {
+					Element effect_elem = toElement(effect);
+					effect_elem.setAttribute("critical", "");
 					
 					level_elem.addContent(effect_elem);
 				}
