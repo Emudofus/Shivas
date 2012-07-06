@@ -10,9 +10,8 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import org.shivas.common.maths.Range;
+import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
-import org.shivas.data.converter.Structs.ItemSet;
-import org.shivas.data.converter.Structs.ItemTemplate;
 
 public class XMLDataOutputter implements DataOutputter {
 	
@@ -106,7 +105,7 @@ public class XMLDataOutputter implements DataOutputter {
 	}
 
 	@Override
-	public void outputItemSets(Collection<ItemSet> itemsets, String fileName) throws IOException {
+	public void outputItemSets(Collection<Structs.ItemSet> itemsets, String fileName) throws IOException {
 		Element root_elem = new Element("itemsets");
 		
 		for (Structs.ItemSet itemset : itemsets) {
@@ -145,7 +144,7 @@ public class XMLDataOutputter implements DataOutputter {
 	}
 
 	@Override
-	public void outputItems(Collection<ItemTemplate> items, String fileName) throws IOException {
+	public void outputItems(Collection<Structs.ItemTemplate> items, String fileName) throws IOException {
 		Element root_elem = new Element("items");
 		
 		for (Structs.ItemTemplate item : items) {
@@ -178,6 +177,60 @@ public class XMLDataOutputter implements DataOutputter {
 			}
 			
 			root_elem.addContent(item_elem);
+		}
+
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+	}
+
+	@Override
+	public void outputSpells(Collection<Structs.SpellTemplate> spells, String fileName) throws IOException {
+		Element root_elem = new Element("spells");
+		
+		for (Structs.SpellTemplate spell : spells) {
+			Element spell_elem = new Element("spell");
+			spell_elem.setAttribute("id", String.valueOf(spell.id));
+			
+			Element sprite_elem = new Element("sprite");
+			sprite_elem.setAttribute("id", String.valueOf(spell.sprite));
+			sprite_elem.setAttribute("infos", spell.spriteInfos);
+			spell_elem.addContent(sprite_elem);
+			
+			for (Structs.SpellLevel level : spell.levels) {
+				Element level_elem = new Element("level");
+				level_elem.setAttribute("id", String.valueOf(level.id));
+				level_elem.setAttribute("costAP", String.valueOf(level.costAP));
+				level_elem.setAttribute("minRange", String.valueOf(level.minRange));
+				level_elem.setAttribute("maxRange", String.valueOf(level.maxRange));
+				level_elem.setAttribute("criticalRate", String.valueOf(level.criticalRate));
+				level_elem.setAttribute("failureRate", String.valueOf(level.failureRate));
+				level_elem.setAttribute("inline", String.valueOf(level.inline));
+				level_elem.setAttribute("lov", String.valueOf(level.lov));
+				level_elem.setAttribute("emptyCell", String.valueOf(level.emptyCell));
+				level_elem.setAttribute("adjustableRange", String.valueOf(level.adjustableRange));
+				level_elem.setAttribute("endsTurnOnFailure", String.valueOf(level.endsTurnOnFailure));
+				level_elem.setAttribute("maxPerTurn", String.valueOf(level.maxPerTurn));
+				level_elem.setAttribute("maxPerPlayer", String.valueOf(level.maxPerPlayer));
+				level_elem.setAttribute("turns", String.valueOf(level.turns));
+				level_elem.setAttribute("rangeType", String.valueOf(level.rangeType));
+				
+				for (Structs.SpellEffect effect : level.effects) {
+					Element effect_elem = new Element("effect");
+					effect_elem.setAttribute("type", String.valueOf(effect.type.value()));
+					effect_elem.setAttribute("first", String.valueOf(effect.first));
+					effect_elem.setAttribute("second", String.valueOf(effect.second));
+					effect_elem.setAttribute("third", String.valueOf(effect.third));
+					if (effect.turns >= 0) effect_elem.setAttribute("turns", String.valueOf(effect.turns));
+					if (effect.chance >= 0) effect_elem.setAttribute("chance", String.valueOf(effect.chance));
+					if (!effect.dice.equals(Dofus1Dice.ZERO)) effect_elem.setAttribute("dice", String.valueOf(effect.dice.toString()));
+					if (effect.target != "") effect_elem.setAttribute("target", String.valueOf(effect.target));
+					
+					level_elem.addContent(effect_elem);
+				}
+				
+				spell_elem.addContent(level_elem);
+			}
+			
+			root_elem.addContent(spell_elem);
 		}
 
 		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));

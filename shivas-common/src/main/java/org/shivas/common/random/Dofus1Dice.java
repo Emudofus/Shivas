@@ -5,6 +5,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Dofus1Dice implements Dice {
 	
+	public static Dofus1Dice ZERO = new Dofus1Dice(0, 0, 0);
+	
 	private static final AtomicReference<Random> rand = new AtomicReference<Random>(new Random(System.nanoTime()));
 	
 	// EXAMPLE : 1d10+5

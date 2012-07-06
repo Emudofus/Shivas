@@ -6,9 +6,11 @@ import java.util.Map;
 import org.shivas.common.maths.Point;
 import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dice;
+import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
+import org.shivas.protocol.client.enums.SpellEffectsEnum;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
@@ -84,5 +86,32 @@ public final class Structs {
 	public static final class ItemEffectTemplate {
 		public ItemEffectEnum effect;
 		public Dice bonus;
+	}
+	
+	public static final class SpellEffect {
+		public SpellEffectsEnum type;
+		public short first, second, third;
+		public short turns = -1, chance = -1;
+		public Dice dice = Dofus1Dice.ZERO;
+		public String target = "";
+	}
+	
+	public static final class SpellLevel {
+		public byte id;
+		public byte costAP;
+		public byte minRange, maxRange;
+		public byte criticalRate, failureRate;
+		public boolean inline, lov, emptyCell, adjustableRange, endsTurnOnFailure;
+		public byte maxPerTurn, maxPerPlayer, turns;
+		public String rangeType;
+		public List<SpellEffect> effects = Lists.newArrayList();
+		public List<SpellEffect> criticalEffects = Lists.newArrayList();
+	}
+	
+	public static final class SpellTemplate {
+		public short id;
+		public short sprite;
+		public String spriteInfos;
+		public SpellLevel[] levels = new SpellLevel[6];
 	}
 }

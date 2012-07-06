@@ -10,5 +10,6 @@ public interface DataOutputter {
 	void outputMaps(Collection<Structs.GameMap> map, String fileName) throws IOException;
 	void outputItemSets(Collection<Structs.ItemSet> itemsets, String fileName) throws IOException;
 	void outputItems(Collection<Structs.ItemTemplate> items, String fileName) throws IOException;
+	void outputSpells(Collection<Structs.SpellTemplate> spells, String fileName) throws IOException;
 	
 }
