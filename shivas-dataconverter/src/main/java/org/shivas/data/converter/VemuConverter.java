@@ -11,6 +11,7 @@ import org.atomium.util.query.Order;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
+import org.shivas.protocol.client.enums.SpellEffectsEnum;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -86,6 +87,23 @@ public class VemuConverter extends MySqlUserConverter {
 			App.log("Toutes les panoplies ont été écris.");
 			
 			items.clear(); // free unused memory
+		}
+		
+		//////////// SPELLS /////////////////
+		
+		if (canWrite("Souhaitez-vous écrire les sorts ?")) {
+			App.log("Les sorts vont être chargés puis écris, cela peut prendre quelques secondes.");
+			super.query(q.select("spells_data").orderBy("id", Order.ASC).toQuery(), new Action1<ResultSet>() {
+				public Void invoke(ResultSet arg1) throws Exception {
+					createSpells(
+							arg1,
+							App.prompt("Veuillez entrer le répertoire où seront stockés les panoplies"),
+							out
+					);
+					return null;
+				}
+			});
+			App.log("Tous les sorts ont été écris.");
 		}
 
 		//////////// MAPS /////////////////
@@ -267,6 +285,67 @@ public class VemuConverter extends MySqlUserConverter {
 		}
 		
 		out.outputItems(items.values(), directory + "items");
+	}
+	
+	private void loadEffects(String string, List<Structs.SpellEffect> effects) {
+		for (String str : string.split("|")) {
+			if (str.equalsIgnoreCase("-1") || str.isEmpty()) continue;
+			
+			String[] args = str.split(";");
+			
+			Structs.SpellEffect effect = new Structs.SpellEffect();
+			effect.type = SpellEffectsEnum.valueOf(Integer.parseInt(args[0]));
+			effect.first = Short.parseShort(args[1]);
+			effect.second = Short.parseShort(args[2]);
+			effect.third = Short.parseShort(args[3]);
+			if (args.length > 4) effect.turns = Short.parseShort(args[4]);
+			if (args.length > 5) effect.chance = Short.parseShort(args[5]);
+			if (args.length > 6) effect.dice = Dofus1Dice.parseDice(args[6]);
+			if (args.length > 7) effect.target = args[7];
+			
+			effects.add(effect);
+		}
+	}
+	
+	private void createSpells(ResultSet r, String directory, DataOutputter out) throws IOException, SQLException {
+		List<Structs.SpellTemplate> spells = Lists.newArrayListWithCapacity(1882); 
+		
+		while (r.next()) {
+			Structs.SpellTemplate spell = new Structs.SpellTemplate();
+			spell.id = r.getShort("id");
+			spell.sprite = r.getShort("sprite");
+			spell.spriteInfos = r.getString("spriteInfos");
+			
+			for (byte i = 1; i <= 6; ++i) {
+				String[] args = r.getString("lvl" + i).split(",");
+				
+				Structs.SpellLevel level = new Structs.SpellLevel();
+				level.id = i;
+				level.costAP = Byte.parseByte(args[2]);
+				level.minRange = Byte.parseByte(args[3]);
+				level.maxRange = Byte.parseByte(args[4]);
+				level.criticalRate = Byte.parseByte(args[5]);
+				level.failureRate = Byte.parseByte(args[6]);
+				level.inline = args[7].trim().equalsIgnoreCase("true");
+				level.lov = args[8].trim().equalsIgnoreCase("true");
+				level.emptyCell = args[9].trim().equalsIgnoreCase("true");
+				level.adjustableRange = args[10].trim().equalsIgnoreCase("true");
+				level.maxPerTurn = Byte.parseByte(args[12]);
+				level.maxPerPlayer = Byte.parseByte(args[13]);
+				level.turns = Byte.parseByte(args[14]);
+				level.rangeType = args[15].trim();
+				level.endsTurnOnFailure = args[19].trim().equalsIgnoreCase("true");
+				
+				loadEffects(args[0], level.effects);
+				loadEffects(args[1], level.criticalEffects);
+				
+				spell.levels[i] = level;
+			}
+			
+			spells.add(spell);
+		}
+		
+		out.outputSpells(spells, directory + "spells");
 	}
 
 }
