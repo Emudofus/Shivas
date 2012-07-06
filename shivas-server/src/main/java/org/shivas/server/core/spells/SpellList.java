@@ -23,13 +23,13 @@ public class SpellList implements Iterable<Spell> {
 	
 	private final Map<Short, Spell> spells = Maps.newHashMap();
 	
-	private short lastLevelUp;
+	private short lastLevel;
 	
 	public SpellList(Player owner, Container ctner, PersistableEntityRepository<Long, Spell> repo) {
 		this.owner = owner;
 		this.ctner = ctner;
 		this.repo = repo;
-		this.lastLevelUp = owner.getExperience().level();
+		this.lastLevel = owner.getExperience().level();
 	}
 	
 	public void add(Spell spell) {
@@ -50,7 +50,7 @@ public class SpellList implements Iterable<Spell> {
 	}
 	
 	public void onLevelUp() {
-		for (int i = lastLevelUp + 1; i <= owner.getExperience().level(); ++i) {
+		for (int i = lastLevel + 1; i <= owner.getExperience().level(); ++i) {
 			SpellTemplate tpl = ctner.get(SpellTemplate.class).byId(i);
 			if (tpl == null) continue;
 			
@@ -58,7 +58,7 @@ public class SpellList implements Iterable<Spell> {
 			persist(spell);
 		}
 		
-		lastLevelUp = owner.getExperience().level();
+		lastLevel = owner.getExperience().level();
 	}
 
 	public Collection<BaseSpellType> toBaseSpellType() {
