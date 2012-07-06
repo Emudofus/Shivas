@@ -329,7 +329,7 @@ public class VemuConverter extends MySqlUserConverter {
 				level.criticalRate = Short.parseShort(args[5].trim());
 				level.failureRate = Short.parseShort(args[6].trim());
 				level.inline = args[7].trim().equalsIgnoreCase("true");
-				level.lov = args[8].trim().equalsIgnoreCase("true");
+				level.los = args[8].trim().equalsIgnoreCase("true");
 				level.emptyCell = args[9].trim().equalsIgnoreCase("true");
 				level.adjustableRange = args[10].trim().equalsIgnoreCase("true");
 				level.maxPerTurn = Byte.parseByte(args[12].trim());

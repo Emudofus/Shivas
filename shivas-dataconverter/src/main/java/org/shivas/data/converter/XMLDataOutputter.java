@@ -220,7 +220,7 @@ public class XMLDataOutputter implements DataOutputter {
 				level_elem.setAttribute("criticalRate", String.valueOf(level.criticalRate));
 				level_elem.setAttribute("failureRate", String.valueOf(level.failureRate));
 				level_elem.setAttribute("inline", String.valueOf(level.inline));
-				level_elem.setAttribute("lov", String.valueOf(level.lov));
+				level_elem.setAttribute("los", String.valueOf(level.los));
 				level_elem.setAttribute("emptyCell", String.valueOf(level.emptyCell));
 				level_elem.setAttribute("adjustableRange", String.valueOf(level.adjustableRange));
 				level_elem.setAttribute("endsTurnOnFailure", String.valueOf(level.endsTurnOnFailure));

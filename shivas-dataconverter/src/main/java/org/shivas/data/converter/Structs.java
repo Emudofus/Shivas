@@ -100,7 +100,7 @@ public final class Structs {
 		public byte costAP;
 		public byte minRange, maxRange;
 		public short criticalRate, failureRate;
-		public boolean inline, lov, emptyCell, adjustableRange, endsTurnOnFailure;
+		public boolean inline, los, emptyCell, adjustableRange, endsTurnOnFailure;
 		public byte maxPerTurn, maxPerPlayer, turns;
 		public String rangeType;
 		public List<SpellEffect> effects = Lists.newArrayList();

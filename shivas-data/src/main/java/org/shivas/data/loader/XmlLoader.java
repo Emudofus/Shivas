@@ -13,18 +13,11 @@ import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.EntityFactory;
-import org.shivas.data.entity.Breed;
-import org.shivas.data.entity.Experience;
-import org.shivas.data.entity.ItemEffect;
-import org.shivas.data.entity.ItemEffectTemplate;
-import org.shivas.data.entity.ItemSet;
-import org.shivas.data.entity.ItemTemplate;
-import org.shivas.data.entity.MapTemplate;
-import org.shivas.data.entity.MapTrigger;
-import org.shivas.data.entity.WeaponTemplate;
+import org.shivas.data.entity.*;
 import org.shivas.data.repository.BaseRepository;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
+import org.shivas.protocol.client.enums.SpellEffectsEnum;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
@@ -65,6 +58,12 @@ public class XmlLoader extends AbstractLoader {
 		loaders.put(ItemTemplate.class, new FileLoader<ItemTemplate>() {
 			public void load(BaseRepository<ItemTemplate> repo, File file) throws Exception {
 				loadItemTemplate(repo, file);
+			}
+		});
+		
+		loaders.put(SpellTemplate.class, new FileLoader<SpellTemplate>() {
+			public void load(BaseRepository<SpellTemplate> repo, File file) throws Exception {
+				loadSpellTemplate(repo, file);
 			}
 		});
 	}
@@ -248,6 +247,77 @@ public class XmlLoader extends AbstractLoader {
 			item.setEffects(effects);
 			
 			repo.put(item.getId(), item);
+		}
+	}
+	
+	private void loadSpellTemplate(BaseRepository<SpellTemplate> repo, File file) throws Exception {
+		Document doc = builder.build(file);
+		
+		Element root = doc.getDescendants(new ElementFilter("spells")).next();
+		for (Element spell_elem : root.getChildren("spell")) {
+			Element sprite_elem = spell_elem.getChild("sprite");
+			
+			SpellTemplate spell = factory.newSpellTemplate();
+			spell.setId((short) spell_elem.getAttribute("id").getIntValue());
+			spell.setSprite((short) sprite_elem.getAttribute("id").getIntValue());
+			spell.setSpriteInfos(sprite_elem.getAttributeValue("infos"));
+			
+			SpellLevel[] levels = new SpellLevel[6];
+			for (Element level_elem : spell_elem.getChildren("level")) {
+				SpellLevel level = factory.newSpellLevel();
+				level.setId((byte) level_elem.getAttribute("id").getIntValue());
+				level.setSpell(spell);
+				level.setMinRange((byte) level_elem.getAttribute("minRange").getIntValue());
+				level.setMaxRange((byte) level_elem.getAttribute("maxRange").getIntValue());
+				level.setCriticalRate((short) level_elem.getAttribute("criticalRate").getIntValue());
+				level.setFailureRate((short) level_elem.getAttribute("failureRate").getIntValue());
+				level.setInline(level_elem.getAttribute("inline").getBooleanValue());
+				level.setLos(level_elem.getAttribute("los").getBooleanValue());
+				level.setEmptyCell(level_elem.getAttribute("emptyCell").getBooleanValue());
+				level.setAdjustableRange(level_elem.getAttribute("adjustableRange").getBooleanValue());
+				level.setEndsTurnOnFailure(level_elem.getAttribute("endsTurnOnFailure").getBooleanValue());
+				level.setMaxPerTurn((byte) level_elem.getAttribute("maxPerTurn").getIntValue());
+				level.setMaxPerPlayer((byte) level_elem.getAttribute("maxPerPlayer").getIntValue());
+				level.setTurns((byte) level_elem.getAttribute("turns").getIntValue());
+				level.setRangeType(level_elem.getAttributeValue("rangeType"));
+				
+				List<SpellEffect> effects = Lists.newArrayList(), criticalEffects = Lists.newArrayList();
+				for (Element effect_elem : level_elem.getChildren("effect")) {
+					SpellEffect effect = factory.newSpellEffect();
+					effect.setLevel(level);
+					effect.setType(SpellEffectsEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
+					effect.setFirst((short) effect_elem.getAttribute("first").getIntValue());
+					effect.setSecond((short) effect_elem.getAttribute("second").getIntValue());
+					effect.setThird((short) effect_elem.getAttribute("third").getIntValue());
+					
+					if (effect_elem.getAttribute("turns") != null)
+						effect.setTurns((short) effect_elem.getAttribute("turns").getIntValue());
+					
+					if (effect_elem.getAttribute("chance") != null)
+						effect.setChance((short) effect_elem.getAttribute("chance").getIntValue());
+					
+					if (effect_elem.getAttribute("dice") != null)
+						effect.setDice(Dofus1Dice.parseDice(effect_elem.getAttributeValue("dice")));
+					else
+						effect.setDice(Dofus1Dice.ZERO);
+					
+					if (effect_elem.getAttribute("target") != null)
+						effect.setTarget(effect_elem.getAttributeValue("target"));
+					
+					if (effect_elem.getAttribute("critical") != null) {
+						criticalEffects.add(effect);
+					} else {
+						effects.add(effect);
+					}
+				}
+				level.setEffects(effects);
+				level.setCriticalEffects(criticalEffects);
+				
+				levels[level.getId() - 1] = level;
+			}
+			spell.setLevels(levels);
+			
+			repo.put(spell.getId(), spell);
 		}
 	}
 
