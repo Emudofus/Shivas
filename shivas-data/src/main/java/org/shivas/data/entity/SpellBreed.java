@@ -8,18 +8,8 @@ public class SpellBreed implements Serializable {
 	
 	private Breed breed;
 	private SpellTemplate template;
-	private int minLevel;
-	private int position;
-	
-	public SpellBreed() {
-	}
-
-	public SpellBreed(Breed breed, SpellTemplate template, int minLevel, int position) {
-		this.breed = breed;
-		this.template = template;
-		this.minLevel = minLevel;
-		this.position = position;
-	}
+	private short minLevel;
+	private byte position;
 
 	public Breed getBreed() {
 		return breed;
@@ -37,19 +27,19 @@ public class SpellBreed implements Serializable {
 		this.template = template;
 	}
 
-	public int getMinLevel() {
+	public short getMinLevel() {
 		return minLevel;
 	}
 
-	public void setMinLevel(int minLevel) {
+	public void setMinLevel(short minLevel) {
 		this.minLevel = minLevel;
 	}
 
-	public int getPosition() {
+	public byte getPosition() {
 		return position;
 	}
 
-	public void setPosition(int position) {
+	public void setPosition(byte position) {
 		this.position = position;
 	}
 

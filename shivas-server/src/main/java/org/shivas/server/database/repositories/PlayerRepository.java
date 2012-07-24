@@ -16,6 +16,7 @@ import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
+import org.shivas.data.entity.SpellBreed;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.server.config.Config;
@@ -88,7 +89,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		player.setLook(new PlayerLook(
 				player,
-				(short) (breed * 10 + gender.ordinal()),
+				player.getBreed().getDefaultSkin(gender),
 				(short) 100,
 				new Colors(color1, color2, color3)
 		));
@@ -107,7 +108,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		player.setBag(new PlayerBag(player, items, config.startKamas()));
 		
-		player.setSpells(new SpellList(player, ctner, spells));
+		player.setSpells(new SpellList(player, spells).onCreated());
 		
 		persist(player);
 		owner.getPlayers().put(player.id(), player);
@@ -270,7 +271,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		player.setBag(new PlayerBag(player, items, result.getLong("kamas")));
 		
-		player.setSpells(new SpellList(player, ctner, spells));
+		player.setSpells(new SpellList(player, spells));
 		
 		return player;
 	}

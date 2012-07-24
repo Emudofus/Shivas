@@ -21,4 +21,5 @@ public interface EntityFactory {
 	SpellTemplate newSpellTemplate();
 	SpellLevel newSpellLevel();
 	SpellEffect newSpellEffect();
+	SpellBreed newSpellBreed();
 }

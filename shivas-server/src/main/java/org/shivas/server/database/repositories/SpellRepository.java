@@ -59,7 +59,7 @@ public class SpellRepository extends AbstractEntityRepository<Long, Spell> {
 		Query query = persistQuery.toQuery();
 		query.setParameter("id", entity.id());
 		query.setParameter("player", entity.getPlayer().id());
-		query.setParameter("spell", entity.getSpell().getId());
+		query.setParameter("spell", entity.getTemplate().getId());
 		query.setParameter("level", entity.getLevel().getId());
 		query.setParameter("position", entity.getPosition());
 		

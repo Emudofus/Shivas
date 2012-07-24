@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.atomium.repository.PersistableEntityRepository;
-import org.shivas.data.Container;
+import org.shivas.data.entity.SpellBreed;
 import org.shivas.data.entity.SpellTemplate;
 import org.shivas.protocol.client.types.BaseSpellType;
 import org.shivas.server.database.models.Player;
@@ -18,25 +18,37 @@ import com.google.common.collect.Maps;
 public class SpellList implements Iterable<Spell> {
 
 	private final Player owner;
-	private final Container ctner;
 	private final PersistableEntityRepository<Long, Spell> repo;
 	
 	private final Map<Short, Spell> spells = Maps.newHashMap();
 	
-	private short lastLevel;
-	
-	public SpellList(Player owner, Container ctner, PersistableEntityRepository<Long, Spell> repo) {
+	public SpellList(Player owner, PersistableEntityRepository<Long, Spell> repo) {
 		this.owner = owner;
-		this.ctner = ctner;
 		this.repo = repo;
-		this.lastLevel = owner.getExperience().level();
 	}
 	
+	public SpellList onCreated() {
+		for (SpellBreed spellbreed : owner.getBreed().getSpells().values()) {
+			if (spellbreed.getMinLevel() <= owner.getExperience().level()) {
+				persist(new Spell(
+						owner,
+						spellbreed.getTemplate(),
+						(byte) spellbreed.getPosition()
+				));
+			}
+		}
+		return this;
+	}
+	
+	public Player getOwner() {
+		return owner;
+	}
+
 	public void add(Spell spell) {
-		spells.put(spell.getSpell().getId(), spell);
+		spells.put(spell.getTemplate().getId(), spell);
 	}
 	
-	protected void persist(Spell spell) {
+	public void persist(Spell spell) {
 		repo.persistLater(spell);
 		add(spell);
 	}
@@ -47,18 +59,6 @@ public class SpellList implements Iterable<Spell> {
 	
 	public Spell get(SpellTemplate tpl) {
 		return get(tpl.getId());
-	}
-	
-	public void onLevelUp() {
-		for (int i = lastLevel + 1; i <= owner.getExperience().level(); ++i) {
-			SpellTemplate tpl = ctner.get(SpellTemplate.class).byId(i);
-			if (tpl == null) continue;
-			
-			Spell spell = new Spell(owner, tpl);
-			persist(spell);
-		}
-		
-		lastLevel = owner.getExperience().level();
 	}
 
 	public Collection<BaseSpellType> toBaseSpellType() {

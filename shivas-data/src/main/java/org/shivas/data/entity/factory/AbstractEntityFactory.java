@@ -70,4 +70,9 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 		return new SpellEffect();
 	}
 
+	@Override
+	public SpellBreed newSpellBreed() {
+		return new SpellBreed();
+	}
+
 }

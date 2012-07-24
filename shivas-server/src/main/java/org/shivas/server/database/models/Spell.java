@@ -14,25 +14,25 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 	
 	private long id;
 	private Player player;
-	private SpellTemplate spell;
+	private SpellTemplate template;
 	private SpellLevel level;
 	private byte position;
 	
 	public Spell() { }
 
-	public Spell(long id, Player player, SpellTemplate spell, SpellLevel level, byte position) {
+	public Spell(long id, Player player, SpellTemplate template, SpellLevel level, byte position) {
 		this.id = id;
 		this.player = player;
-		this.spell = spell;
+		this.template = template;
 		this.level = level;
 		this.position = position;
 	}
 
-	public Spell(Player player, SpellTemplate spell) {
+	public Spell(Player player, SpellTemplate template, byte position) {
 		this.player = player;
-		this.spell = spell;
-		this.level = spell.getLevels()[0]; // first level
-		this.position = -1;
+		this.template = template;
+		this.level = template.getLevels()[0]; // first level
+		this.position = position;
 	}
 
 	@Override
@@ -62,15 +62,15 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 	/**
 	 * @return the spell
 	 */
-	public SpellTemplate getSpell() {
-		return spell;
+	public SpellTemplate getTemplate() {
+		return template;
 	}
 
 	/**
-	 * @param spell the spell to set
+	 * @param template the spell to set
 	 */
-	public void setSpell(SpellTemplate spell) {
-		this.spell = spell;
+	public void setTemplate(SpellTemplate template) {
+		this.template = template;
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 	public void incrementLevel() {
 		if (level.getId() >= SpellTemplate.MAX_LEVELS) return;
 		int next = level.getId() + 1;
-		level = spell.getLevels()[next];
+		level = template.getLevels()[next];
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 	
 	public BaseSpellType toBaseSpellType() {
 		return new BaseSpellType(
-				spell.getId(),
+				template.getId(),
 				level.getId(),
 				position >= 0 ?
 						String.valueOf(StringUtils.ALPHABET.charAt(position)) :
