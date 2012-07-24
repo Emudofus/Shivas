@@ -12,10 +12,10 @@
     </levels>
     <levels type="Strength">
       <level range="0..50" bonus="1" cost="1" />
-      <level range="351.." bonus="5" cost="1" />
-      <level range="151..250" bonus="3" cost="1" />
-      <level range="251..350" bonus="4" cost="1" />
-      <level range="51..150" bonus="2" cost="1" />
+      <level range="351.." bonus="1" cost="5" />
+      <level range="151..250" bonus="1" cost="3" />
+      <level range="251..350" bonus="1" cost="4" />
+      <level range="51..150" bonus="1" cost="2" />
     </levels>
     <levels type="Vitality">
       <level range="0.." bonus="1" cost="1" />
