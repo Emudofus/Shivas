@@ -7,6 +7,15 @@
       <level range="301..400" bonus="1" cost="4" />
       <level range="201..300" bonus="1" cost="3" />
     </levels>
+    <levels type="Wisdom">
+      <level range="0.." bonus="1" cost="3" />
+    </levels>
+    <levels type="Strength">
+      <level range="0..50" bonus="1" cost="2" />
+      <level range="251.." bonus="1" cost="5" />
+      <level range="151..250" bonus="1" cost="4" />
+      <level range="51..150" bonus="1" cost="3" />
+    </levels>
     <levels type="Vitality">
       <level range="0.." bonus="1" cost="1" />
     </levels>
@@ -17,15 +26,6 @@
       <level range="61..80" bonus="1" cost="4" />
       <level range="21..40" bonus="1" cost="2" />
     </levels>
-    <levels type="Strength">
-      <level range="0..50" bonus="1" cost="2" />
-      <level range="251.." bonus="1" cost="5" />
-      <level range="151..250" bonus="1" cost="4" />
-      <level range="51..150" bonus="1" cost="3" />
-    </levels>
-    <levels type="Wisdom">
-      <level range="0.." bonus="1" cost="3" />
-    </levels>
     <levels type="Intelligence">
       <level range="0..100" bonus="1" cost="1" />
       <level range="401.." bonus="1" cost="5" />
@@ -33,5 +33,27 @@
       <level range="301..400" bonus="1" cost="4" />
       <level range="201..300" bonus="1" cost="3" />
     </levels>
+    <spells>
+      <spell id="21" minLevel="1" startPosition="1" />
+      <spell id="23" minLevel="1" startPosition="2" />
+      <spell id="34" minLevel="1" startPosition="3" />
+      <spell id="26" minLevel="3" startPosition="-1" />
+      <spell id="22" minLevel="6" startPosition="-1" />
+      <spell id="35" minLevel="9" startPosition="-1" />
+      <spell id="28" minLevel="13" startPosition="-1" />
+      <spell id="37" minLevel="17" startPosition="-1" />
+      <spell id="30" minLevel="21" startPosition="-1" />
+      <spell id="27" minLevel="26" startPosition="-1" />
+      <spell id="24" minLevel="31" startPosition="-1" />
+      <spell id="33" minLevel="36" startPosition="-1" />
+      <spell id="25" minLevel="42" startPosition="-1" />
+      <spell id="38" minLevel="48" startPosition="-1" />
+      <spell id="36" minLevel="54" startPosition="-1" />
+      <spell id="32" minLevel="60" startPosition="-1" />
+      <spell id="29" minLevel="70" startPosition="-1" />
+      <spell id="39" minLevel="80" startPosition="-1" />
+      <spell id="40" minLevel="90" startPosition="-1" />
+      <spell id="31" minLevel="100" startPosition="-1" />
+    </spells>
   </breed>
 </breeds>
