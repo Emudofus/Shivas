@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 import org.jdom2.Element;
@@ -12,6 +14,7 @@ import org.jdom2.output.XMLOutputter;
 import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.data.converter.Structs.Breed;
 
 public class XMLDataOutputter implements DataOutputter {
 	
@@ -43,9 +46,33 @@ public class XMLDataOutputter implements DataOutputter {
 			breed_elem.addContent(levels_elem);
 		}
 		
+		Element spells_elem = new Element("spells");
+		Collections.sort(breed.spells, new Comparator<Structs.SpellBreed>() {
+			public int compare(Structs.SpellBreed o1, Structs.SpellBreed o2) {
+				return o1.level - o2.level;
+			}
+		});
+		for (Structs.SpellBreed spell : breed.spells) {
+			Element spell_elem = new Element("spell");
+			
+			spell_elem.setAttribute("id", String.valueOf(spell.template.id));
+			spell_elem.setAttribute("minLevel", String.valueOf(spell.level));
+			spell_elem.setAttribute("startPosition", String.valueOf(spell.position));
+			
+			spells_elem.addContent(spell_elem);
+		}
+		breed_elem.addContent(spells_elem);
+		
 		root_elem.addContent(breed_elem);
 
 		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+	}
+
+	@Override
+	public void outputBreeds(Collection<Structs.Breed> breeds, String directory) throws IOException {
+		for (Breed breed : breeds) {
+			outputBreed(breed, directory + breed.name);
+		}
 	}
 
 	@Override

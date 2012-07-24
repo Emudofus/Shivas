@@ -28,6 +28,7 @@ public final class Structs {
 		public String name;
 		public short startLife, startProspection, startActionPoints, startMovementPoints;
 		public Map<CharacteristicType, Map<Range, BreedLevel>> levels = Maps.newHashMap();
+		public List<SpellBreed> spells = Lists.newArrayList();
 	}
 	
 	public static final class Experience {
@@ -112,5 +113,10 @@ public final class Structs {
 		public short sprite;
 		public String spriteInfos;
 		public SpellLevel[] levels = new SpellLevel[6];
+	}
+	
+	public static final class SpellBreed {
+		public SpellTemplate template;
+		public int level, position;
 	}
 }
