@@ -3,6 +3,7 @@ package org.shivas.data.entity;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.shivas.common.StringUtils;
 import org.shivas.common.maths.Range;
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
@@ -45,6 +46,7 @@ public class Breed implements Serializable {
 	private short startLife;
 	private short startProspection;
 	private Map<CharacteristicType, Map<Range, Level>> levels;
+	private Map<Short, SpellBreed> spells; // spell_id => spell
 
 	/**
 	 * @return the id
@@ -119,8 +121,19 @@ public class Breed implements Serializable {
 		return getLevel(characteristic.type(), characteristic.base());
 	}
 	
+	public Map<Short, SpellBreed> getSpells() {
+		return spells;
+	}
+
+	public void setSpells(Map<Short, SpellBreed> spells) {
+		this.spells = spells;
+	}
+
 	public String toShortString() {
-		return toString().substring(0, 4);
+		String longString = toString();
+		if (longString.length() <= 4) return longString;
+		if (StringUtils.isVowels(longString.charAt(3))) return longString.substring(0, 4);
+		else return longString.substring(0, 3);
 	}
 
 	public String toString(){

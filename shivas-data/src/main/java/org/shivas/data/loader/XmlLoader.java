@@ -97,6 +97,19 @@ public class XmlLoader extends AbstractLoader {
 			}
 			breed.setLevels(levels);
 			
+			Map<Short, SpellBreed> spells = Maps.newHashMap();
+			for (Element spell_elem : element.getChild("spells").getChildren()) {
+				SpellBreed spell = new SpellBreed(
+						breed,
+						ctner.get(SpellTemplate.class).byId(spell_elem.getAttribute("id").getIntValue()),
+						spell_elem.getAttribute("minLevel").getIntValue(),
+						spell_elem.getAttribute("startPosition").getIntValue()
+				);
+				
+				spells.put(spell.getTemplate().getId(), spell);
+			}
+			breed.setSpells(spells);
+			
 			repo.put(breed.getId(), breed);
 		}
 	}

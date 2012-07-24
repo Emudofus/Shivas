@@ -55,4 +55,12 @@ public class StringUtils {
 	public static String toHexOrNegative(int n) {
 		return toHexOr(n != -1, n, "-1");
 	}
+	
+	public static boolean isVowels(char c) {
+		return VOWELS.indexOf(c) >= 0;
+	}
+	
+	public static boolean isConsonants(char c) {
+		return CONSONANTS.indexOf(c) >= 0;
+	}
 }

@@ -39,12 +39,12 @@ public class ContainerProvider implements Provider<Container> {
 			log.error("format \"{}\" isn't handled", config.dataExtension());
 		}
 		else {
+			loader.load(SpellTemplate.class, config.dataPath() + "spells/");
 			loader.load(Breed.class, config.dataPath() + "breeds/");
 			loader.load(Experience.class, config.dataPath() + "experiences/");
 			loader.load(GameMap.class, config.dataPath() + "maps/");
 			loader.load(ItemTemplate.class, config.dataPath() + "items/");
 			loader.load(ItemSet.class, config.dataPath() + "itemsets/");
-			loader.load(SpellTemplate.class, config.dataPath() + "spells/");
 			
 			ctner = loader.create();
 		}
