@@ -8,6 +8,7 @@ import org.shivas.common.maths.LimitedValue;
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
+import org.shivas.data.entity.ConstantItemEffect;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemSet;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
@@ -190,10 +191,10 @@ public class PlayerStatistics implements Statistics {
 		}
 	}
 	
-	protected void apply(ItemEffect effect) {
+	protected void apply(ConstantItemEffect effect) {
 		AtomicReference<Boolean> add = new AtomicReference<Boolean>(false);
 		
-		CharacteristicType characType = effect.getEffect().toCharacteristicType(add);
+		CharacteristicType characType = effect.getType().toCharacteristicType(add);
 		if (characType == null) return;
 		
 		Characteristic charac = get(characType);
@@ -220,14 +221,15 @@ public class PlayerStatistics implements Statistics {
 			}
 			
 			for (ItemEffect effect : item.getEffects()) {
-				apply(effect);
+				if (effect instanceof ConstantItemEffect)
+					apply((ConstantItemEffect) effect);
 			}
 		}
 		
 		for (Multiset.Entry<ItemSet> entry : multiset.entrySet()) {	
-			Collection<ItemEffect> effects = entry.getElement().getEffects(entry.getCount());
+			Collection<ConstantItemEffect> effects = entry.getElement().getEffects(entry.getCount());
 			
-			for (ItemEffect effect : effects) {
+			for (ConstantItemEffect effect : effects) {
 				apply(effect);
 			}
 		}

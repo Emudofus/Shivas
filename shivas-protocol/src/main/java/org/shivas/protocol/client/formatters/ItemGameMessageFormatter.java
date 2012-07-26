@@ -68,7 +68,7 @@ public class ItemGameMessageFormatter {
             sb.append(Integer.toHexString(effect.getBonus())).append('#');
             sb.append("0#");
             sb.append("0#");
-            sb.append("0d+0");
+            sb.append(effect.getDice().toString());
         }
     }
 

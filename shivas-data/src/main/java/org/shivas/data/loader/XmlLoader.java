@@ -198,14 +198,14 @@ public class XmlLoader extends AbstractLoader {
 			}
 			itemset.setItems(items);
 			
-			Multimap<Integer, ItemEffect> effects = ArrayListMultimap.create();
+			Multimap<Integer, ConstantItemEffect> effects = ArrayListMultimap.create();
 			
 			for (Element effects_elem : elem.getChildren("effects")) {
 				int level = effects_elem.getAttribute("level").getIntValue();
 				
-				for (Element effect_elem : effects_elem.getChildren("effect")) {
-					ItemEffect effect = factory.newItemEffect();
-					effect.setEffect(ItemEffectEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
+				for (Element effect_elem : effects_elem.getChildren("effect")) {					
+					ConstantItemEffect effect = factory.newConstantItemEffect();
+					effect.setType(ItemEffectEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
 					effect.setBonus((short) effect_elem.getAttribute("bonus").getIntValue());
 					
 					effects.put(level, effect);

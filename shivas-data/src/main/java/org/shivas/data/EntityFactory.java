@@ -1,6 +1,7 @@
 package org.shivas.data;
 
 import org.shivas.data.entity.*;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
 
 public interface EntityFactory {
 	Breed newBreed();
@@ -14,7 +15,11 @@ public interface EntityFactory {
 	ItemSet newItemSet();
 	ItemTemplate newItemTemplate();
 	ItemEffectTemplate newItemEffectTemplate();
-	ItemEffect newItemEffect();
+	
+	ItemEffect newItemEffect(ItemEffectEnum type);
+	ConstantItemEffect newConstantItemEffect();
+	WeaponItemEffect newWeaponItemEffect();
+	
 	Item newItem();
 	WeaponTemplate newWeaponTemplate();
 	

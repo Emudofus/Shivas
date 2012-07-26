@@ -38,7 +38,9 @@ public class ItemEffectTemplate implements Serializable {
 	}
 	
 	public ItemEffect generate() {
-		return new ItemEffect(effect, (short) bonus.roll());
+		return effect.isWeaponEffect() ?
+				new WeaponItemEffect(effect, bonus) :
+				new ConstantItemEffect(effect, (short) bonus.roll());
 	}
 
 }

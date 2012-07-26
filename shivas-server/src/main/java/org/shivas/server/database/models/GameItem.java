@@ -6,6 +6,7 @@ import java.util.Map;
 import org.atomium.PersistableEntity;
 import org.shivas.common.collections.Maps2;
 import org.shivas.data.entity.Item;
+import org.shivas.data.entity.ConstantItemEffect;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
@@ -38,7 +39,7 @@ public class GameItem implements Item, PersistableEntity<Long> {
 		this.owner = owner;
 		this.effects = Maps2.toMap(effects, new Function<ItemEffect, ItemEffectEnum>() {
 			public ItemEffectEnum apply(ItemEffect input) {
-				return input.getEffect();
+				return input.getType();
 			}
 		});
 		this.position = position;
@@ -87,7 +88,7 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	public void setEffects(Collection<ItemEffect> effects) {
 		this.effects = Maps2.toMap(effects, new Function<ItemEffect, ItemEffectEnum>() {
 			public ItemEffectEnum apply(ItemEffect input) {
-				return input.getEffect();
+				return input.getType();
 			}
 		});
 	}
@@ -164,7 +165,9 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	private static int sum(Item item) {
 		int i = 0;
 		for (ItemEffect effect : item.getEffects()) {
-			i += effect.getBonus();
+			if (effect instanceof ConstantItemEffect) {
+				i += ((ConstantItemEffect) effect).getBonus();
+			}
 		}
 		return i;
 	}
@@ -193,9 +196,8 @@ public class GameItem implements Item, PersistableEntity<Long> {
 		for (ItemEffectEnum e : effects.keySet()) {
 			ItemEffect first  = effects.get(e),
 					   second = other.effects.get(e);
-			
-			if (first == null || second == null) return false;
-			if (first.getBonus() != second.getBonus()) return false;
+
+			if (!first.equals(second)) return false;
 		}
 		
 		return true;

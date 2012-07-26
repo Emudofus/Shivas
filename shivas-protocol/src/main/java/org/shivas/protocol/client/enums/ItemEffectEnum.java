@@ -130,6 +130,24 @@ public enum ItemEffectEnum {
     public int value() {
         return value;
     }
+    public boolean isWeaponEffect() {
+    	switch (this) {
+    	case StolenWater:
+    	case StolenEarth:
+    	case StolenWind:
+    	case StolenFire:
+    	case StolenNeutral:
+    	case InflictDamageWater:
+    	case InflictDamageEarth:
+    	case InflictDamageWind:
+    	case InflictDamageFire:
+    	case InflictDamageNeutral:
+    		return true;
+    		
+		default:
+			return false;
+    	}
+    }
 
     private static final Map<Integer, ItemEffectEnum> values = new HashMap<Integer, ItemEffectEnum>();
     static {

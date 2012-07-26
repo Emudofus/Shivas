@@ -3,7 +3,7 @@ package org.shivas.server.services.game.handlers;
 import java.util.Collection;
 import java.util.Map;
 
-import org.shivas.data.entity.ItemEffect;
+import org.shivas.data.entity.ConstantItemEffect;
 import org.shivas.data.entity.ItemSet;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
@@ -43,7 +43,7 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 			
 			Collection<GameItem> items = entry.getValue();
 			ItemSet set = entry.getKey();
-			Collection<ItemEffect> effects = set.getEffects(items.size());
+			Collection<ConstantItemEffect> effects = set.getEffects(items.size());
 			
 			client.write(ItemGameMessageFormatter.addItemSetMessage(
 					set.getId(),
@@ -153,7 +153,7 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		int count = items.size(); // keep size in memory => avoids multiple size computing
 		
 		if (count >= 2) {
-			Collection<ItemEffect> effects = set.getEffects(count);
+			Collection<ConstantItemEffect> effects = set.getEffects(count);
 			
 			client.write(ItemGameMessageFormatter.addItemSetMessage(
 					set.getId(),

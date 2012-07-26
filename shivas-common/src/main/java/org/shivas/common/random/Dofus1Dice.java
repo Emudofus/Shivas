@@ -12,12 +12,16 @@ public class Dofus1Dice implements Dice {
 	// EXAMPLE : 1d10+5
 	
 	public static Dofus1Dice parseDice(String string) {
+		return parseDice(string, 10);
+	}
+	
+	public static Dofus1Dice parseDice(String string, int radix) {
 		int a = string.indexOf('d'),
 			b = string.indexOf('+');
 
-		int round = Integer.parseInt(string.substring(0, a)),
-			num   = b >= 0 ? Integer.parseInt(string.substring(a + 1, b)) : Integer.parseInt(string.substring(a + 1)),
-			add   = b >= 0 ? Integer.parseInt(string.substring(b + 1)) : 0;
+		int round = Integer.parseInt(string.substring(0, a), radix),
+			num   = b >= 0 ? Integer.parseInt(string.substring(a + 1, b), radix) : Integer.parseInt(string.substring(a + 1), radix),
+			add   = b >= 0 ? Integer.parseInt(string.substring(b + 1), radix) : 0;
 			
 		return new Dofus1Dice(round, num, add);
 	}
@@ -52,9 +56,14 @@ public class Dofus1Dice implements Dice {
 	}
 	
 	public String toString() {
+		return toString(10);
+	}
+
+	@Override
+	public String toString(int radix) {
 		return add > 0 ? 
-				(round + "d" + num + "+" + add) : 
-				(round + "d" + num);
+				(Integer.toString(round, radix) + "d" + Integer.toString(num, radix) + "+" + Integer.toString(add, radix)) : 
+				(Integer.toString(round, radix) + "d" + Integer.toString(num, radix));
 	}
 
 }

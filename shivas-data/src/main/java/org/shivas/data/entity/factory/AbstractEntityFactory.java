@@ -2,6 +2,7 @@ package org.shivas.data.entity.factory;
 
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.*;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
 
 public abstract class AbstractEntityFactory implements EntityFactory {
 
@@ -46,8 +47,20 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 	}
 
 	@Override
-	public ItemEffect newItemEffect() {
-		return new ItemEffect();
+	public ItemEffect newItemEffect(ItemEffectEnum type) {
+		return type.isWeaponEffect() ?
+				newWeaponItemEffect() :
+				newConstantItemEffect();
+	}
+
+	@Override
+	public WeaponItemEffect newWeaponItemEffect() {
+		return new WeaponItemEffect();
+	}
+
+	@Override
+	public ConstantItemEffect newConstantItemEffect() {
+		return new ConstantItemEffect();
 	}
 
 	@Override

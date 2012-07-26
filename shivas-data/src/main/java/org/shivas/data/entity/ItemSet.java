@@ -12,7 +12,7 @@ public class ItemSet implements Serializable {
 	
 	private short id;
 	private List<ItemTemplate> items;
-	private Multimap<Integer, ItemEffect> effects;
+	private Multimap<Integer, ConstantItemEffect> effects;
 	
 	/**
 	 * @return the id
@@ -41,17 +41,17 @@ public class ItemSet implements Serializable {
 	/**
 	 * @return the effects
 	 */
-	public Multimap<Integer, ItemEffect> getEffects() {
+	public Multimap<Integer, ConstantItemEffect> getEffects() {
 		return effects;
 	}
 	/**
 	 * @param effects the effects to set
 	 */
-	public void setEffects(Multimap<Integer, ItemEffect> effects) {
+	public void setEffects(Multimap<Integer, ConstantItemEffect> effects) {
 		this.effects = effects;
 	}
 	
-	public Collection<ItemEffect> getEffects(int count) {
+	public Collection<ConstantItemEffect> getEffects(int count) {
 		return effects.get(count);
 	}
 

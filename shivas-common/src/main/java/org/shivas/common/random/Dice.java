@@ -5,4 +5,6 @@ public interface Dice {
 	int max();
 	
 	int roll();
+	
+	String toString(int radix);
 }
