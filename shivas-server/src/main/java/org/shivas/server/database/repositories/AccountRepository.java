@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
 import org.atomium.exception.LoadingException;
-import org.atomium.repository.EntityRepository;
+import org.atomium.repository.BaseEntityRepository;
 import org.atomium.repository.impl.AbstractLiveEntityRepository;
 import org.atomium.util.Filter;
 import org.atomium.util.query.Op;
@@ -33,10 +33,10 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 	private SelectQueryBuilder loadByIdQuery, loadByNameQuery;
 	private UpdateQueryBuilder saveQuery;
 	
-	private EntityRepository<Integer, Player> players;
+	private BaseEntityRepository<Integer, Player> players;
 
 	@Inject
-	public AccountRepository(EntityManager em, EntityRepository<Integer, Player> players) {
+	public AccountRepository(EntityManager em, BaseEntityRepository<Integer, Player> players) {
 		super(em);
 		
 		this.players = players;

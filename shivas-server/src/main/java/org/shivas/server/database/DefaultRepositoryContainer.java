@@ -40,6 +40,7 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 			log.debug("{} accounts loaded", accounts.load());
 			log.debug("{} players loaded", players.load());
 			log.debug("{} items loaded", items.load());
+			log.debug("{} spells loaded", spells.load());
 		} catch (LoadingException e) {
 			log.error("can't load because of {}", e.getMessage());
 		}

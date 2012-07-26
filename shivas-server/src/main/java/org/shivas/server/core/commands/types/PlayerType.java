@@ -1,6 +1,6 @@
 package org.shivas.server.core.commands.types;
 
-import org.atomium.repository.EntityRepository;
+import org.atomium.repository.BaseEntityRepository;
 import org.atomium.util.Filter;
 import org.shivas.common.params.ParsingException;
 import org.shivas.common.params.Type;
@@ -10,9 +10,9 @@ public class PlayerType implements Type {
 
 	public static final Player DEFAULT_VALUE = null;
 	
-	private final EntityRepository<Integer, Player> players;
+	private final BaseEntityRepository<Integer, Player> players;
 	
-	public PlayerType(EntityRepository<Integer, Player> players) {
+	public PlayerType(BaseEntityRepository<Integer, Player> players) {
 		this.players = players;
 	}
 

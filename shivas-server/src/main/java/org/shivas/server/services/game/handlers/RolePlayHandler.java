@@ -1,15 +1,8 @@
 package org.shivas.server.services.game.handlers;
 
-import java.util.ArrayList;
 
 import org.joda.time.DateTime;
-import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
-import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
-import org.shivas.protocol.client.formatters.FriendGameMessageFormatter;
-import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
-import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
-import org.shivas.protocol.client.formatters.SpellGameMessageFormatter;
-import org.shivas.protocol.client.types.BaseSpellType;
+import org.shivas.protocol.client.formatters.*;
 import org.shivas.server.services.AbstractBaseHandlerContainer;
 import org.shivas.server.services.game.GameClient;
 import org.slf4j.Logger;
@@ -28,7 +21,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		super.init();
 		
 		client.write(ChannelGameMessageFormatter.addChannelsMessage(client.account().getChannels()));
-		client.write(SpellGameMessageFormatter.spellListMessage(new ArrayList<BaseSpellType>(0))); // TODO spells
+		client.write(SpellGameMessageFormatter.spellListMessage(client.player().getSpells().toBaseSpellType()));
 		client.write(ChannelGameMessageFormatter.enabledEmotesMessage("")); // TODO emotes
 		client.write(ItemGameMessageFormatter.inventoryStatsMessage(client.player().getStats().pods()));
 		client.write(FriendGameMessageFormatter.notifyFriendOnConnectMessage(false)); // TODO friends
@@ -67,6 +60,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		add('G', new GameHandler(client));
 		add('O', new ItemHandler(client));
 		add('P', new PartyHandler(client));
+		add('S', new SpellHandler(client));
 	}
 
 	@Override

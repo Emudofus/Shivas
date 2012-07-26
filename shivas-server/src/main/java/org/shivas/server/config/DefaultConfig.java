@@ -81,6 +81,16 @@ public class DefaultConfig implements Config {
 		return 2;
 	}
 
+	@Override
+	public short maxSpellLevel() {
+		return 6;
+	}
+
+	@Override
+	public short startSize() {
+		return 100;
+	}
+
 	public short startLevel() {
 		return 200;
 	}

@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
-import org.atomium.repository.EntityRepository;
+import org.atomium.repository.BaseEntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.LongPrimaryKeyGenerator;
 import org.atomium.util.query.Op;
@@ -24,14 +24,14 @@ public class SpellRepository extends AbstractEntityRepository<Long, Spell> {
 	
 	private static final String TABLE_NAME = "spells";
 
-	private final EntityRepository<Integer, Player> players;
+	private final BaseEntityRepository<Integer, Player> players;
 	private final Container ctner;
 	
 	private final QueryBuilder deleteQuery, persistQuery, saveQuery;
 	private final Query loadQuery;
 
 	@Inject
-	protected SpellRepository(EntityManager em, EntityRepository<Integer, Player> players, Container ctner) {
+	protected SpellRepository(EntityManager em, BaseEntityRepository<Integer, Player> players, Container ctner) {
 		super(em, new LongPrimaryKeyGenerator());
 		this.players = players;
 		this.ctner = ctner;
@@ -85,6 +85,7 @@ public class SpellRepository extends AbstractEntityRepository<Long, Spell> {
 	protected Spell load(ResultSet result) throws SQLException {
 		SpellTemplate tpl = ctner.get(SpellTemplate.class).byId(result.getInt("spell"));
 		SpellLevel level = tpl.getLevels()[result.getInt("level") - 1];
+		
 		Spell spell = new Spell(
 				result.getLong("id"),
 				players.find(result.getInt("player")),

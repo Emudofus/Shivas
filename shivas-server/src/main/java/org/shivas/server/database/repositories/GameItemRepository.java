@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
-import org.atomium.repository.EntityRepository;
+import org.atomium.repository.BaseEntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.LongPrimaryKeyGenerator;
 import org.atomium.util.query.Op;
@@ -39,10 +39,10 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 	private final Query load;
 	
 	private final Container ctner;
-	private final EntityRepository<Integer, Player> players;
+	private final BaseEntityRepository<Integer, Player> players;
 
 	@Inject
-	public GameItemRepository(EntityManager em, Container ctner,EntityRepository<Integer, Player> players) {
+	public GameItemRepository(EntityManager em, Container ctner,BaseEntityRepository<Integer, Player> players) {
 		super(em, new LongPrimaryKeyGenerator());
 		
 		this.ctner = ctner;

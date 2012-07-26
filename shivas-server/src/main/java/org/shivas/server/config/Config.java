@@ -25,7 +25,9 @@ public interface Config {
 	
 	int maxPlayersPerAccount();
 	short deleteAnswerLevelNeeded();
-	
+	short maxSpellLevel();
+
+	short startSize();
 	short startLevel();
 	long startKamas();
 	GameMap startMap();

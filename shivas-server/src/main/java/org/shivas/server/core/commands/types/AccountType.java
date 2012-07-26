@@ -1,6 +1,6 @@
 package org.shivas.server.core.commands.types;
 
-import org.atomium.repository.EntityRepository;
+import org.atomium.repository.BaseEntityRepository;
 import org.atomium.util.Filter;
 import org.shivas.common.params.ParsingException;
 import org.shivas.common.params.Type;
@@ -10,9 +10,9 @@ public class AccountType implements Type {
 
 	public static final Account DEFAULT_VALUE = null;
 	
-	private final EntityRepository<Integer, Account> accounts;
+	private final BaseEntityRepository<Integer, Account> accounts;
 
-	public AccountType(EntityRepository<Integer, Account> accounts) {
+	public AccountType(BaseEntityRepository<Integer, Account> accounts) {
 		this.accounts = accounts;
 	}
 

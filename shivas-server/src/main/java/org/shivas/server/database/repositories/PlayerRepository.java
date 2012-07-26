@@ -7,8 +7,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
+import org.atomium.repository.BaseEntityRepository;
 import org.atomium.repository.EntityRepository;
-import org.atomium.repository.PersistableEntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
 import org.atomium.util.query.*;
@@ -37,9 +37,9 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	
 	private final Config config;
 	private final Container ctner;
-	private final EntityRepository<Integer, Account> accounts;
-	private final PersistableEntityRepository<Long, GameItem> items;
-	private final PersistableEntityRepository<Long, Spell> spells;
+	private final BaseEntityRepository<Integer, Account> accounts;
+	private final EntityRepository<Long, GameItem> items;
+	private final EntityRepository<Long, Spell> spells;
 	
 	private DeleteQueryBuilder deleteQuery;
 	private InsertQueryBuilder persistQuery;
@@ -47,7 +47,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	private SelectQueryBuilder loadQuery;
 
 	@Inject
-	public PlayerRepository(EntityManager em, Config config, Container ctner, EntityRepository<Integer, Account> accounts, PersistableEntityRepository<Long, GameItem> items, PersistableEntityRepository<Long, Spell> spells) {
+	public PlayerRepository(EntityManager em, Config config, Container ctner, BaseEntityRepository<Integer, Account> accounts, EntityRepository<Long, GameItem> items, EntityRepository<Long, Spell> spells) {
 		super(em, new IntegerPrimaryKeyGenerator());
 		this.config = config;
 		this.ctner = ctner;
@@ -76,6 +76,18 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				.where("id", Op.EQ);
 		this.loadQuery = em.builder().select(TABLE_NAME);
 	}
+	
+	private void onCreated(Player player) {
+		for (SpellBreed spellbreed : player.getBreed().getSpells().values()) {
+			if (spellbreed.getMinLevel() <= player.getExperience().level()) {
+				spells.persist(new Spell(
+						player,
+						spellbreed.getTemplate(),
+						(byte) spellbreed.getPosition()
+				));
+			}
+		}
+	}
 
 	public Player createDefault(Account owner, String name, int breed, Gender gender, int color1, int color2, int color3) {
 		Player player = new Player(
@@ -90,7 +102,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		player.setLook(new PlayerLook(
 				player,
 				player.getBreed().getDefaultSkin(gender),
-				(short) 100,
+				config.startSize(),
 				new Colors(color1, color2, color3)
 		));
 		
@@ -108,10 +120,12 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		player.setBag(new PlayerBag(player, items, config.startKamas()));
 		
-		player.setSpells(new SpellList(player, spells).onCreated());
+		player.setSpells(new SpellList(player, spells));
 		
 		persist(player);
 		owner.getPlayers().put(player.id(), player);
+		
+		onCreated(player);
 		
 		return player;
 	}

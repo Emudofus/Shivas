@@ -4,8 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.atomium.repository.PersistableEntityRepository;
-import org.shivas.data.entity.SpellBreed;
+import org.atomium.repository.EntityRepository;
 import org.shivas.data.entity.SpellTemplate;
 import org.shivas.protocol.client.types.BaseSpellType;
 import org.shivas.server.database.models.Player;
@@ -17,27 +16,16 @@ import com.google.common.collect.Maps;
 
 public class SpellList implements Iterable<Spell> {
 
+	public static final byte DEFAULT_POSITION = -1;
+	
 	private final Player owner;
-	private final PersistableEntityRepository<Long, Spell> repo;
+	private final EntityRepository<Long, Spell> repo;
 	
 	private final Map<Short, Spell> spells = Maps.newHashMap();
 	
-	public SpellList(Player owner, PersistableEntityRepository<Long, Spell> repo) {
+	public SpellList(Player owner, EntityRepository<Long, Spell> repo) {
 		this.owner = owner;
 		this.repo = repo;
-	}
-	
-	public SpellList onCreated() {
-		for (SpellBreed spellbreed : owner.getBreed().getSpells().values()) {
-			if (spellbreed.getMinLevel() <= owner.getExperience().level()) {
-				persist(new Spell(
-						owner,
-						spellbreed.getTemplate(),
-						(byte) spellbreed.getPosition()
-				));
-			}
-		}
-		return this;
 	}
 	
 	public Player getOwner() {
@@ -49,8 +37,8 @@ public class SpellList implements Iterable<Spell> {
 	}
 	
 	public void persist(Spell spell) {
-		repo.persistLater(spell);
 		add(spell);
+		repo.persistLater(spell);
 	}
 	
 	public Spell get(short tplId) {
@@ -59,6 +47,25 @@ public class SpellList implements Iterable<Spell> {
 	
 	public Spell get(SpellTemplate tpl) {
 		return get(tpl.getId());
+	}
+	
+	public Spell get(byte position) {
+		for (Spell spell : spells.values()) {
+			if (spell.getPosition() == position)
+				return spell;
+		}
+		return null;
+	}
+	
+	public void move(Spell spell, byte position) {
+		Spell samePos; // si la place est déjà prise, on laisse la place au nouveau sort
+		if (position != -1 && (samePos = get(position)) != null) {
+			samePos.setPosition(DEFAULT_POSITION);
+			repo.saveLater(samePos);
+		}
+		
+		spell.setPosition(position);
+		repo.saveLater(spell);
 	}
 
 	public Collection<BaseSpellType> toBaseSpellType() {

@@ -89,8 +89,7 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 	
 	public void incrementLevel() {
 		if (level.getId() >= SpellTemplate.MAX_LEVELS) return;
-		int next = level.getId() + 1;
-		level = template.getLevels()[next];
+		level = template.getLevels()[level.getId()];
 	}
 
 	/**
