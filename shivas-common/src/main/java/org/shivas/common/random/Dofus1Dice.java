@@ -43,7 +43,7 @@ public class Dofus1Dice implements Dice {
 	}
 
 	public int min() {
-		return add;
+		return add + 1;
 	}
 
 	public int max() {

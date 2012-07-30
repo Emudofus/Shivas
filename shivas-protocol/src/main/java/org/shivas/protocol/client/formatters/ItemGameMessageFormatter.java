@@ -65,10 +65,15 @@ public class ItemGameMessageFormatter {
             else sb.append(',');
 
             sb.append(Integer.toHexString(effect.getEffect().value())).append('#');
-            sb.append(Integer.toHexString(effect.getBonus())).append('#');
-            sb.append("0#");
-            sb.append("0#");
-            sb.append(effect.getDice().toString());
+            if (effect.getEffect().isWeaponEffect()) {
+            	sb.append(Integer.toHexString(effect.getDice().min())).append('#');
+            	sb.append(Integer.toHexString(effect.getDice().max())).append('#');
+                sb.append("0#");
+                sb.append(effect.getDice().toString());
+            } else {
+                sb.append(Integer.toHexString(effect.getBonus())).append('#');
+                sb.append("0#0#0d0+0");
+            }
         }
     }
 

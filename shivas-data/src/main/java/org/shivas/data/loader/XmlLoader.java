@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
@@ -14,6 +15,7 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.*;
+import org.shivas.data.entity.factory.ItemActionFactory;
 import org.shivas.data.repository.BaseRepository;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
@@ -27,9 +29,11 @@ import com.google.common.collect.Multimap;
 public class XmlLoader extends AbstractLoader {
 	
 	private final SAXBuilder builder = new SAXBuilder();
+	private final ItemActionFactory itemActions;
 	
 	public XmlLoader(EntityFactory factory) {
 		super(factory);
+		itemActions = factory.newItemActionFactory();
 		
 		loaders.put(Breed.class, new FileLoader<Breed>() {
 			public void load(BaseRepository<Breed> repo, File file) throws Exception {
@@ -218,26 +222,60 @@ public class XmlLoader extends AbstractLoader {
 		}
 	}
 	
+	private ItemAction makeItemAction(Element elem) throws Exception {
+		int type = elem.getAttribute("type").getIntValue();
+		
+		Map<String, String> parameters = Maps.newHashMap();
+		for (Attribute attr : elem.getAttributes()) {
+			if (attr.getName().equalsIgnoreCase("type")) continue;
+			
+			parameters.put(attr.getName(), attr.getValue());
+		}
+		
+		return itemActions.make(type, parameters);
+	}
+	
+	private Map<Integer, ItemAction> makeItemActions(Element elem) throws Exception {
+		Map<Integer, ItemAction> actions = Maps.newHashMap();
+		
+		Element actions_elem = elem.getChild("actions");
+		if (actions_elem != null) {
+			for (Element action_elem : actions_elem.getChildren()) {
+				ItemAction action = makeItemAction(action_elem);
+				actions.put(action.getType(), action);
+			}
+		}
+		
+		return actions;
+	}
+	
+	private ItemTemplate makeItemTemplate(Element elem, ItemTypeEnum type) throws Exception {
+		if (type.isWeapon()) {
+			WeaponTemplate weapon = factory.newWeaponTemplate();
+			
+			weapon.setTwoHands(elem.getAttribute("twoHands").getBooleanValue());
+			weapon.setEthereal(elem.getAttribute("ethereal").getBooleanValue());
+			
+			return weapon;
+		} else if (type.isUsable()) {
+			UsableItemTemplate usable = factory.newUsableItemTemplate();
+			
+			Map<Integer, ItemAction> actions = makeItemActions(elem);
+			usable.setActions(actions);
+			
+			return usable;
+		} else {
+			return factory.newItemTemplate();
+		}
+	}
+	
 	private void loadItemTemplate(BaseRepository<ItemTemplate> repo, File file) throws Exception {
 		Document doc = builder.build(file);
 		
 		Element root = doc.getDescendants(new ElementFilter("items")).next();
 		for (Element item_elem : root.getChildren("item")) {
 			ItemTypeEnum type = ItemTypeEnum.valueOf(item_elem.getAttribute("type").getIntValue());
-			
-			ItemTemplate item;
-			
-			if (type.isWeapon()) {
-				WeaponTemplate weapon = factory.newWeaponTemplate();
-				weapon.setTwoHands(item_elem.getAttribute("twoHands").getBooleanValue());
-				weapon.setEthereal(item_elem.getAttribute("ethereal").getBooleanValue());
-				
-				item = weapon;
-			} else if (type.isUsable()) {
-				item = factory.newItemTemplate(); // TODO usable items
-			} else {
-				item = factory.newItemTemplate();
-			}
+			ItemTemplate item = makeItemTemplate(item_elem, type);
 			
 			item.setId((short) item_elem.getAttribute("id").getIntValue());			
 			item.setType(type);

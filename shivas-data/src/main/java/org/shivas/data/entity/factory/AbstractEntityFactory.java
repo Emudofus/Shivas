@@ -69,6 +69,11 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 	}
 	
 	@Override
+	public UsableItemTemplate newUsableItemTemplate() {
+		return new UsableItemTemplate(this);
+	}
+
+	@Override
 	public SpellTemplate newSpellTemplate() {
 		return new SpellTemplate();
 	}
