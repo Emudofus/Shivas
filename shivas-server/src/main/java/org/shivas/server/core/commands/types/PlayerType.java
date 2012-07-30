@@ -33,11 +33,11 @@ public class PlayerType implements Type {
 			int playerId = Integer.parseInt(string);
 			player = players.find(playerId);
 		} catch (NumberFormatException e) {
-			player = players.filter(new Filter<Player>() {
+			player = players.find(new Filter<Player>() {
 				public Boolean invoke(Player arg1) throws Exception {
 					return arg1.getName().equals(string);
 				}
-			}).get(0);
+			});
 		}
 		
 		if (player == null) {
