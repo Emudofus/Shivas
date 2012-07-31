@@ -30,6 +30,12 @@ public class ShivasItemActionFactory implements ItemActionFactory {
 				return GiveKamasAction.make(parameters);
 			}
 		});
+		
+		makers.put(RegenLifeAction.TYPE, new ItemActionMaker() {
+			public ItemAction make(Map<String, String> parameters) {
+				return RegenLifeAction.make(parameters);
+			}
+		});
 	}
 
 	@Override
