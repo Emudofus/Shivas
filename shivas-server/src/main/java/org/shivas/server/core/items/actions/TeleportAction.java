@@ -12,17 +12,19 @@ public class TeleportAction implements ItemAction {
 
 	public static final int TYPE = 1;
 	
+	private static final String START_PLACEHOLDER = "%start%";
+	
 	public static TeleportAction make(Map<String, String> parameters, Container ctner, Config config) {		
 		String mapRaw  = parameters.get("map"),
 			   cellRaw = parameters.get("cell");
 
-		int mapId = mapRaw.equalsIgnoreCase("start") ?
+		int mapId = mapRaw.equalsIgnoreCase(START_PLACEHOLDER) ?
 				config.startMapId() :
 				Integer.parseInt(mapRaw);
 		
 		GameMap map = ctner.get(GameMap.class).byId(mapId);
 		
-		short cell = mapRaw.equalsIgnoreCase("start") ? 
+		short cell = mapRaw.equalsIgnoreCase(START_PLACEHOLDER) ? 
 				config.startCell() : 
 				Short.parseShort(cellRaw);
 		
