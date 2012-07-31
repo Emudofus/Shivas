@@ -24,6 +24,12 @@ public class ShivasItemActionFactory implements ItemActionFactory {
 				return TeleportAction.make(parameters, ctner, config);
 			}
 		});
+		
+		makers.put(GiveKamasAction.TYPE, new ItemActionMaker() {
+			public ItemAction make(Map<String, String> parameters) {
+				return GiveKamasAction.make(parameters);
+			}
+		});
 	}
 
 	@Override

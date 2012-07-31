@@ -242,7 +242,9 @@ public class XmlLoader extends AbstractLoader {
 		if (actions_elem != null) {
 			for (Element action_elem : actions_elem.getChildren()) {
 				ItemAction action = makeItemAction(action_elem);
-				actions.put(action.getType(), action);
+				if (action != null) {
+					actions.put(action.getType(), action);
+				}
 			}
 		}
 		
