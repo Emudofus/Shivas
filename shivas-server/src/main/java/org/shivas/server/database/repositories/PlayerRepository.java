@@ -118,7 +118,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				config.startAgility()
 		));
 		
-		player.setBag(new PlayerBag(player, items, config.startKamas()));
+		player.setBag(new PlayerBag(player, items, this, config.startKamas()));
 		
 		player.setSpells(new SpellList(player, spells));
 		
@@ -283,7 +283,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				result.getShort("agility")
 		));
 		
-		player.setBag(new PlayerBag(player, items, result.getLong("kamas")));
+		player.setBag(new PlayerBag(player, items, this, result.getLong("kamas")));
 		
 		player.setSpells(new SpellList(player, spells));
 		
