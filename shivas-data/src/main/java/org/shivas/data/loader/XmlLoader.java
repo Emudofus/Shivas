@@ -36,43 +36,56 @@ public class XmlLoader extends AbstractLoader {
 		itemActions = factory.newItemActionFactory(ctner);
 		
 		loaders.put(Breed.class, new FileLoader<Breed>() {
-			public void load(BaseRepository<Breed> repo, File file) throws Exception {
-				loadBreed(repo, file);
+			public int load(BaseRepository<Breed> repo, File file) throws Exception {
+				return loadBreed(repo, file);
 			}
 		});
 		
 		loaders.put(Experience.class, new FileLoader<Experience>() {
-			public void load(BaseRepository<Experience> repo, File file) throws Exception {
-				loadExperience(repo, file);
+			public int load(BaseRepository<Experience> repo, File file) throws Exception {
+				return loadExperience(repo, file);
 			}
 		});
 		
 		loaders.put(MapTemplate.class, new FileLoader<MapTemplate>() {
-			public void load(BaseRepository<MapTemplate> repo, File file) throws Exception {
-				loadMap(repo, file);
+			public int load(BaseRepository<MapTemplate> repo, File file) throws Exception {
+				return loadMap(repo, file);
 			}
 		});
 		
 		loaders.put(SpellTemplate.class, new FileLoader<SpellTemplate>() {
-			public void load(BaseRepository<SpellTemplate> repo, File file) throws Exception {
-				loadSpellTemplate(repo, file);
+			public int load(BaseRepository<SpellTemplate> repo, File file) throws Exception {
+				return loadSpellTemplate(repo, file);
 			}
 		});
 		
 		loaders.put(ItemSet.class, new FileLoader<ItemSet>() {
-			public void load(BaseRepository<ItemSet> repo, File file) throws Exception {
-				loadItemSet(repo, file);
+			public int load(BaseRepository<ItemSet> repo, File file) throws Exception {
+				return loadItemSet(repo, file);
 			}
 		});
 		
 		loaders.put(ItemTemplate.class, new FileLoader<ItemTemplate>() {
-			public void load(BaseRepository<ItemTemplate> repo, File file) throws Exception {
-				loadItemTemplate(repo, file);
+			public int load(BaseRepository<ItemTemplate> repo, File file) throws Exception {
+				return loadItemTemplate(repo, file);
+			}
+		});
+		
+		loaders.put(ItemAction.class, new FileLoader<ItemAction>() {
+			public int load(BaseRepository<ItemAction> repo, File file) throws Exception {
+				return loadItemAction(repo, file);
 			}
 		});
 	}
-	
-	private void loadBreed(BaseRepository<Breed> repo, File file) throws Exception {
+
+	@Override
+	public String getFileExtension() {
+		return "xml";
+	}
+
+	private int loadBreed(BaseRepository<Breed> repo, File file) throws Exception {
+		int count = 0;
+		
 		Document doc = builder.build(file);
 		Element root = doc.getDescendants(new ElementFilter("breeds")).next();
 		for (Element element : root.getChildren("breed")) {
@@ -114,10 +127,15 @@ public class XmlLoader extends AbstractLoader {
 			breed.setSpells(spells);
 			
 			repo.put(breed.getId(), breed);
+			++count;
 		}
+		
+		return count;
 	}
 	
-	private void loadExperience(BaseRepository<Experience> repo, File file) throws Exception {		
+	private int loadExperience(BaseRepository<Experience> repo, File file) throws Exception {
+		int count = 0;
+		
 		Document doc = builder.build(file);
 		Element root = doc.getDescendants(new ElementFilter("experiences")).next();
 		for (Element element : root.getChildren("experience")) {
@@ -129,6 +147,7 @@ public class XmlLoader extends AbstractLoader {
 			experience.setAlignment((short) element.getAttribute("alignment").getIntValue());
 			
 			repo.put(experience.getLevel(), experience);
+			++count;
 		}
 
 		for (int i = 2; i <= repo.count(); ++i) {
@@ -138,9 +157,12 @@ public class XmlLoader extends AbstractLoader {
 			previous.setNext(current);
 			current.setPrevious(previous);
 		}
+		
+		return count;
 	}
 	
-	private void loadMap(BaseRepository<MapTemplate> repo, File file) throws Exception {
+	private int loadMap(BaseRepository<MapTemplate> repo, File file) throws Exception {
+		int count = 0;
 		Document doc = builder.build(file);
 		
 		Element root = doc.getDescendants(new ElementFilter("maps")).next();
@@ -159,6 +181,7 @@ public class XmlLoader extends AbstractLoader {
 			map.setSubscriber(element.getAttributeValue("subscriber") == "1");
 			
 			repo.put(map.getId(), map);
+			++count;
 		}
 		
 		for (Element element : root.getChildren("map")) {
@@ -179,9 +202,12 @@ public class XmlLoader extends AbstractLoader {
 			}
 			map.setTrigger(triggers);
 		}
+		
+		return count;
 	}
 	
-	private void loadItemSet(BaseRepository<ItemSet> repo, File file) throws Exception {
+	private int loadItemSet(BaseRepository<ItemSet> repo, File file) throws Exception {
+		int count = 0;
 		Document doc = builder.build(file);
 		
 		Element root = doc.getDescendants(new ElementFilter("itemsets")).next();
@@ -219,7 +245,10 @@ public class XmlLoader extends AbstractLoader {
 			itemset.setEffects(effects);
 			
 			repo.put(itemset.getId(), itemset);
+			++count;
 		}
+		
+		return count;
 	}
 	
 	private ItemAction makeItemAction(Element elem) throws Exception {
@@ -235,22 +264,6 @@ public class XmlLoader extends AbstractLoader {
 		return itemActions.make(type, parameters);
 	}
 	
-	private Map<Integer, ItemAction> makeItemActions(Element elem) throws Exception {
-		Map<Integer, ItemAction> actions = Maps.newHashMap();
-		
-		Element actions_elem = elem.getChild("actions");
-		if (actions_elem != null) {
-			for (Element action_elem : actions_elem.getChildren()) {
-				ItemAction action = makeItemAction(action_elem);
-				if (action != null) {
-					actions.put(action.getType(), action);
-				}
-			}
-		}
-		
-		return actions;
-	}
-	
 	private ItemTemplate makeItemTemplate(Element elem, ItemTypeEnum type) throws Exception {
 		if (type.isWeapon()) {
 			WeaponTemplate weapon = factory.newWeaponTemplate();
@@ -260,18 +273,14 @@ public class XmlLoader extends AbstractLoader {
 			
 			return weapon;
 		} else if (type.isUsable()) {
-			UsableItemTemplate usable = factory.newUsableItemTemplate();
-			
-			Map<Integer, ItemAction> actions = makeItemActions(elem);
-			usable.setActions(actions);
-			
-			return usable;
+			return factory.newUsableItemTemplate();
 		} else {
 			return factory.newItemTemplate();
 		}
 	}
 	
-	private void loadItemTemplate(BaseRepository<ItemTemplate> repo, File file) throws Exception {
+	private int loadItemTemplate(BaseRepository<ItemTemplate> repo, File file) throws Exception {
+		int count = 0;
 		Document doc = builder.build(file);
 		
 		Element root = doc.getDescendants(new ElementFilter("items")).next();
@@ -299,10 +308,42 @@ public class XmlLoader extends AbstractLoader {
 			item.setEffects(effects);
 			
 			repo.put(item.getId(), item);
+			++count;
 		}
+		
+		return count;
 	}
 	
-	private void loadSpellTemplate(BaseRepository<SpellTemplate> repo, File file) throws Exception {
+	private int loadItemAction(BaseRepository<ItemAction> repo, File file) throws Exception {
+		int count = 0;
+		Document doc = builder.build(file);
+		
+		for (Element actions_elem : doc.getDescendants(new ElementFilter("actions"))) {
+			int tplId = actions_elem.getAttribute("item").getIntValue();
+			ItemTemplate tpl = get(ItemTemplate.class).byId(tplId);
+			if (tpl == null) continue;
+			if (!(tpl instanceof UsableItemTemplate)) throw new Exception("you can't add action on non-usable item");
+			
+			UsableItemTemplate usable = (UsableItemTemplate) tpl;
+			if (usable.getActions() != null) throw new Exception("you can't add anymore actions on this item");
+			
+			List<ItemAction> actions = Lists.newArrayList();
+			for (Element action_elem : actions_elem.getChildren("action")) {
+				ItemAction action = makeItemAction(action_elem);
+				if (action != null) {
+					actions.add(action);
+				}
+			}
+			usable.setActions(actions);
+			
+			++count;
+		}
+		
+		return count;
+	}
+	
+	private int loadSpellTemplate(BaseRepository<SpellTemplate> repo, File file) throws Exception {
+		int count = 0;
 		Document doc = builder.build(file);
 		
 		Element root = doc.getDescendants(new ElementFilter("spells")).next();
@@ -370,7 +411,10 @@ public class XmlLoader extends AbstractLoader {
 			spell.setLevels(levels);
 			
 			repo.put(spell.getId(), spell);
+			++count;
 		}
+		
+		return count;
 	}
 
 }

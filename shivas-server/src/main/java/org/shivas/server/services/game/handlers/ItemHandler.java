@@ -179,7 +179,7 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		assertTrue(item.getTemplate() instanceof UsableItemTemplate, "this isn't a usable item");
 		
 		UsableItemTemplate tpl = (UsableItemTemplate) item.getTemplate();
-		for (ItemAction action : tpl.getActions().values()) {
+		for (ItemAction action : tpl.getActions()) {
 			if (action.able(client.player())) {
 				action.apply(client.player());
 			}

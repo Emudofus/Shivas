@@ -30,6 +30,8 @@ public abstract class AbstractLoader implements Loader {
 		this.factory = factory;
 	}
 	
+	public abstract String getFileExtension();
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private <T> FileLoader<T> getLoader(Class<T> clazz) {
 		for (Map.Entry<Class, FileLoader> entry : loaders.entrySet()) {
@@ -47,14 +49,14 @@ public abstract class AbstractLoader implements Loader {
 			BaseRepository<T> repo = new BaseRepository<T>(entity);
 			log.debug("start load {}", repo.getEntityClass().getSimpleName());
 			
-			loadEntities(
+			int count = loadEntities(
 					repo,
 					new File(path),
 					loader
 			);
 			ctner.add(repo);
 			
-			log.debug("{} {} loaded", repo.count(), repo.getEntityClass().getSimpleName());
+			log.debug("{} {} loaded", count, repo.getEntityClass().getSimpleName());
 		} else {
 			log.error("unknown class \"{}\"", entity.getName());
 		}
@@ -66,13 +68,14 @@ public abstract class AbstractLoader implements Loader {
 		return ctner;		
 	}
 	
-	private <T> void loadEntities(BaseRepository<T> repo, File directory, FileLoader<T> loader) {
+	private <T> int loadEntities(BaseRepository<T> repo, File directory, FileLoader<T> loader) {
+		int total = 0;
 		for (File file : directory.listFiles()) {
 			if (file.isDirectory()) {
-				loadEntities(repo, directory, loader);
-			} else if (FileExtensions.match(file, "xml")) {
+				total += loadEntities(repo, file, loader);
+			} else if (FileExtensions.match(file, getFileExtension())) {
 				try {
-					loader.load(repo, file);
+					total += loader.load(repo, file);
 					
 					log.trace("{} loaded", file.getName());
 				} catch (Exception e) {
@@ -80,6 +83,7 @@ public abstract class AbstractLoader implements Loader {
 				}
 			}
 		}
+		return total;
 	}
 	
 	protected <T> Repository<T> get(Class<T> clazz) {
