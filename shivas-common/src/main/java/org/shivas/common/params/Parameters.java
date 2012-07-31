@@ -16,4 +16,8 @@ public class Parameters {
 		return clazz.cast(values.get(name));
 	}
 	
+	public Object get(String name) {
+		return values.get(name);
+	}
+	
 }
