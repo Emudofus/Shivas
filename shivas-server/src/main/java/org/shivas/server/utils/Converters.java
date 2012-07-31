@@ -51,6 +51,12 @@ public class Converters {
 		}
 	};
 	
+	public static Function<ItemEffect, ItemEffectEnum> ITEMEFFECT_TO_ENUM = new Function<ItemEffect, ItemEffectEnum>() {
+		public ItemEffectEnum apply(ItemEffect input) {
+			return input.getType();
+		}
+	};
+	
 	public static Function<GameItem, BaseItemType> GAMEITEM_TO_BASEITEMTYPE = new Function<GameItem, BaseItemType>() {
 		public BaseItemType apply(GameItem arg0) {
 			return arg0.toBaseItemType();

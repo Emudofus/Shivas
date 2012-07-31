@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.shivas.data.entity.ConstantItemEffect;
+import org.shivas.data.entity.ItemAction;
 import org.shivas.data.entity.ItemSet;
+import org.shivas.data.entity.UsableItemTemplate;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 import org.shivas.server.database.models.GameItem;
@@ -74,6 +76,13 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 			parseMoveMessage(
 					client.player().getBag().get(Long.parseLong(args[0])),
 					ItemPositionEnum.valueOf(Integer.parseInt(args[1]))
+			);
+			break;
+			
+		case 'U':
+			args = message.substring(2).split("\\|");
+			parseUseMessage(
+					client.player().getBag().get(Long.parseLong(args[0]))
 			);
 			break;
 		}
@@ -162,6 +171,26 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 			));
 		} else {
 			client.write(ItemGameMessageFormatter.removeItemSetMessage(set.getId()));
+		}
+	}
+
+	private void parseUseMessage(GameItem item) throws Exception {
+		assertFalse(item == null, "unknown item");
+		assertTrue(item.getTemplate() instanceof UsableItemTemplate, "this isn't a usable item");
+		
+		UsableItemTemplate tpl = (UsableItemTemplate) item.getTemplate();
+		for (ItemAction action : tpl.getActions().values()) {
+			if (action.able(client.player())) {
+				action.apply(client.player());
+			}
+		}
+		
+		item.removeOne();
+		if (item.getQuantity() > 0) {
+			client.write(ItemGameMessageFormatter.quantityMessage(item.id(), item.getQuantity()));
+		} else {
+			client.player().getBag().delete(item);
+			client.write(ItemGameMessageFormatter.deleteMessage(item.id()));
 		}
 	}
 

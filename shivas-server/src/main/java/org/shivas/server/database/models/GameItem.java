@@ -86,11 +86,7 @@ public class GameItem implements Item, PersistableEntity<Long> {
 
 	@Override
 	public void setEffects(Collection<ItemEffect> effects) {
-		this.effects = Maps2.toMap(effects, new Function<ItemEffect, ItemEffectEnum>() {
-			public ItemEffectEnum apply(ItemEffect input) {
-				return input.getType();
-			}
-		});
+		this.effects = Maps2.toMap(effects, Converters.ITEMEFFECT_TO_ENUM);
 	}
 
 	/**
@@ -133,6 +129,10 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	 */
 	public void minusQuantity(int quantity) {
 		this.quantity -= quantity;
+	}
+	
+	public void removeOne() {
+		minusQuantity(1);
 	}
 	
 	public GameItem slice(int quantity) {

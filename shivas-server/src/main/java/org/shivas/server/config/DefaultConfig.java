@@ -1,16 +1,12 @@
 package org.shivas.server.config;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.shivas.data.Container;
+import org.shivas.data.Containers;
 import org.shivas.server.core.maps.GameMap;
 
 @Singleton
 public class DefaultConfig implements Config {
-	
-	@Inject
-	private Container ctner;
 
 	public String databaseConnection() {
 		String hostname = "localhost", database = "shivas";
@@ -103,10 +99,15 @@ public class DefaultConfig implements Config {
 	public short deleteAnswerLevelNeeded() {
 		return 20;
 	}
+	
+	@Override
+	public int startMapId() {
+		return 7411;
+	}
 
 	@Override
 	public GameMap startMap() {
-		return ctner.get(GameMap.class).byId(7411);
+		return Containers.instance().get(GameMap.class).byId(startMapId());
 	}
 
 	@Override

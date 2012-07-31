@@ -24,7 +24,7 @@ public interface EntityFactory {
 	ConstantItemEffect newConstantItemEffect();
 	WeaponItemEffect newWeaponItemEffect();
 	
-	ItemActionFactory newItemActionFactory();
+	ItemActionFactory newItemActionFactory(Container ctner);
 	
 	SpellTemplate newSpellTemplate();
 	SpellLevel newSpellLevel();

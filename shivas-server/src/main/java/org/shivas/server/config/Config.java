@@ -30,6 +30,7 @@ public interface Config {
 	short startSize();
 	short startLevel();
 	long startKamas();
+	int startMapId();
 	GameMap startMap();
 	short startCell();
 	

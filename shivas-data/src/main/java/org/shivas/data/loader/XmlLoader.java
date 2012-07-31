@@ -33,7 +33,7 @@ public class XmlLoader extends AbstractLoader {
 	
 	public XmlLoader(EntityFactory factory) {
 		super(factory);
-		itemActions = factory.newItemActionFactory();
+		itemActions = factory.newItemActionFactory(ctner);
 		
 		loaders.put(Breed.class, new FileLoader<Breed>() {
 			public void load(BaseRepository<Breed> repo, File file) throws Exception {
@@ -53,6 +53,12 @@ public class XmlLoader extends AbstractLoader {
 			}
 		});
 		
+		loaders.put(SpellTemplate.class, new FileLoader<SpellTemplate>() {
+			public void load(BaseRepository<SpellTemplate> repo, File file) throws Exception {
+				loadSpellTemplate(repo, file);
+			}
+		});
+		
 		loaders.put(ItemSet.class, new FileLoader<ItemSet>() {
 			public void load(BaseRepository<ItemSet> repo, File file) throws Exception {
 				loadItemSet(repo, file);
@@ -62,12 +68,6 @@ public class XmlLoader extends AbstractLoader {
 		loaders.put(ItemTemplate.class, new FileLoader<ItemTemplate>() {
 			public void load(BaseRepository<ItemTemplate> repo, File file) throws Exception {
 				loadItemTemplate(repo, file);
-			}
-		});
-		
-		loaders.put(SpellTemplate.class, new FileLoader<SpellTemplate>() {
-			public void load(BaseRepository<SpellTemplate> repo, File file) throws Exception {
-				loadSpellTemplate(repo, file);
 			}
 		});
 	}

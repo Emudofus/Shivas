@@ -15,10 +15,12 @@ public class TeleportAction implements ItemAction {
 	public static TeleportAction make(Map<String, String> parameters, Container ctner, Config config) {		
 		String mapRaw  = parameters.get("map"),
 			   cellRaw = parameters.get("cell");
+
+		int mapId = mapRaw.equalsIgnoreCase("start") ?
+				config.startMapId() :
+				Integer.parseInt(mapRaw);
 		
-		GameMap map = mapRaw.equalsIgnoreCase("start") ? 
-				config.startMap() : 
-				ctner.get(GameMap.class).byId(Integer.parseInt(mapRaw));
+		GameMap map = ctner.get(GameMap.class).byId(mapId);
 		
 		short cell = mapRaw.equalsIgnoreCase("start") ? 
 				config.startCell() : 
