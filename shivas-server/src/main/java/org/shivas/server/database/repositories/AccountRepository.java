@@ -30,7 +30,7 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 	
 	public static final String TABLE_NAME = "accounts";
 	
-	private SelectQueryBuilder loadByIdQuery, loadByNameQuery;
+	private SelectQueryBuilder loadByIdQuery, loadByNameQuery, loadByNicknameQuery;
 	private UpdateQueryBuilder saveQuery;
 	
 	private BaseEntityRepository<Integer, Player> players;
@@ -43,6 +43,7 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 		
 		this.loadByIdQuery = em.builder().select(TABLE_NAME).where("id", Op.EQ);
 		this.loadByNameQuery = em.builder().select(TABLE_NAME).where("name", Op.EQ);
+		this.loadByNicknameQuery = em.builder().select(TABLE_NAME).where("nickname", Op.EQ);
 		this.saveQuery = em.builder()
 				.update(TABLE_NAME)
 				.value("rights").value("banned").value("muted")
@@ -72,6 +73,13 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 	public Account find(String name) {
 		Query query = loadByNameQuery.toQuery();
 		query.setParameter("name", name);
+		
+		return find(query);
+	}
+	
+	public Account findByNickname(String nickname) {
+		Query query = loadByNicknameQuery.toQuery();
+		query.setParameter("nickname", nickname);
 		
 		return find(query);
 	}
