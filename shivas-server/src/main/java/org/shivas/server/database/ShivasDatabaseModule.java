@@ -12,11 +12,17 @@ public class ShivasDatabaseModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(new TypeLiteral<BaseEntityRepository<Integer, Account>>(){}).to(AccountRepository.class);
+		
 		bind(new TypeLiteral<BaseEntityRepository<Integer, Player>>(){}).to(PlayerRepository.class);
+		
 		bind(new TypeLiteral<BaseEntityRepository<Long, GameItem>>(){}).to(GameItemRepository.class);
 		bind(new TypeLiteral<EntityRepository<Long, GameItem>>(){}).to(GameItemRepository.class);
+		
 		bind(new TypeLiteral<BaseEntityRepository<Long, Spell>>(){}).to(SpellRepository.class);
 		bind(new TypeLiteral<EntityRepository<Long, Spell>>(){}).to(SpellRepository.class);
+		
+		bind(new TypeLiteral<BaseEntityRepository<Long, Contact>>(){}).to(ContactRepository.class);
+		bind(new TypeLiteral<EntityRepository<Long, Contact>>(){}).to(ContactRepository.class);
 	}
 
 }

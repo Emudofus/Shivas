@@ -33,6 +33,9 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	@Inject
 	private SpellRepository spells;
 	
+	@Inject
+	private ContactRepository contacts;
+	
 	private Timer timer;
 	
 	public void load() {
@@ -78,6 +81,11 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	@Override
 	public SpellRepository spells() {
 		return spells;
+	}
+
+	@Override
+	public ContactRepository contacts() {
+		return contacts;
 	}
 
 }

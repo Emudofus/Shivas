@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2012-07-06 21:26:08
+Date: 2012-08-10 14:42:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,13 +40,39 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `accounts_name_index` (`name`) USING BTREE,
   UNIQUE KEY `accounts_nickname_index` (`nickname`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of accounts
+-- Table structure for `contacts`
 -- ----------------------------
-INSERT INTO `accounts` VALUES ('1', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush', 'DELETE?', 'DELETE', '1', '0', '0', '0', '0', '2013-05-19 13:43:59', '0', '!#$%:?i@*', '2012-07-05 13:25:11', '127.0.0.1', '82');
-INSERT INTO `accounts` VALUES ('2', 'test2', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', '[TEST]Blackrush2', 'DELETE?', 'DELETE', '1', '0', '0', '0', '0', '2012-05-19 17:27:07', '0', 'i*#$p%:@', '2012-05-28 10:56:34', '127.0.0.1', '21');
+DROP TABLE IF EXISTS `contacts`;
+CREATE TABLE `contacts` (
+  `id` bigint(20) NOT NULL,
+  `owner` int(11) NOT NULL,
+  `target` int(11) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_contact_owner_to_account` (`owner`),
+  KEY `fk_contact_target_to_account` (`target`),
+  CONSTRAINT `fk_contact_target_to_account` FOREIGN KEY (`target`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_contact_owner_to_account` FOREIGN KEY (`owner`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Table structure for `items`
+-- ----------------------------
+DROP TABLE IF EXISTS `items`;
+CREATE TABLE `items` (
+  `id` bigint(20) NOT NULL,
+  `template` int(11) NOT NULL,
+  `owner` int(11) NOT NULL,
+  `effects` text NOT NULL,
+  `position` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_items_owner` (`owner`) USING BTREE,
+  CONSTRAINT `fk_items_owner` FOREIGN KEY (`owner`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for `players`
@@ -88,30 +114,6 @@ CREATE TABLE `players` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
--- Records of players
--- ----------------------------
-
--- ----------------------------
--- Table structure for `items`
--- ----------------------------
-DROP TABLE IF EXISTS `items`;
-CREATE TABLE `items` (
-  `id` bigint(20) NOT NULL,
-  `template` int(11) NOT NULL,
-  `owner` int(11) NOT NULL,
-  `effects` text NOT NULL,
-  `position` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `index_items_owner` (`owner`) USING BTREE,
-  CONSTRAINT `fk_items_owner` FOREIGN KEY (`owner`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of items
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `spells`
 -- ----------------------------
 DROP TABLE IF EXISTS `spells`;
@@ -125,7 +127,3 @@ CREATE TABLE `spells` (
   KEY `fk_spells_player` (`player`),
   CONSTRAINT `fk_spells_player` FOREIGN KEY (`player`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of spells
--- ----------------------------
