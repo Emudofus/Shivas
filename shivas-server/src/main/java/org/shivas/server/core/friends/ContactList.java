@@ -1,12 +1,16 @@
 package org.shivas.server.core.friends;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.atomium.LazyReference;
 import org.atomium.repository.EntityRepository;
+import org.shivas.protocol.client.types.BaseFriendType;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Contact;
+import org.shivas.server.utils.Converters;
 
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
 
 public class ContactList {
@@ -53,6 +57,10 @@ public class ContactList {
 	
 	public boolean remove(Integer targetId) {
 		return contacts.remove(targetId) != null;
+	}
+	
+	public Collection<BaseFriendType> toBaseFriendType() {
+		return Collections2.transform(contacts.values(), Converters.CONTACT_TO_BASEFRIENDTYPE);
 	}
 	
 }

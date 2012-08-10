@@ -8,11 +8,13 @@ import org.shivas.data.entity.ItemTemplate;
 import org.shivas.data.entity.WeaponItemEffect;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.BaseCharacterType;
+import org.shivas.protocol.client.types.BaseFriendType;
 import org.shivas.protocol.client.types.BaseItemEffectType;
 import org.shivas.protocol.client.types.BaseItemType;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
 import org.shivas.protocol.client.types.BaseSpellType;
 import org.shivas.server.core.GameActor;
+import org.shivas.server.database.models.Contact;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.database.models.Spell;
@@ -115,6 +117,12 @@ public class Converters {
 				
 				return new WeaponItemEffect(effect, dice);
 			}
+		}
+	};
+	
+	public static Function<Contact, BaseFriendType> CONTACT_TO_BASEFRIENDTYPE = new Function<Contact, BaseFriendType>() {
+		public BaseFriendType apply(Contact input) {
+			return input.toBaseFriendType();
 		}
 	};
 }

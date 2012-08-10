@@ -2,6 +2,7 @@ package org.shivas.server.database.models;
 
 import org.atomium.LazyReference;
 import org.atomium.PersistableEntity;
+import org.shivas.protocol.client.types.BaseFriendType;
 
 public class Contact implements PersistableEntity<Long> {
 	
@@ -67,6 +68,10 @@ public class Contact implements PersistableEntity<Long> {
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+	
+	public BaseFriendType toBaseFriendType() {
+		return new BaseFriendType(); // TODO friends
 	}
 
 }

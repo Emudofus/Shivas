@@ -1,8 +1,12 @@
 package org.shivas.server.services.game.handlers;
 
+import org.atomium.LazyReference;
 import org.shivas.protocol.client.enums.FriendAddErrorEnum;
 import org.shivas.protocol.client.formatters.FriendGameMessageFormatter;
+import org.shivas.server.core.friends.AlreadyAddedException;
+import org.shivas.server.core.friends.EgocentricAddException;
 import org.shivas.server.database.models.Account;
+import org.shivas.server.database.models.Contact;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
@@ -46,13 +50,18 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 			Player player = client.service().repositories().players().find(raw);
 			if (player != null) {
 				account = player.getOwner();
+			} else {
+				client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.NOT_FOUND));
+				return;
 			}
 		}
-		
-		if (account == null) {
-			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.NOT_FOUND));
-		} else {
-			
+
+		try {
+			client.account().getContacts().add(new LazyReference<Integer, Account>(account), Contact.Type.FRIEND);
+		} catch (EgocentricAddException e) {
+			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.EGOCENTRIC));
+		} catch (AlreadyAddedException e) {
+			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.ALREADY_ADDED));
 		}
 	}
 

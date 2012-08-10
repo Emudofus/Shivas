@@ -8,6 +8,7 @@ import org.atomium.util.Entity;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.shivas.server.core.channels.ChannelList;
+import org.shivas.server.core.friends.ContactList;
 
 public class Account implements Serializable, Entity<Integer> {
 	
@@ -32,6 +33,7 @@ public class Account implements Serializable, Entity<Integer> {
 	private String lastAddress;
 	private int nbConnections;
 	private Map<Integer, Player> players;
+	private ContactList contacts;
 	
 	private Player currentPlayer;
 
@@ -313,6 +315,14 @@ public class Account implements Serializable, Entity<Integer> {
 		return players;
 	}
 	
+	public ContactList getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(ContactList contacts) {
+		this.contacts = contacts;
+	}
+
 	/**
 	 * @return the currentPlayer
 	 */
