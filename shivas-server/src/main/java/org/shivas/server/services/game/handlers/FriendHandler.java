@@ -43,13 +43,13 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseAddMessage(String raw, boolean accountRequest) {
-		Account account = null;
+		Account target = null;
 		if (accountRequest) {
-			account = client.service().repositories().accounts().findByNickname(raw);
+			target = client.service().repositories().accounts().findByNickname(raw);
 		} else {
 			Player player = client.service().repositories().players().find(raw);
 			if (player != null) {
-				account = player.getOwner();
+				target = player.getOwner();
 			} else {
 				client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.NOT_FOUND));
 				return;
@@ -57,7 +57,9 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 		}
 
 		try {
-			client.account().getContacts().add(new LazyReference<Integer, Account>(account), Contact.Type.FRIEND);
+			Contact contact = client.account().getContacts().add(LazyReference.create(target), Contact.Type.FRIEND);
+			
+			client.write(FriendGameMessageFormatter.addFriendMessage(contact.toBaseFriendType()));
 		} catch (EgocentricAddException e) {
 			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.EGOCENTRIC));
 		} catch (AlreadyAddedException e) {

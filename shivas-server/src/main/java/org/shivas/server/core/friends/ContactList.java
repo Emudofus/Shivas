@@ -10,8 +10,8 @@ import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Contact;
 import org.shivas.server.utils.Converters;
 
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
+import static com.google.common.collect.Collections2.*;
 
 public class ContactList {
 
@@ -37,12 +37,12 @@ public class ContactList {
 		contacts.put(contact.getTargetReference().getPk(), contact);
 	}
 	
-	public void add(LazyReference<Integer, Account> target, Contact.Type type)
+	public Contact add(LazyReference<Integer, Account> target, Contact.Type type)
 		throws EgocentricAddException, AlreadyAddedException
 	{
 		if (target.getPk().equals(owner.id())) {
 			throw new EgocentricAddException();
-		} else if (contacts.containsKey(target.getPk())) {
+		} else if (hasContact(target.getPk())) {
 			throw new AlreadyAddedException();
 		}
 		
@@ -53,14 +53,20 @@ public class ContactList {
 		
 		repository.persistLater(contact);
 		contacts.put(target.getPk(), contact);
+		
+		return contact;
 	}
 	
 	public boolean remove(Integer targetId) {
 		return contacts.remove(targetId) != null;
 	}
+
+	public boolean hasContact(int targetId) {
+		return contacts.containsKey(targetId);
+	}
 	
 	public Collection<BaseFriendType> toBaseFriendType() {
-		return Collections2.transform(contacts.values(), Converters.CONTACT_TO_BASEFRIENDTYPE);
+		return transform(contacts.values(), Converters.CONTACT_TO_BASEFRIENDTYPE);
 	}
 	
 }
