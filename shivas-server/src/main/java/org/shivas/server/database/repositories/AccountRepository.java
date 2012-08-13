@@ -51,6 +51,11 @@ public class AccountRepository extends AbstractLiveEntityRepository<Integer, Acc
 				.value("last_connection").value("last_address").value("nb_connections")
 				.where("id", Op.EQ);
 	}
+
+	@Override
+	public long getEntityTimeToLive() {
+		return 2 * 60 * 1000; // 2 minutes in millisecond
+	}
 	
 	@Override
 	public int load() throws LoadingException {

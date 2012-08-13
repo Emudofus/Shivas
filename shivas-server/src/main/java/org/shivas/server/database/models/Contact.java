@@ -1,6 +1,6 @@
 package org.shivas.server.database.models;
 
-import org.atomium.LazyReference;
+import org.atomium.EntityReference;
 import org.atomium.PersistableEntity;
 import org.shivas.protocol.client.types.BaseFriendType;
 
@@ -17,7 +17,7 @@ public class Contact implements PersistableEntity<Long> {
 	}
 	
 	private long id;
-	private LazyReference<Integer, Account> owner, target;
+	private EntityReference<Integer, Account> owner, target;
 	private Type type;
 
 	@Override
@@ -30,7 +30,7 @@ public class Contact implements PersistableEntity<Long> {
 		this.id = pk.longValue();
 	}
 
-	public LazyReference<Integer, Account> getOwnerReference() {
+	public EntityReference<Integer, Account> getOwnerReference() {
 		return owner;
 	}
 	
@@ -38,7 +38,7 @@ public class Contact implements PersistableEntity<Long> {
 		return owner.get();
 	}
 
-	public void setOwnerReference(LazyReference<Integer, Account> owner) {
+	public void setOwnerReference(EntityReference<Integer, Account> owner) {
 		this.owner = owner;
 	}
 	
@@ -46,7 +46,7 @@ public class Contact implements PersistableEntity<Long> {
 		this.owner.set(owner);
 	}
 
-	public LazyReference<Integer, Account> getTargetReference() {
+	public EntityReference<Integer, Account> getTargetReference() {
 		return target;
 	}
 	
@@ -54,7 +54,7 @@ public class Contact implements PersistableEntity<Long> {
 		return target.get();
 	}
 
-	public void setTargetReference(LazyReference<Integer, Account> target) {
+	public void setTargetReference(EntityReference<Integer, Account> target) {
 		this.target = target;
 	}
 	

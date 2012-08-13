@@ -68,6 +68,7 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseListMessage() {
+		client.write(FriendGameMessageFormatter.friendListMessage(client.account().getContacts().toBaseFriendType()));
 	}
 
 }

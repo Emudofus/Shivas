@@ -77,8 +77,8 @@ public class ContactRepository extends AbstractEntityRepository<Long, Contact> {
 	protected Contact load(ResultSet result) throws SQLException {
 		Contact entity = new Contact();
 		entity.setId(result.getLong("id"));
-		entity.setOwnerReference(accounts.getLazyReference(result.getInt("owner")));
-		entity.setTargetReference(accounts.getLazyReference(result.getInt("target")));
+		entity.setOwnerReference(accounts.getReference(result.getInt("owner")));
+		entity.setTargetReference(accounts.getReference(result.getInt("target")));
 		entity.setType(Contact.Type.valueOf(result.getInt("type")));
 		
 		return entity;
