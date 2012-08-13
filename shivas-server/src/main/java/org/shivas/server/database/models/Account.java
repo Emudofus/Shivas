@@ -8,7 +8,7 @@ import org.atomium.util.Entity;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.shivas.server.core.channels.ChannelList;
-import org.shivas.server.core.friends.ContactList;
+import org.shivas.server.core.contacts.ContactList;
 
 public class Account implements Serializable, Entity<Integer> {
 	

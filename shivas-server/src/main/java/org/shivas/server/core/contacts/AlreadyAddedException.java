@@ -1,4 +1,4 @@
-package org.shivas.server.core.friends;
+package org.shivas.server.core.contacts;
 
 public class AlreadyAddedException extends Exception {
 

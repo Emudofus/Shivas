@@ -1,4 +1,4 @@
-package org.shivas.server.core.friends;
+package org.shivas.server.core.contacts;
 
 import java.util.Collection;
 import java.util.Map;
