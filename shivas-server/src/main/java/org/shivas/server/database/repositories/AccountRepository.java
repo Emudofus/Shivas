@@ -15,7 +15,7 @@ import org.atomium.util.Filter;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.UpdateQueryBuilder;
-import org.shivas.common.collections.Maps2;
+import org.shivas.common.collections.CollectionQuery;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1Cipher;
 import org.shivas.protocol.client.enums.ChannelEnum;
@@ -24,6 +24,8 @@ import org.shivas.server.core.channels.ChannelList;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.utils.Converters;
+
+import com.google.common.base.Predicate;
 
 @Singleton
 public class AccountRepository extends AbstractRefreshableEntityRepository<Integer, Account> {
@@ -125,11 +127,13 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 				em.builder().dateTimeFormatter().parseDateTime(result.getString("last_connection")),
 				result.getString("last_address"),
 				result.getInt("nb_connections"),
-				Maps2.toMap(this.players.filter(new Filter<Player>() {
-					public Boolean invoke(Player arg1) throws Exception {
-						return arg1.getOwnerReference().getPk() == id;
-					}
-				}), Converters.PLAYER_TO_ID)
+				CollectionQuery.from(players)
+					.filter(new Predicate<Player>() {
+						public boolean apply(Player input) {
+							return input.getOwnerReference().getPk() == id;
+						}
+					})
+					.computeMap(Converters.PLAYER_TO_ID)
 		);
 		
 		if (account.hasRights() && !account.getChannels().contains(ChannelEnum.Admin)) {
