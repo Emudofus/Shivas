@@ -31,7 +31,7 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	public static final String TABLE_NAME = "accounts";
 	
 	private final UpdateQueryBuilder saveQuery;
-	private final Query loadQuery, refreshQuery;
+	private final Query loadQuery, refreshQuery, setRefreshedQuery;
 	
 	private BaseEntityRepository<Integer, Player> players;
 
@@ -47,6 +47,10 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 				.value("points").value("connected").value("channels")
 				.value("last_connection").value("last_address").value("nb_connections")
 				.where("id", Op.EQ);
+		this.setRefreshedQuery = em.builder()
+				.update(TABLE_NAME)
+				.value("refreshed", false)
+				.toQuery();
 		this.loadQuery = em.builder()
 				.select(TABLE_NAME)
 				.toQuery();
@@ -67,29 +71,30 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	}
 
 	@Override
+	protected Query getSetRefreshedQuery() {
+		return setRefreshedQuery;
+	}
+
+	@Override
 	protected Query buildSaveQuery(Account entity) {
-		Query query = saveQuery.toQuery();
-		query.setParameter("id", entity.id());
-		query.setParameter("rights", entity.hasRights());
-		query.setParameter("banned", entity.isBanned());
-		query.setParameter("muted", entity.isMuted());
-		query.setParameter("points", entity.getPoints());
-		query.setParameter("connected", entity.isConnected());
-		query.setParameter("channels", entity.getChannels());
-		query.setParameter("last_connection", entity.getLastConnection());
-		query.setParameter("last_address", entity.getLastAddress());
-		query.setParameter("nb_connections", entity.getNbConnections());
-		
-		return query;
+		return saveQuery.toQuery()
+			.setParameter("id", entity.id())
+			.setParameter("rights", entity.hasRights())
+			.setParameter("banned", entity.isBanned())
+			.setParameter("muted", entity.isMuted())
+			.setParameter("points", entity.getPoints())
+			.setParameter("connected", entity.isConnected())
+			.setParameter("channels", entity.getChannels())
+			.setParameter("last_connection", entity.getLastConnection())
+			.setParameter("last_address", entity.getLastAddress())
+			.setParameter("nb_connections", entity.getNbConnections());
 	}
 	
 	@Override
 	public int load() throws LoadingException {
-		int result = super.load();
-		
 		em.execute(em.builder().update(TABLE_NAME).value("connected", false).toQuery());
 		
-		return result;
+		return super.load();
 	}
 
 	@Override
