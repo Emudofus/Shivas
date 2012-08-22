@@ -88,7 +88,7 @@ public class SimpleBag implements Bag {
 	}
 	
 	public void add(GameItem item) {
-		items.put(item.id(), item);
+		items.put(item.getId(), item);
 	}
 	
 	public GameItem remove(long itemId) {
@@ -96,7 +96,7 @@ public class SimpleBag implements Bag {
 	}
 	
 	public boolean remove(GameItem item) {
-		return items.remove(item.id()) == item;
+		return items.remove(item.getId()) == item;
 	}
 	
 	public int count() {

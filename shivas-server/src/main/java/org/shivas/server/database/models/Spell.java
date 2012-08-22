@@ -36,7 +36,7 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 	}
 
 	@Override
-	public Long id() {
+	public Long getId() {
 		return id;
 	}
 

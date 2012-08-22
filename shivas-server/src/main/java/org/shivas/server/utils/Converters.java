@@ -26,7 +26,7 @@ public class Converters {
 
 	public static Function<Player, Integer> PLAYER_TO_ID = new Function<Player, Integer>() {
 		public Integer apply(Player arg0) {
-			return arg0.id();
+			return arg0.getPublicId();
 		}
 	};
 	

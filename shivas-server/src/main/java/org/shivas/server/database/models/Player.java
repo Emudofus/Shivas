@@ -73,7 +73,11 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	/**
 	 * @return the id
 	 */
-	public Integer id() {
+	public Integer getId() {
+		return id;
+	}
+	
+	public int getPublicId() {
 		return id;
 	}
 
@@ -250,7 +254,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		location.setMap(map);
 		location.setCell(cell);
 		
-		client.write(GameMessageFormatter.changeMapMessage(client.player().id()));
+		client.write(GameMessageFormatter.changeMapMessage(client.player().getPublicId()));
 		client.write(GameMessageFormatter.mapDataMessage(
 				client.player().getLocation().getMap().getId(),
 				client.player().getLocation().getMap().getDate(),

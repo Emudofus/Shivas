@@ -37,13 +37,13 @@ public class GameMap extends MapTemplate {
 		if (actor instanceof GameActorWithoutId) {
 			((GameActorWithoutId) actor).setId(--actorId);
 		}
-		actors.put(actor.id(), actor);
+		actors.put(actor.getPublicId(), actor);
 		
 		event.publish(new BaseMapEvent(actor, MapEventType.ENTER));
 	}
 	
 	public void leave(GameActor actor) {
-		actors.remove(actor.id());
+		actors.remove(actor.getPublicId());
 		
 		event.publish(new BaseMapEvent(actor, MapEventType.LEAVE));
 	}

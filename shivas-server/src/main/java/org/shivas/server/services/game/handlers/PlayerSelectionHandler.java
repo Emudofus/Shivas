@@ -135,7 +135,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			throw new CriticalException("unknown player #%d !", playerId);
 		} else {
 			client.write(ApproachGameMessageFormatter.characterSelectionSucessMessage(
-					player.id(),
+					player.getPublicId(),
 					player.getName(),
 					player.getExperience().level(),
 					player.getBreed().getId(),

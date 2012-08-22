@@ -67,7 +67,7 @@ public class Account implements Serializable, Entity<Integer> {
 	/**
 	 * @return the id
 	 */
-	public Integer id() {
+	public Integer getId() {
 		return id;
 	}
 

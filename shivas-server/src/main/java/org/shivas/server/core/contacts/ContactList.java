@@ -30,7 +30,7 @@ public class ContactList {
 	}
 	
 	public void add(Contact contact) {
-		if (!contact.getOwnerReference().getPk().equals(owner.id())) {
+		if (!contact.getOwnerReference().getPk().equals(owner.getId())) {
 			return;
 		}
 		
@@ -40,7 +40,7 @@ public class ContactList {
 	public Contact add(LazyReference<Integer, Account> target, Contact.Type type)
 		throws EgocentricAddException, AlreadyAddedException
 	{
-		if (target.getPk().equals(owner.id())) {
+		if (target.getPk().equals(owner.getId())) {
 			throw new EgocentricAddException();
 		} else if (hasContact(target.getPk())) {
 			throw new AlreadyAddedException();

@@ -49,7 +49,7 @@ public class SpellRepository extends AbstractEntityRepository<Long, Spell> {
 	@Override
 	protected Query buildDeleteQuery(Spell entity) {
 		Query query = deleteQuery.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getId());
 		
 		return query;
 	}
@@ -57,8 +57,8 @@ public class SpellRepository extends AbstractEntityRepository<Long, Spell> {
 	@Override
 	protected Query buildPersistQuery(Spell entity) {
 		Query query = persistQuery.toQuery();
-		query.setParameter("id", entity.id());
-		query.setParameter("player", entity.getPlayer().id());
+		query.setParameter("id", entity.getId());
+		query.setParameter("player", entity.getPlayer().getPublicId());
 		query.setParameter("spell", entity.getTemplate().getId());
 		query.setParameter("level", entity.getLevel().getId());
 		query.setParameter("position", entity.getPosition());
@@ -69,7 +69,7 @@ public class SpellRepository extends AbstractEntityRepository<Long, Spell> {
 	@Override
 	protected Query buildSaveQuery(Spell entity) {
 		Query query = saveQuery.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getId());
 		query.setParameter("level", entity.getLevel().getId());
 		query.setParameter("position", entity.getPosition());
 		

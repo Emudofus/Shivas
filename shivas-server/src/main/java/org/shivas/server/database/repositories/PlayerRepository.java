@@ -123,7 +123,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		player.setSpells(new SpellList(player, spells));
 		
 		persist(player);
-		owner.getPlayers().put(player.id(), player);
+		owner.getPlayers().put(player.getPublicId(), player);
 		
 		onCreated(player);
 		
@@ -160,7 +160,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	@Override
 	protected Query buildDeleteQuery(Player entity) {
 		Query query = deleteQuery.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getPublicId());
 		
 		return query;
 	}
@@ -168,7 +168,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	@Override
 	protected Query buildPersistQuery(Player entity) {
 		Query query = persistQuery.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getPublicId());
 		query.setParameter("owner_id", entity.getOwner());
 		query.setParameter("name", entity.getName());
 		query.setParameter("breed_id", entity.getBreed().getId());
@@ -203,7 +203,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	@Override
 	protected Query buildSaveQuery(Player entity) {
 		Query query = saveQuery.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getPublicId());
 		query.setParameter("gender", entity.getGender());
 		query.setParameter("skin", entity.getLook().skin());
 		query.setParameter("size", entity.getLook().size());

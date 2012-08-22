@@ -41,7 +41,7 @@ public class ContactRepository extends AbstractEntityRepository<Long, Contact> {
 	@Override
 	protected Query buildDeleteQuery(Contact entity) {
 		Query query = delete.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getId());
 		
 		return query;
 	}
@@ -49,7 +49,7 @@ public class ContactRepository extends AbstractEntityRepository<Long, Contact> {
 	@Override
 	protected Query buildPersistQuery(Contact entity) {
 		Query query = persist.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getId());
 		query.setParameter("owner", entity.getOwnerReference().getPk());
 		query.setParameter("target", entity.getTargetReference().getPk());
 		query.setParameter("type", entity.getType().ordinal());
@@ -60,7 +60,7 @@ public class ContactRepository extends AbstractEntityRepository<Long, Contact> {
 	@Override
 	protected Query buildSaveQuery(Contact entity) {
 		Query query = save.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getId());
 		query.setParameter("owner", entity.getOwnerReference().getPk());
 		query.setParameter("target", entity.getTargetReference().getPk());
 		query.setParameter("type", entity.getType().ordinal());

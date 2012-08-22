@@ -96,11 +96,11 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		if (quantity < item.getQuantity()) {
 			item.minusQuantity(quantity);
 			
-			client.write(ItemGameMessageFormatter.quantityMessage(item.id(), item.getQuantity()));
+			client.write(ItemGameMessageFormatter.quantityMessage(item.getId(), item.getQuantity()));
 		} else {
 			client.player().getBag().delete(item);
 			
-			client.write(ItemGameMessageFormatter.deleteMessage(item.id()));
+			client.write(ItemGameMessageFormatter.deleteMessage(item.getId()));
 		}
 		
 		client.write(client.player().getStats().packet());
@@ -120,8 +120,8 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 			client.service().repositories().items().saveLater(same);
 			client.player().getBag().delete(item);
 			
-			client.write(ItemGameMessageFormatter.deleteMessage(item.id()));
-			client.write(ItemGameMessageFormatter.quantityMessage(same.id(), same.getQuantity()));
+			client.write(ItemGameMessageFormatter.deleteMessage(item.getId()));
+			client.write(ItemGameMessageFormatter.quantityMessage(same.getId(), same.getQuantity()));
 		} else {
 			if (item.getQuantity() > 1) {
 				GameItem sliced = item.sliceOne();
@@ -130,7 +130,7 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 				client.service().repositories().items().saveLater(item);
 				
 				client.write(ItemGameMessageFormatter.addItemMessage(sliced.toBaseItemType()));
-				client.write(ItemGameMessageFormatter.quantityMessage(item.id(), item.getQuantity()));
+				client.write(ItemGameMessageFormatter.quantityMessage(item.getId(), item.getQuantity()));
 				
 				item = sliced;
 			}
@@ -138,7 +138,7 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 			item.setPosition(position);
 			client.service().repositories().items().saveLater(item);
 			
-			client.write(ItemGameMessageFormatter.itemMovementMessage(item.id(), position));
+			client.write(ItemGameMessageFormatter.itemMovementMessage(item.getId(), position));
 		}
 		
 		applyItemSet(item);
@@ -187,10 +187,10 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		
 		item.removeOne();
 		if (item.getQuantity() > 0) {
-			client.write(ItemGameMessageFormatter.quantityMessage(item.id(), item.getQuantity()));
+			client.write(ItemGameMessageFormatter.quantityMessage(item.getId(), item.getQuantity()));
 		} else {
 			client.player().getBag().delete(item);
-			client.write(ItemGameMessageFormatter.deleteMessage(item.id()));
+			client.write(ItemGameMessageFormatter.deleteMessage(item.getId()));
 		}
 	}
 

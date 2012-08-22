@@ -52,7 +52,7 @@ public class DefaultEventListener implements EventListener {
 		case MOVEMENT:
 			RolePlayMovement movement = (RolePlayMovement) action;
 			client.write(GameMessageFormatter.actorMovementMessage(
-					movement.actor().id().longValue(),
+					movement.actor().getPublicId(),
 					movement.path().toString()
 			));
 			break;
@@ -62,7 +62,7 @@ public class DefaultEventListener implements EventListener {
 	private void listenChannel(ChannelEvent event) {
 		client.write(ChannelGameMessageFormatter.clientMultiMessage(
 				event.channel(),
-				event.author().id(),
+				event.author().getPublicId(),
 				event.author().getName(),
 				event.message()
 		));
@@ -75,7 +75,7 @@ public class DefaultEventListener implements EventListener {
 			break;
 			
 		case LEAVE:
-			client.write(GameMessageFormatter.removeActorMessage(event.actor().id()));
+			client.write(GameMessageFormatter.removeActorMessage(event.actor().getPublicId()));
 			break;
 			
 		case UPDATE:
@@ -83,7 +83,7 @@ public class DefaultEventListener implements EventListener {
 			break;
 			
 		case ACCESSORIES:
-			client.write(ItemGameMessageFormatter.accessoriesMessage(event.actor().id(), event.actor().getLook().accessories()));
+			client.write(ItemGameMessageFormatter.accessoriesMessage(event.actor().getPublicId(), event.actor().getLook().accessories()));
 			break;
 		}
 	}

@@ -47,7 +47,7 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	}
 
 	@Override
-	public Long id() {
+	public Long getId() {
 		return id;
 	}
 

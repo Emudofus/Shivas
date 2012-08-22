@@ -21,7 +21,7 @@ public class Contact implements PersistableEntity<Long> {
 	private Type type;
 
 	@Override
-	public Long id() {
+	public Long getId() {
 		return id;
 	}
 

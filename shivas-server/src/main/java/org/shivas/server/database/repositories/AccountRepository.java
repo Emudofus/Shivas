@@ -80,7 +80,7 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	@Override
 	protected Query buildSaveQuery(Account entity) {
 		return saveQuery.toQuery()
-			.setParameter("id", entity.id())
+			.setParameter("id", entity.getId())
 			.setParameter("rights", entity.hasRights())
 			.setParameter("banned", entity.isBanned())
 			.setParameter("muted", entity.isMuted())

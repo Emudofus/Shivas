@@ -65,7 +65,7 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 	@Override
 	protected Query buildDeleteQuery(GameItem entity) {
 		Query query = delete.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getId());
 		
 		return query;
 	}
@@ -73,7 +73,7 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 	@Override
 	protected Query buildPersistQuery(GameItem entity) {
 		Query query = persist.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getId());
 		query.setParameter("template", entity.getTemplate().getId());
 		query.setParameter("owner", entity.getOwner());
 		query.setParameter("effects", effectsToString(entity.getEffects()));
@@ -86,7 +86,7 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 	@Override
 	protected Query buildSaveQuery(GameItem entity) {
 		Query query = save.toQuery();
-		query.setParameter("id", entity.id());
+		query.setParameter("id", entity.getId());
 		query.setParameter("template", entity.getTemplate().getId());
 		query.setParameter("owner", entity.getOwner());
 		query.setParameter("effects", effectsToString(entity.getEffects()));
