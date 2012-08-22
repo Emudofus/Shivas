@@ -29,6 +29,10 @@ public class DefaultConfig implements Config {
 	public int databaseSaveDelay() {
 		return 45; // seconds
 	}
+	
+	public int databaseRefreshRate() {
+		return 1 * 60; // seconds
+	}
 
 	public String dataPath() {
 		boolean linux = false; // juste pour me faciliter la vie

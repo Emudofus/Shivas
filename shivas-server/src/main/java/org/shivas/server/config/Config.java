@@ -9,6 +9,7 @@ public interface Config {
 	String databasePassword();
 	int databaseFlushDelay();
 	int databaseSaveDelay();
+	int databaseRefreshRate();
 	
 	String dataPath();
 	String dataExtension();
