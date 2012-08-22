@@ -13,7 +13,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
 public class CollectionQuery<T> {
@@ -113,7 +112,7 @@ public class CollectionQuery<T> {
 	}
 	
 	public <K> Map<K, T> computeMap(Function<T, K> function) {
-		return Maps.uniqueIndex(from, function);
+		return Maps2.toMap(from, function);
 	}
 
 }
