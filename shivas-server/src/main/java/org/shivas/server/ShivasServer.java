@@ -42,6 +42,7 @@ public class ShivasServer {
 		ls.stop(); // stop login server
 		gs.stop(); // stop game server
 		
+		repos.close();
 		em.stop(); // stop entity manager
 		
 		log.info("stopped");

@@ -51,6 +51,13 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 		startTimer();
 	}
 	
+	public void close() {
+		timer.stop();
+		accounts.stop();
+		
+		save();
+	}
+	
 	private void startTimer() {
 		timer = new Timer(config.databaseSaveDelay() * 1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -59,10 +66,14 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 		});
 		
 		timer.start();
+		accounts.start();
 	}
 
 	public void save() {
+		accounts.save();
 		players.save();
+		items.save();
+		spells.save();
 	}
 
 	public AccountRepository accounts() {

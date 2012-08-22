@@ -4,6 +4,7 @@ import org.shivas.server.database.repositories.*;
 
 public interface RepositoryContainer {
 	void load();
+	void close();
 	void save();
 	
 	AccountRepository accounts();
