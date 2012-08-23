@@ -21,7 +21,7 @@ public class SaveCommand implements Command {
 
 	@Override
 	public Conditions conditions() {
-		return new Conditions();
+		return Conditions.EMPTY;
 	}
 
 	@Override
@@ -35,10 +35,13 @@ public class SaveCommand implements Command {
 	}
 
 	@Override
-	public void use(GameClient client, DofusLogger log, Parameters params) {
-		repo.save();
-		
-		log.info("All users' data has been saved.");
+	public void use(final GameClient client, final DofusLogger log, Parameters params) {
+		new Thread(new Runnable() {
+			public void run() {
+				repo.save();
+				log.info("Repositories has been saved");
+			}
+		}).run();
 	}
 
 }

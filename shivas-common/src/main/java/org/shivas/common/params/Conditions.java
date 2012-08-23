@@ -6,6 +6,8 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 public class Conditions implements Iterable<Condition> {
+	
+	public static final Conditions EMPTY = new Conditions();
 
 	private Map<String, Condition> conditions = Maps.newHashMap();
 	

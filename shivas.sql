@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2012-08-10 14:42:34
+Date: 2012-08-23 20:43:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,25 +37,26 @@ CREATE TABLE `accounts` (
   `last_connection` datetime NOT NULL,
   `last_address` varchar(15) NOT NULL,
   `nb_connections` int(11) NOT NULL,
+  `refreshed` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `accounts_name_index` (`name`) USING BTREE,
   UNIQUE KEY `accounts_nickname_index` (`nickname`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Table structure for `contacts`
 -- ----------------------------
 DROP TABLE IF EXISTS `contacts`;
 CREATE TABLE `contacts` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `owner` int(11) NOT NULL,
   `target` int(11) NOT NULL,
   `type` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_contact_owner_to_account` (`owner`),
   KEY `fk_contact_target_to_account` (`target`),
-  CONSTRAINT `fk_contact_target_to_account` FOREIGN KEY (`target`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_contact_owner_to_account` FOREIGN KEY (`owner`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_contact_owner_to_account` FOREIGN KEY (`owner`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_contact_target_to_account` FOREIGN KEY (`target`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
