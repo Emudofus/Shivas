@@ -53,8 +53,32 @@ public class Contact implements PersistableEntity<Long> {
 		this.type = type;
 	}
 	
+	public boolean isReciprocal() {
+		return target.getContacts().hasContact(owner);
+	}
+	
 	public BaseFriendType toBaseFriendType() {
-		return new BaseFriendType(); // TODO friends
+		if (isReciprocal() && target.isConnected()) {
+			Player player = target.getCurrentPlayer();
+			
+			return new BaseFriendType(
+					target.getNickname(),
+					true, // is connected
+					true, // reciprocal
+					player.getName(),
+					(short) player.getExperience().level(),
+					(short) 0, // TODO alignment
+					(byte) player.getBreed().getId(),
+					player.getGender(),
+					player.getLook().skin()
+			);
+		} else {
+			return new BaseFriendType(
+					target.getNickname(),
+					isReciprocal() && target.isConnected(),
+					isReciprocal()
+			);
+		}
 	}
 
 }
