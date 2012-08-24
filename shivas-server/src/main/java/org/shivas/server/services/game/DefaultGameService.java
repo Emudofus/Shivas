@@ -10,6 +10,7 @@ import org.shivas.protocol.client.types.GameServerType;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.channels.ChannelContainer;
 import org.shivas.server.core.commands.CommandEngine;
+import org.shivas.server.core.services.NetworkStatisticsCenter;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.AbstractService;
 import org.shivas.server.services.game.handlers.AuthenticationHandler;
@@ -29,9 +30,10 @@ public class DefaultGameService extends AbstractService implements GameService {
 	private final GameServerType informations;
 	private final ChannelContainer channels;
 	private final CommandEngine cmdEngine;
+	private final NetworkStatisticsCenter statistics;
 
 	@Inject
-	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login, ChannelContainer channels, CommandEngine cmdengine) {
+	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login, ChannelContainer channels, CommandEngine cmdengine, NetworkStatisticsCenter statistics) {
 		super(repositories, config.gamePort(), log);
 		
 		this.config = config;
@@ -46,6 +48,7 @@ public class DefaultGameService extends AbstractService implements GameService {
 		);
 		this.channels = channels;
 		this.cmdEngine = cmdengine;
+		this.statistics = statistics;
 	}
 
 	public Config config() {
@@ -109,7 +112,13 @@ public class DefaultGameService extends AbstractService implements GameService {
 		} else if (message.equals("qping")) {
 			session.write("qpong");
 		} else {
+			NetworkStatisticsCenter.Chrono chrono = statistics.start(message);
+			
 			client.handler().handle(message);
+
+			chrono.end();
+			
+			log.trace("it takes {} ms to handle \"{}\"", chrono.getDelta(), message);
 		}
 	}
 
