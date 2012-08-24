@@ -8,9 +8,11 @@ import org.shivas.protocol.client.types.BaseFriendType;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Contact;
 import org.shivas.server.utils.Converters;
+import org.shivas.server.utils.Filters;
 
 import com.google.common.collect.Maps;
-import static com.google.common.collect.Collections2.*;
+
+import static org.shivas.common.collections.CollectionQuery.from;
 
 public class ContactList {
 
@@ -69,7 +71,10 @@ public class ContactList {
 	}
 	
 	public Collection<BaseFriendType> toBaseFriendType() {
-		return transform(contacts.values(), Converters.CONTACT_TO_BASEFRIENDTYPE);
+		return from(contacts.values())
+			  .filter(Filters.FRIEND_CONTACT_FILTER)
+			  .transform(Converters.CONTACT_TO_BASEFRIENDTYPE)
+			  .computeSet();
 	}
 	
 }

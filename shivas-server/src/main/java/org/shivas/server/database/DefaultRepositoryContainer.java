@@ -41,6 +41,7 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	public void load() {
 		try {
 			log.debug("{} accounts loaded", accounts.load());
+			log.debug("{} contacts loaded", contacts.load());
 			log.debug("{} players loaded", players.load());
 			log.debug("{} items loaded", items.load());
 			log.debug("{} spells loaded", spells.load());

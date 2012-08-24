@@ -72,13 +72,15 @@ public class ContactRepository extends AbstractEntityRepository<Long, Contact> {
 
 	@Override
 	protected Contact load(ResultSet result) throws SQLException {
-		Contact entity = new Contact();
-		entity.setId(result.getLong("id"));
-		entity.setOwner(accounts.find(result.getInt("owner")));
-		entity.setTarget(accounts.find(result.getInt("target")));
-		entity.setType(Contact.Type.valueOf(result.getInt("type")));
+		Contact contact = new Contact();
+		contact.setId(result.getLong("id"));
+		contact.setOwner(accounts.find(result.getInt("owner")));
+		contact.setTarget(accounts.find(result.getInt("target")));
+		contact.setType(Contact.Type.valueOf(result.getInt("type")));
 		
-		return entity;
+		contact.getOwner().getContacts().add(contact);
+		
+		return contact;
 	}
 
 	@Override
