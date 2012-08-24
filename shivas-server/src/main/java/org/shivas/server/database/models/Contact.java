@@ -58,13 +58,13 @@ public class Contact implements PersistableEntity<Long> {
 	}
 	
 	public BaseFriendType toBaseFriendType() {
-		if (isReciprocal() && target.isConnected()) {
+		if (target.isConnected()) {
 			Player player = target.getCurrentPlayer();
 			
 			return new BaseFriendType(
 					target.getNickname(),
 					true, // is connected
-					true, // reciprocal
+					isReciprocal(),
 					player.getName(),
 					(short) player.getExperience().level(),
 					(short) 0, // TODO alignment
@@ -75,7 +75,7 @@ public class Contact implements PersistableEntity<Long> {
 		} else {
 			return new BaseFriendType(
 					target.getNickname(),
-					isReciprocal() && target.isConnected(),
+					false,
 					isReciprocal()
 			);
 		}
