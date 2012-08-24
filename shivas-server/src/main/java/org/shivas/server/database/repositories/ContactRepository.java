@@ -45,27 +45,24 @@ public class ContactRepository extends AbstractEntityRepository<Long, Contact> {
 		
 		return query;
 	}
-
-	@Override
-	protected Query buildPersistQuery(Contact entity) {
-		Query query = persist.toQuery();
+	
+	private Query bindValues(Query query, Contact entity) {
 		query.setParameter("id", entity.getId());
-		query.setParameter("owner", entity.getOwnerReference().getPk());
-		query.setParameter("target", entity.getTargetReference().getPk());
+		query.setParameter("owner", entity.getOwner().getId());
+		query.setParameter("target", entity.getTarget().getId());
 		query.setParameter("type", entity.getType().ordinal());
 		
 		return query;
 	}
 
 	@Override
+	protected Query buildPersistQuery(Contact entity) {
+		return bindValues(persist.toQuery(), entity);
+	}
+
+	@Override
 	protected Query buildSaveQuery(Contact entity) {
-		Query query = save.toQuery();
-		query.setParameter("id", entity.getId());
-		query.setParameter("owner", entity.getOwnerReference().getPk());
-		query.setParameter("target", entity.getTargetReference().getPk());
-		query.setParameter("type", entity.getType().ordinal());
-		
-		return query;
+		return bindValues(save.toQuery(), entity);
 	}
 
 	@Override
@@ -77,8 +74,8 @@ public class ContactRepository extends AbstractEntityRepository<Long, Contact> {
 	protected Contact load(ResultSet result) throws SQLException {
 		Contact entity = new Contact();
 		entity.setId(result.getLong("id"));
-		entity.setOwnerReference(accounts.getReference(result.getInt("owner")));
-		entity.setTargetReference(accounts.getReference(result.getInt("target")));
+		entity.setOwner(accounts.find(result.getInt("owner")));
+		entity.setTarget(accounts.find(result.getInt("target")));
 		entity.setType(Contact.Type.valueOf(result.getInt("type")));
 		
 		return entity;

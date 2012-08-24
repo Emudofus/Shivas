@@ -1,6 +1,5 @@
 package org.shivas.server.services.game.handlers;
 
-import org.atomium.LazyReference;
 import org.shivas.protocol.client.enums.FriendAddErrorEnum;
 import org.shivas.protocol.client.formatters.FriendGameMessageFormatter;
 import org.shivas.server.core.contacts.AlreadyAddedException;
@@ -57,7 +56,7 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 		}
 
 		try {
-			Contact contact = client.account().getContacts().add(LazyReference.create(target), Contact.Type.FRIEND);
+			Contact contact = client.account().getContacts().add(target, Contact.Type.FRIEND);
 			
 			client.write(FriendGameMessageFormatter.addFriendMessage(contact.toBaseFriendType()));
 		} catch (EgocentricAddException e) {

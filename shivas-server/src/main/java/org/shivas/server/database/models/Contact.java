@@ -1,6 +1,5 @@
 package org.shivas.server.database.models;
 
-import org.atomium.EntityReference;
 import org.atomium.PersistableEntity;
 import org.shivas.protocol.client.types.BaseFriendType;
 
@@ -17,7 +16,7 @@ public class Contact implements PersistableEntity<Long> {
 	}
 	
 	private long id;
-	private EntityReference<Integer, Account> owner, target;
+	private Account owner, target;
 	private Type type;
 
 	@Override
@@ -29,37 +28,21 @@ public class Contact implements PersistableEntity<Long> {
 	public void setId(Long pk) {
 		this.id = pk.longValue();
 	}
-
-	public EntityReference<Integer, Account> getOwnerReference() {
+	
+	public Account getOwner() {
 		return owner;
 	}
 	
-	public Account getOwner() {
-		return owner.get();
-	}
-
-	public void setOwnerReference(EntityReference<Integer, Account> owner) {
+	public void setOwner(Account owner) {
 		this.owner = owner;
 	}
 	
-	public void setOwner(Account owner) {
-		this.owner.set(owner);
-	}
-
-	public EntityReference<Integer, Account> getTargetReference() {
+	public Account getTarget() {
 		return target;
 	}
 	
-	public Account getTarget() {
-		return target.get();
-	}
-
-	public void setTargetReference(EntityReference<Integer, Account> target) {
-		this.target = target;
-	}
-	
 	public void setTarget(Account target) {
-		this.target.set(target);
+		this.target = target;
 	}
 
 	public Type getType() {

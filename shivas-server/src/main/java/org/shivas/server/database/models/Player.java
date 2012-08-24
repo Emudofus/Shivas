@@ -2,7 +2,6 @@ package org.shivas.server.database.models;
 
 import java.io.Serializable;
 
-import org.atomium.EntityReference;
 import org.atomium.PersistableEntity;
 import org.shivas.data.entity.Breed;
 import org.shivas.protocol.client.enums.Gender;
@@ -29,7 +28,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private static final long serialVersionUID = -5864467711777891397L;
 	
 	private int id;
-	private EntityReference<Integer, Account> owner;
+	private Account owner;
 	private String name;
 	private Breed breed;
 	private Gender gender;
@@ -53,7 +52,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		this.location = location;
 	}
 
-	public Player(int id, EntityReference<Integer, Account> owner, String name,
+	public Player(int id, Account owner, String name,
 			Breed breed, Gender gender,
 			PlayerExperience experience, Location location) {
 		this.id = id;
@@ -87,13 +86,6 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	 * @return the owner
 	 */
 	public Account getOwner() {
-		return owner != null ? owner.get() : null;
-	}
-	
-	/**
-	 * @return the owner's reference
-	 */
-	public EntityReference<Integer, Account> getOwnerReference() {
 		return owner;
 	}
 
@@ -101,7 +93,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	 * @param owner the owner to set
 	 */
 	public void setOwner(Account owner) {
-		this.owner = owner.toReference();
+		this.owner = owner;
 	}
 
 	/**

@@ -3,7 +3,6 @@ package org.shivas.server.core.contacts;
 import java.util.Collection;
 import java.util.Map;
 
-import org.atomium.LazyReference;
 import org.atomium.repository.EntityRepository;
 import org.shivas.protocol.client.types.BaseFriendType;
 import org.shivas.server.database.models.Account;
@@ -30,29 +29,29 @@ public class ContactList {
 	}
 	
 	public void add(Contact contact) {
-		if (!contact.getOwnerReference().getPk().equals(owner.getId())) {
+		if (contact.getOwner() != owner) {
 			return;
 		}
 		
-		contacts.put(contact.getTargetReference().getPk(), contact);
+		contacts.put(contact.getTarget().getId(), contact);
 	}
 	
-	public Contact add(LazyReference<Integer, Account> target, Contact.Type type)
+	public Contact add(Account target, Contact.Type type)
 		throws EgocentricAddException, AlreadyAddedException
 	{
-		if (target.getPk().equals(owner.getId())) {
+		if (target == owner) {
 			throw new EgocentricAddException();
-		} else if (hasContact(target.getPk())) {
+		} else if (hasContact(target)) {
 			throw new AlreadyAddedException();
 		}
 		
 		Contact contact = new Contact();
 		contact.setOwner(owner);
-		contact.setTargetReference(target);
+		contact.setTarget(target);
 		contact.setType(type);
 		
 		repository.persistLater(contact);
-		contacts.put(target.getPk(), contact);
+		contacts.put(target.getId(), contact);
 		
 		return contact;
 	}
@@ -63,6 +62,10 @@ public class ContactList {
 
 	public boolean hasContact(int targetId) {
 		return contacts.containsKey(targetId);
+	}
+	
+	public boolean hasContact(Account account) {
+		return hasContact(account.getId());
 	}
 	
 	public Collection<BaseFriendType> toBaseFriendType() {

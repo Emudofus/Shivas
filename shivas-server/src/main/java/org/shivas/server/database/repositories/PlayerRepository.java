@@ -211,7 +211,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	protected Player load(ResultSet result) throws SQLException {		
 		Player player = new Player(
 				result.getInt("id"),
-				accounts.getReference(result.getInt("owner_id")),
+				accounts.find(result.getInt("owner_id")),
 				result.getString("name"),
 				ctner.get(Breed.class).byId(result.getInt("breed_id")),
 				Gender.valueOf(result.getInt("gender")),
