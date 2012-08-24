@@ -47,7 +47,7 @@ public class ServerChoiceHandler extends AbstractBaseHandler<LoginClient> {
 		client.write(LoginMessageFormatter.charactersListMessage(
 				client.account().getRemainingSubscription().getMillis(), 
 				client.service().game().informations().getId(),
-				client.account().getPlayers().size()
+				client.account().getPlayers().count()
 		));
 	}
 

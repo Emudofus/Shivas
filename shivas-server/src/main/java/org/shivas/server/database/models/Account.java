@@ -1,7 +1,6 @@
 package org.shivas.server.database.models;
 
 import java.io.Serializable;
-import java.util.Map;
 
 import org.atomium.LazyReference;
 import org.atomium.util.Entity;
@@ -9,6 +8,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.shivas.server.core.channels.ChannelList;
 import org.shivas.server.core.contacts.ContactList;
+import org.shivas.server.core.players.PlayerList;
 
 public class Account implements Serializable, Entity<Integer> {
 	
@@ -32,7 +32,7 @@ public class Account implements Serializable, Entity<Integer> {
 	private DateTime lastConnection;
 	private String lastAddress;
 	private int nbConnections;
-	private Map<Integer, Player> players;
+	private PlayerList players;
 	private ContactList contacts;
 	
 	private Player currentPlayer;
@@ -41,8 +41,7 @@ public class Account implements Serializable, Entity<Integer> {
 			String nickname, String secretQuestion, String secretAnswer,
 			boolean rights, boolean banned, boolean muted, int community, int points,
 			DateTime subscriptionEnd, boolean connected, ChannelList channels,
-			DateTime lastConnection, String lastAddress, int nbConnections,
-			Map<Integer, Player> players) {
+			DateTime lastConnection, String lastAddress, int nbConnections) {
 		this.id = id;
 		this.version = version;
 		this.name = name;
@@ -61,7 +60,6 @@ public class Account implements Serializable, Entity<Integer> {
 		this.lastConnection = lastConnection;
 		this.lastAddress = lastAddress;
 		this.nbConnections = nbConnections;
-		this.players = players;
 	}
 
 	/**
@@ -311,10 +309,14 @@ public class Account implements Serializable, Entity<Integer> {
 	/**
 	 * @return the players
 	 */
-	public Map<Integer, Player> getPlayers() {
+	public PlayerList getPlayers() {
 		return players;
 	}
 	
+	public void setPlayers(PlayerList players) {
+		this.players = players;
+	}
+
 	public ContactList getContacts() {
 		return contacts;
 	}

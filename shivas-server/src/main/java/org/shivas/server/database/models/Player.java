@@ -1,7 +1,6 @@
 package org.shivas.server.database.models;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import org.atomium.EntityReference;
 import org.atomium.PersistableEntity;
@@ -24,9 +23,6 @@ import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.spells.SpellList;
 import org.shivas.server.core.statistics.PlayerStatistics;
 import org.shivas.server.services.game.GameClient;
-import org.shivas.server.utils.Converters;
-
-import com.google.common.collect.Collections2;
 
 public class Player implements Serializable, PersistableEntity<Integer>, GameActor {
 
@@ -48,9 +44,8 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	
 	private GameClient client;
 
-	public Player(EntityReference<Integer, Account> owner, String name, Breed breed, Gender gender,
+	public Player(String name, Breed breed, Gender gender,
 			PlayerExperience experience, Location location) {
-		this.owner = owner;
 		this.name = name;
 		this.breed = breed;
 		this.gender = gender;
@@ -92,7 +87,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	 * @return the owner
 	 */
 	public Account getOwner() {
-		return owner.get();
+		return owner != null ? owner.get() : null;
 	}
 	
 	/**
@@ -106,7 +101,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	 * @param owner the owner to set
 	 */
 	public void setOwner(Account owner) {
-		this.owner.set(owner);
+		this.owner = owner.toReference();
 	}
 
 	/**
@@ -300,10 +295,6 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 				look.accessories(),
 				false // TODO store
 		);
-	}
-	
-	public static Collection<BaseCharacterType> toBaseCharacterType(Collection<Player> players) {
-		return Collections2.transform(players, Converters.PLAYER_TO_BASECHARACTERTYPE);
 	}
 
 	public BaseRolePlayActorType toBaseRolePlayActorType() {

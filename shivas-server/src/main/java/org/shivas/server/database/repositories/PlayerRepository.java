@@ -16,7 +16,6 @@ import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
-import org.shivas.data.entity.SpellBreed;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.server.config.Config;
@@ -76,22 +75,9 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				.where("id", Op.EQ);
 		this.loadQuery = em.builder().select(TABLE_NAME);
 	}
-	
-	private void onCreated(Player player) {
-		for (SpellBreed spellbreed : player.getBreed().getSpells().values()) {
-			if (spellbreed.getMinLevel() <= player.getExperience().level()) {
-				spells.persist(new Spell(
-						player,
-						spellbreed.getTemplate(),
-						(byte) spellbreed.getPosition()
-				));
-			}
-		}
-	}
 
-	public Player createDefault(Account owner, String name, int breed, Gender gender, int color1, int color2, int color3) {
+	public Player createDefault(String name, int breed, Gender gender, int color1, int color2, int color3) {
 		Player player = new Player(
-				owner.toReference(),
 				name,
 				ctner.get(Breed.class).byId(breed),
 				gender,
@@ -120,16 +106,18 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		player.setBag(new PlayerBag(player, items, this, config.startKamas()));
 		
-		player.setSpells(new SpellList(player, spells));
-		
-		persist(player);
-		owner.getPlayers().put(player.getPublicId(), player);
-		
-		onCreated(player);
+		player.setSpells(new SpellList(player, spells).fill());
 		
 		return player;
 	}
 	
+	@Override
+	protected void onPersisted(Player entity) {
+		for (Spell spell : entity.getSpells()) {
+			spells.persistLater(spell);
+		}
+	}
+
 	public boolean nameExists(String name) {
 		for (Player player : entities.values()) {
 			if (player.getName().equals(name)) {
@@ -164,10 +152,14 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		return query;
 	}
-
-	@Override
-	protected Query buildPersistQuery(Player entity) {
-		Query query = persistQuery.toQuery();
+	
+	/**
+	 * bind player's values to query
+	 * @param query
+	 * @param entity
+	 * @return same
+	 */
+	private Query bindValues(Query query, Player entity) {
 		query.setParameter("id", entity.getPublicId());
 		query.setParameter("owner_id", entity.getOwner());
 		query.setParameter("name", entity.getName());
@@ -201,35 +193,13 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	}
 
 	@Override
+	protected Query buildPersistQuery(Player entity) {
+		return bindValues(persistQuery.toQuery(), entity);
+	}
+
+	@Override
 	protected Query buildSaveQuery(Player entity) {
-		Query query = saveQuery.toQuery();
-		query.setParameter("id", entity.getPublicId());
-		query.setParameter("gender", entity.getGender());
-		query.setParameter("skin", entity.getLook().skin());
-		query.setParameter("size", entity.getLook().size());
-		query.setParameter("color1", entity.getLook().colors().first());
-		query.setParameter("color2", entity.getLook().colors().second());
-		query.setParameter("color3", entity.getLook().colors().third());
-		query.setParameter("level", entity.getExperience().level());
-		query.setParameter("experience", entity.getExperience().current());
-		query.setParameter("kamas", entity.getBag().getKamas());
-		query.setParameter("map_id", entity.getLocation().getMap().getId());
-		query.setParameter("cell", entity.getLocation().getCell());
-		query.setParameter("orientation", entity.getLocation().getOrientation());
-		query.setParameter("stat_points", entity.getStats().statPoints());
-		query.setParameter("spell_points", entity.getStats().spellPoints());
-		query.setParameter("energy", entity.getStats().energy().current());
-		query.setParameter("life", entity.getStats().life().current());
-		query.setParameter("action_points", entity.getStats().get(CharacteristicType.ActionPoints).base());
-		query.setParameter("movement_points", entity.getStats().get(CharacteristicType.MovementPoints).base());
-		query.setParameter("vitality", entity.getStats().get(CharacteristicType.Vitality).base());
-		query.setParameter("wisdom", entity.getStats().get(CharacteristicType.Wisdom).base());
-		query.setParameter("strength", entity.getStats().get(CharacteristicType.Strength).base());
-		query.setParameter("intelligence", entity.getStats().get(CharacteristicType.Intelligence).base());
-		query.setParameter("chance", entity.getStats().get(CharacteristicType.Chance).base());
-		query.setParameter("agility", entity.getStats().get(CharacteristicType.Agility).base());
-		
-		return query;
+		return bindValues(saveQuery.toQuery(), entity);
 	}
 
 	@Override
@@ -286,6 +256,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		player.setBag(new PlayerBag(player, items, this, result.getLong("kamas")));
 		
 		player.setSpells(new SpellList(player, spells));
+		
+		player.getOwner().getPlayers().add(player);
 		
 		return player;
 	}

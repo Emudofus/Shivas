@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.atomium.repository.EntityRepository;
+import org.shivas.data.entity.SpellBreed;
 import org.shivas.data.entity.SpellTemplate;
 import org.shivas.protocol.client.types.BaseSpellType;
 import org.shivas.server.database.models.Player;
@@ -30,6 +31,26 @@ public class SpellList implements Iterable<Spell> {
 	
 	public Player getOwner() {
 		return owner;
+	}
+	
+	/**
+	 * fill list according to owner's level
+	 * @return same
+	 */
+	public SpellList fill() {
+		for (SpellBreed spellbreed : owner.getBreed().getSpells().values()) {
+			if (spellbreed.getMinLevel() <= owner.getExperience().level() && 
+				!spells.containsKey(spellbreed.getTemplate().getId()))
+			{
+				add(new Spell(
+						owner,
+						spellbreed.getTemplate(),
+						(byte) spellbreed.getPosition()
+				));
+			}
+		}
+		
+		return this;
 	}
 
 	public void add(Spell spell) {

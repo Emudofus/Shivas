@@ -77,7 +77,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		client.write(ApproachGameMessageFormatter.charactersListMessage(
 				client.service().informations().getId(),
 				client.account().getRemainingSubscription().getMillis(),
-				Player.toBaseCharacterType(client.account().getPlayers().values())
+				client.account().getPlayers().toBaseCharacterType()
 		));
 	}
 
@@ -87,13 +87,12 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parsePlayerCreationMessage(String name, int breed, Gender gender, int color1, int color2, int color3) {
-		if (client.account().getPlayers().size() >= client.service().config().maxPlayersPerAccount()) {
+		if (client.account().getPlayers().count() >= client.service().config().maxPlayersPerAccount()) {
 			client.write(ApproachGameMessageFormatter.accountFullMessage());
 		} else if (client.service().repositories().players().nameExists(name)) {
 			client.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
 		} else {
-			client.service().repositories().players().createDefault(
-					client.account(),
+			Player player = client.service().repositories().players().createDefault(
 					name,
 					breed,
 					gender,
@@ -101,6 +100,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 					color2,
 					color3
 			);
+			client.account().getPlayers().persist(player);
 			
 			client.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
 			parsePlayersListMessage();
@@ -121,7 +121,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		{
 			client.write(ApproachGameMessageFormatter.characterDeletionFailureMessage());
 		} else {
-			client.account().getPlayers().remove(player);
+			client.account().getPlayers().remove(playerId);
 			client.service().repositories().players().delete(player);
 			
 			parsePlayersListMessage();

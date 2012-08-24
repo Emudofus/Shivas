@@ -14,6 +14,7 @@ public class ShivasDatabaseModule extends AbstractModule {
 		bind(new TypeLiteral<BaseEntityRepository<Integer, Account>>(){}).to(AccountRepository.class);
 		
 		bind(new TypeLiteral<BaseEntityRepository<Integer, Player>>(){}).to(PlayerRepository.class);
+		bind(new TypeLiteral<EntityRepository<Integer, Player>>(){}).to(PlayerRepository.class);
 		
 		bind(new TypeLiteral<BaseEntityRepository<Long, GameItem>>(){}).to(GameItemRepository.class);
 		bind(new TypeLiteral<EntityRepository<Long, GameItem>>(){}).to(GameItemRepository.class);
