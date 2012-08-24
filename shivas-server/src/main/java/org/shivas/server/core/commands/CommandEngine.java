@@ -13,6 +13,7 @@ import org.shivas.server.core.channels.ChannelContainer;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.game.GameClient;
+import org.shivas.server.services.game.GameService;
 
 import com.google.common.collect.Maps;
 
@@ -23,10 +24,11 @@ public class CommandEngine {
 	private final ParametersParser parser = new GnuParser();
 
 	@Inject
-	public CommandEngine(RepositoryContainer repo, ChannelContainer channels) {
+	public CommandEngine(RepositoryContainer repo, ChannelContainer channels, GameService gservice) {
 		add(new KickCommand(repo, channels));
 		add(new SaveCommand(repo));
 		add(new GiveItemCommand(repo));
+		add(new AverageHandleCommand(gservice.statistics()));
 	}
 	
 	protected void add(Command command) {
