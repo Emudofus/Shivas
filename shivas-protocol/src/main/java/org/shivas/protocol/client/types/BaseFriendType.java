@@ -1,5 +1,7 @@
 package org.shivas.protocol.client.types;
 
+import org.shivas.protocol.client.enums.Gender;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Blackrush
@@ -12,14 +14,14 @@ public class BaseFriendType {
     private short level;
     private short alignmentId;
     private byte breedId;
-    private boolean gender;
+    private Gender gender;
     private short skin;
     private boolean connected, reciprocal;
 
     public BaseFriendType() {
     }
 
-    public BaseFriendType(String nickname, boolean connected, boolean reciprocal, String name, short level, short alignmentId, byte breedId, boolean gender, short skin) {
+    public BaseFriendType(String nickname, boolean connected, boolean reciprocal, String name, short level, short alignmentId, byte breedId, Gender gender, short skin) {
         this.nickname = nickname;
         this.name = name;
         this.level = level;
@@ -77,11 +79,11 @@ public class BaseFriendType {
         this.breedId = breedId;
     }
 
-    public boolean getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

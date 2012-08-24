@@ -3,6 +3,7 @@ package org.shivas.protocol.client.formatters;
 import java.util.Collection;
 
 import org.shivas.protocol.client.enums.FriendAddErrorEnum;
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.types.BaseFriendType;
 
 /**
@@ -35,7 +36,7 @@ public class FriendGameMessageFormatter {
         sb.append(';').append(friend.isReciprocal() ? friend.getLevel() : "?");
         sb.append(';').append(friend.isReciprocal() ? friend.getAlignmentId() : "0");
         sb.append(';').append(friend.getBreedId());
-        sb.append(';').append(friend.getGender() ? '1' : '0');
+        sb.append(';').append(friend.getGender() == Gender.FEMALE ? '1' : '0');
         sb.append(';').append(friend.getSkin());
     }
 
