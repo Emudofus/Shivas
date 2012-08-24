@@ -71,6 +71,10 @@ public class DefaultGameService extends AbstractService implements GameService {
 		return cmdEngine;
 	}
 
+	public NetworkStatisticsCenter statistics() {
+		return statistics;
+	}
+
 	public void sessionCreated(IoSession session) throws Exception {
 		session.setAttribute(CLIENT_TOKEN, new DefaultGameClient(session, this));
 	}
