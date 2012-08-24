@@ -22,9 +22,9 @@ public class CommandEngine {
 
 	private final Map<String, Command> commands = Maps.newHashMap();
 	private final ParametersParser parser = new GnuParser();
-
+	
 	@Inject
-	public CommandEngine(RepositoryContainer repo, ChannelContainer channels, GameService gservice) {
+	public void init(RepositoryContainer repo, ChannelContainer channels, GameService gservice) {
 		add(new KickCommand(repo, channels));
 		add(new SaveCommand(repo));
 		add(new GiveItemCommand(repo));

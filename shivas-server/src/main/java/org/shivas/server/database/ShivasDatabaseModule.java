@@ -1,5 +1,6 @@
 package org.shivas.server.database;
 
+import org.atomium.EntityManager;
 import org.atomium.repository.*;
 import org.shivas.server.database.models.*;
 import org.shivas.server.database.repositories.*;
@@ -11,6 +12,9 @@ public class ShivasDatabaseModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(EntityManager.class).to(ShivasEntityManager.class);
+		bind(RepositoryContainer.class).to(DefaultRepositoryContainer.class);
+		
 		bind(new TypeLiteral<BaseEntityRepository<Integer, Account>>(){}).to(AccountRepository.class);
 		
 		bind(new TypeLiteral<BaseEntityRepository<Integer, Player>>(){}).to(PlayerRepository.class);
