@@ -20,8 +20,10 @@ import org.shivas.common.crypto.Sha1Cipher;
 import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.channels.ChannelList;
+import org.shivas.server.core.contacts.ContactList;
 import org.shivas.server.core.players.PlayerList;
 import org.shivas.server.database.models.Account;
+import org.shivas.server.database.models.Contact;
 import org.shivas.server.database.models.Player;
 
 @Singleton
@@ -33,12 +35,14 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	private final Query loadQuery, refreshQuery, setRefreshedQuery;
 	
 	private final EntityRepository<Integer, Player> players;
+	private final EntityRepository<Long, Contact> contacts;
 
 	@Inject
-	public AccountRepository(EntityManager em, Config config, EntityRepository<Integer, Player> players) {
+	public AccountRepository(EntityManager em, Config config, EntityRepository<Integer, Player> players, EntityRepository<Long, Contact> contacts) {
 		super(em, config.databaseRefreshRate());
 		
 		this.players = players;
+		this.contacts = contacts;
 		
 		this.saveQuery = em.builder()
 				.update(TABLE_NAME)
@@ -127,6 +131,7 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 		);
 		
 		account.setPlayers(new PlayerList(account, players));
+		account.setContacts(new ContactList(account, contacts));
 		
 		if (account.hasRights() && !account.getChannels().contains(ChannelEnum.Admin)) {
 			account.getChannels().add(ChannelEnum.Admin);
