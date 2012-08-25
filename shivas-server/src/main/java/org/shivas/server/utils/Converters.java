@@ -122,7 +122,7 @@ public class Converters {
 	
 	public static Function<Contact, BaseContactType> CONTACT_TO_BASEFRIENDTYPE = new Function<Contact, BaseContactType>() {
 		public BaseContactType apply(Contact input) {
-			return input.toBaseFriendType();
+			return input.toBaseContactType();
 		}
 	};
 }

@@ -58,7 +58,7 @@ public class Contact implements PersistableEntity<Long> {
 		return target.getContacts().hasContact(owner);
 	}
 	
-	public BaseContactType toBaseFriendType() {
+	public BaseContactType toBaseContactType() {
 		if (target.isConnected()) {
 			Player player = target.getCurrentPlayer();
 			

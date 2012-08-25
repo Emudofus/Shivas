@@ -10,6 +10,7 @@ import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Contact;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
+import org.shivas.server.utils.Filters;
 
 public class FriendHandler extends AbstractBaseHandler<GameClient> {
 
@@ -65,7 +66,7 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 		try {
 			Contact contact = client.account().getContacts().add(target, Contact.Type.FRIEND);
 			
-			client.write(FriendGameMessageFormatter.addFriendMessage(contact.toBaseFriendType()));
+			client.write(FriendGameMessageFormatter.addFriendMessage(contact.toBaseContactType()));
 		} catch (EgocentricAddException e) {
 			client.write(FriendGameMessageFormatter.addFriendErrorMessage(ContactAddErrorEnum.EGOCENTRIC));
 		} catch (AlreadyAddedException e) {
@@ -83,7 +84,8 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseListMessage() {
-		client.write(FriendGameMessageFormatter.friendListMessage(client.account().getContacts().toBaseFriendType()));
+		client.write(FriendGameMessageFormatter.
+				friendListMessage(client.account().getContacts().toBaseContactType(Filters.FRIEND_CONTACT_FILTER)));
 	}
 	
 	private void parseEnableNotificationMessage(boolean enable) {

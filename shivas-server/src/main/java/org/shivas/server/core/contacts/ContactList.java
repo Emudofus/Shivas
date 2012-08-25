@@ -12,8 +12,8 @@ import org.shivas.server.core.events.events.FriendConnectionEvent;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Contact;
 import org.shivas.server.utils.Converters;
-import org.shivas.server.utils.Filters;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 
 import static org.shivas.common.collections.CollectionQuery.from;
@@ -121,9 +121,9 @@ public class ContactList {
 		return hasContact(account.getId());
 	}
 	
-	public Collection<BaseContactType> toBaseFriendType() {
+	public Collection<BaseContactType> toBaseContactType(Predicate<Contact> predicate) {
 		return from(contacts.values())
-			  .filter(Filters.FRIEND_CONTACT_FILTER)
+			  .filter(predicate)
 			  .transform(Converters.CONTACT_TO_BASEFRIENDTYPE)
 			  .computeSet();
 	}
