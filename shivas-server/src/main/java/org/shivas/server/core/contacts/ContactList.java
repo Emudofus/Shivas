@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.atomium.repository.EntityRepository;
 import org.shivas.protocol.client.types.BaseFriendType;
+import org.shivas.server.core.events.EventDispatcher;
+import org.shivas.server.core.events.EventDispatchers;
+import org.shivas.server.core.events.events.FriendConnectionEvent;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Contact;
 import org.shivas.server.utils.Converters;
@@ -21,6 +24,8 @@ public class ContactList {
 	
 	private final Map<Integer, Contact> contacts = Maps.newHashMap();
 	
+	private final EventDispatcher event = EventDispatchers.create();
+	
 	public ContactList(Account owner, EntityRepository<Long, Contact> repository) {
 		this.owner = owner;
 		this.repository = repository;
@@ -30,6 +35,14 @@ public class ContactList {
 		return owner;
 	}
 	
+	public EventDispatcher getEvent() {
+		return event;
+	}
+	
+	public void notifyOwnerConnected() {
+		event.publish(new FriendConnectionEvent(owner));
+	}
+
 	public void add(Contact contact) {
 		if (contact.getOwner() != owner) {
 			return;

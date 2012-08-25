@@ -44,6 +44,9 @@ public class DefaultEventListener implements EventListener {
 			
 		case NEW_ACTION: // not implemented
 			break;
+			
+		case FRIEND_CONNECTION: // TODO friends
+			break;
 		}
 	}
 
