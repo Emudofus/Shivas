@@ -63,6 +63,14 @@ public class ContactList {
 			contact.getTarget().getContacts().getEvent().subscribe(listener);
 		}
 	}
+	
+	public void unscribeFromFriends(EventListener listener) {
+		for (Contact contact : contacts.values()) {
+			if (contact.getType() != Contact.Type.FRIEND) continue;
+			
+			contact.getTarget().getContacts().getEvent().unsubscribe(listener);
+		}
+	}
 
 	public void add(Contact contact) {
 		if (contact.getOwner() != owner) {

@@ -26,6 +26,7 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 
 	@Override
 	public void onClosed() {
+		client.account().getContacts().unscribeFromFriends(client.eventListener());
 	}
 
 	@Override
