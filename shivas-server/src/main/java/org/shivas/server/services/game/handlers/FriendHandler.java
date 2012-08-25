@@ -1,8 +1,10 @@
 package org.shivas.server.services.game.handlers;
 
 import org.shivas.protocol.client.enums.FriendAddErrorEnum;
+import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.protocol.client.formatters.FriendGameMessageFormatter;
 import org.shivas.server.core.contacts.AlreadyAddedException;
+import org.shivas.server.core.contacts.ContactList;
 import org.shivas.server.core.contacts.EgocentricAddException;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Contact;
@@ -18,6 +20,8 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 
 	@Override
 	public void init() throws Exception {
+		client.account().getContacts().notifyOwnerConnection();
+		client.account().getContacts().subscribeToFriends(client.eventListener());
 	}
 
 	@Override
@@ -44,9 +48,13 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 		case 'L':
 			parseListMessage();
 			break;
+			
+		case 'O':
+			parseEnableNotificationMessage(message.charAt(2) == '+');
+			break;
 		}
 	}
-	
+
 	private Account findAccountOrPlayer(String name) {
 		Account target = client.service().repositories().accounts().findByNickname(name);
 		if (target == null) {
@@ -87,6 +95,15 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 
 	private void parseListMessage() {
 		client.write(FriendGameMessageFormatter.friendListMessage(client.account().getContacts().toBaseFriendType()));
+	}
+	
+	private void parseEnableNotificationMessage(boolean enable) {
+		ContactList contacts = client.account().getContacts();
+		contacts.setNotificationListener(enable);
+		contacts.subscribeToFriends(client.eventListener());
+		// does it need a database update ?
+		
+		client.write(BasicGameMessageFormatter.noOperationMessage());
 	}
 
 }

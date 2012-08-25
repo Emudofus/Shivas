@@ -24,7 +24,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		client.write(SpellGameMessageFormatter.spellListMessage(client.player().getSpells().toBaseSpellType()));
 		client.write(ChannelGameMessageFormatter.enabledEmotesMessage("")); // TODO emotes
 		client.write(ItemGameMessageFormatter.inventoryStatsMessage(client.player().getStats().pods()));
-		client.write(FriendGameMessageFormatter.notifyFriendOnConnectMessage(false)); // TODO friends
+		client.write(FriendGameMessageFormatter.notifyFriendOnConnectMessage(client.account().getContacts().isNotificationListener()));
 		client.write(InfoGameMessageFormatter.welcomeMessage());
 		if (!client.account().firstConnection()) {
 			client.write(InfoGameMessageFormatter.lastConnectionInformationMessage(

@@ -90,7 +90,8 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 			.setParameter("channels", entity.getChannels())
 			.setParameter("last_connection", entity.getLastConnection())
 			.setParameter("last_address", entity.getLastAddress())
-			.setParameter("nb_connections", entity.getNbConnections());
+			.setParameter("nb_connections", entity.getNbConnections())
+			.setParameter("friend_notification_listener", entity.getContacts().isNotificationListener());
 	}
 	
 	@Override
@@ -132,6 +133,7 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 		
 		account.setPlayers(new PlayerList(account, players));
 		account.setContacts(new ContactList(account, contacts));
+		account.getContacts().setNotificationListener(result.getBoolean("friend_notification_listener"));
 		
 		if (account.hasRights() && !account.getChannels().contains(ChannelEnum.Admin)) {
 			account.getChannels().add(ChannelEnum.Admin);

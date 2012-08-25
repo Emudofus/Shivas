@@ -7,6 +7,7 @@ import org.atomium.repository.EntityRepository;
 import org.shivas.protocol.client.types.BaseFriendType;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.EventDispatchers;
+import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.events.events.FriendConnectionEvent;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Contact;
@@ -21,6 +22,8 @@ public class ContactList {
 
 	private final Account owner;
 	private final EntityRepository<Long, Contact> repository;
+	
+	private boolean notificationListener;
 	
 	private final Map<Integer, Contact> contacts = Maps.newHashMap();
 	
@@ -38,9 +41,27 @@ public class ContactList {
 	public EventDispatcher getEvent() {
 		return event;
 	}
-	
-	public void notifyOwnerConnected() {
+
+	public void notifyOwnerConnection() {
 		event.publish(new FriendConnectionEvent(owner));
+	}
+
+	public boolean isNotificationListener() {
+		return notificationListener;
+	}
+
+	public void setNotificationListener(boolean notificationListener) {
+		this.notificationListener = notificationListener;
+	}
+	
+	public void subscribeToFriends(EventListener listener) {
+		if (!notificationListener) return;
+		
+		for (Contact contact : contacts.values()) {
+			if (contact.getType() != Contact.Type.FRIEND) continue;
+			
+			contact.getTarget().getContacts().getEvent().subscribe(listener);
+		}
 	}
 
 	public void add(Contact contact) {

@@ -2,12 +2,14 @@ package org.shivas.server.services.game;
 
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
+import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 import org.shivas.server.core.actions.Action;
 import org.shivas.server.core.actions.RolePlayMovement;
 import org.shivas.server.core.channels.ChannelEvent;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
+import org.shivas.server.core.events.events.FriendConnectionEvent;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.SystemMessageEvent;
 import org.shivas.server.core.maps.MapEvent;
@@ -45,7 +47,8 @@ public class DefaultEventListener implements EventListener {
 		case NEW_ACTION: // not implemented
 			break;
 			
-		case FRIEND_CONNECTION: // TODO friends
+		case FRIEND_CONNECTION:
+			listenFriendConnection((FriendConnectionEvent) event);
 			break;
 		}
 	}
@@ -97,6 +100,13 @@ public class DefaultEventListener implements EventListener {
 
 	private void listenSystemMessage(SystemMessageEvent event) {
 		client.write(ChannelGameMessageFormatter.informationMessage(event.message()));
+	}
+
+	private void listenFriendConnection(FriendConnectionEvent event) {
+		client.write(InfoGameMessageFormatter.friendConnectedMessage(
+				event.getFriend().getNickname(),
+				event.getFriend().getCurrentPlayer().getName()
+		));
 	}
 
 }
