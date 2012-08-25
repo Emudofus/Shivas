@@ -121,6 +121,17 @@ public class ContactList {
 		return hasContact(account.getId());
 	}
 	
+	public boolean hasContact(int targetId, Contact.Type type) {
+		Contact contact = contacts.get(targetId);
+		if (contact == null) return false;
+		
+		return contact.getType() == type;
+	}
+	
+	public boolean hasContact(Account target, Contact.Type type) {
+		return hasContact(target.getId(), type);
+	}
+	
 	public Collection<BaseContactType> toBaseContactType(Predicate<Contact> predicate) {
 		return from(contacts.values())
 			  .filter(predicate)

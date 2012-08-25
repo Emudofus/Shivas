@@ -13,6 +13,7 @@ import org.shivas.server.core.events.events.FriendConnectionEvent;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.SystemMessageEvent;
 import org.shivas.server.core.maps.MapEvent;
+import org.shivas.server.database.models.Player;
 
 public class DefaultEventListener implements EventListener {
 	
@@ -66,6 +67,8 @@ public class DefaultEventListener implements EventListener {
 	}
 
 	private void listenChannel(ChannelEvent event) {
+		if (event.author() instanceof Player && !client.player().canReceiveMessageFrom((Player) event.author())) return;
+		
 		client.write(ChannelGameMessageFormatter.clientMultiMessage(
 				event.channel(),
 				event.author().getPublicId(),

@@ -72,7 +72,11 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseSendPrivateMessage(Player target, String message) {
-		target.sendMessage(client.player(), message);
+		if (target.canReceiveMessageFrom(client.player())) {
+			target.sendMessage(client.player(), message);
+		} else {
+			client.write(BasicGameMessageFormatter.noOperationMessage());
+		}
 	}
 
 	private void parseAdminCommandMessage(String command) throws CriticalException {

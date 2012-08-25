@@ -249,6 +249,11 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		));
 	}
 	
+	public boolean canReceiveMessageFrom(Player source) {
+		return !source.getOwner().getContacts().hasContact(owner, Contact.Type.ENNEMY) ||
+			   !owner.getContacts().hasContact(source.getOwner(), Contact.Type.ENNEMY);
+	}
+	
 	public void sendMessage(Player source, String message) {
 		client.write(ChannelGameMessageFormatter.clientPrivateMessage(true, source.id, source.name, message));
 		source.client.write(ChannelGameMessageFormatter.clientPrivateMessage(false, id, name, message));
