@@ -1,6 +1,6 @@
 package org.shivas.server.services.game.handlers;
 
-import org.shivas.protocol.client.enums.FriendAddErrorEnum;
+import org.shivas.protocol.client.enums.ContactAddErrorEnum;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.protocol.client.formatters.FriendGameMessageFormatter;
 import org.shivas.server.core.contacts.AlreadyAddedException;
@@ -58,7 +58,7 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 	private void parseAddMessage(String name) {
 		Account target = findAccountOrPlayer(name);
 		if (target == null) {
-			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.NOT_FOUND));
+			client.write(FriendGameMessageFormatter.addFriendErrorMessage(ContactAddErrorEnum.NOT_FOUND));
 			return;
 		}
 
@@ -67,9 +67,9 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 			
 			client.write(FriendGameMessageFormatter.addFriendMessage(contact.toBaseFriendType()));
 		} catch (EgocentricAddException e) {
-			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.EGOCENTRIC));
+			client.write(FriendGameMessageFormatter.addFriendErrorMessage(ContactAddErrorEnum.EGOCENTRIC));
 		} catch (AlreadyAddedException e) {
-			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.ALREADY_ADDED));
+			client.write(FriendGameMessageFormatter.addFriendErrorMessage(ContactAddErrorEnum.ALREADY_ADDED));
 		}
 	}
 

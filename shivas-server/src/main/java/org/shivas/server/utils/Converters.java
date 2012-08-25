@@ -8,7 +8,7 @@ import org.shivas.data.entity.ItemTemplate;
 import org.shivas.data.entity.WeaponItemEffect;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.BaseCharacterType;
-import org.shivas.protocol.client.types.BaseFriendType;
+import org.shivas.protocol.client.types.BaseContactType;
 import org.shivas.protocol.client.types.BaseItemEffectType;
 import org.shivas.protocol.client.types.BaseItemType;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
@@ -120,8 +120,8 @@ public class Converters {
 		}
 	};
 	
-	public static Function<Contact, BaseFriendType> CONTACT_TO_BASEFRIENDTYPE = new Function<Contact, BaseFriendType>() {
-		public BaseFriendType apply(Contact input) {
+	public static Function<Contact, BaseContactType> CONTACT_TO_BASEFRIENDTYPE = new Function<Contact, BaseContactType>() {
+		public BaseContactType apply(Contact input) {
 			return input.toBaseFriendType();
 		}
 	};

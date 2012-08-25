@@ -2,9 +2,10 @@ package org.shivas.protocol.client.formatters;
 
 import java.util.Collection;
 
-import org.shivas.protocol.client.enums.FriendAddErrorEnum;
+import org.shivas.protocol.client.enums.ContactAddErrorEnum;
+import org.shivas.protocol.client.enums.ContactStateEnum;
 import org.shivas.protocol.client.enums.Gender;
-import org.shivas.protocol.client.types.BaseFriendType;
+import org.shivas.protocol.client.types.BaseContactType;
 
 /**
  * User: Blackrush
@@ -17,10 +18,10 @@ public class FriendGameMessageFormatter {
         return "FO" + (notifyFriendOnConnect ? "+": "-");
     }
 
-    public static String friendListMessage(Collection<BaseFriendType> friends){
+    public static String friendListMessage(Collection<BaseContactType> friends){
         StringBuilder sb = new StringBuilder().append("FL");
 
-        for (BaseFriendType friend : friends){
+        for (BaseContactType friend : friends){
             sb.append('|').append(friend.getNickname());
             if (friend.isConnected()) {
                 parseFriendCharacter(sb, friend);
@@ -30,8 +31,8 @@ public class FriendGameMessageFormatter {
         return sb.toString();
     }
 
-    private static void parseFriendCharacter(StringBuilder sb, BaseFriendType friend){
-        sb.append(';').append('?');
+    private static void parseFriendCharacter(StringBuilder sb, BaseContactType friend){
+        sb.append(';').append(friend.isReciprocal() && friend.getState() != ContactStateEnum.UNKNOWN ? friend.getState().value() : "?");
         sb.append(';').append(friend.getName());
         sb.append(';').append(friend.isReciprocal() ? friend.getLevel() : "?");
         sb.append(';').append(friend.isReciprocal() ? friend.getAlignmentId() : "0");
@@ -40,7 +41,7 @@ public class FriendGameMessageFormatter {
         sb.append(';').append(friend.getSkin());
     }
 
-    public static String addFriendMessage(BaseFriendType friend){
+    public static String addFriendMessage(BaseContactType friend){
         StringBuilder sb = new StringBuilder().append("FAK");
         sb.append(friend.getNickname());
         if (friend.isConnected()){
@@ -49,7 +50,7 @@ public class FriendGameMessageFormatter {
         return sb.toString();
     }
 
-    public static String addFriendErrorMessage(FriendAddErrorEnum error){
+    public static String addFriendErrorMessage(ContactAddErrorEnum error){
         return "FAE" + String.valueOf(error.getValue());
     }
 

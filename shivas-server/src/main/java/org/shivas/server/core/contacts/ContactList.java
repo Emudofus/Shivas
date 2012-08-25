@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.atomium.repository.EntityRepository;
-import org.shivas.protocol.client.types.BaseFriendType;
+import org.shivas.protocol.client.types.BaseContactType;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.events.EventListener;
@@ -121,7 +121,7 @@ public class ContactList {
 		return hasContact(account.getId());
 	}
 	
-	public Collection<BaseFriendType> toBaseFriendType() {
+	public Collection<BaseContactType> toBaseFriendType() {
 		return from(contacts.values())
 			  .filter(Filters.FRIEND_CONTACT_FILTER)
 			  .transform(Converters.CONTACT_TO_BASEFRIENDTYPE)

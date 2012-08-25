@@ -1,5 +1,6 @@
 package org.shivas.protocol.client.types;
 
+import org.shivas.protocol.client.enums.ContactStateEnum;
 import org.shivas.protocol.client.enums.Gender;
 
 /**
@@ -8,7 +9,7 @@ import org.shivas.protocol.client.enums.Gender;
  * Date: 31/12/11
  * Time: 18:51
  */
-public class BaseFriendType {
+public class BaseContactType {
     private String nickname;
     private String name;
     private short level;
@@ -17,11 +18,12 @@ public class BaseFriendType {
     private Gender gender;
     private short skin;
     private boolean connected, reciprocal;
+    private ContactStateEnum state;
 
-    public BaseFriendType() {
+    public BaseContactType() {
     }
 
-    public BaseFriendType(String nickname, boolean connected, boolean reciprocal, String name, short level, short alignmentId, byte breedId, Gender gender, short skin) {
+    public BaseContactType(String nickname, boolean connected, boolean reciprocal, String name, short level, short alignmentId, byte breedId, Gender gender, short skin, ContactStateEnum state) {
         this.nickname = nickname;
         this.name = name;
         this.level = level;
@@ -31,12 +33,14 @@ public class BaseFriendType {
         this.skin = skin;
         this.connected = connected;
         this.reciprocal = reciprocal;
+        this.state = state;
     }
 
-    public BaseFriendType(String nickname, boolean connected, boolean reciprocal) {
+    public BaseContactType(String nickname, boolean connected, boolean reciprocal, ContactStateEnum state) {
         this.nickname = nickname;
         this.connected = connected;
         this.reciprocal = reciprocal;
+        this.state = state;
     }
 
     public String getNickname() {
@@ -110,4 +114,12 @@ public class BaseFriendType {
     public void setConnected(boolean connected) {
         this.connected = connected;
     }
+
+	public ContactStateEnum getState() {
+		return state;
+	}
+
+	public void setState(ContactStateEnum state) {
+		this.state = state;
+	}
 }

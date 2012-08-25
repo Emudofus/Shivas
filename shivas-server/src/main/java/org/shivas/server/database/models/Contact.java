@@ -1,7 +1,8 @@
 package org.shivas.server.database.models;
 
 import org.atomium.PersistableEntity;
-import org.shivas.protocol.client.types.BaseFriendType;
+import org.shivas.protocol.client.enums.ContactStateEnum;
+import org.shivas.protocol.client.types.BaseContactType;
 
 public class Contact implements PersistableEntity<Long> {
 	
@@ -57,11 +58,11 @@ public class Contact implements PersistableEntity<Long> {
 		return target.getContacts().hasContact(owner);
 	}
 	
-	public BaseFriendType toBaseFriendType() {
+	public BaseContactType toBaseFriendType() {
 		if (target.isConnected()) {
 			Player player = target.getCurrentPlayer();
 			
-			return new BaseFriendType(
+			return new BaseContactType(
 					target.getNickname(),
 					true, // is connected
 					isReciprocal(),
@@ -70,13 +71,15 @@ public class Contact implements PersistableEntity<Long> {
 					(short) 0, // TODO alignment
 					(byte) player.getBreed().getId(),
 					player.getGender(),
-					player.getLook().skin()
+					player.getLook().skin(),
+					ContactStateEnum.SOLO
 			);
 		} else {
-			return new BaseFriendType(
+			return new BaseContactType(
 					target.getNickname(),
 					false,
-					isReciprocal()
+					isReciprocal(),
+					ContactStateEnum.UNKNOWN
 			);
 		}
 	}
