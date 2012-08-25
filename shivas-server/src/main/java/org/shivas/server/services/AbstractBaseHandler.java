@@ -3,6 +3,8 @@ package org.shivas.server.services;
 import org.shivas.server.core.logging.ConsoleLogger;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.core.logging.TchatLogger;
+import org.shivas.server.database.models.Account;
+import org.shivas.server.database.models.Player;
 
 public abstract class AbstractBaseHandler<C extends Client<?>>
 	implements BaseHandler
@@ -29,6 +31,17 @@ public abstract class AbstractBaseHandler<C extends Client<?>>
 	protected String getClearAddress() {
         String address = client.getRemoteAddress().toString();
         return address.substring(1, address.indexOf(':'));
+	}
+
+	protected Account findAccountOrPlayer(String name) {
+		Account target = client.service().repositories().accounts().findByNickname(name);
+		if (target == null) {
+			Player player = client.service().repositories().players().find(name);
+			if (player != null) {
+				target = player.getOwner();
+			}
+		}
+		return target;
 	}
 	
 	public DofusLogger tchat(){

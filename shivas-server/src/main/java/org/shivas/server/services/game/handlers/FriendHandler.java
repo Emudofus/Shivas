@@ -8,7 +8,6 @@ import org.shivas.server.core.contacts.ContactList;
 import org.shivas.server.core.contacts.EgocentricAddException;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Contact;
-import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 
@@ -54,17 +53,6 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 			parseEnableNotificationMessage(message.charAt(2) == '+');
 			break;
 		}
-	}
-
-	private Account findAccountOrPlayer(String name) {
-		Account target = client.service().repositories().accounts().findByNickname(name);
-		if (target == null) {
-			Player player = client.service().repositories().players().find(name);
-			if (player != null) {
-				target = player.getOwner();
-			}
-		}
-		return target;
 	}
 
 	private void parseAddMessage(String name) {
