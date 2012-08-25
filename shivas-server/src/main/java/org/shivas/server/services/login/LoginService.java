@@ -9,7 +9,7 @@ public interface LoginService extends Service {
 
 	GameService game();
 	
-	Cipher makeCipher(String ticket);
+	Cipher makeCipher(String ticket, Account account);
 	
 	void putAccount(String ticket, Account account);
 	Account getAccount(String ticket);

@@ -17,7 +17,7 @@ public class Account implements Serializable, Entity<Integer> {
 	private int id;
 	private long version;
 	private String name;
-	private String password;
+	private String password, salt;
 	private String nickname;
 	private String secretQuestion;
 	private String secretAnswer;
@@ -37,7 +37,7 @@ public class Account implements Serializable, Entity<Integer> {
 	
 	private Player currentPlayer;
 
-	public Account(int id, long version, String name, String password,
+	public Account(int id, long version, String name, String password, String salt,
 			String nickname, String secretQuestion, String secretAnswer,
 			boolean rights, boolean banned, boolean muted, int community, int points,
 			DateTime subscriptionEnd, boolean connected, ChannelList channels,
@@ -46,6 +46,7 @@ public class Account implements Serializable, Entity<Integer> {
 		this.version = version;
 		this.name = name;
 		this.password = password;
+		this.salt = salt;
 		this.nickname = nickname;
 		this.secretQuestion = secretQuestion;
 		this.secretAnswer = secretAnswer;
@@ -116,6 +117,14 @@ public class Account implements Serializable, Entity<Integer> {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	/**

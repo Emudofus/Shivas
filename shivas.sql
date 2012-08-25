@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : localhost
 Source Server Version : 50520
 Source Host           : localhost:3306
-Source Database       : shivas
+Source Database       : shivas_prod
 
 Target Server Type    : MYSQL
 Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2012-08-23 20:43:23
+Date: 2012-08-25 16:33:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,6 +23,7 @@ CREATE TABLE `accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `salt` varchar(32) NOT NULL,
   `nickname` varchar(255) NOT NULL,
   `question` varchar(255) NOT NULL,
   `answer` varchar(255) NOT NULL,
@@ -38,10 +39,15 @@ CREATE TABLE `accounts` (
   `last_address` varchar(15) NOT NULL,
   `nb_connections` int(11) NOT NULL,
   `refreshed` tinyint(1) NOT NULL,
+  `friend_notification_listener` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `accounts_name_index` (`name`) USING BTREE,
   UNIQUE KEY `accounts_nickname_index` (`nickname`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of accounts
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `contacts`
@@ -60,6 +66,10 @@ CREATE TABLE `contacts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
+-- Records of contacts
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `items`
 -- ----------------------------
 DROP TABLE IF EXISTS `items`;
@@ -74,6 +84,10 @@ CREATE TABLE `items` (
   KEY `index_items_owner` (`owner`) USING BTREE,
   CONSTRAINT `fk_items_owner` FOREIGN KEY (`owner`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of items
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `players`
@@ -115,6 +129,10 @@ CREATE TABLE `players` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
+-- Records of players
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `spells`
 -- ----------------------------
 DROP TABLE IF EXISTS `spells`;
@@ -128,3 +146,7 @@ CREATE TABLE `spells` (
   KEY `fk_spells_player` (`player`),
   CONSTRAINT `fk_spells_player` FOREIGN KEY (`player`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of spells
+-- ----------------------------

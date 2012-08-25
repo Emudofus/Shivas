@@ -16,7 +16,7 @@ import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.UpdateQueryBuilder;
 import org.shivas.common.crypto.Cipher;
-import org.shivas.common.crypto.Sha1Cipher;
+import org.shivas.common.crypto.Sha1SaltCipher;
 import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.channels.ChannelList;
@@ -115,6 +115,7 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 				0,
 				result.getString("name"),
 				result.getString("password"),
+				result.getString("salt"),
 				result.getString("nickname"),
 				result.getString("question"),
 				result.getString("answer"),
@@ -145,15 +146,16 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	@Override
 	protected void refresh(Account entity, ResultSet rset) throws SQLException {		
 		entity.setPassword(rset.getString("password"));
+		entity.setSalt(rset.getString("salt"));
 		entity.setBanned(rset.getBoolean("banned"));
 		entity.setMuted(rset.getBoolean("muted"));
 		entity.setPoints(rset.getInt("points"));
 		entity.setSubscriptionEnd(em.builder().dateTimeFormatter().parseDateTime(rset.getString("subscription_end")));
 	}
 
-	public Cipher passwordCipher() {
+	public Cipher passwordCipher(Account account) {
 		try {
-			return new Sha1Cipher();
+			return new Sha1SaltCipher(account.getSalt());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace(); // MUST NOT HAPPEN
 			return null;

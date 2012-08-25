@@ -8,22 +8,21 @@ import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.login.LoginClient;
 
 public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
-	
-	private Cipher cipher;
 
 	public AuthenticationHandler(LoginClient client) {
 		super(client);
 	}
 
 	public void init() throws Exception {
-		cipher = client.service().makeCipher(client.ticket());
 	}
 
 	public void onClosed() {
 	}
 	
-	private boolean checkPassword(String expected, String input) throws CipherException {
-		return cipher.cipher(input).equals(expected);
+	private boolean checkPassword(Account account, String input) throws CipherException {
+		Cipher cipher = client.service().makeCipher(client.ticket(), account);
+		
+		return cipher.cipher(input).equalsIgnoreCase(account.getPassword());
 	}
 	
 	private String getError(Account account, String password) throws CipherException {
@@ -33,7 +32,7 @@ public class AuthenticationHandler extends AbstractBaseHandler<LoginClient> {
 			return LoginMessageFormatter.alreadyConnected();
 		} else if (account.isBanned()) {
 			return LoginMessageFormatter.banned();
-		} else if (!checkPassword(account.getPassword(), password)) {
+		} else if (!checkPassword(account, password)) {
 			return LoginMessageFormatter.accessDenied();
 		} else {
 			return null;

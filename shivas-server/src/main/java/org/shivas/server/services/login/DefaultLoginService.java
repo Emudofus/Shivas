@@ -48,10 +48,10 @@ public class DefaultLoginService extends AbstractService implements LoginService
 		return game;
 	}
 
-	public Cipher makeCipher(String ticket) {
+	public Cipher makeCipher(String ticket, Account account) {
 		return Ciphers.combine(
 				new Dofus1DecrypterCipher(ticket), 
-				repositories.accounts().passwordCipher()
+				repositories.accounts().passwordCipher(account)
 		);
 	}
 
