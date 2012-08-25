@@ -1,9 +1,9 @@
 h1. Shivas
 
-h3. Author
+h3. Contributeurs
 
-* Blackrush
+* Blackrush <blackrushx@gmail.com>
 
 h3. Description
 
-Dofus 1.29.1 emulator
+Shivas est un émulateur Dofus 1.29 développé en Java. Aucune version stable n'est prévue pour le moment.
