@@ -61,6 +61,15 @@ public class ContactList {
 	public boolean remove(Integer targetId) {
 		return contacts.remove(targetId) != null;
 	}
+	
+	public boolean delete(Account target) {
+		Contact contact = contacts.remove(target.getId());
+		if (contact != null) {
+			repository.deleteLater(contact);
+			return true;
+		}
+		return false;
+	}
 
 	public boolean hasContact(int targetId) {
 		return contacts.containsKey(targetId);

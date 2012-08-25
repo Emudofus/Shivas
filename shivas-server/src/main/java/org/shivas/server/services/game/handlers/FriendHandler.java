@@ -28,10 +28,16 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 	public void handle(String message) throws Exception {
 		switch (message.charAt(1)) {
 		case 'A':
-			boolean account = message.charAt(2) == '%';
-			parseAddMessage(
-					account ? message.substring(3) : message.substring(2),
-					account
+			parseAddMessage(message.charAt(2) == '%' || message.charAt(2) == '*' ?
+					message.substring(3) :
+					message.substring(2)
+			);
+			break;
+			
+		case 'D':
+			parseDeleteMessage(message.charAt(2) == '%' || message.charAt(2) == '*' ?
+					message.substring(3) :
+					message.substring(2)
 			);
 			break;
 			
@@ -40,19 +46,23 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 			break;
 		}
 	}
-
-	private void parseAddMessage(String raw, boolean accountRequest) {
-		Account target = null;
-		if (accountRequest) {
-			target = client.service().repositories().accounts().findByNickname(raw);
-		} else {
-			Player player = client.service().repositories().players().find(raw);
+	
+	private Account findAccountOrPlayer(String name) {
+		Account target = client.service().repositories().accounts().findByNickname(name);
+		if (target == null) {
+			Player player = client.service().repositories().players().find(name);
 			if (player != null) {
 				target = player.getOwner();
-			} else {
-				client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.NOT_FOUND));
-				return;
 			}
+		}
+		return target;
+	}
+
+	private void parseAddMessage(String name) {
+		Account target = findAccountOrPlayer(name);
+		if (target == null) {
+			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.NOT_FOUND));
+			return;
 		}
 
 		try {
@@ -63,6 +73,15 @@ public class FriendHandler extends AbstractBaseHandler<GameClient> {
 			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.EGOCENTRIC));
 		} catch (AlreadyAddedException e) {
 			client.write(FriendGameMessageFormatter.addFriendErrorMessage(FriendAddErrorEnum.ALREADY_ADDED));
+		}
+	}
+
+	private void parseDeleteMessage(String name) {
+		Account target = findAccountOrPlayer(name);
+		if (target != null && client.account().getContacts().delete(target)) {
+			client.write(FriendGameMessageFormatter.deleteFriendMessage());
+		} else {
+			client.write(FriendGameMessageFormatter.deleteFriendErrorMessage());
 		}
 	}
 

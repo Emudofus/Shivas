@@ -169,7 +169,7 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	public Account findByNickname(final String nickname) {
 		return super.find(new Filter<Account>() {
 			public Boolean invoke(Account arg1) throws Exception {
-				return arg1.getName().equals(nickname);
+				return arg1.getNickname().equals(nickname);
 			}
 		});
 	}
