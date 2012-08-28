@@ -36,6 +36,9 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	@Inject
 	private ContactRepository contacts;
 	
+	@Inject
+	private GiftRepository gifts;
+	
 	private Timer timer;
 	
 	public void load() {
@@ -45,6 +48,7 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 			log.debug("{} players loaded", players.load());
 			log.debug("{} items loaded", items.load());
 			log.debug("{} spells loaded", spells.load());
+			log.debug("{} gifts loaded", gifts.load());
 		} catch (LoadingException e) {
 			log.error("can't load because of {}", e.getMessage());
 		}
@@ -98,6 +102,11 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	@Override
 	public ContactRepository contacts() {
 		return contacts;
+	}
+
+	@Override
+	public GiftRepository gifts() {
+		return gifts;
 	}
 
 }
