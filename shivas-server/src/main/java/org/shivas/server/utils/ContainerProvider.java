@@ -46,7 +46,7 @@ public class ContainerProvider implements Provider<Container> {
 			loader.load(GameMap.class, config.dataPath() + "maps/");
 			loader.load(ItemTemplate.class, config.dataPath() + "items/");
 			loader.load(ItemSet.class, config.dataPath() + "itemsets/");
-			loader.load(Action.class, config.dataPath() + "itemactions/");
+			loader.load(Action.class, config.dataPath() + "actions/");
 			
 			ctner = loader.create();
 		}
