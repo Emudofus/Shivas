@@ -1,7 +1,7 @@
 package org.shivas.data;
 
 import org.shivas.data.entity.*;
-import org.shivas.data.entity.factory.ItemActionFactory;
+import org.shivas.data.entity.factory.ActionFactory;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 
 public interface EntityFactory {
@@ -24,7 +24,7 @@ public interface EntityFactory {
 	ConstantItemEffect newConstantItemEffect();
 	WeaponItemEffect newWeaponItemEffect();
 	
-	ItemActionFactory newItemActionFactory(Container ctner);
+	ActionFactory newItemActionFactory(Container ctner);
 	
 	SpellTemplate newSpellTemplate();
 	SpellLevel newSpellLevel();

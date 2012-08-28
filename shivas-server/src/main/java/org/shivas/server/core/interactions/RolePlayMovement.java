@@ -1,4 +1,4 @@
-package org.shivas.server.core.actions;
+package org.shivas.server.core.interactions;
 
 import org.shivas.data.entity.MapTrigger;
 import org.shivas.protocol.client.enums.OrientationEnum;

@@ -1,4 +1,4 @@
-package org.shivas.server.core.actions;
+package org.shivas.server.core.interactions;
 
 public class ActionException extends Exception {
 

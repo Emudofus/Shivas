@@ -4,14 +4,14 @@ import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
-import org.shivas.server.core.actions.Action;
-import org.shivas.server.core.actions.RolePlayMovement;
 import org.shivas.server.core.channels.ChannelEvent;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.events.events.FriendConnectionEvent;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.SystemMessageEvent;
+import org.shivas.server.core.interactions.Action;
+import org.shivas.server.core.interactions.RolePlayMovement;
 import org.shivas.server.core.maps.MapEvent;
 import org.shivas.server.database.models.Player;
 
@@ -45,7 +45,7 @@ public class DefaultEventListener implements EventListener {
 			listenSystemMessage((SystemMessageEvent) event);
 			break;
 			
-		case NEW_ACTION: // not implemented
+		case NEW_INTERACTION: // not implemented
 			break;
 			
 		case FRIEND_CONNECTION:

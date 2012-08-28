@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.shivas.data.entity.ConstantItemEffect;
-import org.shivas.data.entity.ItemAction;
+import org.shivas.data.entity.Action;
 import org.shivas.data.entity.ItemSet;
 import org.shivas.data.entity.UsableItemTemplate;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
@@ -179,7 +179,7 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		assertTrue(item.getTemplate() instanceof UsableItemTemplate, "this isn't a usable item");
 		
 		UsableItemTemplate tpl = (UsableItemTemplate) item.getTemplate();
-		for (ItemAction action : tpl.getActions()) {
+		for (Action action : tpl.getActions()) {
 			if (action.able(client.player())) {
 				action.apply(client.player());
 			}

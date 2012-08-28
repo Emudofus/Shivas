@@ -8,17 +8,17 @@ public class UsableItemTemplate extends ItemTemplate {
 
 	private static final long serialVersionUID = -4474357375639487479L;
 	
-	private Collection<ItemAction> actions;
+	private Collection<Action> actions;
 
 	public UsableItemTemplate(EntityFactory factory) {
 		super(factory);
 	}
 
-	public Collection<ItemAction> getActions() {
+	public Collection<Action> getActions() {
 		return actions;
 	}
 
-	public void setActions(Collection<ItemAction> actions) {
+	public void setActions(Collection<Action> actions) {
 		this.actions = actions;
 	}
 

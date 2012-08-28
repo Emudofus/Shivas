@@ -1,12 +1,12 @@
-package org.shivas.server.core.items.actions;
+package org.shivas.server.core.actions;
 
 import java.util.Map;
 
-import org.shivas.data.entity.ItemAction;
+import org.shivas.data.entity.Action;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.game.GameClient;
 
-public class GiveKamasAction implements ItemAction {
+public class GiveKamasAction implements Action {
 
 	public static final int TYPE = 2;
 	

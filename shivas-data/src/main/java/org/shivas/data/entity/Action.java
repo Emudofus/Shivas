@@ -1,6 +1,6 @@
 package org.shivas.data.entity;
 
-public interface ItemAction {
+public interface Action {
 	int getType();
 	
 	boolean able(Object target);

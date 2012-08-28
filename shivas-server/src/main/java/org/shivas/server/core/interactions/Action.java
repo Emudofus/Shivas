@@ -1,4 +1,4 @@
-package org.shivas.server.core.actions;
+package org.shivas.server.core.interactions;
 
 import org.shivas.server.core.events.Event;
 

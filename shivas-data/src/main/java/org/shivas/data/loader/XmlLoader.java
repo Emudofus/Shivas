@@ -15,7 +15,7 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.*;
-import org.shivas.data.entity.factory.ItemActionFactory;
+import org.shivas.data.entity.factory.ActionFactory;
 import org.shivas.data.repository.BaseRepository;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
@@ -29,7 +29,7 @@ import com.google.common.collect.Multimap;
 public class XmlLoader extends AbstractLoader {
 	
 	private final SAXBuilder builder = new SAXBuilder();
-	private final ItemActionFactory itemActions;
+	private final ActionFactory itemActions;
 	
 	public XmlLoader(EntityFactory factory) {
 		super(factory);
@@ -71,8 +71,8 @@ public class XmlLoader extends AbstractLoader {
 			}
 		});
 		
-		loaders.put(ItemAction.class, new FileLoader<ItemAction>() {
-			public int load(BaseRepository<ItemAction> repo, File file) throws Exception {
+		loaders.put(Action.class, new FileLoader<Action>() {
+			public int load(BaseRepository<Action> repo, File file) throws Exception {
 				return loadItemAction(repo, file);
 			}
 		});
@@ -251,7 +251,7 @@ public class XmlLoader extends AbstractLoader {
 		return count;
 	}
 	
-	private ItemAction makeItemAction(Element elem) throws Exception {
+	private Action makeItemAction(Element elem) throws Exception {
 		int type = elem.getAttribute("type").getIntValue();
 		
 		Map<String, String> parameters = Maps.newHashMap();
@@ -314,7 +314,7 @@ public class XmlLoader extends AbstractLoader {
 		return count;
 	}
 	
-	private int loadItemAction(BaseRepository<ItemAction> repo, File file) throws Exception {
+	private int loadItemAction(BaseRepository<Action> repo, File file) throws Exception {
 		int count = 0;
 		Document doc = builder.build(file);
 		
@@ -327,9 +327,9 @@ public class XmlLoader extends AbstractLoader {
 			UsableItemTemplate usable = (UsableItemTemplate) tpl;
 			if (usable.getActions() != null) throw new Exception("you can't add anymore actions on this item");
 			
-			List<ItemAction> actions = Lists.newArrayList();
+			List<Action> actions = Lists.newArrayList();
 			for (Element action_elem : actions_elem.getChildren("action")) {
-				ItemAction action = makeItemAction(action_elem);
+				Action action = makeItemAction(action_elem);
 				if (action != null) {
 					actions.add(action);
 				}

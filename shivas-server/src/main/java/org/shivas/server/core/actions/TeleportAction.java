@@ -1,14 +1,14 @@
-package org.shivas.server.core.items.actions;
+package org.shivas.server.core.actions;
 
 import java.util.Map;
 
 import org.shivas.data.Container;
-import org.shivas.data.entity.ItemAction;
+import org.shivas.data.entity.Action;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.maps.GameMap;
 
-public class TeleportAction implements ItemAction {
+public class TeleportAction implements Action {
 
 	public static final int TYPE = 1;
 	

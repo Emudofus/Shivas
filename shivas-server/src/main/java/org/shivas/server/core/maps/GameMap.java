@@ -6,9 +6,9 @@ import java.util.Map;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.GameActorWithoutId;
-import org.shivas.server.core.actions.RolePlayMovement;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.EventDispatchers;
+import org.shivas.server.core.interactions.RolePlayMovement;
 
 import com.google.common.collect.Maps;
 

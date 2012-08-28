@@ -1,10 +1,10 @@
 package org.shivas.server;
 
 import org.shivas.data.*;
-import org.shivas.data.entity.factory.ItemActionFactory;
+import org.shivas.data.entity.factory.ActionFactory;
 import org.shivas.server.config.*;
+import org.shivas.server.core.actions.ShivasActionFactory;
 import org.shivas.server.core.commands.CommandEngine;
-import org.shivas.server.core.items.actions.ShivasItemActionFactory;
 import org.shivas.server.database.*;
 import org.shivas.server.services.game.*;
 import org.shivas.server.services.login.*;
@@ -20,7 +20,7 @@ public class ShivasModule extends AbstractModule {
 		
 		bind(EntityFactory.class).to(ShivasEntityFactory.class).asEagerSingleton();
 		bind(Container.class).toProvider(ContainerProvider.class);
-		bind(ItemActionFactory.class).to(ShivasItemActionFactory.class);
+		bind(ActionFactory.class).to(ShivasActionFactory.class);
 		
 		bind(LoginService.class).to(DefaultLoginService.class);
 		bind(GameService.class).to(DefaultGameService.class);
