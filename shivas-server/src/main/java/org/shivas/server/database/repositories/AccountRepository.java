@@ -1,6 +1,5 @@
 package org.shivas.server.database.repositories;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -154,12 +153,7 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	}
 
 	public Cipher passwordCipher(Account account) {
-		try {
-			return new Sha1SaltCipher(account.getSalt());
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace(); // MUST NOT HAPPEN
-			return null;
-		}
+		return new Sha1SaltCipher(account.getSalt());
 	}
 	
 	public Account find(final String name) {
