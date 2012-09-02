@@ -25,7 +25,9 @@ public class GiftList implements Iterable<Gift> {
 	}
 
 	public Gift pop() {
-		return gifts.remove(0);
+		return gifts.size() <= 0 ?
+				null :
+				gifts.remove(0);
 	}
 
 	@Override
