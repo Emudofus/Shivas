@@ -10,8 +10,12 @@ public class Sha1Cipher implements Cipher {
 	
 	private MessageDigest md;
 	
-	public Sha1Cipher() throws NoSuchAlgorithmException {
-		md = MessageDigest.getInstance(ALGORITHM_NAME);
+	public Sha1Cipher() {
+		try {
+			md = MessageDigest.getInstance(ALGORITHM_NAME);
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public byte[] cipher(byte[] bytes) throws CipherException {

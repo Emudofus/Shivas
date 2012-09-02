@@ -1,7 +1,5 @@
 package org.shivas.common.crypto;
 
-import java.security.NoSuchAlgorithmException;
-
 public class Sha1SaltCipher extends Sha1Cipher {
 	
 	private static byte[] concat(byte[] first, byte[] second) {
@@ -19,7 +17,7 @@ public class Sha1SaltCipher extends Sha1Cipher {
 	private String salt;
 	private byte[] bytes;
 
-	public Sha1SaltCipher(String salt) throws NoSuchAlgorithmException {
+	public Sha1SaltCipher(String salt) {
 		super();
 		
 		this.salt = salt;
