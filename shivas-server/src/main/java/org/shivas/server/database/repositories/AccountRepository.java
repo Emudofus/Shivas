@@ -8,7 +8,6 @@ import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
 import org.atomium.exception.LoadingException;
-import org.atomium.repository.EntityRepository;
 import org.atomium.repository.impl.AbstractRefreshableEntityRepository;
 import org.atomium.util.Filter;
 import org.atomium.util.query.Op;
@@ -20,10 +19,10 @@ import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.channels.ChannelList;
 import org.shivas.server.core.contacts.ContactList;
+import org.shivas.server.core.gifts.GiftList;
 import org.shivas.server.core.players.PlayerList;
+import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.database.models.Account;
-import org.shivas.server.database.models.Contact;
-import org.shivas.server.database.models.Player;
 
 @Singleton
 public class AccountRepository extends AbstractRefreshableEntityRepository<Integer, Account> {
@@ -33,15 +32,13 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	private final UpdateQueryBuilder saveQuery;
 	private final Query loadQuery, refreshQuery, setRefreshedQuery;
 	
-	private final EntityRepository<Integer, Player> players;
-	private final EntityRepository<Long, Contact> contacts;
+	private final RepositoryContainer repositories;
 
 	@Inject
-	public AccountRepository(EntityManager em, Config config, EntityRepository<Integer, Player> players, EntityRepository<Long, Contact> contacts) {
+	public AccountRepository(EntityManager em, Config config, RepositoryContainer repositories) {
 		super(em, config.databaseRefreshRate());
 		
-		this.players = players;
-		this.contacts = contacts;
+		this.repositories = repositories;
 		
 		this.saveQuery = em.builder()
 				.update(TABLE_NAME)
@@ -131,9 +128,10 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 				result.getInt("nb_connections")
 		);
 		
-		account.setPlayers(new PlayerList(account, players));
-		account.setContacts(new ContactList(account, contacts));
+		account.setPlayers(new PlayerList(account, repositories.players()));
+		account.setContacts(new ContactList(account, repositories.contacts()));
 		account.getContacts().setNotificationListener(result.getBoolean("friend_notification_listener"));
+		account.setGifts(new GiftList(account, repositories.gifts()));
 		
 		if (account.hasRights() && !account.getChannels().contains(ChannelEnum.Admin)) {
 			account.getChannels().add(ChannelEnum.Admin);

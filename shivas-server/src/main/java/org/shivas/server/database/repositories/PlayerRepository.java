@@ -7,8 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.atomium.EntityManager;
-import org.atomium.repository.BaseEntityRepository;
-import org.atomium.repository.EntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
 import org.atomium.util.query.*;
@@ -27,6 +25,7 @@ import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.spells.SpellList;
 import org.shivas.server.core.statistics.PlayerStatistics;
+import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.database.models.*;
 
 @Singleton
@@ -36,9 +35,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	
 	private final Config config;
 	private final Container ctner;
-	private final BaseEntityRepository<Integer, Account> accounts;
-	private final EntityRepository<Long, GameItem> items;
-	private final EntityRepository<Long, Spell> spells;
+	private final RepositoryContainer repositories;
 	
 	private DeleteQueryBuilder deleteQuery;
 	private InsertQueryBuilder persistQuery;
@@ -46,13 +43,11 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	private SelectQueryBuilder loadQuery;
 
 	@Inject
-	public PlayerRepository(EntityManager em, Config config, Container ctner, BaseEntityRepository<Integer, Account> accounts, EntityRepository<Long, GameItem> items, EntityRepository<Long, Spell> spells) {
+	public PlayerRepository(EntityManager em, Config config, Container ctner, RepositoryContainer repositories) {
 		super(em, new IntegerPrimaryKeyGenerator());
 		this.config = config;
 		this.ctner = ctner;
-		this.accounts = accounts;
-		this.items = items;
-		this.spells = spells;
+		this.repositories = repositories;
 		
 		this.deleteQuery = em.builder().delete(TABLE_NAME).where("id", Op.EQ);
 		this.persistQuery = em.builder()
@@ -104,9 +99,9 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				config.startAgility()
 		));
 		
-		player.setBag(new PlayerBag(player, items, this, config.startKamas()));
+		player.setBag(new PlayerBag(player, repositories.items(), this, config.startKamas()));
 		
-		player.setSpells(new SpellList(player, spells).fill());
+		player.setSpells(new SpellList(player, repositories.spells()).fill());
 		
 		return player;
 	}
@@ -114,7 +109,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	@Override
 	protected void onPersisted(Player entity) {
 		for (Spell spell : entity.getSpells()) {
-			spells.persistLater(spell);
+			repositories.spells().persistLater(spell);
 		}
 	}
 
@@ -211,7 +206,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	protected Player load(ResultSet result) throws SQLException {		
 		Player player = new Player(
 				result.getInt("id"),
-				accounts.find(result.getInt("owner_id")),
+				repositories.accounts().find(result.getInt("owner_id")),
 				result.getString("name"),
 				ctner.get(Breed.class).byId(result.getInt("breed_id")),
 				Gender.valueOf(result.getInt("gender")),
@@ -253,9 +248,9 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				result.getShort("agility")
 		));
 		
-		player.setBag(new PlayerBag(player, items, this, result.getLong("kamas")));
+		player.setBag(new PlayerBag(player, repositories.items(), this, result.getLong("kamas")));
 		
-		player.setSpells(new SpellList(player, spells));
+		player.setSpells(new SpellList(player, repositories.spells()));
 		
 		player.getOwner().getPlayers().add(player);
 		
