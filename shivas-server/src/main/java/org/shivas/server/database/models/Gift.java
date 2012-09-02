@@ -3,7 +3,9 @@ package org.shivas.server.database.models;
 import java.io.Serializable;
 
 import org.atomium.PersistableEntity;
-import org.shivas.data.entity.ItemTemplate;
+import org.shivas.protocol.client.types.BaseGiftType;
+
+import com.google.common.collect.Sets;
 
 public class Gift implements Serializable, PersistableEntity<Long> {
 
@@ -11,9 +13,9 @@ public class Gift implements Serializable, PersistableEntity<Long> {
 	
 	private long id;
 	private Account owner;
-	private ItemTemplate item;
+	private GameItem item;
 	private int quantity;
-	private String title, message;
+	private String title, message, url;
 
 	@Override
 	public Long getId() {
@@ -25,6 +27,10 @@ public class Gift implements Serializable, PersistableEntity<Long> {
 		this.id = id;
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public Account getOwner() {
 		return owner;
 	}
@@ -33,11 +39,11 @@ public class Gift implements Serializable, PersistableEntity<Long> {
 		this.owner = owner;
 	}
 
-	public ItemTemplate getItem() {
+	public GameItem getItem() {
 		return item;
 	}
 
-	public void setItem(ItemTemplate item) {
+	public void setItem(GameItem item) {
 		this.item = item;
 	}
 
@@ -64,9 +70,24 @@ public class Gift implements Serializable, PersistableEntity<Long> {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	
+	public String getUrl() {
+		return url;
+	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public BaseGiftType toBaseGiftType() {
+		return new BaseGiftType( // TODO gifts
+				id,
+				1,
+				title,
+				message,
+				url,
+				Sets.newHashSet(item.toBaseItemType())
+		);
 	}
 
 }
