@@ -80,9 +80,7 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseAdminCommandMessage(String command) throws CriticalException {
-		if (!client.account().hasRights()) {
-			throw new CriticalException("this client hasn't enough rights");
-		}
+		assertTrue(client.account().hasRights(), "the client hasn't enough rights");
 		
 		client.service().cmdEngine().use(client, console(), command);
 	}

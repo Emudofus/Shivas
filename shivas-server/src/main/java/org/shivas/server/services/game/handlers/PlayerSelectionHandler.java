@@ -115,14 +115,13 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 
 	private void parsePlayerDeleteMessage(int playerId, String secretAnswer) throws CriticalException {
 		Player player = client.account().getPlayers().get(playerId);
+		assertFalse(player == null, "unknown player %d !", playerId);
+		assertFalse(
+				secretAnswer.isEmpty() && player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded(),
+				"the secret answer is required"
+		);
 		
-		if (player == null) {
-			throw new CriticalException("unknown player #%d !", playerId);
-		} else if (secretAnswer.isEmpty() &&
-				  player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded())
-		{
-			throw new CriticalException("the secret answer is required");
-		} else if (player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded() &&
+		if (player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded() &&
 				   !client.account().getSecretAnswer().equals(secretAnswer))
 		{
 			client.write(ApproachGameMessageFormatter.characterDeletionFailureMessage());
@@ -136,29 +135,26 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 
 	private void parsePlayerSelectionMessage(int playerId) throws Exception {
 		Player player = client.account().getPlayers().get(playerId);
+		assertFalse(player == null, "unknown player %d !", playerId);
 		
-		if (player == null) {
-			throw new CriticalException("unknown player #%d !", playerId);
-		} else {
-			client.write(ApproachGameMessageFormatter.characterSelectionSucessMessage(
-					player.getPublicId(),
-					player.getName(),
-					player.getExperience().level(),
-					player.getBreed().getId(),
-					player.getGender(),
-					player.getLook().skin(),
-					player.getLook().colors().first(), 
-					player.getLook().colors().second(),
-					player.getLook().colors().third(),
-					player.getBag().toBaseItemType()
-			));
+		client.write(ApproachGameMessageFormatter.characterSelectionSucessMessage(
+				player.getPublicId(),
+				player.getName(),
+				player.getExperience().level(),
+				player.getBreed().getId(),
+				player.getGender(),
+				player.getLook().skin(),
+				player.getLook().colors().first(), 
+				player.getLook().colors().second(),
+				player.getLook().colors().third(),
+				player.getBag().toBaseItemType()
+		));
 
-			client.account().setCurrentPlayer(player);
-			client.setPlayer(player);
-			player.setClient(client);
-			
-			client.newHandler(new RolePlayHandler(client));
-		}
+		client.account().setCurrentPlayer(player);
+		client.setPlayer(player);
+		player.setClient(client);
+		
+		client.newHandler(new RolePlayHandler(client));
 	}
 
 	private void parseGiftListMessage(String language) {

@@ -9,7 +9,6 @@ import org.shivas.server.core.interactions.ActionException;
 import org.shivas.server.core.interactions.RolePlayMovement;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.services.AbstractBaseHandler;
-import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 import org.shivas.server.utils.Converters;
 import org.slf4j.Logger;
@@ -99,9 +98,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 
 	private void parseGameActionEndMessage(boolean success, String args) throws Exception {
 		Action action = client.actions().remove();
-		if (action == null) {
-			throw new CriticalException("you can't do this");
-		}
+		assertFalse(action == null, "you can't do this");
 
 		switch (action.actionType()) {
 		case MOVEMENT:
