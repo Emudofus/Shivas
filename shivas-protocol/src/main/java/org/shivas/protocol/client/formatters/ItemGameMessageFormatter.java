@@ -3,6 +3,7 @@ package org.shivas.protocol.client.formatters;
 import org.shivas.common.StringUtils;
 import org.shivas.common.maths.LimitedValue;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
+import org.shivas.protocol.client.types.BaseGiftType;
 import org.shivas.protocol.client.types.BaseItemEffectType;
 import org.shivas.protocol.client.types.BaseItemType;
 
@@ -164,5 +165,29 @@ public class ItemGameMessageFormatter {
 
     public static String removeItemSetMessage(short itemSetId) {
         return "OS-" + itemSetId;
+    }
+    
+    public static String giftMessage(BaseGiftType gift) {
+    	StringBuilder sb = new StringBuilder("Ag");
+    	
+    	sb.append(gift.getType()).append('|');
+    	sb.append(gift.getId()).append('|');
+    	sb.append(gift.getTitle()).append('|');
+    	sb.append(gift.getMessage()).append('|');
+    	sb.append(gift.getGfxUrl()).append('|');
+    	
+    	boolean first = true;
+    	for (BaseItemType item : gift.getItems()) {
+    		if (first) first = false;
+    		else sb.append(';');
+    		
+    		formatItem(sb, item);
+    	}
+    	
+    	return sb.toString();
+    }
+    
+    public static String storeGiftMessage(boolean success) {
+    	return "AG" + (success ? "K" : "E");
     }
 }
