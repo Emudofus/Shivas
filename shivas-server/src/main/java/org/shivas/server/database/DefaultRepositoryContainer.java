@@ -76,6 +76,7 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 
 	public void save() {
 		accounts.save();
+		contacts.save();
 		players.save();
 		items.save();
 		spells.save();
