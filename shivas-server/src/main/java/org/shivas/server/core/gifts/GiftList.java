@@ -1,6 +1,7 @@
 package org.shivas.server.core.gifts;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.shivas.server.database.models.Account;
@@ -23,7 +24,12 @@ public class GiftList implements Iterable<Gift> {
 	}
 	
 	public GiftList refresh() {
-		gifts = from(repo.findByOwner(owner)).computeMap(Converters.GIFT_TO_ID);
+		for (Gift gift : repo.findByOwner(owner)) {
+			if (gifts.containsKey(gift.getId())) continue;
+			
+			gifts.put(gift.getId(), gift);
+		}
+		
 		return this;
 	}
 
@@ -31,13 +37,17 @@ public class GiftList implements Iterable<Gift> {
 		Iterator<Gift> it = iterator();
 		return it.hasNext() ? it.next() : null;
 	}
+
+	public Gift get(long giftId) {
+		return gifts.get(giftId);
+	}
 	
-	public Gift pop() {
-		Gift gift = peek();
-		if (gift != null) {
-			gifts.remove(gift.getId());
-		}
-		return gift;
+	public boolean remove(long giftId) {
+		return gifts.remove(giftId) != null;
+	}
+	
+	public boolean remove(Gift gift) {
+		return remove(gift.getId());
 	}
 
 	@Override

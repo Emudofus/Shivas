@@ -14,7 +14,6 @@ public class Gift implements Serializable, PersistableEntity<Long> {
 	private long id;
 	private Account owner;
 	private GameItem item;
-	private int quantity;
 	private String title, message, url;
 
 	@Override
@@ -45,14 +44,6 @@ public class Gift implements Serializable, PersistableEntity<Long> {
 
 	public void setItem(GameItem item) {
 		this.item = item;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 
 	public String getTitle() {

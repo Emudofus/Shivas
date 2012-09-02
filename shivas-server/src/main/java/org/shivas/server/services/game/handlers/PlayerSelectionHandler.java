@@ -71,6 +71,14 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		case 'g':
 			parseGiftListMessage(message.substring(2));
 			break;
+			
+		case 'G':
+			args = message.substring(2).split("\\|");
+			parseChooseGiftMessage(
+					Integer.parseInt(args[0]),
+					Integer.parseInt(args[1])
+			);
+			break;
 		}
 	}
 
@@ -158,10 +166,19 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseGiftListMessage(String language) {
-		Gift gift = client.account().getGifts().refresh().pop();
+		Gift gift = client.account().getGifts().refresh().peek();
 		if (gift != null) {
 			client.write(ItemGameMessageFormatter.giftMessage(gift.toBaseGiftType()));
 		}
+	}
+
+	private void parseChooseGiftMessage(int giftId, int playerId) throws Exception {
+		Player player = client.account().getPlayers().get(playerId);
+		assertFalse(player == null, "unknown player %d !", playerId);
+		Gift gift = client.account().getGifts().get(giftId);
+		assertFalse(gift == null, "unknown gift %d !", giftId);
+		
+		player.getBag().persist(gift.getItem());
 	}
 
 }

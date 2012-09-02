@@ -57,9 +57,10 @@ public class GiftRepository implements BaseEntityRepository<Long, Gift> {
 		gift.setId(rset.getLong("id"));
 		gift.setOwner(accounts.find(rset.getInt("owner")));
 		gift.setItem((GameItem) tpl.generate()); // pas encore de solution miracle contre ce cast :(
-		gift.setQuantity(rset.getInt("quantity"));
+		gift.getItem().setQuantity(rset.getInt("quantity"));
 		gift.setTitle(rset.getString("title"));
 		gift.setMessage(rset.getString("message"));
+		
 		
 		return gift;
 	}
