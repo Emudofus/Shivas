@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50520
+Source Server Version : 50524
 Source Host           : localhost:3306
 Source Database       : shivas_prod
 
 Target Server Type    : MYSQL
-Target Server Version : 50520
+Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2012-08-25 16:33:50
+Date: 2012-09-03 00:06:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -67,6 +67,26 @@ CREATE TABLE `contacts` (
 
 -- ----------------------------
 -- Records of contacts
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `gifts`
+-- ----------------------------
+DROP TABLE IF EXISTS `gifts`;
+CREATE TABLE `gifts` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `owner` int(11) NOT NULL,
+  `item` int(11) NOT NULL,
+  `quantity` smallint(6) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_gift_owner` (`owner`),
+  CONSTRAINT `gifts_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of gifts
 -- ----------------------------
 
 -- ----------------------------
