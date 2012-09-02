@@ -3,7 +3,7 @@ package org.shivas.protocol.client.types;
 import java.util.Collection;
 
 public class BaseGiftType {
-	private int id;
+	private long id;
 	private int type;
 	private String title, message, gfxUrl;
 	private Collection<BaseItemType> items;
@@ -12,7 +12,7 @@ public class BaseGiftType {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BaseGiftType(int id, int type, String title, String message,
+	public BaseGiftType(long id, int type, String title, String message,
 			String gfxUrl, Collection<BaseItemType> items) {
 		this.id = id;
 		this.type = type;
@@ -22,11 +22,11 @@ public class BaseGiftType {
 		this.items = items;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
