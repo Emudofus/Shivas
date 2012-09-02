@@ -133,4 +133,10 @@ public class Converters {
 			return input.toBaseGiftType();
 		}
 	};
+	
+	public static Function<Gift, Long> GIFT_TO_ID = new Function<Gift, Long>() {
+		public Long apply(Gift input) {
+			return input.getId();
+		}
+	};
 }
