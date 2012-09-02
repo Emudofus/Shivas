@@ -47,7 +47,7 @@ public class GiftRepository implements BaseEntityRepository<Long, Gift> {
 				.where("owner", Op.EQ);
 		this.deleteQuery = em.builder()
 				.delete(TABLE_NAME)
-				.where("owner", Op.EQ);
+				.where("id", Op.EQ);
 	}
 
 	private Gift load(ResultSet rset) throws SQLException {
@@ -60,15 +60,14 @@ public class GiftRepository implements BaseEntityRepository<Long, Gift> {
 		gift.getItem().setQuantity(rset.getInt("quantity"));
 		gift.setTitle(rset.getString("title"));
 		gift.setMessage(rset.getString("message"));
+		gift.setUrl(rset.getString("url"));
 		
 		
 		return gift;
 	}
 	
 	public List<Gift> findByOwner(int ownerId) {
-		final Query load = loadQuery.toQuery().setParameter("owner", ownerId),
-					delete = deleteQuery.toQuery().setParameter("owner", ownerId);
-		
+		final Query load = loadQuery.toQuery().setParameter("owner", ownerId);
 		final List<Gift> gifts = Lists.newArrayList();
 
 		em.query(load, new Action1<ResultSet>() {
@@ -78,13 +77,15 @@ public class GiftRepository implements BaseEntityRepository<Long, Gift> {
 					gifts.add(gift);
 				}
 				
-				em.execute(delete);
-				
 				return null;
 			}
 		});
 		
 		return gifts;
+	}
+	
+	public void delete(Gift gift) {
+		em.execute(deleteQuery.toQuery().setParameter("id", gift.getId()));
 	}
 	
 	public List<Gift> findByOwner(Account owner) {

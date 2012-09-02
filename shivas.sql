@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2012-09-03 00:06:03
+Date: 2012-09-03 01:32:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -80,10 +80,11 @@ CREATE TABLE `gifts` (
   `quantity` smallint(6) NOT NULL,
   `title` varchar(100) NOT NULL,
   `message` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_gift_owner` (`owner`),
   CONSTRAINT `gifts_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of gifts

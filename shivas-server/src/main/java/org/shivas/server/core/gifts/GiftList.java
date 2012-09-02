@@ -1,22 +1,20 @@
 package org.shivas.server.core.gifts;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Gift;
 import org.shivas.server.database.repositories.GiftRepository;
-import org.shivas.server.utils.Converters;
 
-import static org.shivas.common.collections.CollectionQuery.from;
+import com.google.common.collect.Maps;
 
 public class GiftList implements Iterable<Gift> {
 	
 	private final Account owner;
 	private final GiftRepository repo;
 	
-	private Map<Long, Gift> gifts;
+	private final Map<Long, Gift> gifts = Maps.newHashMap();
 
 	public GiftList(Account owner, GiftRepository repo) {
 		this.owner = owner;
@@ -48,6 +46,12 @@ public class GiftList implements Iterable<Gift> {
 	
 	public boolean remove(Gift gift) {
 		return remove(gift.getId());
+	}
+	
+	public void delete(Gift gift) {
+		if (remove(gift)) {
+			repo.delete(gift);
+		}
 	}
 
 	@Override

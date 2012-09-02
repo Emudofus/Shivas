@@ -166,8 +166,7 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseGiftListMessage(String language) {
-		Gift gift = client.account().getGifts().refresh().peek();
-		if (gift != null) {
+		for (Gift gift : client.account().getGifts().refresh()) {
 			client.write(ItemGameMessageFormatter.giftMessage(gift.toBaseGiftType()));
 		}
 	}
@@ -179,6 +178,9 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 		assertFalse(gift == null, "unknown gift %d !", giftId);
 		
 		player.getBag().persist(gift.getItem());
+		client.account().getGifts().delete(gift);
+		
+		client.write(ItemGameMessageFormatter.storeGiftMessage(true));
 	}
 
 }
