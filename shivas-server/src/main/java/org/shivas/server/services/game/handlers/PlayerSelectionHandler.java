@@ -3,6 +3,8 @@ package org.shivas.server.services.game.handlers;
 import org.shivas.common.StringUtils;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
+import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
+import org.shivas.server.database.models.Gift;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.CriticalException;
@@ -64,6 +66,10 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			
 		case 'S':
 			parsePlayerSelectionMessage(Integer.parseInt(message.substring(2)));
+			break;
+			
+		case 'g':
+			parseGiftListMessage(message.substring(2));
 			break;
 		}
 	}
@@ -152,6 +158,13 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 			player.setClient(client);
 			
 			client.newHandler(new RolePlayHandler(client));
+		}
+	}
+
+	private void parseGiftListMessage(String language) {
+		Gift gift = client.account().getGifts().refresh().pop();
+		if (gift != null) {
+			client.write(ItemGameMessageFormatter.giftMessage(gift.toBaseGiftType()));
 		}
 	}
 

@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -24,7 +23,7 @@ import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Gift;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 
 @Singleton
 public class GiftRepository implements BaseEntityRepository<Long, Gift> {
@@ -65,11 +64,11 @@ public class GiftRepository implements BaseEntityRepository<Long, Gift> {
 		return gift;
 	}
 	
-	public Set<Gift> findByOwner(int ownerId) {
+	public List<Gift> findByOwner(int ownerId) {
 		final Query load = loadQuery.toQuery().setParameter("owner", ownerId),
 					delete = deleteQuery.toQuery().setParameter("owner", ownerId);
 		
-		final Set<Gift> gifts = Sets.newHashSet();
+		final List<Gift> gifts = Lists.newArrayList();
 
 		em.query(load, new Action1<ResultSet>() {
 			public Void invoke(ResultSet rset) throws Exception {
@@ -87,7 +86,7 @@ public class GiftRepository implements BaseEntityRepository<Long, Gift> {
 		return gifts;
 	}
 	
-	public Set<Gift> findByOwner(Account owner) {
+	public List<Gift> findByOwner(Account owner) {
 		return findByOwner(owner.getId());
 	}
 

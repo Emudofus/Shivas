@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.shivas.server.core.channels.ChannelList;
 import org.shivas.server.core.contacts.ContactList;
+import org.shivas.server.core.gifts.GiftList;
 import org.shivas.server.core.players.PlayerList;
 
 public class Account implements Serializable, Entity<Integer> {
@@ -34,6 +35,7 @@ public class Account implements Serializable, Entity<Integer> {
 	private int nbConnections;
 	private PlayerList players;
 	private ContactList contacts;
+	private GiftList gifts;
 	
 	private Player currentPlayer;
 
@@ -332,6 +334,14 @@ public class Account implements Serializable, Entity<Integer> {
 
 	public void setContacts(ContactList contacts) {
 		this.contacts = contacts;
+	}
+
+	public GiftList getGifts() {
+		return gifts;
+	}
+
+	public void setGifts(GiftList gifts) {
+		this.gifts = gifts;
 	}
 
 	/**

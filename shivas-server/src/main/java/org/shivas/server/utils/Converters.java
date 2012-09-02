@@ -9,6 +9,7 @@ import org.shivas.data.entity.WeaponItemEffect;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.protocol.client.types.BaseContactType;
+import org.shivas.protocol.client.types.BaseGiftType;
 import org.shivas.protocol.client.types.BaseItemEffectType;
 import org.shivas.protocol.client.types.BaseItemType;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
@@ -16,6 +17,7 @@ import org.shivas.protocol.client.types.BaseSpellType;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.database.models.Contact;
 import org.shivas.server.database.models.GameItem;
+import org.shivas.server.database.models.Gift;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.database.models.Spell;
 
@@ -123,6 +125,12 @@ public class Converters {
 	public static Function<Contact, BaseContactType> CONTACT_TO_BASEFRIENDTYPE = new Function<Contact, BaseContactType>() {
 		public BaseContactType apply(Contact input) {
 			return input.toBaseContactType();
+		}
+	};
+	
+	public static Function<Gift, BaseGiftType> GIFT_TO_BASEGIFTTYPE = new Function<Gift, BaseGiftType>() {
+		public BaseGiftType apply(Gift input) {
+			return input.toBaseGiftType();
 		}
 	};
 }
