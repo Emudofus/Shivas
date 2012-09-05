@@ -9,7 +9,6 @@ public class BaseGiftType {
 	private Collection<BaseItemType> items;
 	
 	public BaseGiftType() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public BaseGiftType(long id, int type, String title, String message,
