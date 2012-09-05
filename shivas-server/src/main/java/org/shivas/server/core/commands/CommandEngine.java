@@ -31,7 +31,7 @@ public class CommandEngine {
 		add(new AverageHandleCommand(gservice.statistics()));
 	}
 	
-	protected void add(Command command) {
+	public void add(Command command) {
 		commands.put(command.name(), command);
 	}
 	

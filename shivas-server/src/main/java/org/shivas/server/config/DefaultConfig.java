@@ -46,6 +46,17 @@ public class DefaultConfig implements Config {
 	public String dataExtension() {
 		return "xml";
 	}
+	
+	public String pluginPath() {
+		return "D:\\Workspace\\Shivas\\plugins\\";
+	}
+	
+	public String[] pluginExtensions() {
+		return new String[] {
+				"groovy",
+				"rb"
+		};
+	}
 
 	public int loginPort() {
 		return 5555;

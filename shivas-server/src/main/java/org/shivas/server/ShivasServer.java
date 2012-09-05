@@ -1,6 +1,7 @@
 package org.shivas.server;
 
 import org.atomium.EntityManager;
+import org.shivas.server.core.plugins.PluginsManager;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.game.GameService;
 import org.shivas.server.services.login.LoginService;
@@ -19,6 +20,7 @@ public class ShivasServer {
 	private RepositoryContainer repos;
 	private GameService gs;
 	private LoginService ls;
+	private PluginsManager pm;
 	
 	public ShivasServer(Module... modules) {
 		Injector inject = Guice.createInjector(modules);
@@ -26,19 +28,26 @@ public class ShivasServer {
 		repos = inject.getInstance(RepositoryContainer.class);
 		gs = inject.getInstance(GameService.class);
 		ls = inject.getInstance(LoginService.class);
+		pm = inject.getInstance(PluginsManager.class);
 	}
 	
 	public void start() {
+		pm.load(); // load plugins
+		
 		em.start(); // start entity manager
 		repos.load(); // load users' data
 		
 		gs.start(); // start game server
 		ls.start(); // start login server
 		
+		pm.start(); // start plugins
+		
 		log.info("started");
 	}
 	
 	public void stop() {
+		pm.stop(); // stop plugins
+		
 		ls.stop(); // stop login server
 		gs.stop(); // stop game server
 		

@@ -14,6 +14,9 @@ public interface Config {
 	String dataPath();
 	String dataExtension();
 	
+	String pluginPath();
+	String[] pluginExtensions();
+	
 	int loginPort();
 
 	int gameId();

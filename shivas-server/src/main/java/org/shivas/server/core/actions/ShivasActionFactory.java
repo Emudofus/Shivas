@@ -19,23 +19,27 @@ public class ShivasActionFactory implements ActionFactory {
 	
 	@Inject
 	public ShivasActionFactory(final Container ctner, final Config config) {
-		makers.put(TeleportAction.TYPE, new ItemActionMaker() {
+		add(TeleportAction.TYPE, new ItemActionMaker() {
 			public Action make(Map<String, String> parameters) {
 				return TeleportAction.make(parameters, ctner, config);
 			}
 		});
 		
-		makers.put(GiveKamasAction.TYPE, new ItemActionMaker() {
+		add(GiveKamasAction.TYPE, new ItemActionMaker() {
 			public Action make(Map<String, String> parameters) {
 				return GiveKamasAction.make(parameters);
 			}
 		});
 		
-		makers.put(RegenLifeAction.TYPE, new ItemActionMaker() {
+		add(RegenLifeAction.TYPE, new ItemActionMaker() {
 			public Action make(Map<String, String> parameters) {
 				return RegenLifeAction.make(parameters);
 			}
 		});
+	}
+	
+	public void add(int type, ItemActionMaker maker) {
+		makers.put(type, maker);
 	}
 
 	@Override
