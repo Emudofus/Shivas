@@ -21,7 +21,7 @@ public class ChannelContainer extends HashMap<ChannelEnum, Channel> {
 		put(ChannelEnum.Recruitment, new PublicChannel(ChannelEnum.Recruitment));
 		put(ChannelEnum.Admin, new PublicChannel(ChannelEnum.Admin));
 		
-		system = new SystemChannel("(System) %2$s");
+		system = new SystemChannel("(Global) %2$s");
 	}
 	
 	public void subscribeAll(Collection<ChannelEnum> channels, EventListener listener){

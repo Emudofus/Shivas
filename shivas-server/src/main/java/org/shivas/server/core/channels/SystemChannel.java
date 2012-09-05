@@ -27,7 +27,11 @@ public class SystemChannel implements Channel {
 
 	@Override
 	public void send(GameActor author, String message) {
-		event.publish(new SystemMessageEvent(String.format(messageFormatter, author.getName(), message)));
+		event.publish(new SystemMessageEvent(String.format(
+				messageFormatter,
+				author != null ? author.getName() : "Admin",
+				message
+		)));
 	}
 
 }

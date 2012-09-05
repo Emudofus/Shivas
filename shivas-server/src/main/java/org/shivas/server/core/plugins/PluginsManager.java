@@ -1,13 +1,11 @@
 package org.shivas.server.core.plugins;
 
 import java.io.File;
-import java.io.FileReader;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 
 import org.shivas.data.Container;
 import org.shivas.server.config.Config;
@@ -19,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Singleton
 public class PluginsManager {
@@ -48,7 +47,7 @@ public class PluginsManager {
 		}
 	}
 
-	private final ScriptEngineManager mgr = new ScriptEngineManager();
+	private final Map<String, PluginLoader> loaders = Maps.newHashMap();
 	private final List<Plugin> plugins = Lists.newArrayList();
 	
 	private Config config;
@@ -56,6 +55,13 @@ public class PluginsManager {
 	private GameService gservice;
 	private RepositoryContainer repos;
 	private ShivasActionFactory actions;
+	
+	public PluginsManager() {
+		Shivas Shivas = new Shivas();
+		
+		loaders.put(GroovyPluginLoader.EXTENSION, new GroovyPluginLoader(Shivas));
+		loaders.put(RubyPluginLoader.EXTENSION, new RubyPluginLoader(Shivas));
+	}
 
 	@Inject
 	public void init(Config config, Container ctner, GameService gservice, RepositoryContainer repos, ShivasActionFactory actions) {
@@ -83,53 +89,30 @@ public class PluginsManager {
 	}
 	
 	public void load() {
-		mgr.put("Shivas", new Shivas());
-		
 		load(new File(config.pluginPath()));
 		
 		log.info("{} plugins loaded", plugins.size());
 	}
 	
-	private String getExtension(File file) {
-		if (file.getPath().endsWith(".jar")) return "jar";
-		
-		String[] extensions = config.pluginExtensions();
-		for (String extension : extensions) {
-			if (file.getPath().endsWith("." + extension)) {
-				return extension;
-			}
-		}
-		return null;
-	}
-	
-	private Plugin getScriptPlugin(File file, String extension) {
-		Plugin plugin = null;
-		try {
-			ScriptEngine engine = mgr.getEngineByExtension(extension);
-			engine.eval(new FileReader(file));
-			
-			plugin = (Plugin) engine.get("plugin");
-		} catch (Exception e) {
-			log.error("can't eval {} because : {}", file.getPath(), e.getMessage());
-		}
-		return plugin;
-	}
-	
-	private void load(File directory) {		
+	private void load(File directory) {
 		for (File file : directory.listFiles()) {
 			if (file.isDirectory()) {
 				load(file);
 			} else {
-				String extension = getExtension(file);
-				if (extension == null)
-					continue;
-
-				Plugin plugin = extension.equalsIgnoreCase("jar") ?
-						null : // TODO jar file plugins
-						getScriptPlugin(file, extension);
+				String path      = file.getPath(),
+					   extension = path.substring(path.lastIndexOf('.') + 1);
 				
-				if (plugin != null) {
+				PluginLoader loader = loaders.get(extension);
+				if (loader == null) {
+					log.error("unknown '{}' file ({})", extension, path);
+					continue;
+				}
+				
+				try {
+					Plugin plugin = loader.load(file);
 					load(plugin);
+				} catch (Exception e) {
+					log.info("can't load '{}' because : {}", path, e.getMessage());
 				}
 			}
 		}
