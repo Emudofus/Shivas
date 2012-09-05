@@ -5,6 +5,7 @@ import org.shivas.server.core.plugins.PluginsManager;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.game.GameService;
 import org.shivas.server.services.login.LoginService;
+import org.shivas.server.utils.ContainerProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,7 @@ public class ShivasServer {
 	private GameService gs;
 	private LoginService ls;
 	private PluginsManager pm;
+	private ContainerProvider cp;
 	
 	public ShivasServer(Module... modules) {
 		Injector inject = Guice.createInjector(modules);
@@ -29,10 +31,12 @@ public class ShivasServer {
 		gs = inject.getInstance(GameService.class);
 		ls = inject.getInstance(LoginService.class);
 		pm = inject.getInstance(PluginsManager.class);
+		cp = inject.getInstance(ContainerProvider.class);
 	}
 	
 	public void start() {
 		pm.load(); // load plugins
+		cp.load(); // load static data
 		
 		em.start(); // start entity manager
 		repos.load(); // load users' data

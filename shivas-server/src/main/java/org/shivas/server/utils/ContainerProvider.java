@@ -7,6 +7,7 @@ import org.shivas.data.Container;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.Loader;
 import org.shivas.data.Loaders;
+import org.shivas.data.container.ProxyContainer;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
 import org.shivas.data.entity.Action;
@@ -24,9 +25,6 @@ import com.google.inject.Provider;
 public class ContainerProvider implements Provider<Container> {
 	
 	private static final Logger log = LoggerFactory.getLogger(ContainerProvider.class);
-	
-	private Container ctner;
-	private boolean loaded;
 
 	@Inject
 	private Config config;
@@ -34,7 +32,9 @@ public class ContainerProvider implements Provider<Container> {
 	@Inject
 	private EntityFactory factory;
 	
-	private void load() {
+	private final ProxyContainer proxy = new ProxyContainer();
+	
+	public void load() {
 		Loader loader = Loaders.byExtension(config.dataExtension(), factory);
 		if (loader == null) {
 			log.error("format \"{}\" isn't handled", config.dataExtension());
@@ -47,16 +47,14 @@ public class ContainerProvider implements Provider<Container> {
 			loader.load(ItemTemplate.class, config.dataPath() + "items/");
 			loader.load(ItemSet.class, config.dataPath() + "itemsets/");
 			loader.load(Action.class, config.dataPath() + "actions/");
-			
-			ctner = loader.create();
+
+			proxy.setParent(loader.create());
 		}
-		loaded = true;
 	}
 
 	@Override
 	public Container get() {
-		if (!loaded) load();
-		return ctner;
+		return proxy;
 	}
 
 }
