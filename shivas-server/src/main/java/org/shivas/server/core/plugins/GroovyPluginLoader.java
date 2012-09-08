@@ -14,7 +14,7 @@ public class GroovyPluginLoader implements PluginLoader {
 	
 	public GroovyPluginLoader(Object services) {
 		shell = new GroovyShell(getClass().getClassLoader());
-		shell.setVariable("Shivas", services);
+		shell.setVariable("shivaas", services);
 	}
 
 	@Override

@@ -1,41 +1,46 @@
 import org.shivas.server.core.plugins.Plugin
 import org.shivas.server.core.plugins.Startable
 import org.shivas.server.core.commands.Command
+import org.shivas.server.core.logging.DofusLogger
+import org.shivas.server.services.game.GameClient
 import org.shivas.common.params.Types
-import com.google.common.collect.Lists
+import org.shivas.common.params.Conditions
+import org.shivas.common.params.Parameters
 import javax.swing.Timer
+import java.awt.event.ActionListener
+
+class Shivas { static def instance }
+Shivas.instance = shivaas
 
 class PubManagerPlugin extends Plugin {
-	final String author = "Blackrush"
-	final String version = "alpha1"
-	final String help = "Sends pub message in global channel"
+	final PubManagerService pubManager = new PubManagerService()
 
-	Collection<Startable> getServices() {
-		return Lists.newArrayList(PubManagerService.INSTANCE)
-	}
+	final Collection<Startable> services = [
+		pubManager
+	]
 
-	Collection<Command> getCommands() {
-		return Lists.newArrayList(new PubManagerCommand())
-	}
+	final Collection<Command> commands = [
+		new SetMessageCommand(pubManager),
+		new SendPubCommand(pubManager)
+	]
 }
 
 class PubManagerService implements Startable {
-	static final int RATE = 2 * 60
-	static final PubManagerService INSTANCE = new PubManagerService()
+	static final int RATE = 20
 
-	private Timer timer
+	private def timer
 
-	String pubMessage
+	String message = "default message"
 
 	public PubManagerService() {
 		timer = new Timer(
 			RATE * 1000,
-			evt -> send()
+			{ send() } as ActionListener
 		)
 	}
 
-	private void send() {
-		Shivas.getGservice().system().send(null, pubMessage)
+	void send() {
+		Shivas.instance.gservice.channels().system().send(null, message)
 	}
 
 	void start() {
@@ -47,10 +52,14 @@ class PubManagerService implements Startable {
 	}
 }
 
-class PubManagerCommand implements Command {
-	String name() {
-		return "pub"
+class SetMessageCommand implements Command {
+	private def pubManager
+	public SetMessageCommand(pubManager) {
+		this.pubManager = pubManager
 	}
+
+	String name() { return "pub" }
+	String help() { return "Set the pub message" }
 
 	Conditions conditions() {
 		Conditions conds = new Conditions()
@@ -59,20 +68,35 @@ class PubManagerCommand implements Command {
 		return conds
 	}
 
-	String help() {
-		return "Set the pub message"
-	}
-	
 	boolean canUse(GameClient client) {
 		return client.account().hasRights()
 	}
 
 	void use(GameClient client, DofusLogger log, Parameters params) {
-		String msg = params.get("msg", String)
+		String msg = params.get("msg", String).replace("&gt;", ">").replace("&lt;", "<")
 
-		PubManagerService.INSTANCE.pubMessage = msg
+		pubManager.message = msg
 
-		log.info("the message has been setted")
+		log.info("The message has been setted.")
+	}
+}
+
+class SendPubCommand implements Command {
+	private def pubManager
+	public SendPubCommand(pubManager) {
+		this.pubManager = pubManager
+	}
+
+	String name() { return "send_pub" }
+	Conditions conditions() { return Conditions.EMPTY }
+	String help() { return "Send the pub message" }
+
+	boolean canUse(GameClient client) {
+		return client.account().hasRights()
+	}
+
+	void use(GameClient client, DofusLogger log, Parameters params) {
+		pubManager.send()
 	}
 }
 

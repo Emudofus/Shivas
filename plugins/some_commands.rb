@@ -4,10 +4,6 @@ import org.shivas.common.params.Conditions
 import java.util.ArrayList
 
 class SomeCommandsPlugin < Plugin
-	def author; "Blackrush"; end
-	def version; "alpha1"; end
-	def help; "Some commands"; end
-
 	def getCommands
 		ArrayList.new [
 			HelloWorldCommand.new
@@ -26,7 +22,7 @@ class HelloWorldCommand
 
 	def use(client, log, params)
 		log.info "hello world"
-		log.info Shivas.config.dataPath()
+		log.info Shivas.getConfig().dataPath()
 	end
 end
 
