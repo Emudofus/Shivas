@@ -37,6 +37,20 @@ public class ActionList {
 		return action;
 	}
 	
+	public <T extends Invitation> T push(final T invitation) {
+		if (invitation.getSource() != client) {
+			throw new IllegalArgumentException("ActionList's owner isn't the source");
+		}
+		
+		actions.add(invitation);
+		invitation.getTarget().actions().actions.add(invitation);
+
+		event.publish(new NewInteractionEvent(client, invitation));
+		invitation.getTarget().actions().event.publish(new NewInteractionEvent(invitation.getTarget(), invitation));
+		
+		return invitation;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public <T extends Action> T current() {
 		return (T) actions.get(actions.size() - 1);

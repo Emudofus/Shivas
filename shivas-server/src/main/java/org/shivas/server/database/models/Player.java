@@ -3,12 +3,14 @@ package org.shivas.server.database.models;
 import java.io.Serializable;
 
 import org.atomium.PersistableEntity;
+import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.entity.Breed;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.types.BaseCharacterType;
+import org.shivas.protocol.client.types.BasePartyMemberType;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
 import org.shivas.protocol.client.types.RolePlayCharacterType;
 import org.shivas.server.core.GameActor;
@@ -291,6 +293,22 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 				look.colors().third(),
 				look.accessories(),
 				false // TODO store
+		);
+	}
+	
+	public BasePartyMemberType toBasePartyMemberType() {
+		return new BasePartyMemberType(
+				id,
+				name,
+				look.skin(),
+				look.colors().first(),
+				look.colors().second(),
+				look.colors().third(),
+				bag.accessoriesTemplateId(),
+				(short) stats.life().current(),
+				experience.level(),
+				stats.get(CharacteristicType.Initiative).safeTotal(),
+				stats.get(CharacteristicType.Prospection).safeTotal()
 		);
 	}
 

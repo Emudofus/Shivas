@@ -7,6 +7,7 @@ import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.interactions.ActionList;
 import org.shivas.server.core.logging.DofusLogger;
+import org.shivas.server.core.parties.Party;
 import org.shivas.server.database.models.Account;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.BaseHandler;
@@ -18,6 +19,7 @@ public final class DefaultGameClient extends IoSessionDecorator implements GameC
 	
 	private Account account;
 	private Player player;
+	private Party party;
 	private BaseHandler handler;
 	private EventListener eventListener;
 	private ActionList actions = new ActionList(this);
@@ -67,6 +69,16 @@ public final class DefaultGameClient extends IoSessionDecorator implements GameC
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	@Override
+	public Party party() {
+		return party;
+	}
+
+	@Override
+	public void setParty(Party party) {
+		this.party = party;
 	}
 
 	public EventListener eventListener() {

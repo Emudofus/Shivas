@@ -12,6 +12,7 @@ import org.shivas.protocol.client.types.BaseContactType;
 import org.shivas.protocol.client.types.BaseGiftType;
 import org.shivas.protocol.client.types.BaseItemEffectType;
 import org.shivas.protocol.client.types.BaseItemType;
+import org.shivas.protocol.client.types.BasePartyMemberType;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
 import org.shivas.protocol.client.types.BaseSpellType;
 import org.shivas.server.core.GameActor;
@@ -35,6 +36,12 @@ public class Converters {
 	public static Function<Player, BaseCharacterType> PLAYER_TO_BASECHARACTERTYPE = new Function<Player, BaseCharacterType>() {
 		public BaseCharacterType apply(Player input) {
 			return input.toBaseCharacterType();
+		}
+	};
+
+	public static final Function<Player, BasePartyMemberType> PLAYER_TO_BASEPARTYMEMBERTYPE = new Function<Player, BasePartyMemberType>() {
+		public BasePartyMemberType apply(Player input) {
+			return input.toBasePartyMemberType();
 		}
 	};
 	
