@@ -28,11 +28,6 @@ public class PartyInvitation extends Invitation {
 	
 	private static void process(Party party, GameClient client, boolean leader) {
 		client.setParty(party);
-		if (!leader) {
-			party.add(client.player());
-		}
-		
-		party.subscribe(client.eventListener());
 		
 		client.write(PartyGameMessageFormatter.createPartyMessage(party.getOwner().getName()));
 		client.write(PartyGameMessageFormatter.leaderInformationMessage(party.getOwner().getId()));
@@ -42,6 +37,12 @@ public class PartyInvitation extends Invitation {
 		} else {
 			client.write(PartyGameMessageFormatter.addMembersMessage(party.toBasePartyMemberType()));
 		}
+		
+		if (!leader) {
+			party.add(client.player());
+		}
+		
+		party.subscribe(client.eventListener());
 	}
 
 	@Override

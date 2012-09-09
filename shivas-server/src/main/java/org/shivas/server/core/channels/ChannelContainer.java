@@ -20,6 +20,7 @@ public class ChannelContainer extends HashMap<ChannelEnum, Channel> {
 		put(ChannelEnum.Trade, new PublicChannel(ChannelEnum.Trade));
 		put(ChannelEnum.Recruitment, new PublicChannel(ChannelEnum.Recruitment));
 		put(ChannelEnum.Admin, new PublicChannel(ChannelEnum.Admin));
+		put(ChannelEnum.Party, new PartyChannel());
 		
 		system = new SystemChannel("(Global) %2$s");
 	}

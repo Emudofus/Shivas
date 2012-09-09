@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.protocol.client.types.BasePartyMemberType;
+import org.shivas.server.core.channels.ChannelEvent;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.events.EventListener;
@@ -24,6 +26,7 @@ public class Party implements Iterable<Player> {
 
 	public Party(Player owner) {
 		this.owner = owner;
+		this.members.put(this.owner.getId(), this.owner);
 	}
 
 	public void subscribe(EventListener listener) {
@@ -32,6 +35,16 @@ public class Party implements Iterable<Player> {
 
 	public void unsubscribe(EventListener listener) {
 		event.unsubscribe(listener);
+	}
+	
+	public void speak(Player member, String message) {
+		if (!contains(member)) return;
+		
+		event.publish(new ChannelEvent(
+				ChannelEnum.Party,
+				member,
+				message
+		));
 	}
 
 	public Player getOwner() {
