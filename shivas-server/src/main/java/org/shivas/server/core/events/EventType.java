@@ -8,4 +8,5 @@ public enum EventType {
 	SYSTEM_MESSAGE,
 	NEW_INTERACTION,
 	FRIEND_CONNECTION,
+	PARTY,
 }

@@ -4,6 +4,7 @@ import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
+import org.shivas.protocol.client.formatters.PartyGameMessageFormatter;
 import org.shivas.server.core.channels.ChannelEvent;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
@@ -13,6 +14,7 @@ import org.shivas.server.core.events.events.SystemMessageEvent;
 import org.shivas.server.core.interactions.Action;
 import org.shivas.server.core.interactions.RolePlayMovement;
 import org.shivas.server.core.maps.MapEvent;
+import org.shivas.server.core.parties.PartyEvent;
 import org.shivas.server.database.models.Player;
 
 public class DefaultEventListener implements EventListener {
@@ -51,6 +53,10 @@ public class DefaultEventListener implements EventListener {
 		case FRIEND_CONNECTION:
 			listenFriendConnection((FriendConnectionEvent) event);
 			break;
+			
+		case PARTY:
+			listenParty((PartyEvent) event);
+			break;
 		}
 	}
 
@@ -62,6 +68,9 @@ public class DefaultEventListener implements EventListener {
 					movement.actor().getPublicId(),
 					movement.path().toString()
 			));
+			break;
+			
+		case PARTY_INVITATION: // nothing to do, PartyHandler handles it
 			break;
 		}
 	}
@@ -110,6 +119,18 @@ public class DefaultEventListener implements EventListener {
 				event.getFriend().getNickname(),
 				event.getFriend().getCurrentPlayer().getName()
 		));
+	}
+
+	private void listenParty(PartyEvent event) {
+		switch (event.getPartyEventType()) {
+		case ADD_MEMBER:
+			client.write(PartyGameMessageFormatter.addMemberMessage(event.getPlayer().toBasePartyMemberType()));
+			break;
+			
+		case REMOVE_MEMBER:
+			client.write(PartyGameMessageFormatter.removeMemberMessage(event.getPlayer().getId()));
+			break;
+		}
 	}
 
 }

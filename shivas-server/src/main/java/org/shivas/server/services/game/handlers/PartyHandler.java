@@ -1,6 +1,7 @@
 package org.shivas.server.services.game.handlers;
 
 import org.shivas.protocol.client.formatters.PartyGameMessageFormatter;
+import org.shivas.server.core.interactions.ActionException;
 import org.shivas.server.core.interactions.PartyInvitation;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
@@ -24,12 +25,31 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 	public void handle(String message) throws Exception {
 		switch (message.charAt(1)) {
 		case 'A':
+			parseAcceptInvitationMessage();
 			break;
 			
 		case 'I':
 			parseInvitationMessage(message.substring(2));
 			break;
+			
+		case 'R':
+			parseDeclineInvitationMessage();
+			break;
+			
+		case 'V':
+			String kickTargetName = message.substring(2);
+			parseQuitMessage(
+					kickTargetName.length() > 0 ?
+							kickTargetName :
+							null
+			);
+			break;
 		}
+	}
+
+	private void parseAcceptInvitationMessage() throws ActionException {
+		PartyInvitation invitation = client.actions().remove();
+		invitation.accept();
 	}
 
 	private void parseInvitationMessage(String targetName) throws Exception {
@@ -57,6 +77,16 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 		}
 		
 		client.actions().push(new PartyInvitation(client, player.getClient())).begin();	
+	}
+
+	private void parseDeclineInvitationMessage() throws ActionException {
+		PartyInvitation invitation = client.actions().remove();
+		invitation.decline();
+	}
+
+	private void parseQuitMessage(String targetName) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

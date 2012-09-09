@@ -58,7 +58,13 @@ public class ActionList {
 	
 	@SuppressWarnings("unchecked")
 	public <T extends Action> T remove() {
-		return (T) actions.remove(actions.size() - 1);
+		T action = (T) actions.remove(actions.size() - 1);
+		if (action.getClass().isAssignableFrom(Invitation.class)) {
+			Invitation invitation = (Invitation) action;
+			invitation.getTarget().actions().actions.remove(action);
+		}
+		
+		return action;
 	}
 	
 }
