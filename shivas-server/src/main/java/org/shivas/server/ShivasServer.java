@@ -46,6 +46,9 @@ public class ShivasServer {
 		
 		pm.start(); // start plugins
 		
+		System.runFinalization();
+		System.gc();
+		
 		log.info("started");
 	}
 	
