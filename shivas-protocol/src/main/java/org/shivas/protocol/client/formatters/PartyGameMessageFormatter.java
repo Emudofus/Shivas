@@ -62,10 +62,12 @@ public class PartyGameMessageFormatter {
         sb.append(member.getColor3()).append(';');
         ItemGameMessageFormatter.parseAccessories(sb, member.getItems());
         sb.append(';');
-        sb.append(member.getLife()).append(';');
+        sb.append(member.getLife()).append(',')
+          .append(member.getMaxLife()).append(';');
         sb.append(member.getLevel()).append(';');
         sb.append(member.getInitiative()).append(';');
-        sb.append(member.getProspection());
+        sb.append(member.getProspection()).append(';');
+        sb.append(member.getSide());
     }
 
     public static String addMemberMessage(BasePartyMemberType member) {

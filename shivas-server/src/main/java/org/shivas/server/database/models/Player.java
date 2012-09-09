@@ -306,9 +306,11 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 				look.colors().third(),
 				bag.accessoriesTemplateId(),
 				(short) stats.life().current(),
+				(short) stats.life().max(),
 				experience.level(),
 				stats.get(CharacteristicType.Initiative).safeTotal(),
-				stats.get(CharacteristicType.Prospection).safeTotal()
+				stats.get(CharacteristicType.Prospection).safeTotal(),
+				(short) 0 // TODO alignment
 		);
 	}
 

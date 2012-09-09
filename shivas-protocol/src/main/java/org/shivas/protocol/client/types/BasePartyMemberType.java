@@ -12,16 +12,17 @@ public class BasePartyMemberType {
     private short skin;
     private int color1, color2, color3;
     private int[] items;
-    private short life;
+    private short life, maxLife;
     private short level;
     private short initiative;
     private short prospection;
+    private short side;
 
     public BasePartyMemberType() {
 
     }
 
-    public BasePartyMemberType(long id, String name, short skin, int color1, int color2, int color3, int[] items, short life, short level, short initiative, short prospection) {
+    public BasePartyMemberType(long id, String name, short skin, int color1, int color2, int color3, int[] items, short life, short maxLife, short level, short initiative, short prospection, short side) {
         this.id = id;
         this.name = name;
         this.skin = skin;
@@ -30,9 +31,11 @@ public class BasePartyMemberType {
         this.color3 = color3;
         this.items = items;
         this.life = life;
+        this.maxLife = maxLife;
         this.level = level;
         this.initiative = initiative;
         this.prospection = prospection;
+        this.side = side;
     }
 
     public long getId() {
@@ -99,7 +102,15 @@ public class BasePartyMemberType {
         this.life = life;
     }
 
-    public short getLevel() {
+    public short getMaxLife() {
+		return maxLife;
+	}
+
+	public void setMaxLife(short maxLife) {
+		this.maxLife = maxLife;
+	}
+
+	public short getLevel() {
         return level;
     }
 
@@ -122,4 +133,12 @@ public class BasePartyMemberType {
     public void setProspection(short prospection) {
         this.prospection = prospection;
     }
+
+	public short getSide() {
+		return side;
+	}
+
+	public void setSide(short side) {
+		this.side = side;
+	}
 }
