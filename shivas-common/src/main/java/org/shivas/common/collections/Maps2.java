@@ -1,6 +1,7 @@
 package org.shivas.common.collections;
 
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
@@ -15,5 +16,14 @@ public class Maps2 {
 			map.put(key, value);
 		}
 		return map;
+	}
+	
+	public static <K, V> V randomValue(Map<K, V> map) {
+		Random rand = new Random(System.nanoTime());
+		
+		Object[] keys = map.keySet().toArray();
+		Object key = keys[rand.nextInt(keys.length)];
+		
+		return map.get(key);
 	}
 }
