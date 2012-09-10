@@ -137,6 +137,10 @@ public class DefaultEventListener implements EventListener {
 			}
 			break;
 			
+		case REFRESH_MEMBER:
+			client.write(PartyGameMessageFormatter.refreshMemberMessage(event.getPlayer().toBasePartyMemberType()));
+			break;
+			
 		case NEW_OWNER:
 			client.write(PartyGameMessageFormatter.leaderInformationMessage(event.getPlayer().getId()));
 			break;

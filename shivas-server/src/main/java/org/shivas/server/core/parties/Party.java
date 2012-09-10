@@ -95,6 +95,12 @@ public class Party implements Iterable<Player> {
 		return members.containsKey(player.getId());
 	}
 	
+	public void refresh(Player player) {
+		if (contains(player)) {
+			event.publish(new PartyEvent(PartyEventType.REFRESH_MEMBER, player));
+		}
+	}
+	
 	public Collection<BasePartyMemberType> toBasePartyMemberType() {
 		return Collections2.transform(members.values(), Converters.PLAYER_TO_BASEPARTYMEMBERTYPE);
 	}

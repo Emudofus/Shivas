@@ -17,7 +17,8 @@ public interface GameClient extends Client<GameService> {
 	
 	Player player();
 	void setPlayer(Player player);
-	
+
+	boolean hasParty();
 	Party party();
 	void setParty(Party party);
 	

@@ -70,6 +70,11 @@ public final class DefaultGameClient extends IoSessionDecorator implements GameC
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+	
+	@Override
+	public boolean hasParty() {
+		return party != null;
+	}
 
 	@Override
 	public Party party() {

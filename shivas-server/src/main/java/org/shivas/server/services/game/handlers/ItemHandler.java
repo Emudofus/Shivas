@@ -147,6 +147,7 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		client.write(ItemGameMessageFormatter.inventoryStatsMessage(client.player().getStats().pods()));
 		
 		client.player().getLocation().getMap().updateAccessories(client.player());
+		if (client.hasParty()) client.party().refresh(client.player());
 	}
 	
 	private void applyItemSet(final GameItem item) {

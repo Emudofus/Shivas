@@ -5,4 +5,5 @@ public enum PartyEventType {
 	REMOVE_MEMBER,
 	NEW_OWNER,
 	CLOSE,
+	REFRESH_MEMBER,
 }
