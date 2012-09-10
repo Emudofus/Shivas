@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.shivas.common.collections.Maps2;
 import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.protocol.client.types.BasePartyMemberType;
 import org.shivas.server.core.channels.ChannelEvent;
@@ -53,6 +54,11 @@ public class Party implements Iterable<Player> {
 
 	public void setOwner(Player owner) {
 		this.owner = owner;
+		this.event.publish(new PartyEvent(PartyEventType.NEW_OWNER, owner));
+	}
+
+	public Player get(Integer memberId) {
+		return members.get(memberId);
 	}
 	
 	public void add(Player member) {
@@ -63,15 +69,17 @@ public class Party implements Iterable<Player> {
 	}
 	
 	public void remove(Player member) {
-		if (!contains(member)) return;
+		if (members.remove(member.getId()) == null) return;
 		
-		if (count() - 1 <= 1) {
-			// TODO close the party
-		}
-		else if (owner == member) {
-			// TODO assign new leader and kick him from the party
+		if (count() - 1 < 2) {
+			event.publish(new PartyEvent(PartyEventType.CLOSE));
 		} else {
-			// TODO kick member from the party
+			if (member == owner) {
+				Player newOwner = Maps2.randomValue(members);
+				setOwner(newOwner);
+			}
+			
+			event.publish(new PartyEvent(PartyEventType.REMOVE_MEMBER, member));
 		}
 	}
 
