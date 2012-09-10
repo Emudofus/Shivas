@@ -5,4 +5,6 @@ public interface EventDispatcher {
 	void unsubscribe(EventListener listener);
 	
 	void publish(Event event);
+	
+	void clear();
 }

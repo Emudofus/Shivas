@@ -21,4 +21,8 @@ public abstract class AbstractEventDispatcher implements EventDispatcher {
 		listeners.remove(listener);
 		lock.unlock();
 	}
+	
+	public void clear() {
+		listeners.clear();
+	}
 }
