@@ -128,7 +128,22 @@ public class DefaultEventListener implements EventListener {
 			break;
 			
 		case REMOVE_MEMBER:
-			client.write(PartyGameMessageFormatter.removeMemberMessage(event.getPlayer().getId()));
+			if (event.getPlayer() == client.player()) {
+				client.write(PartyGameMessageFormatter.quitMessage());
+				client.party().unsubscribe(this);
+				client.setParty(null);
+			} else {
+				client.write(PartyGameMessageFormatter.removeMemberMessage(event.getPlayer().getId()));
+			}
+			break;
+			
+		case NEW_OWNER:
+			client.write(PartyGameMessageFormatter.leaderInformationMessage(event.getPlayer().getId()));
+			break;
+			
+		case CLOSE:
+			client.write(PartyGameMessageFormatter.quitMessage());
+			client.setParty(null);
 			break;
 		}
 	}

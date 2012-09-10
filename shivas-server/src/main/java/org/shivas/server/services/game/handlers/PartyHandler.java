@@ -5,6 +5,7 @@ import org.shivas.server.core.interactions.ActionException;
 import org.shivas.server.core.interactions.PartyInvitation;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
+import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 
 public class PartyHandler extends AbstractBaseHandler<GameClient> {
@@ -37,10 +38,10 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 			break;
 			
 		case 'V':
-			String kickTargetName = message.substring(2);
+			String kickTargetId = message.substring(2);
 			parseQuitMessage(
-					kickTargetName.length() > 0 ?
-							kickTargetName :
+					kickTargetId.length() > 0 ?
+							Integer.parseInt(kickTargetId) :
 							null
 			);
 			break;
@@ -84,9 +85,20 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 		invitation.decline();
 	}
 
-	private void parseQuitMessage(String targetName) {
-		// TODO Auto-generated method stub
+	private void parseQuitMessage(Integer targetId) throws CriticalException {
+		assertTrue(client.player() != null, "you are not in a party");
 		
+		Player target;
+		if (targetId != null) {
+			assertTrue(client.party().getOwner() == client.player(), "you are not the leader");
+			target = client.party().get(targetId);
+		} else {
+			target = client.player();
+		}
+		
+		assertFalse(target == null, "unknown member %d", targetId);
+		
+		client.party().remove(target);
 	}
 
 }
