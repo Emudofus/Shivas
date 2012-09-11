@@ -87,6 +87,8 @@ public class AncestraConverter extends MySqlUserConverter {
 				}
 			});
 			App.log("Tous les panoplies ont été écrites.");
+			
+			items.clear();
 		}
 
 		//////////// MAPS /////////////////
@@ -116,13 +118,33 @@ public class AncestraConverter extends MySqlUserConverter {
 				out.outputMaps(maps.values(), App.prompt("Veuillez entrer le répertoire où seront stockés les cartes") + "maps");
 				App.log("Toutes les cartes ont été écrites.");
 			} catch (IOException e) {
+				e.printStackTrace();
 				System.exit(1); // FATAL ERROR
 			}
+			
+			maps.clear();
+		}
+		
+		////////////// ZAAPS //////////////
+		
+		if (canWrite("Souhaitez-vous écrire les zaaps ?")) {
+			App.log("Les zaaps vont être chargés puis écris, cela peut prendre quelques secondes.");
+			super.query(q.select("zaaps").toQuery(), new Action1<ResultSet>() {
+				public Void invoke(ResultSet arg1) throws Exception {
+					createZaaps(
+							arg1,
+							App.prompt("Veuillez entrer le répertoire où seront stockées les zaaps"),
+							out
+					);
+					return null;
+				}
+			});
+			App.log("Tous les zaaps ont été écris.");
 		}
 		
 		App.log("Tout s'est bien passé, vous pouvez à présent lancer l'émulateur");
 	}
-	
+
 	private void createExperiences(ResultSet results, String directory, DataOutputter out) throws SQLException, IOException {
 		List<Structs.Experience> exps = Lists.newArrayList();
 		
@@ -277,6 +299,22 @@ public class AncestraConverter extends MySqlUserConverter {
 		}
 		
 		out.outputItemSets(itemsets, directory + "itemsets");
+	}
+	
+	private void createZaaps(ResultSet rset, String directory, DataOutputter out) throws Exception {
+		List<Structs.Zaap> zaaps = Lists.newArrayList();
+		
+		int id = 0;
+		while (rset.next()) {
+			Structs.Zaap zaap = new Structs.Zaap();
+			zaap.id = ++id;
+			zaap.mapId = rset.getInt("mapID");
+			zaap.cell = rset.getShort("cellID");
+			
+			zaaps.add(zaap);
+		}
+		
+		out.outputZaaps(zaaps, directory + "zaaps");
 	}
 
 }

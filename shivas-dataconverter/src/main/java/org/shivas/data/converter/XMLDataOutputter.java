@@ -15,8 +15,11 @@ import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.converter.Structs.Breed;
+import org.shivas.data.converter.Structs.Zaap;
 
 public class XMLDataOutputter implements DataOutputter {
+	
+	private static final String EXTENSION = ".xml";
 	
 	private final XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 
@@ -65,7 +68,7 @@ public class XMLDataOutputter implements DataOutputter {
 		
 		root_elem.addContent(breed_elem);
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
 	}
 
 	@Override
@@ -90,7 +93,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(exp_elem);
 		}
 		
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
 	}
 
 	@Override
@@ -128,7 +131,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(map_elem);
 		}
 		
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
 	}
 
 	@Override
@@ -167,7 +170,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(itemset_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
 	}
 
 	@Override
@@ -206,7 +209,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(item_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
 	}
 	
 	private Element toElement(Structs.SpellEffect effect) {
@@ -272,7 +275,24 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(spell_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + ".xml", false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+	}
+
+	@Override
+	public void outputZaaps(Collection<Zaap> zaaps, String fileName) throws IOException {
+		Element root_elem = new Element("zaaps");
+		
+		for (Zaap zaap : zaaps) {
+			Element zaap_elem = new Element("zaap");
+			
+			zaap_elem.setAttribute("id", String.valueOf(zaap.id));
+			zaap_elem.setAttribute("map", String.valueOf(zaap.mapId));
+			zaap_elem.setAttribute("cell", String.valueOf(zaap.cell));
+			
+			root_elem.addContent(zaap_elem);
+		}
+
+		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
 	}
 
 }

@@ -119,4 +119,10 @@ public final class Structs {
 		public SpellTemplate template;
 		public int level, position;
 	}
+	
+	public static final class Zaap {
+		public int id;
+		public int mapId;
+		public short cell;
+	}
 }
