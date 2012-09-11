@@ -14,6 +14,7 @@ import org.shivas.data.entity.Action;
 import org.shivas.data.entity.ItemSet;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.data.entity.SpellTemplate;
+import org.shivas.data.entity.Zaap;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.maps.GameMap;
 import org.slf4j.Logger;
@@ -47,6 +48,7 @@ public class ContainerProvider implements Provider<Container> {
 			loader.load(ItemTemplate.class, config.dataPath() + "items/");
 			loader.load(ItemSet.class, config.dataPath() + "itemsets/");
 			loader.load(Action.class, config.dataPath() + "actions/");
+			loader.load(Zaap.class, config.dataPath() + "zaaps/");
 
 			proxy.setParent(loader.create());
 		}
