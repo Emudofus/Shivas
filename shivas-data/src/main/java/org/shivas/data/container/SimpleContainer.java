@@ -14,7 +14,17 @@ public class SimpleContainer implements Container {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Repository<T> get(Class<T> entity) {
-		return (Repository<T>) repositories.get(entity);
+		Repository<T> result = (Repository<T>) repositories.get(entity);
+		if (result != null) {
+			return result;
+		}
+		
+		for (Map.Entry<Class<?>, Repository<?>> entry : repositories.entrySet()) {
+			if (entry.getKey().getSuperclass() == entity) {
+				return (Repository<T>) entry.getValue();
+			}
+		}
+		return null;
 	}
 	
 	public <T> void add(Repository<T> repo) {
