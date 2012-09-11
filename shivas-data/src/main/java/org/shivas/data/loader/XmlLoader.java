@@ -77,8 +77,8 @@ public class XmlLoader extends AbstractLoader {
 			}
 		});
 		
-		loaders.put(Zaap.class, new FileLoader<Zaap>() {
-			public int load(BaseRepository<Zaap> repo, File file) throws Exception {
+		loaders.put(Waypoint.class, new FileLoader<Waypoint>() {
+			public int load(BaseRepository<Waypoint> repo, File file) throws Exception {
 				return loadZaap(repo, file);
 			}
 		});
@@ -423,31 +423,31 @@ public class XmlLoader extends AbstractLoader {
 		return count;
 	}
 
-	private int loadZaap(BaseRepository<Zaap> repo, File file) throws Exception {
+	private int loadZaap(BaseRepository<Waypoint> repo, File file) throws Exception {
 		int count = 0;
 		Document doc = builder.build(file);
 		
-		Element root = doc.getDescendants(new ElementFilter("zaaps")).next();
-		for (Element zaap_elem : root.getChildren("zaap")) {
-			Zaap zaap = factory.newZaap();
+		Element root = doc.getDescendants(new ElementFilter("waypoints")).next();
+		for (Element waypoint_elem : root.getChildren("waypoint")) {
+			Waypoint waypoint = factory.newWaypoint();
 			
-			int id = zaap_elem.getAttribute("id").getIntValue();
-			int mapId = zaap_elem.getAttribute("map").getIntValue();
-			short cell = (short) zaap_elem.getAttribute("cell").getIntValue();
+			int id = waypoint_elem.getAttribute("id").getIntValue();
+			int mapId = waypoint_elem.getAttribute("map").getIntValue();
+			short cell = (short) waypoint_elem.getAttribute("cell").getIntValue();
 			
-			zaap.setId(id);
-			zaap.setMap(ctner.get(MapTemplate.class).byId(mapId));
-			zaap.setCell(cell);
+			waypoint.setId(id);
+			waypoint.setMap(ctner.get(MapTemplate.class).byId(mapId));
+			waypoint.setCell(cell);
 			
-			if (zaap.getMap() == null) {
+			if (waypoint.getMap() == null) {
 				throw new Exception("unknown map " + mapId);
 			}
-			if (zaap.getMap().getZaap() != null) {
-				throw new Exception("map " + mapId + " has already a zaap (id=" + zaap.getMap().getZaap().getId() + ")");
+			if (waypoint.getMap().getWaypoint() != null) {
+				throw new Exception("map " + mapId + " has already a waypoint (id=" + waypoint.getMap().getWaypoint().getId() + ")");
 			}
-			zaap.getMap().setZaap(zaap);
+			waypoint.getMap().setWaypoint(waypoint);
 			
-			repo.put(zaap.getId(), zaap);
+			repo.put(waypoint.getId(), waypoint);
 			++count;
 		}
 		

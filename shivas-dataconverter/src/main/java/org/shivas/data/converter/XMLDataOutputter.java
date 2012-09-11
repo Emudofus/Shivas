@@ -15,7 +15,7 @@ import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.converter.Structs.Breed;
-import org.shivas.data.converter.Structs.Zaap;
+import org.shivas.data.converter.Structs.Waypoint;
 
 public class XMLDataOutputter implements DataOutputter {
 	
@@ -279,17 +279,17 @@ public class XMLDataOutputter implements DataOutputter {
 	}
 
 	@Override
-	public void outputZaaps(Collection<Zaap> zaaps, String fileName) throws IOException {
-		Element root_elem = new Element("zaaps");
+	public void outputWaypoints(Collection<Waypoint> waypoints, String fileName) throws IOException {
+		Element root_elem = new Element("waypoints");
 		
-		for (Zaap zaap : zaaps) {
-			Element zaap_elem = new Element("zaap");
+		for (Waypoint waypoint : waypoints) {
+			Element waypoint_elem = new Element("waypoint");
 			
-			zaap_elem.setAttribute("id", String.valueOf(zaap.id));
-			zaap_elem.setAttribute("map", String.valueOf(zaap.mapId));
-			zaap_elem.setAttribute("cell", String.valueOf(zaap.cell));
+			waypoint_elem.setAttribute("id", String.valueOf(waypoint.id));
+			waypoint_elem.setAttribute("map", String.valueOf(waypoint.mapId));
+			waypoint_elem.setAttribute("cell", String.valueOf(waypoint.cell));
 			
-			root_elem.addContent(zaap_elem);
+			root_elem.addContent(waypoint_elem);
 		}
 
 		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));

@@ -125,13 +125,13 @@ public class AncestraConverter extends MySqlUserConverter {
 			maps.clear();
 		}
 		
-		////////////// ZAAPS //////////////
+		////////////// WAYPOINTS //////////////
 		
 		if (canWrite("Souhaitez-vous écrire les zaaps ?")) {
 			App.log("Les zaaps vont être chargés puis écris, cela peut prendre quelques secondes.");
 			super.query(q.select("zaaps").toQuery(), new Action1<ResultSet>() {
 				public Void invoke(ResultSet arg1) throws Exception {
-					createZaaps(
+					createWaypoints(
 							arg1,
 							App.prompt("Veuillez entrer le répertoire où seront stockées les zaaps"),
 							out
@@ -301,20 +301,20 @@ public class AncestraConverter extends MySqlUserConverter {
 		out.outputItemSets(itemsets, directory + "itemsets");
 	}
 	
-	private void createZaaps(ResultSet rset, String directory, DataOutputter out) throws Exception {
-		List<Structs.Zaap> zaaps = Lists.newArrayList();
+	private void createWaypoints(ResultSet rset, String directory, DataOutputter out) throws Exception {
+		List<Structs.Waypoint> waypoints = Lists.newArrayList();
 		
 		int id = 0;
 		while (rset.next()) {
-			Structs.Zaap zaap = new Structs.Zaap();
-			zaap.id = ++id;
-			zaap.mapId = rset.getInt("mapID");
-			zaap.cell = rset.getShort("cellID");
+			Structs.Waypoint waypoint = new Structs.Waypoint();
+			waypoint.id = ++id;
+			waypoint.mapId = rset.getInt("mapID");
+			waypoint.cell = rset.getShort("cellID");
 			
-			zaaps.add(zaap);
+			waypoints.add(waypoint);
 		}
 		
-		out.outputZaaps(zaaps, directory + "zaaps");
+		out.outputWaypoints(waypoints, directory + "waypoints");
 	}
 
 }

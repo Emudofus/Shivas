@@ -27,8 +27,8 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 	}
 	
 	@Override
-	public Zaap newZaap() {
-		return new Zaap();
+	public Waypoint newWaypoint() {
+		return new Waypoint();
 	}
 
 	@Override

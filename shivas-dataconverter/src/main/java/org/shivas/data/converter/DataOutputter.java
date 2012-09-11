@@ -12,6 +12,6 @@ public interface DataOutputter {
 	void outputItemSets(Collection<Structs.ItemSet> itemsets, String fileName) throws IOException;
 	void outputItems(Collection<Structs.ItemTemplate> items, String fileName) throws IOException;
 	void outputSpells(Collection<Structs.SpellTemplate> spells, String fileName) throws IOException;
-	void outputZaaps(Collection<Structs.Zaap> zaaps, String fileName) throws IOException;
+	void outputWaypoints(Collection<Structs.Waypoint> waypoints, String fileName) throws IOException;
 	
 }

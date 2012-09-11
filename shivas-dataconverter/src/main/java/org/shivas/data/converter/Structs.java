@@ -120,7 +120,7 @@ public final class Structs {
 		public int level, position;
 	}
 	
-	public static final class Zaap {
+	public static final class Waypoint {
 		public int id;
 		public int mapId;
 		public short cell;

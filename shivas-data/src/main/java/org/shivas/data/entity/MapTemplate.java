@@ -18,7 +18,7 @@ public class MapTemplate implements Serializable {
 	private String key;
 	private boolean subscriber;
 	private Map<Short, MapTrigger> trigger;
-	private Zaap zaap;
+	private Waypoint waypoint;
 	
 	public int getId() {
 		return id;
@@ -74,11 +74,11 @@ public class MapTemplate implements Serializable {
 	public void setTrigger(Map<Short, MapTrigger> trigger) {
 		this.trigger = trigger;
 	}
-	public Zaap getZaap() {
-		return zaap;
+	public Waypoint getWaypoint() {
+		return waypoint;
 	}
-	public void setZaap(Zaap zaap) {
-		this.zaap = zaap;
+	public void setWaypoint(Waypoint waypoint) {
+		this.waypoint = waypoint;
 	}
 
 }

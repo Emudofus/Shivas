@@ -12,7 +12,7 @@ public interface EntityFactory {
 	MapTemplate newMapTemplate();
 	MapTrigger newMapTrigger();
 	GameCell newGameCell();
-	Zaap newZaap();
+	Waypoint newWaypoint();
 	
 	ItemSet newItemSet();
 	ItemTemplate newItemTemplate();

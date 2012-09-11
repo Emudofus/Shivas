@@ -1,6 +1,6 @@
 package org.shivas.data.entity;
 
-public class Zaap {
+public class Waypoint {
 	private int id;
 	private MapTemplate map;
 	private short cell;
