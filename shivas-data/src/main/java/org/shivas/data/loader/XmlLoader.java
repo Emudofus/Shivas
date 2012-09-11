@@ -76,6 +76,12 @@ public class XmlLoader extends AbstractLoader {
 				return loadItemAction(repo, file);
 			}
 		});
+		
+		loaders.put(Zaap.class, new FileLoader<Zaap>() {
+			public int load(BaseRepository<Zaap> repo, File file) throws Exception {
+				return loadZaap(repo, file);
+			}
+		});
 	}
 
 	@Override
@@ -411,6 +417,37 @@ public class XmlLoader extends AbstractLoader {
 			spell.setLevels(levels);
 			
 			repo.put(spell.getId(), spell);
+			++count;
+		}
+		
+		return count;
+	}
+
+	private int loadZaap(BaseRepository<Zaap> repo, File file) throws Exception {
+		int count = 0;
+		Document doc = builder.build(file);
+		
+		Element root = doc.getDescendants(new ElementFilter("zaaps")).next();
+		for (Element zaap_elem : root.getChildren("zaap")) {
+			Zaap zaap = factory.newZaap();
+			
+			int id = zaap_elem.getAttribute("id").getIntValue();
+			int mapId = zaap_elem.getAttribute("map").getIntValue();
+			short cell = (short) zaap_elem.getAttribute("cell").getIntValue();
+			
+			zaap.setId(id);
+			zaap.setMap(ctner.get(MapTemplate.class).byId(mapId));
+			zaap.setCell(cell);
+			
+			if (zaap.getMap() == null) {
+				throw new Exception("unknown map " + mapId);
+			}
+			if (zaap.getMap().getZaap() != null) {
+				throw new Exception("map " + mapId + " has already a zaap (id=" + zaap.getMap().getZaap().getId() + ")");
+			}
+			zaap.getMap().setZaap(zaap);
+			
+			repo.put(zaap.getId(), zaap);
 			++count;
 		}
 		

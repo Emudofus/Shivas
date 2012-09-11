@@ -25,6 +25,11 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 	public MapTrigger newMapTrigger() {
 		return new MapTrigger();
 	}
+	
+	@Override
+	public Zaap newZaap() {
+		return new Zaap();
+	}
 
 	@Override
 	public GameCell newGameCell() {
