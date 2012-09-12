@@ -1,7 +1,7 @@
 package org.shivas.server.services.game;
 
 import org.shivas.server.core.events.EventListener;
-import org.shivas.server.core.interactions.ActionList;
+import org.shivas.server.core.interactions.InteractionList;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.core.parties.Party;
 import org.shivas.server.database.models.Account;
@@ -24,7 +24,7 @@ public interface GameClient extends Client<GameService> {
 	
 	EventListener eventListener();
 	
-	ActionList actions();
+	InteractionList interactions();
 	boolean isBusy();
 	
 	DofusLogger tchat();

@@ -3,7 +3,7 @@ package org.shivas.server.services.game.handlers;
 import org.shivas.protocol.client.enums.TradeErrorEnum;
 import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
-import org.shivas.server.core.interactions.Action;
+import org.shivas.server.core.interactions.Interaction;
 import org.shivas.server.core.interactions.PlayerExchangeInvitation;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
@@ -71,7 +71,7 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 		} else if (target.getClient().isBusy()) {
 			client.write(TradeGameMessageFormatter.tradeRequestErrorMessage(TradeErrorEnum.Busy));
 		} else {
-			client.actions().push(new PlayerExchangeInvitation(client, target.getClient())).begin();
+			client.interactions().push(new PlayerExchangeInvitation(client, target.getClient())).begin();
 		}
 	}
 
@@ -80,16 +80,16 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseQuitMessage() throws Exception {
-		Action interaction = client.actions().current();
+		Interaction interaction = client.interactions().current();
 		
-		switch (interaction.actionType()) {
+		switch (interaction.getInteractionType()) {
 		case PLAYER_EXCHANGE_INVITATION:
 			break;
 		default:
 			throw new CriticalException("you are not in a trade");
 		}
 		
-		client.actions().remove();
+		client.interactions().remove();
 		interaction.cancel();
 	}
 

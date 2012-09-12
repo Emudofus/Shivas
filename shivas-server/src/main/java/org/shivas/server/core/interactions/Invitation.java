@@ -2,7 +2,7 @@ package org.shivas.server.core.interactions;
 
 import org.shivas.server.services.game.GameClient;
 
-public abstract class Invitation extends AbstractAction {
+public abstract class Invitation extends AbstractInteraction {
 	protected final GameClient source, target;
 	
 	public Invitation(GameClient source, GameClient target) {
@@ -18,16 +18,16 @@ public abstract class Invitation extends AbstractAction {
 		return target;
 	}
 
-	public abstract void accept() throws ActionException;
-	public abstract void decline() throws ActionException;
+	public abstract void accept() throws InteractionException;
+	public abstract void decline() throws InteractionException;
 	
 	@Override
-	protected void internalEnd() throws ActionException {
+	protected void internalEnd() throws InteractionException {
 		decline();
 	}
 	
 	@Override
-	public void cancel() throws ActionException {
+	public void cancel() throws InteractionException {
 		decline();
 	}
 	

@@ -1,6 +1,6 @@
 package org.shivas.server.core.interactions;
 
-public enum ActionType {
+public enum InteractionType {
 	MOVEMENT,
 	PARTY_INVITATION,
 	WAYPOINT_PANEL,

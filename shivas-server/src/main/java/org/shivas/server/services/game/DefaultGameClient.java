@@ -5,7 +5,7 @@ import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.core.events.EventListener;
-import org.shivas.server.core.interactions.ActionList;
+import org.shivas.server.core.interactions.InteractionList;
 import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.core.parties.Party;
 import org.shivas.server.database.models.Account;
@@ -22,7 +22,7 @@ public final class DefaultGameClient extends IoSessionDecorator implements GameC
 	private Party party;
 	private BaseHandler handler;
 	private EventListener eventListener;
-	private ActionList actions = new ActionList(this);
+	private InteractionList interactions = new InteractionList(this);
 
 	public DefaultGameClient(IoSession session, GameService service) {
 		super(session);
@@ -94,12 +94,12 @@ public final class DefaultGameClient extends IoSessionDecorator implements GameC
 		this.eventListener = eventListener;
 	}
 
-	public ActionList actions() {
-		return actions;
+	public InteractionList interactions() {
+		return interactions;
 	}
 
 	public boolean isBusy() {
-		return actions.size() > 0;
+		return interactions.size() > 0;
 	}
 
 	public DofusLogger tchat() {

@@ -2,15 +2,15 @@ package org.shivas.server.core.events.events;
 
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventType;
-import org.shivas.server.core.interactions.Action;
+import org.shivas.server.core.interactions.Interaction;
 import org.shivas.server.services.game.GameClient;
 
 public class NewInteractionEvent implements Event {
 	
 	private final GameClient client;
-	private final Action action;
+	private final Interaction action;
 
-	public NewInteractionEvent(GameClient client, Action action) {
+	public NewInteractionEvent(GameClient client, Interaction action) {
 		this.client = client;
 		this.action = action;
 	}
@@ -30,7 +30,7 @@ public class NewInteractionEvent implements Event {
 	/**
 	 * @return the action
 	 */
-	public Action getAction() {
+	public Interaction getAction() {
 		return action;
 	}
 

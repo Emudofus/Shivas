@@ -9,7 +9,7 @@ import org.shivas.server.core.Path;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.services.game.GameClient;
 
-public class RolePlayMovement extends AbstractAction {
+public class RolePlayMovement extends AbstractInteraction {
 	
 	private GameClient client;
 	private Path path;
@@ -23,8 +23,8 @@ public class RolePlayMovement extends AbstractAction {
 		this.path.add(0, new Path.Node(location.getOrientation(), location.getCell()));
 	}
 
-	public ActionType actionType() {
-		return ActionType.MOVEMENT;
+	public InteractionType getInteractionType() {
+		return InteractionType.MOVEMENT;
 	}
 
 	public GameActor actor() {
@@ -35,11 +35,11 @@ public class RolePlayMovement extends AbstractAction {
 		return path;
 	}
 
-	public void begin() throws ActionException {
+	public void begin() throws InteractionException {
 		client.player().getLocation().getMap().movement(this);
 	}
 
-	protected void internalEnd() throws ActionException {
+	protected void internalEnd() throws InteractionException {
         Location location = client.player().getLocation();
         
         // set the new location
@@ -57,7 +57,7 @@ public class RolePlayMovement extends AbstractAction {
         }
 	}
 
-	public void cancel() throws ActionException {
+	public void cancel() throws InteractionException {
 	}
 	
 	public void cancel(OrientationEnum orientation, short cell) {

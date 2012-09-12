@@ -9,8 +9,8 @@ import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Path;
 import org.shivas.server.core.events.events.ChangeMapEvent;
-import org.shivas.server.core.interactions.Action;
-import org.shivas.server.core.interactions.ActionException;
+import org.shivas.server.core.interactions.Interaction;
+import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.RolePlayMovement;
 import org.shivas.server.core.interactions.WaypointPanelInteraction;
 import org.shivas.server.core.maps.GameMap;
@@ -109,8 +109,8 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		}
 	}
 
-	private void parseMovementMessage(Path path) throws ActionException {
-		client.actions().push(new RolePlayMovement(client, path)).begin();
+	private void parseMovementMessage(Path path) throws InteractionException {
+		client.interactions().push(new RolePlayMovement(client, path)).begin();
 	}
 
 	private void parseUseObject(short cellId, InteractiveObjectTypeEnum objectType) throws Exception {
@@ -142,15 +142,15 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		client.write(InfoGameMessageFormatter.waypointSavedMessage());
 	}
 	
-	private void parseOpenWaypointPanel() throws ActionException {
-		client.actions().add(new WaypointPanelInteraction(client)).begin();
+	private void parseOpenWaypointPanel() throws InteractionException {
+		client.interactions().add(new WaypointPanelInteraction(client)).begin();
 	}
 
 	private void parseGameActionEndMessage(boolean success, String args) throws Exception {
-		Action action = client.actions().remove();
+		Interaction action = client.interactions().remove();
 		assertFalse(action == null, "you can't do this");
 
-		switch (action.actionType()) {
+		switch (action.getInteractionType()) {
 		case MOVEMENT:
 			if (success) {
 				action.end();

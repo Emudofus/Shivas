@@ -1,7 +1,7 @@
 package org.shivas.server.services.game.handlers;
 
 import org.shivas.protocol.client.formatters.PartyGameMessageFormatter;
-import org.shivas.server.core.interactions.ActionException;
+import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.PartyInvitation;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
@@ -48,8 +48,8 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 		}
 	}
 
-	private void parseAcceptInvitationMessage() throws ActionException {
-		PartyInvitation invitation = client.actions().remove();
+	private void parseAcceptInvitationMessage() throws InteractionException {
+		PartyInvitation invitation = client.interactions().remove();
 		invitation.accept();
 	}
 
@@ -81,11 +81,11 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 			return;
 		}
 		
-		client.actions().push(new PartyInvitation(client, player.getClient())).begin();	
+		client.interactions().push(new PartyInvitation(client, player.getClient())).begin();	
 	}
 
-	private void parseDeclineInvitationMessage() throws ActionException {
-		PartyInvitation invitation = client.actions().remove();
+	private void parseDeclineInvitationMessage() throws InteractionException {
+		PartyInvitation invitation = client.interactions().remove();
 		invitation.decline();
 	}
 

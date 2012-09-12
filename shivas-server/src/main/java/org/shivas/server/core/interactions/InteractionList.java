@@ -10,14 +10,14 @@ import org.shivas.server.services.game.GameClient;
 
 import com.google.common.collect.Lists;
 
-public class ActionList {
+public class InteractionList {
 	
 	private GameClient client;
-	private List<Action> actions = Lists.newArrayList();
+	private List<Interaction> interactions = Lists.newArrayList();
 	
 	protected final EventDispatcher event = EventDispatchers.create();
 
-	public ActionList(GameClient client) {
+	public InteractionList(GameClient client) {
 		this.client = client;
 	}
 
@@ -30,19 +30,19 @@ public class ActionList {
 	}
 	
 	public int size() {
-		return actions.size();
+		return interactions.size();
 	}
 	
-	public <T extends Action> T push(final T action) {
-		actions.add(action);
+	public <T extends Interaction> T push(final T action) {
+		interactions.add(action);
 		
 		event.publish(new NewInteractionEvent(client, action));
 		
 		return action;
 	}
 	
-	public <T extends Action> T add(final T action) {
-		actions.add(0, action);
+	public <T extends Interaction> T add(final T action) {
+		interactions.add(0, action);
 		
 		event.publish(new NewInteractionEvent(client, action));
 		
@@ -51,29 +51,29 @@ public class ActionList {
 	
 	public <T extends Invitation> T push(final T invitation) {
 		if (invitation.getSource() != client) {
-			throw new IllegalArgumentException("ActionList's owner isn't the source");
+			throw new IllegalArgumentException("InteractionList's owner isn't the source");
 		}
 		
-		actions.add(invitation);
-		invitation.getTarget().actions().actions.add(invitation);
+		interactions.add(invitation);
+		invitation.getTarget().interactions().interactions.add(invitation);
 
 		event.publish(new NewInteractionEvent(client, invitation));
-		invitation.getTarget().actions().event.publish(new NewInteractionEvent(invitation.getTarget(), invitation));
+		invitation.getTarget().interactions().event.publish(new NewInteractionEvent(invitation.getTarget(), invitation));
 		
 		return invitation;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T extends Action> T current() {
-		return (T) actions.get(actions.size() - 1);
+	public <T extends Interaction> T current() {
+		return (T) interactions.get(interactions.size() - 1);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T extends Action> T remove() {
-		T action = (T) actions.remove(actions.size() - 1);
+	public <T extends Interaction> T remove() {
+		T action = (T) interactions.remove(interactions.size() - 1);
 		if (action.getClass().isAssignableFrom(Invitation.class)) {
 			Invitation invitation = (Invitation) action;
-			invitation.getTarget().actions().actions.remove(action);
+			invitation.getTarget().interactions().interactions.remove(action);
 		}
 		
 		return action;

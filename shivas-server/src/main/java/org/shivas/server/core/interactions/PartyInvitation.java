@@ -11,12 +11,12 @@ public class PartyInvitation extends Invitation {
 	}
 
 	@Override
-	public ActionType actionType() {
-		return ActionType.PARTY_INVITATION;
+	public InteractionType getInteractionType() {
+		return InteractionType.PARTY_INVITATION;
 	}
 
 	@Override
-	public void begin() throws ActionException {
+	public void begin() throws InteractionException {
 		String message = PartyGameMessageFormatter.invitationSuccessMessage(
 				source.player().getName(),
 				target.player().getName()
@@ -38,7 +38,7 @@ public class PartyInvitation extends Invitation {
 	}
 
 	@Override
-	public void accept() throws ActionException {
+	public void accept() throws InteractionException {
 		Party party = source.party();
 		
 		if (party == null) {
@@ -53,7 +53,7 @@ public class PartyInvitation extends Invitation {
 	}
 
 	@Override
-	public void decline() throws ActionException {
+	public void decline() throws InteractionException {
 		source.write(PartyGameMessageFormatter.declineInvitationMessage());
 		target.write(PartyGameMessageFormatter.declineInvitationMessage());
 	}

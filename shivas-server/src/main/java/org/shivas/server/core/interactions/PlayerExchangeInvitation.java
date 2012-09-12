@@ -11,12 +11,12 @@ public class PlayerExchangeInvitation extends Invitation {
 	}
 
 	@Override
-	public ActionType actionType() {
-		return ActionType.PLAYER_EXCHANGE_INVITATION;
+	public InteractionType getInteractionType() {
+		return InteractionType.PLAYER_EXCHANGE_INVITATION;
 	}
 
 	@Override
-	public void begin() throws ActionException {
+	public void begin() throws InteractionException {
 		String message = TradeGameMessageFormatter.tradeRequestMessage(
 				source.player().getId(), 
 				target.player().getId(), 
@@ -28,12 +28,12 @@ public class PlayerExchangeInvitation extends Invitation {
 	}
 
 	@Override
-	public void accept() throws ActionException {
+	public void accept() throws InteractionException {
 		// TODO exchanges
 	}
 
 	@Override
-	public void decline() throws ActionException {
+	public void decline() throws InteractionException {
 		source.write(TradeGameMessageFormatter.tradeQuitMessage());
 		target.write(TradeGameMessageFormatter.tradeQuitMessage());
 	}

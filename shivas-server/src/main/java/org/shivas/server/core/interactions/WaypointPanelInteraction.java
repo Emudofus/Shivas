@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import org.shivas.protocol.client.formatters.WaypointGameMessageFormatter;
 import org.shivas.server.services.game.GameClient;
 
-public class WaypointPanelInteraction extends AbstractAction {
+public class WaypointPanelInteraction extends AbstractInteraction {
 	
 	private final GameClient client;
 
@@ -14,11 +14,11 @@ public class WaypointPanelInteraction extends AbstractAction {
 	}
 
 	@Override
-	public ActionType actionType() {
-		return ActionType.WAYPOINT_PANEL;
+	public InteractionType getInteractionType() {
+		return InteractionType.WAYPOINT_PANEL;
 	}
 	
-	private void doBegin() throws ActionException {
+	private void doBegin() throws InteractionException {
 		client.write(WaypointGameMessageFormatter.listMessage(
 				client.player().getLocation().getMap().getId(),
 				client.player().getWaypoints().toBaseWaypointType()
@@ -26,13 +26,13 @@ public class WaypointPanelInteraction extends AbstractAction {
 	}
 
 	@Override
-	public void begin() throws ActionException {
-		if (client.actions().current().actionType() == ActionType.MOVEMENT) {
-			client.actions().current().endFuture().addListener(new Runnable() {
+	public void begin() throws InteractionException {
+		if (client.interactions().current().getInteractionType() == InteractionType.MOVEMENT) {
+			client.interactions().current().endFuture().addListener(new Runnable() {
 				public void run() {
 					try {
 						doBegin();
-					} catch (ActionException e) {
+					} catch (InteractionException e) {
 						e.printStackTrace();
 					}
 				}
@@ -43,12 +43,12 @@ public class WaypointPanelInteraction extends AbstractAction {
 	}
 
 	@Override
-	public void cancel() throws ActionException {
+	public void cancel() throws InteractionException {
 		client.write(WaypointGameMessageFormatter.closePanelMessage());
 	}
 
 	@Override
-	protected void internalEnd() throws ActionException {
+	protected void internalEnd() throws InteractionException {
 		cancel();
 	}
 

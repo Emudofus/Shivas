@@ -3,7 +3,7 @@ package org.shivas.server.core.events;
 public enum EventType {
 	CHANNEL,
 	MAP,
-	ACTION,
+	INTERACTION,
 	TELEPORTATION,
 	SYSTEM_MESSAGE,
 	NEW_INTERACTION,

@@ -13,7 +13,7 @@ import org.shivas.server.core.events.events.ChangeMapEvent;
 import org.shivas.server.core.events.events.FriendConnectionEvent;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.SystemMessageEvent;
-import org.shivas.server.core.interactions.Action;
+import org.shivas.server.core.interactions.Interaction;
 import org.shivas.server.core.interactions.RolePlayMovement;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.maps.MapEvent;
@@ -30,8 +30,8 @@ public class DefaultEventListener implements EventListener {
 
 	public void listen(Event event) {
 		switch (event.type()) {
-		case ACTION:
-			listenAction((Action) event);
+		case INTERACTION:
+			listenAction((Interaction) event);
 			break;
 			
 		case CHANNEL:
@@ -67,8 +67,8 @@ public class DefaultEventListener implements EventListener {
 		}
 	}
 
-	private void listenAction(Action action) {
-		switch (action.actionType()) {
+	private void listenAction(Interaction action) {
+		switch (action.getInteractionType()) {
 		case MOVEMENT:
 			RolePlayMovement movement = (RolePlayMovement) action;
 			client.write(GameMessageFormatter.actorMovementMessage(
