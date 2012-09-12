@@ -112,6 +112,12 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		player.setWaypoints(new WaypointList(player));
 		
+		if (config.addAllWaypoints()) {
+			for (Waypoint waypoint : ctner.get(Waypoint.class).all()) {
+				player.getWaypoints().add(waypoint);
+			}
+		}
+		
 		return player;
 	}
 	

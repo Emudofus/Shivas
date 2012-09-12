@@ -87,6 +87,11 @@ public class DefaultConfig implements Config {
 	public String cmdPrefix() {
 		return "!";
 	}
+	
+	@Override
+	public boolean cmdEnabled() {
+		return true;
+	}
 
 	public int maxPlayersPerAccount() {
 		return 2;
@@ -95,6 +100,11 @@ public class DefaultConfig implements Config {
 	@Override
 	public short maxSpellLevel() {
 		return 6;
+	}
+
+	@Override
+	public boolean addAllWaypoints() {
+		return true;
 	}
 
 	@Override

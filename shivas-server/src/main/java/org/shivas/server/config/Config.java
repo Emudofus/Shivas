@@ -26,10 +26,12 @@ public interface Config {
 	String clientVersion();
 	String motd();
 	String cmdPrefix();
+	boolean cmdEnabled();
 	
 	int maxPlayersPerAccount();
 	short deleteAnswerLevelNeeded();
 	short maxSpellLevel();
+	boolean addAllWaypoints();
 
 	short startSize();
 	short startLevel();
