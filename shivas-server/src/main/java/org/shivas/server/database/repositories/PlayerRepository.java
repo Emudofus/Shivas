@@ -58,6 +58,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 						"skin", "size", "color1", "color2", "color3",
 						"level", "experience", "kamas",
 						"map_id", "cell", "orientation",
+						"saved_map_id", "saved_cell",
+						"waypoints",
 						"stat_points", "spell_points", "energy", "life", "action_points", "movement_points",
 						"vitality", "wisdom", "strength", "intelligence", "chance", "agility");
 		this.saveQuery = em.builder()
@@ -65,8 +67,10 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				.value("gender").value("skin").value("size").value("color1").value("color2").value("color3")
 				.value("level").value("experience").value("kamas")
 				.value("map_id").value("cell").value("orientation")
+				.value("saved_map_id").value("saved_cell")
 				.value("stat_points").value("spell_points").value("energy").value("life")
 				.value("action_points").value("movement_points")
+				.value("waypoints")
 				.value("vitality").value("wisdom")
 				.value("strength").value("intelligence").value("chance").value("agility")
 				.where("id", Op.EQ);
