@@ -72,6 +72,10 @@ public class WaypointList implements Iterable<Waypoint> {
 		return waypoints.get(mapId);
 	}
 
+	public boolean contains(Waypoint waypoint) {
+		return waypoints.containsKey(waypoint.getMap().getId());
+	}
+
 	public Collection<BaseWaypointType> toBaseWaypointType() {
 		return Collections2.transform(
 				waypoints.values(),

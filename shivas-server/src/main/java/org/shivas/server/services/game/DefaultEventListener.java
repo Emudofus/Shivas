@@ -1,5 +1,6 @@
 package org.shivas.server.services.game;
 
+import org.shivas.data.entity.Waypoint;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
@@ -8,6 +9,7 @@ import org.shivas.protocol.client.formatters.PartyGameMessageFormatter;
 import org.shivas.server.core.channels.ChannelEvent;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
+import org.shivas.server.core.events.events.ChangeMapEvent;
 import org.shivas.server.core.events.events.FriendConnectionEvent;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.SystemMessageEvent;
@@ -57,6 +59,10 @@ public class DefaultEventListener implements EventListener {
 			
 		case PARTY:
 			listenParty((PartyEvent) event);
+			break;
+		
+		case CHANGE_MAP:
+			listenChangeMap((ChangeMapEvent) event);
 			break;
 		}
 	}
@@ -125,8 +131,6 @@ public class DefaultEventListener implements EventListener {
 					client.player().getLocation().getMap().getKey()
 			));
 		}
-		
-		// TODO party : refresh mini-map
 	}
 
 	private void listenSystemMessage(SystemMessageEvent event) {
@@ -169,6 +173,20 @@ public class DefaultEventListener implements EventListener {
 			client.setParty(null);
 			break;
 		}
+	}
+
+	private void listenChangeMap(ChangeMapEvent event) {
+		if (event.getPlayer() == client.player()) {
+			/// waypoints ///
+			Waypoint waypoint = client.player().getLocation().getMap().getWaypoint();
+			if (waypoint != null && !client.player().getWaypoints().contains(waypoint)) {
+				client.player().getWaypoints().add(waypoint);
+				
+				client.write(InfoGameMessageFormatter.newZaapMessage());
+			}
+		}
+		
+		// TODO party : refresh mini-map
 	}
 
 }
