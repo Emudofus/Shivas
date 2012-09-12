@@ -98,6 +98,10 @@ public final class DefaultGameClient extends IoSessionDecorator implements GameC
 		return actions;
 	}
 
+	public boolean isBusy() {
+		return actions.size() > 0;
+	}
+
 	public DofusLogger tchat() {
 		return handler.tchat();
 	}

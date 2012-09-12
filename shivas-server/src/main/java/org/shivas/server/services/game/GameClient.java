@@ -25,6 +25,7 @@ public interface GameClient extends Client<GameService> {
 	EventListener eventListener();
 	
 	ActionList actions();
+	boolean isBusy();
 	
 	DofusLogger tchat();
 	

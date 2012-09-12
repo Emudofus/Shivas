@@ -29,6 +29,10 @@ public class ActionList {
 		event.unsubscribe(listener);
 	}
 	
+	public int size() {
+		return actions.size();
+	}
+	
 	public <T extends Action> T push(final T action) {
 		actions.add(action);
 		
