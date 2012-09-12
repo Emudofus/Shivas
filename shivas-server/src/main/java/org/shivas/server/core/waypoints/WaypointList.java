@@ -34,6 +34,8 @@ public class WaypointList implements Iterable<Waypoint> {
 	
 	public static WaypointList populate(Repository<Waypoint> waypoints, WaypointList list, String string) {
 		for (String id : string.split(",")) {
+			if (id.length() <= 0) continue;
+			
 			Waypoint waypoint = waypoints.byId(Integer.parseInt(id));
 			if (waypoint != null) {
 				list.add(waypoint);

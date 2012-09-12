@@ -93,7 +93,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 			break;
 			
 		case INTERACTIVE_OBJECT:
-			splitted = args.substring(5).split(";");
+			splitted = args.split(";");
 			parseUseObject(
 					Short.parseShort(splitted[0]),
 					InteractiveObjectTypeEnum.valueOf(Integer.parseInt(splitted[1]))
