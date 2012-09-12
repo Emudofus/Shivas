@@ -70,6 +70,10 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				.where("id", Op.EQ);
 		this.loadQuery = em.builder().select(TABLE_NAME);
 	}
+	
+	private Location newDefaultLocation() {
+		return new Location(config.startMap(), config.startCell(), OrientationEnum.SOUTH_EAST);
+	}
 
 	public Player createDefault(String name, int breed, Gender gender, int color1, int color2, int color3) {
 		Player player = new Player(
@@ -77,7 +81,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				ctner.get(Breed.class).byId(breed),
 				gender,
 				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
-				new Location(config.startMap(), config.startCell(), OrientationEnum.SOUTH_EAST)
+				newDefaultLocation(),
+				newDefaultLocation()
 		);
 		
 		player.setLook(new PlayerLook(
@@ -218,6 +223,11 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 						ctner.get(GameMap.class).byId(result.getInt("map_id")), 
 						result.getShort("cell"),
 						OrientationEnum.valueOf(result.getInt("orientation"))
+				),
+				new Location(
+						ctner.get(GameMap.class).byId(result.getInt("saved_map_id")),
+						result.getShort("saved_cell"),
+						OrientationEnum.SOUTH_WEST
 				)
 		);
 		

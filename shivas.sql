@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2012-09-03 01:32:43
+Date: 2012-09-12 10:48:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -84,7 +84,7 @@ CREATE TABLE `gifts` (
   PRIMARY KEY (`id`),
   KEY `fk_gift_owner` (`owner`),
   CONSTRAINT `gifts_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of gifts
@@ -131,6 +131,8 @@ CREATE TABLE `players` (
   `map_id` int(11) NOT NULL,
   `cell` smallint(6) NOT NULL,
   `orientation` tinyint(4) NOT NULL,
+  `saved_map_id` int(11) NOT NULL,
+  `saved_cell` smallint(6) NOT NULL,
   `stat_points` smallint(6) NOT NULL,
   `spell_points` smallint(6) NOT NULL,
   `energy` int(11) NOT NULL,

@@ -36,7 +36,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private Gender gender;
 	private PlayerLook look;
 	private PlayerExperience experience;
-	private Location location;
+	private Location location, savedLocation;
 	private PlayerStatistics stats;
 	private PlayerBag bag;
 	private SpellList spells;
@@ -46,17 +46,18 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private GameClient client;
 
 	public Player(String name, Breed breed, Gender gender,
-			PlayerExperience experience, Location location) {
+			PlayerExperience experience, Location location, Location savedLocation) {
 		this.name = name;
 		this.breed = breed;
 		this.gender = gender;
 		this.experience = experience;
 		this.location = location;
+		this.savedLocation = savedLocation;
 	}
 
 	public Player(int id, Account owner, String name,
 			Breed breed, Gender gender,
-			PlayerExperience experience, Location location) {
+			PlayerExperience experience, Location location, Location savedLocation) {
 		this.id = id;
 		this.owner = owner;
 		this.name = name;
@@ -64,6 +65,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		this.gender = gender;
 		this.experience = experience;
 		this.location = location;
+		this.savedLocation = savedLocation;
 	}
 
 	/**
@@ -180,6 +182,14 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	 */
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	public Location getSavedLocation() {
+		return savedLocation;
+	}
+
+	public void setSavedLocation(Location savedLocation) {
+		this.savedLocation = savedLocation;
 	}
 
 	public PlayerStatistics getStats() {
