@@ -59,6 +59,10 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 			client.write(PartyGameMessageFormatter.targetNotFoundMessage(targetName));
 			return;
 		}
+		if (player.getClient().hasParty()) {
+			client.write(PartyGameMessageFormatter.targetAlreadyInPartyMessage(targetName));
+			return;
+		}
 		
 		if (client.party() != null) {
 			if (client.party().isFull()) {
@@ -86,7 +90,7 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseQuitMessage(Integer targetId) throws CriticalException {
-		assertTrue(client.player() != null, "you are not in a party");
+		assertTrue(client.hasParty(), "you are not in a party");
 		
 		Player target;
 		if (targetId != null) {

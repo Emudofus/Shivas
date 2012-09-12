@@ -33,7 +33,6 @@ public class PartyInvitation extends Invitation {
 		client.write(PartyGameMessageFormatter.leaderInformationMessage(party.getOwner().getId()));
 		if (leader) {
 			client.write(PartyGameMessageFormatter.addMemberMessage(client.player().toBasePartyMemberType()));
-			client.write(PartyGameMessageFormatter.declineInvitationMessage());
 		} else {
 			client.write(PartyGameMessageFormatter.addMembersMessage(party.toBasePartyMemberType()));
 		}
@@ -54,6 +53,8 @@ public class PartyInvitation extends Invitation {
 
 			process(party, source, true);
 		}
+		
+		source.write(PartyGameMessageFormatter.declineInvitationMessage());
 
 		process(party, target, false);
 	}

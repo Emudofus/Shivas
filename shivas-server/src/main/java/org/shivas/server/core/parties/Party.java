@@ -71,7 +71,7 @@ public class Party implements Iterable<Player> {
 	public void remove(Player member) {
 		if (members.remove(member.getId()) == null) return;
 		
-		if (count() - 1 < 2) {
+		if (count() < 2) {
 			event.publish(new PartyEvent(PartyEventType.CLOSE));
 		} else {
 			if (member == owner) {
@@ -88,7 +88,7 @@ public class Party implements Iterable<Player> {
 	}
 	
 	public boolean isFull() {
-		return count() <= MAX_MEMBERS;
+		return count() >= MAX_MEMBERS;
 	}
 	
 	public boolean contains(Player player) {
