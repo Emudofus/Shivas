@@ -49,6 +49,7 @@ public class WaypointPanelInteraction extends AbstractAction {
 
 	@Override
 	protected void internalEnd() throws ActionException {
+		cancel();
 	}
 
 }
