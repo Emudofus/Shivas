@@ -1,5 +1,7 @@
 package org.shivas.server.core.interactions;
 
+import java.util.concurrent.Executors;
+
 import org.shivas.protocol.client.formatters.WaypointGameMessageFormatter;
 import org.shivas.server.services.game.GameClient;
 
@@ -34,7 +36,7 @@ public class WaypointPanelInteraction extends AbstractAction {
 						e.printStackTrace();
 					}
 				}
-			}, null);
+			}, Executors.newSingleThreadExecutor());
 		} else {
 			doBegin();
 		}
@@ -42,6 +44,7 @@ public class WaypointPanelInteraction extends AbstractAction {
 
 	@Override
 	public void cancel() throws ActionException {
+		client.write(WaypointGameMessageFormatter.closePanelMessage());
 	}
 
 	@Override

@@ -21,15 +21,10 @@ public class WaypointList implements Iterable<Waypoint> {
 	private static Logger log = LoggerFactory.getLogger(WaypointList.class);
 
 	public static long getCost(MapTemplate m1, MapTemplate m2){
-        return 10 * (
-        	   Math.abs(
-        			   m1.getPosition().abscissa() -
-        			   m2.getPosition().abscissa()
-        	   ) + Math.abs(
-        			   m1.getPosition().ordinate() -
-        			   m2.getPosition().ordinate()
-        	   ) - 1
-    	);
+        int distance = Math.abs(m1.getPosition().abscissa() - m2.getPosition().abscissa()) +
+        		       Math.abs(m1.getPosition().ordinate() - m2.getPosition().ordinate()) - 1;
+        
+        return distance <= 0 ? 0 : 10 * distance;
     }
 	
 	public static WaypointList populate(Repository<Waypoint> waypoints, WaypointList list, String string) {

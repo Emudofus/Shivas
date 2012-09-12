@@ -63,6 +63,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		add('O', new ItemHandler(client));
 		add('P', new PartyHandler(client));
 		add('S', new SpellHandler(client));
+		add('W', new WaypointHandler(client));
 	}
 
 	@Override
