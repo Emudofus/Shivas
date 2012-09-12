@@ -13,6 +13,7 @@ import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.SystemMessageEvent;
 import org.shivas.server.core.interactions.Action;
 import org.shivas.server.core.interactions.RolePlayMovement;
+import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.maps.MapEvent;
 import org.shivas.server.core.parties.PartyEvent;
 import org.shivas.server.database.models.Player;
@@ -110,6 +111,21 @@ public class DefaultEventListener implements EventListener {
 	}
 	
 	private void listenTeleportation(PlayerTeleportationEvent event) {
+		if (event.getPlayer() == client.player()) {			
+			GameMap map = client.player().getLocation().getMap();
+			map.event().unsubscribe(this);
+			map.leave(client.player());
+
+			client.player().setLocation(event.getTarget());
+			
+			client.write(GameMessageFormatter.changeMapMessage(client.player().getPublicId()));
+			client.write(GameMessageFormatter.mapDataMessage(
+					client.player().getLocation().getMap().getId(),
+					client.player().getLocation().getMap().getDate(),
+					client.player().getLocation().getMap().getKey()
+			));
+		}
+		
 		// TODO party : refresh mini-map
 	}
 

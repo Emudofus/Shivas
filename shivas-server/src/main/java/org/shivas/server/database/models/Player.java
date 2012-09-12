@@ -7,7 +7,6 @@ import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.entity.Breed;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
-import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.types.BaseCharacterType;
 import org.shivas.protocol.client.types.BasePartyMemberType;
@@ -18,6 +17,7 @@ import org.shivas.server.core.Location;
 import org.shivas.server.core.PlayerLook;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.EventDispatchers;
+import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.experience.PlayerExperience;
 import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
@@ -257,18 +257,11 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	}
 
 	public void teleport(GameMap map, short cell) {
-		location.getMap().event().unsubscribe(client.eventListener());
-		location.getMap().leave(client.player());
-		
-		location.setMap(map);
-		location.setCell(cell);
-		
-		client.write(GameMessageFormatter.changeMapMessage(client.player().getPublicId()));
-		client.write(GameMessageFormatter.mapDataMessage(
-				client.player().getLocation().getMap().getId(),
-				client.player().getLocation().getMap().getDate(),
-				client.player().getLocation().getMap().getKey()
-		));
+		event.publish(new PlayerTeleportationEvent(this, new Location(
+				map,
+				cell,
+				location.getOrientation()
+		)));
 	}
 	
 	public boolean canReceiveMessageFrom(Player source) {
