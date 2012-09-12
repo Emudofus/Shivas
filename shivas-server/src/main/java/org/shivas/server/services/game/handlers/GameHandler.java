@@ -8,6 +8,7 @@ import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Path;
+import org.shivas.server.core.events.events.ChangeMapEvent;
 import org.shivas.server.core.interactions.Action;
 import org.shivas.server.core.interactions.ActionException;
 import org.shivas.server.core.interactions.RolePlayMovement;
@@ -83,6 +84,8 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		client.write(GameMessageFormatter.fightCountMessage(0)); // TODO fights
 		
 		map.event().subscribe(client.eventListener());
+		
+		client.player().getEvent().publish(new ChangeMapEvent(client.player()));
 	}
 
 	private void parseGameActionMessage(ActionTypeEnum action, String args) throws Exception {

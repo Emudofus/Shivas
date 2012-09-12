@@ -9,4 +9,5 @@ public enum EventType {
 	NEW_INTERACTION,
 	FRIEND_CONNECTION,
 	PARTY,
+	CHANGE_MAP,
 }
