@@ -14,6 +14,7 @@ import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
+import org.shivas.data.entity.Waypoint;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.server.config.Config;
@@ -25,6 +26,7 @@ import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.spells.SpellList;
 import org.shivas.server.core.statistics.PlayerStatistics;
+import org.shivas.server.core.waypoints.WaypointList;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.database.models.*;
 
@@ -108,6 +110,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		
 		player.setSpells(new SpellList(player, repositories.spells()).fill());
 		
+		player.setWaypoints(new WaypointList(player));
+		
 		return player;
 	}
 	
@@ -176,6 +180,9 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		query.setParameter("map_id", entity.getLocation().getMap().getId());
 		query.setParameter("cell", entity.getLocation().getCell());
 		query.setParameter("orientation", entity.getLocation().getOrientation());
+		query.setParameter("saved_map_id", entity.getLocation().getMap().getId());
+		query.setParameter("saved_cell", entity.getLocation().getCell());
+		query.setParameter("waypoints", WaypointList.serialize(entity.getWaypoints()));
 		query.setParameter("stat_points", entity.getStats().statPoints());
 		query.setParameter("spell_points", entity.getStats().spellPoints());
 		query.setParameter("energy", entity.getStats().energy().current());
@@ -261,6 +268,12 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		player.setBag(new PlayerBag(player, repositories.items(), this, result.getLong("kamas")));
 		
 		player.setSpells(new SpellList(player, repositories.spells()));
+		
+		player.setWaypoints(WaypointList.populate(
+				ctner.get(Waypoint.class),
+				new WaypointList(player),
+				result.getString("waypoints")
+		));
 		
 		player.getOwner().getPlayers().add(player);
 		

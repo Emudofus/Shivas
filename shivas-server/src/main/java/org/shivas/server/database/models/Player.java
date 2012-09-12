@@ -23,6 +23,7 @@ import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.spells.SpellList;
 import org.shivas.server.core.statistics.PlayerStatistics;
+import org.shivas.server.core.waypoints.WaypointList;
 import org.shivas.server.services.game.GameClient;
 
 public class Player implements Serializable, PersistableEntity<Integer>, GameActor {
@@ -40,6 +41,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private PlayerStatistics stats;
 	private PlayerBag bag;
 	private SpellList spells;
+	private WaypointList waypoints;
 	
 	private final EventDispatcher event = EventDispatchers.create();
 	
@@ -226,6 +228,14 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	 */
 	public void setSpells(SpellList spells) {
 		this.spells = spells;
+	}
+
+	public WaypointList getWaypoints() {
+		return waypoints;
+	}
+
+	public void setWaypoints(WaypointList waypoints) {
+		this.waypoints = waypoints;
 	}
 
 	public EventDispatcher getEvent() {

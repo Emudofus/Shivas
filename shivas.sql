@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2012-09-12 10:48:06
+Date: 2012-09-12 11:30:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -133,6 +133,7 @@ CREATE TABLE `players` (
   `orientation` tinyint(4) NOT NULL,
   `saved_map_id` int(11) NOT NULL,
   `saved_cell` smallint(6) NOT NULL,
+  `waypoints` varchar(255) NOT NULL,
   `stat_points` smallint(6) NOT NULL,
   `spell_points` smallint(6) NOT NULL,
   `energy` int(11) NOT NULL,
