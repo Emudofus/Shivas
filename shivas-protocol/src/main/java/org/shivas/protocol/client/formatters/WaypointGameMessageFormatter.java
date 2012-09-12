@@ -30,4 +30,8 @@ public class WaypointGameMessageFormatter {
 
         return sb.toString();
     }
+
+	public static String useErrorMessage() {
+		return "WU";
+	}
 }
