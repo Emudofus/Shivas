@@ -26,20 +26,13 @@ public class PartyInvitation extends Invitation {
 		target.write(message);
 	}
 	
-	private static void process(Party party, GameClient client, boolean leader) {
+	private static void process(Party party, GameClient client) {
 		client.setParty(party);
+		party.add(client.player());
 		
 		client.write(PartyGameMessageFormatter.createPartyMessage(party.getOwner().getName()));
 		client.write(PartyGameMessageFormatter.leaderInformationMessage(party.getOwner().getId()));
-		if (leader) {
-			client.write(PartyGameMessageFormatter.addMemberMessage(client.player().toBasePartyMemberType()));
-		} else {
-			client.write(PartyGameMessageFormatter.addMembersMessage(party.toBasePartyMemberType()));
-		}
-		
-		if (!leader) {
-			party.add(client.player());
-		}
+		client.write(PartyGameMessageFormatter.addMembersMessage(party.toBasePartyMemberType()));
 		
 		party.subscribe(client.eventListener());
 	}
@@ -51,12 +44,12 @@ public class PartyInvitation extends Invitation {
 		if (party == null) {
 			party = new Party(source.player());
 
-			process(party, source, true);
+			process(party, source);
 		}
 		
 		source.write(PartyGameMessageFormatter.declineInvitationMessage());
 
-		process(party, target, false);
+		process(party, target);
 	}
 
 	@Override
