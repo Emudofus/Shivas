@@ -1,8 +1,13 @@
 package org.shivas.server.services.game.handlers;
 
+import org.shivas.data.entity.Waypoint;
 import org.shivas.protocol.client.enums.ActionTypeEnum;
+import org.shivas.protocol.client.enums.InteractiveObjectTypeEnum;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
+import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
+import org.shivas.protocol.client.formatters.WaypointGameMessageFormatter;
+import org.shivas.server.core.Location;
 import org.shivas.server.core.Path;
 import org.shivas.server.core.interactions.Action;
 import org.shivas.server.core.interactions.ActionException;
@@ -81,9 +86,18 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseGameActionMessage(ActionTypeEnum action, String args) throws Exception {
+		String[] splitted = null;
 		switch (action) {
 		case MOVEMENT:
 			parseMovementMessage(Path.parsePath(args));
+			break;
+			
+		case INTERACTIVE_OBJECT:
+			splitted = args.substring(5).split(";");
+			parseUseObject(
+					Short.parseShort(splitted[0]),
+					InteractiveObjectTypeEnum.valueOf(Integer.parseInt(splitted[1]))
+			);
 			break;
 			
 		default:
@@ -94,6 +108,39 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 
 	private void parseMovementMessage(Path path) throws ActionException {
 		client.actions().push(new RolePlayMovement(client, path)).begin();
+	}
+
+	private void parseUseObject(short cellId, InteractiveObjectTypeEnum objectType) throws Exception {
+		switch (objectType) {
+		case SAVE_WAYPOINT:
+			parseSaveWaypoint();
+			break;
+			
+		case WAYPOINT:
+			parseOpenWaypointPanel();
+			break;
+			
+		default:
+			log.warn("InteractiveObject {} not implemented", objectType);
+			break;
+		}
+	}
+
+	private void parseSaveWaypoint() throws Exception {
+		Waypoint waypoint = client.player().getLocation().getMap().getWaypoint();
+		assertTrue(waypoint != null, "there are not waypoint here");
+		
+		client.player().setSavedLocation(new Location(
+				(GameMap) waypoint.getMap(),
+				waypoint.getCell(),
+				OrientationEnum.SOUTH_WEST
+		));
+		
+		client.write(InfoGameMessageFormatter.waypointSavedMessage());
+	}
+	
+	private void parseOpenWaypointPanel() {
+
 	}
 
 	private void parseGameActionEndMessage(boolean success, String args) throws Exception {
