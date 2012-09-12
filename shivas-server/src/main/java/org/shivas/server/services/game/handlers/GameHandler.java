@@ -6,12 +6,12 @@ import org.shivas.protocol.client.enums.InteractiveObjectTypeEnum;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
-import org.shivas.protocol.client.formatters.WaypointGameMessageFormatter;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Path;
 import org.shivas.server.core.interactions.Action;
 import org.shivas.server.core.interactions.ActionException;
 import org.shivas.server.core.interactions.RolePlayMovement;
+import org.shivas.server.core.interactions.WaypointPanelInteraction;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
@@ -139,8 +139,8 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		client.write(InfoGameMessageFormatter.waypointSavedMessage());
 	}
 	
-	private void parseOpenWaypointPanel() {
-
+	private void parseOpenWaypointPanel() throws ActionException {
+		client.actions().push(new WaypointPanelInteraction(client)).begin();
 	}
 
 	private void parseGameActionEndMessage(boolean success, String args) throws Exception {

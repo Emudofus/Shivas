@@ -72,6 +72,9 @@ public class DefaultEventListener implements EventListener {
 			
 		case PARTY_INVITATION: // nothing to do, PartyHandler handles it
 			break;
+			
+		case WAYPOINT_PANEL: // nothing to do
+			break;
 		}
 	}
 
