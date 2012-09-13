@@ -49,8 +49,7 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseAcceptInvitationMessage() throws InteractionException {
-		PartyInvitation invitation = client.interactions().remove();
-		invitation.accept();
+		client.interactions().remove(PartyInvitation.class).accept();
 	}
 
 	private void parseInvitationMessage(String targetName) throws Exception {
@@ -85,8 +84,7 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseDeclineInvitationMessage() throws InteractionException {
-		PartyInvitation invitation = client.interactions().remove();
-		invitation.decline();
+		client.interactions().remove(PartyInvitation.class).decline();
 	}
 
 	private void parseQuitMessage(Integer targetId) throws CriticalException {

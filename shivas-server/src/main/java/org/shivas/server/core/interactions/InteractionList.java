@@ -33,50 +33,61 @@ public class InteractionList {
 		return interactions.size();
 	}
 	
+	private void onAdded(Interaction interaction, boolean checkInvitation) {
+		event.publish(new NewInteractionEvent(client, interaction));
+		
+		if (checkInvitation && interaction instanceof Invitation) {
+			InteractionList target = ((Invitation) interaction).getTarget().interactions();
+			target.onAdded(interaction, false);
+		}
+	}
+	
 	public <T extends Interaction> T push(final T action) {
 		interactions.add(action);
-		
-		event.publish(new NewInteractionEvent(client, action));
+		onAdded(action, true);
 		
 		return action;
 	}
 	
-	public <T extends Interaction> T add(final T action) {
+	public <T extends Interaction> T front(final T action) {
 		interactions.add(0, action);
-		
-		event.publish(new NewInteractionEvent(client, action));
+		onAdded(action, true);
 		
 		return action;
 	}
 	
-	public <T extends Invitation> T push(final T invitation) {
-		if (invitation.getSource() != client) {
-			throw new IllegalArgumentException("InteractionList's owner isn't the source");
+	public Interaction current() {
+		return interactions.get(interactions.size() - 1);
+	}
+	
+	public <T extends Interaction> T current(Class<T> clazz) {
+		return clazz.cast(current());
+	}
+	
+	public Interaction remove() {
+		Interaction interaction = interactions.remove(interactions.size() - 1);
+		
+		if (interaction instanceof Invitation) {
+			Invitation invitation = (Invitation) interaction;
+			invitation.getTarget().interactions().interactions.remove(interaction);
 		}
 		
-		interactions.add(invitation);
-		invitation.getTarget().interactions().interactions.add(invitation);
-
-		event.publish(new NewInteractionEvent(client, invitation));
-		invitation.getTarget().interactions().event.publish(new NewInteractionEvent(invitation.getTarget(), invitation));
-		
-		return invitation;
+		return interaction;
+	}
+	
+	public <T extends Interaction> T remove(Class<T> clazz) {
+		return clazz.cast(remove());
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T extends Interaction> T current() {
-		return (T) interactions.get(interactions.size() - 1);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T extends Interaction> T remove() {
-		T action = (T) interactions.remove(interactions.size() - 1);
-		if (action.getClass().isAssignableFrom(Invitation.class)) {
-			Invitation invitation = (Invitation) action;
-			invitation.getTarget().interactions().interactions.remove(action);
+	public <T extends Interaction> T removeIf(InteractionType... types) {
+		Interaction current = current();
+		for (InteractionType type : types) {
+			if (current.getInteractionType() == type) {
+				return (T) remove();
+			}
 		}
-		
-		return action;
+		throw new ClassCastException();
 	}
 	
 }

@@ -36,8 +36,6 @@ public class WaypointHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseUseMessage(int targetMapId) throws Exception {
-		WaypointPanelInteraction panel = client.interactions().remove();
-		assertFalse(panel == null, "you have not opened the waypoint panel");
 		Waypoint waypoint = client.player().getWaypoints().get(targetMapId);
 		assertFalse(waypoint == null, "unknown waypoint on map %d", targetMapId);
 		
@@ -49,7 +47,7 @@ public class WaypointHandler extends AbstractBaseHandler<GameClient> {
 			client.player().getBag().minusKamas(cost);
 			
 			client.write(client.player().getStats().packet());
-			panel.end();
+			client.interactions().remove(WaypointPanelInteraction.class).end();
 			
 			client.player().teleport(
 					(GameMap) waypoint.getMap(),
@@ -59,10 +57,7 @@ public class WaypointHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseClosePanelMessage() throws Exception {
-		WaypointPanelInteraction panel = client.interactions().remove();
-		assertFalse(panel == null, "you have not opened waypoints panel");
-		
-		panel.end();
+		client.interactions().remove(WaypointPanelInteraction.class).end();
 	}
 
 }

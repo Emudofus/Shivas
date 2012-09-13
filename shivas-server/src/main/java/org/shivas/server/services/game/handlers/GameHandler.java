@@ -143,7 +143,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 	}
 	
 	private void parseOpenWaypointPanel() throws InteractionException {
-		client.interactions().add(new WaypointPanelInteraction(client)).begin();
+		client.interactions().front(new WaypointPanelInteraction(client)).begin();
 	}
 
 	private void parseGameActionEndMessage(boolean success, String args) throws Exception {
