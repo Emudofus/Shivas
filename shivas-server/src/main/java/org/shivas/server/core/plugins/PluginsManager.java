@@ -7,11 +7,9 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.shivas.data.Container;
+import org.shivas.server.Hook;
 import org.shivas.server.config.Config;
-import org.shivas.server.core.actions.ShivasActionFactory;
 import org.shivas.server.core.commands.Command;
-import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.ServiceListener;
 import org.shivas.server.services.game.GameClient;
 import org.shivas.server.services.game.GameService;
@@ -28,54 +26,21 @@ public class PluginsManager {
 	
 	private static final Logger log = LoggerFactory.getLogger(PluginsManager.class);
 
-	@SuppressWarnings("unused")
-	private class Shivas {
-		public Config getConfig() {
-			return config;
-		}
-
-		public Container getCtner() {
-			return ctner;
-		}
-
-		public GameService getGservice() {
-			return gservice;
-		}
-
-		public RepositoryContainer getRepos() {
-			return repos;
-		}
-		
-		public ShivasActionFactory getActions() {
-			return actions;
-		}
-	}
-
 	private final Map<String, PluginLoader> loaders = Maps.newHashMap();
 	private final List<Plugin> plugins = Lists.newArrayList();
 	
 	private Config config;
-	private Container ctner;
-	private LoginService lservice;
-	private GameService gservice;
-	private RepositoryContainer repos;
-	private ShivasActionFactory actions;
-	
-	public PluginsManager() {
-		Shivas Shivas = new Shivas();
-		
-		loaders.put(GroovyPluginLoader.EXTENSION, new GroovyPluginLoader(Shivas));
-		loaders.put(RubyPluginLoader.EXTENSION, new RubyPluginLoader(Shivas));
-	}
+	private LoginService login;
+	private GameService game;
 
 	@Inject
-	public void init(Config config, Container ctner, LoginService lservice, GameService gservice, RepositoryContainer repos, ShivasActionFactory actions) {
-		this.config = config;
-		this.ctner = ctner;
-		this.lservice = lservice;
-		this.gservice = gservice;
-		this.repos = repos;
-		this.actions = actions;
+	public void init(Hook hook) {
+		loaders.put(GroovyPluginLoader.EXTENSION, new GroovyPluginLoader(hook));
+		loaders.put(RubyPluginLoader.EXTENSION, new RubyPluginLoader(hook));
+		
+		this.config = hook.getConfig();
+		this.login = hook.getLogin();
+		this.game = hook.getGame();
 	}
 	
 	public void start() {		
@@ -128,15 +93,15 @@ public class PluginsManager {
 		plugins.add(plugin);
 		
 		for (Command command : plugin.getCommands()) {
-			gservice.cmdEngine().add(command);
+			game.cmdEngine().add(command);
 		}
 		
 		for (ServiceListener<GameClient> listener : plugin.getGameListeners()) {
-			gservice.addListener(listener);
+			game.addListener(listener);
 		}
 		
 		for (ServiceListener<LoginClient> listener : plugin.getLoginListeners()) {
-			lservice.addListener(listener);
+			login.addListener(listener);
 		}
 	}
 	

@@ -10,7 +10,7 @@ import javax.swing.Timer
 import java.awt.event.ActionListener
 
 class Shivas { static def instance }
-Shivas.instance = shivaas
+Shivas.instance = hook
 
 class PubManagerPlugin extends Plugin {
 	final PubManagerService pubManager = new PubManagerService()
@@ -40,7 +40,7 @@ class PubManagerService implements Startable {
 	}
 
 	void send() {
-		Shivas.instance.gservice.channels().system().send(null, message)
+		Shivas.instance.game.channels().system().send(null, message)
 	}
 
 	void start() {

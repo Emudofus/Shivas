@@ -6,6 +6,7 @@ import java.io.FileReader;
 import org.jruby.embed.ScriptingContainer;
 import org.jruby.javasupport.JavaEmbedUtils.EvalUnit;
 import org.jruby.runtime.builtin.IRubyObject;
+import org.shivas.server.Hook;
 
 public class RubyPluginLoader implements PluginLoader {
 
@@ -14,9 +15,9 @@ public class RubyPluginLoader implements PluginLoader {
 	
 	private final ScriptingContainer scripting;
 	
-	public RubyPluginLoader(Object services) {
+	public RubyPluginLoader(Hook hook) {
 		scripting = new ScriptingContainer();
-		scripting.put("Shivas", services);
+		scripting.put("Shivas", hook);
 	}
 	
 	@Override

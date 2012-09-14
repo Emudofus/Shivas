@@ -5,6 +5,8 @@ import groovy.lang.Script;
 
 import java.io.File;
 
+import org.shivas.server.Hook;
+
 public class GroovyPluginLoader implements PluginLoader {
 	
 	public static final String EXTENSION = "groovy";
@@ -12,9 +14,9 @@ public class GroovyPluginLoader implements PluginLoader {
 	
 	private final GroovyShell shell;
 	
-	public GroovyPluginLoader(Object services) {
+	public GroovyPluginLoader(Hook hook) {
 		shell = new GroovyShell(getClass().getClassLoader());
-		shell.setVariable("shivaas", services);
+		shell.setVariable("hook", hook);
 	}
 
 	@Override
