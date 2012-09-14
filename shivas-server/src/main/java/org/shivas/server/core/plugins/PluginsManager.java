@@ -12,7 +12,11 @@ import org.shivas.server.config.Config;
 import org.shivas.server.core.actions.ShivasActionFactory;
 import org.shivas.server.core.commands.Command;
 import org.shivas.server.database.RepositoryContainer;
+import org.shivas.server.services.ServiceListener;
+import org.shivas.server.services.game.GameClient;
 import org.shivas.server.services.game.GameService;
+import org.shivas.server.services.login.LoginClient;
+import org.shivas.server.services.login.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +56,7 @@ public class PluginsManager {
 	
 	private Config config;
 	private Container ctner;
+	private LoginService lservice;
 	private GameService gservice;
 	private RepositoryContainer repos;
 	private ShivasActionFactory actions;
@@ -64,9 +69,10 @@ public class PluginsManager {
 	}
 
 	@Inject
-	public void init(Config config, Container ctner, GameService gservice, RepositoryContainer repos, ShivasActionFactory actions) {
+	public void init(Config config, Container ctner, LoginService lservice, GameService gservice, RepositoryContainer repos, ShivasActionFactory actions) {
 		this.config = config;
 		this.ctner = ctner;
+		this.lservice = lservice;
 		this.gservice = gservice;
 		this.repos = repos;
 		this.actions = actions;
@@ -123,6 +129,14 @@ public class PluginsManager {
 		
 		for (Command command : plugin.getCommands()) {
 			gservice.cmdEngine().add(command);
+		}
+		
+		for (ServiceListener<GameClient> listener : plugin.getGameListeners()) {
+			gservice.addListener(listener);
+		}
+		
+		for (ServiceListener<LoginClient> listener : plugin.getLoginListeners()) {
+			lservice.addListener(listener);
 		}
 	}
 	
