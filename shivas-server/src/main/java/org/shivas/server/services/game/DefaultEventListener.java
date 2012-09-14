@@ -116,7 +116,7 @@ public class DefaultEventListener implements EventListener {
 	private void listenTeleportation(PlayerTeleportationEvent event) {
 		if (event.getPlayer() == client.player()) {			
 			GameMap map = client.player().getLocation().getMap();
-			map.event().unsubscribe(this);
+			map.event().unsubscribe(client.eventListener());
 			map.leave(client.player());
 
 			client.player().setLocation(event.getTarget());
@@ -150,7 +150,7 @@ public class DefaultEventListener implements EventListener {
 		case REMOVE_MEMBER:
 			if (event.getPlayer() == client.player()) {
 				client.write(PartyGameMessageFormatter.quitMessage());
-				client.party().unsubscribe(this);
+				client.party().unsubscribe(client.eventListener());
 				client.setParty(null);
 			} else {
 				client.write(PartyGameMessageFormatter.removeMemberMessage(event.getPlayer().getId()));

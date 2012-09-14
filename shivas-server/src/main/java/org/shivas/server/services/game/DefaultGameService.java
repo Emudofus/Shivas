@@ -84,7 +84,8 @@ public class DefaultGameService extends AbstractService implements GameService {
 		
 		DefaultGameClient client = (DefaultGameClient) session.getAttribute(CLIENT_TOKEN);
 		client.newHandler(new AuthenticationHandler(client));
-		client.setEventListener(new DefaultEventListener(client));
+		
+		client.eventListener().add(new DefaultEventListener(client));
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
