@@ -7,7 +7,7 @@ import org.shivas.server.core.services.NetworkStatisticsCenter;
 import org.shivas.server.services.Service;
 import org.shivas.server.services.login.LoginService;
 
-public interface GameService extends Service {
+public interface GameService extends Service<GameClient> {
 	
 	LoginService login();
 	ChannelContainer channels();

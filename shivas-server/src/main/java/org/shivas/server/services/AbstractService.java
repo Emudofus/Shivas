@@ -14,7 +14,7 @@ import org.shivas.server.database.RepositoryContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractService implements Service, IoHandler {
+public abstract class AbstractService<C extends Client<?>> extends ServiceListenerContainer<C> implements Service<C>, IoHandler {
 	
 	private static final int BOTH_IDLE_TIME = 10;
 	private static final int READ_BUFFER_SIZE = 512;

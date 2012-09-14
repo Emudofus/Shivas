@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class DefaultGameService extends AbstractService implements GameService {
+public class DefaultGameService extends AbstractService<GameClient> implements GameService {
 	
 	private static final Logger log = LoggerFactory.getLogger(DefaultGameService.class);
 	
@@ -86,6 +86,8 @@ public class DefaultGameService extends AbstractService implements GameService {
 		client.newHandler(new AuthenticationHandler(client));
 		
 		client.eventListener().add(new DefaultEventListener(client));
+		
+		connected(client);
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
@@ -93,6 +95,8 @@ public class DefaultGameService extends AbstractService implements GameService {
 		client.handler().onClosed();
 		
 		log.debug("{} is disconnected", session.getRemoteAddress());
+		
+		disconnected(client);
 	}
 
 	public void sessionIdle(IoSession session, IdleStatus status) throws Exception {

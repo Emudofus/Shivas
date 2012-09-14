@@ -5,7 +5,7 @@ import org.shivas.server.database.models.Account;
 import org.shivas.server.services.Service;
 import org.shivas.server.services.game.GameService;
 
-public interface LoginService extends Service {
+public interface LoginService extends Service<LoginClient> {
 
 	GameService game();
 	

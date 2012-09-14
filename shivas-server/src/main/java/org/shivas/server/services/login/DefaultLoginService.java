@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Maps;
 
 @Singleton
-public class DefaultLoginService extends AbstractService implements LoginService {
+public class DefaultLoginService extends AbstractService<LoginClient> implements LoginService {
 	
 	private static final Logger log = LoggerFactory.getLogger(DefaultLoginService.class);
 	private static final String CLIENT_TOKEN = "shivas.login.handler";
@@ -72,6 +72,8 @@ public class DefaultLoginService extends AbstractService implements LoginService
 		
 		DefaultLoginClient client = (DefaultLoginClient) session.getAttribute(CLIENT_TOKEN);
 		client.newHandler(new VersionHandler(client));
+		
+		connected(client);
 	}
 
 	public void sessionClosed(IoSession session) throws Exception {
@@ -79,6 +81,8 @@ public class DefaultLoginService extends AbstractService implements LoginService
 		client.handler().onClosed();
 		
 		log.debug("{} is disconnected", session.getRemoteAddress());
+		
+		disconnected(client);
 	}
 
 	public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
