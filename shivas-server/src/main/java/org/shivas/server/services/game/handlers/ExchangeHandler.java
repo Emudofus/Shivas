@@ -3,6 +3,8 @@ package org.shivas.server.services.game.handlers;
 import org.shivas.protocol.client.enums.TradeErrorEnum;
 import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
+import org.shivas.server.core.interactions.Acceptable;
+import org.shivas.server.core.interactions.Declinable;
 import org.shivas.server.core.interactions.InteractionType;
 import org.shivas.server.core.interactions.PlayerExchangeInvitation;
 import org.shivas.server.database.models.Player;
@@ -75,13 +77,17 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseAcceptMessage() throws Exception {
-		// TODO exchanges
+		client.interactions().removeIf(
+				Acceptable.class,
+				InteractionType.PLAYER_EXCHANGE_INVITATION
+		).accept();
 	}
 
 	private void parseQuitMessage() throws Exception {
 		client.interactions().removeIf(
+				Declinable.class,
 				InteractionType.PLAYER_EXCHANGE_INVITATION
-		).cancel();
+		).decline();
 	}
 
 }

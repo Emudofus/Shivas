@@ -79,12 +79,11 @@ public class InteractionList {
 		return clazz.cast(remove());
 	}
 	
-	@SuppressWarnings("unchecked")
-	public <T extends Interaction> T removeIf(InteractionType... types) {
+	public <T extends Interaction> T removeIf(Class<T> clazz, InteractionType... types) {
 		Interaction current = current();
 		for (InteractionType type : types) {
 			if (current.getInteractionType() == type) {
-				return (T) remove();
+				return clazz.cast(remove());
 			}
 		}
 		throw new ClassCastException();
