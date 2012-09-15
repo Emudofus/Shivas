@@ -34,6 +34,10 @@ public class ExchangeBag extends SimpleBag {
 		return this;
 	}
 	
+	public boolean hasEnoughKamas() {
+		return (owner.player().getBag().getKamas() - kamas) >= 0;
+	}
+	
 	public boolean isReady() {
 		return ready;
 	}

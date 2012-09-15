@@ -14,6 +14,7 @@ import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
 import org.shivas.server.core.interactions.LinkedInteraction;
 import org.shivas.server.core.items.ExchangeBag;
+import org.shivas.server.database.models.GameItem;
 import org.shivas.server.services.game.GameClient;
 
 import com.google.common.collect.Maps;
@@ -93,7 +94,7 @@ public class PlayerExchange extends AbstractInteraction implements LinkedInterac
 		ExchangeBag bag = bags.get(owner);
 		if (bag == null) throw new InteractionException("unknown GameClient");
 		
-		if (kamas > owner.player().getBag().getKamas()) {
+		if (!bag.hasEnoughKamas()) {
 			throw new InteractionException("you have not enough kamas to perform this request");
 		}
 		
@@ -101,6 +102,10 @@ public class PlayerExchange extends AbstractInteraction implements LinkedInterac
 		
 		owner.write(TradeGameMessageFormatter.tradeLocalSetKamasMessage(kamas));
 		other(owner).write(TradeGameMessageFormatter.tradeRemoteSetKamasMessage(kamas));
+	}
+	
+	public void addItem(GameClient owner, GameItem item, int quantity) {
+		
 	}
 
 }
