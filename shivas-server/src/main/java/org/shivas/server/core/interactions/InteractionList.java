@@ -1,5 +1,7 @@
 package org.shivas.server.core.interactions;
 
+import java.security.InvalidParameterException;
+import java.util.Iterator;
 import java.util.List;
 
 import org.shivas.server.core.events.EventDispatcher;
@@ -33,12 +35,33 @@ public class InteractionList {
 		return interactions.size();
 	}
 	
-	private void onAdded(Interaction interaction, boolean checkInvitation) {
+	private GameClient getOther(LinkedInteraction interaction) {
+		if (interaction.getSource() == client) {
+			return interaction.getTarget();
+		}
+		if (interaction.getTarget() == client) {
+			return interaction.getSource();
+		}
+		
+		throw new InvalidParameterException("owner is neither source nor target");
+	}
+	
+	private void onAdded(Interaction interaction, boolean checkLink) {
 		event.publish(new NewInteractionEvent(client, interaction));
 		
-		if (checkInvitation && interaction instanceof LinkedInteraction) {
-			InteractionList target = ((LinkedInteraction) interaction).getTarget().interactions();
-			target.onAdded(interaction, false);
+		if (checkLink && interaction instanceof LinkedInteraction) {
+			InteractionList other = getOther((LinkedInteraction) interaction).interactions();
+			
+			other.interactions.add(interaction);
+			other.onAdded(interaction, false);
+		}
+	}
+	
+	private void onRemoved(Interaction interaction) {
+		if (interaction instanceof LinkedInteraction) {
+			InteractionList other = getOther((LinkedInteraction) interaction).interactions();
+			
+			other.interactions.remove(interaction);
 		}
 	}
 	
@@ -66,11 +89,7 @@ public class InteractionList {
 	
 	public Interaction remove() {
 		Interaction interaction = interactions.remove(interactions.size() - 1);
-		
-		if (interaction instanceof LinkedInteraction) {
-			InteractionList target = ((LinkedInteraction) interaction).getTarget().interactions();
-			target.interactions.remove(interaction);
-		}
+		onRemoved(interaction);
 		
 		return interaction;
 	}
@@ -80,13 +99,20 @@ public class InteractionList {
 	}
 	
 	public <T extends Interaction> T removeIf(Class<T> clazz, InteractionType... types) {
-		Interaction current = current();
-		for (InteractionType type : types) {
-			if (current.getInteractionType() == type) {
-				return clazz.cast(remove());
+		Iterator<Interaction> it = interactions.iterator();
+		while (it.hasNext()) {
+			Interaction interaction = it.next();
+			for (InteractionType type : types) {
+				if (interaction.getInteractionType() == type) {
+					it.remove();
+					onRemoved(interaction);
+					
+					return clazz.cast(interaction);
+				}
 			}
 		}
-		throw new ClassCastException();
+
+		return null;
 	}
 	
 }
