@@ -48,8 +48,11 @@ public class PartyHandler extends AbstractBaseHandler<GameClient> {
 		}
 	}
 
-	private void parseAcceptInvitationMessage() throws InteractionException {
-		client.interactions().remove(PartyInvitation.class).accept();
+	private void parseAcceptInvitationMessage() throws Exception {
+		PartyInvitation invitation = client.interactions().remove(PartyInvitation.class);
+		assertTrue(invitation.getTarget() == client, "you can not accept your own invitation");
+		
+		invitation.accept();
 	}
 
 	private void parseInvitationMessage(String targetName) throws Exception {
