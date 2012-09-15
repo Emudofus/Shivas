@@ -3,6 +3,7 @@ package org.shivas.server.services.game.handlers;
 import org.shivas.protocol.client.enums.TradeErrorEnum;
 import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
+import org.shivas.server.core.exchanges.PlayerExchange;
 import org.shivas.server.core.interactions.Acceptable;
 import org.shivas.server.core.interactions.Declinable;
 import org.shivas.server.core.interactions.InteractionType;
@@ -33,6 +34,17 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 		switch (message.charAt(1)) {
 		case 'A':
 			parseAcceptMessage();
+			break;
+			
+		case 'M':
+			switch (message.charAt(2)) {
+			case 'G':
+				parseSetKamasMessage(Long.parseLong(message.substring(3)));
+				break;
+				
+			case 'O': // TODO exchanges
+				break;
+			}
 			break;
 		
 		case 'R':
@@ -90,6 +102,10 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 				InteractionType.PLAYER_EXCHANGE_INVITATION,
 				InteractionType.PLAYER_EXCHANGE
 		).decline();
+	}
+
+	private void parseSetKamasMessage(long kamas) throws Exception {
+		client.interactions().current(PlayerExchange.class).setKamas(client, kamas);
 	}
 
 }
