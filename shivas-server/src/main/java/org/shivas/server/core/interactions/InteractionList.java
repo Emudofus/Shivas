@@ -36,8 +36,8 @@ public class InteractionList {
 	private void onAdded(Interaction interaction, boolean checkInvitation) {
 		event.publish(new NewInteractionEvent(client, interaction));
 		
-		if (checkInvitation && interaction instanceof Invitation) {
-			InteractionList target = ((Invitation) interaction).getTarget().interactions();
+		if (checkInvitation && interaction instanceof LinkedInteraction) {
+			InteractionList target = ((LinkedInteraction) interaction).getTarget().interactions();
 			target.onAdded(interaction, false);
 		}
 	}
@@ -67,9 +67,9 @@ public class InteractionList {
 	public Interaction remove() {
 		Interaction interaction = interactions.remove(interactions.size() - 1);
 		
-		if (interaction instanceof Invitation) {
-			Invitation invitation = (Invitation) interaction;
-			invitation.getTarget().interactions().interactions.remove(interaction);
+		if (interaction instanceof LinkedInteraction) {
+			InteractionList target = ((LinkedInteraction) interaction).getTarget().interactions();
+			target.interactions.remove(interaction);
 		}
 		
 		return interaction;

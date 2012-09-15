@@ -2,7 +2,7 @@ package org.shivas.server.core.interactions;
 
 import org.shivas.server.services.game.GameClient;
 
-public abstract class Invitation extends AbstractInteraction implements Acceptable, Declinable {
+public abstract class Invitation extends AbstractInteraction implements LinkedInteraction, Acceptable, Declinable {
 	protected final GameClient source, target;
 	
 	public Invitation(GameClient source, GameClient target) {
@@ -10,10 +10,12 @@ public abstract class Invitation extends AbstractInteraction implements Acceptab
 		this.target = target;
 	}
 	
+	@Override
 	public GameClient getSource() {
 		return source;
 	}
 
+	@Override
 	public GameClient getTarget() {
 		return target;
 	}
