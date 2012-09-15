@@ -2,6 +2,7 @@ package org.shivas.server.core.interactions;
 
 import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
+import org.shivas.server.core.exchanges.PlayerExchange;
 import org.shivas.server.services.game.GameClient;
 
 public class PlayerExchangeInvitation extends Invitation {
@@ -29,7 +30,7 @@ public class PlayerExchangeInvitation extends Invitation {
 
 	@Override
 	public void accept() throws InteractionException {
-		// TODO exchanges
+		source.interactions().push(new PlayerExchange(source, target)).begin();
 	}
 
 	@Override

@@ -79,14 +79,16 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 	private void parseAcceptMessage() throws Exception {
 		client.interactions().removeIf(
 				Acceptable.class,
-				InteractionType.PLAYER_EXCHANGE_INVITATION
+				InteractionType.PLAYER_EXCHANGE_INVITATION,
+				InteractionType.PLAYER_EXCHANGE
 		).accept();
 	}
 
 	private void parseQuitMessage() throws Exception {
 		client.interactions().removeIf(
 				Declinable.class,
-				InteractionType.PLAYER_EXCHANGE_INVITATION
+				InteractionType.PLAYER_EXCHANGE_INVITATION,
+				InteractionType.PLAYER_EXCHANGE
 		).decline();
 	}
 
