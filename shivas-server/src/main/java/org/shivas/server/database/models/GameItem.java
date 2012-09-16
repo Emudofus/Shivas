@@ -27,6 +27,7 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	private Map<ItemEffectEnum, ItemEffect> effects;
 	private ItemPositionEnum position;
 	private int quantity;
+	private boolean cloned;
 	
 	public GameItem() {
 		position = ItemPositionEnum.NotEquiped;
@@ -131,6 +132,14 @@ public class GameItem implements Item, PersistableEntity<Long> {
 		this.quantity -= quantity;
 	}
 	
+	public boolean isCloned() {
+		return cloned;
+	}
+
+	public void setCloned(boolean cloned) {
+		this.cloned = cloned;
+	}
+
 	public void removeOne() {
 		minusQuantity(1);
 	}
@@ -149,7 +158,9 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	}
 	
 	public GameItem copy() {
-		return new GameItem(-1, template, owner, Collections2.transform(effects.values(), Converters.ITEMEFFECT_COPY), position, 0);
+		GameItem item = new GameItem(id, template, owner, Collections2.transform(effects.values(), Converters.ITEMEFFECT_COPY), position, 0);
+		item.setCloned(true);
+		return item;
 	}
 	
 	public BaseItemType toBaseItemType() {

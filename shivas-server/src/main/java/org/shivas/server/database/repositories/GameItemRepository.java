@@ -63,6 +63,13 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 	}
 
 	@Override
+	protected void onPersisted(GameItem entity) {
+		super.onPersisted(entity);
+		
+		entity.setCloned(false);
+	}
+
+	@Override
 	protected Query buildDeleteQuery(GameItem entity) {
 		Query query = delete.toQuery();
 		query.setParameter("id", entity.getId());
