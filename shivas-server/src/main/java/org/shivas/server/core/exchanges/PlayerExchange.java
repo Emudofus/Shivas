@@ -76,44 +76,60 @@ public class PlayerExchange extends AbstractInteraction implements LinkedInterac
         }
     }
 
-    protected void transfer() throws InteractionException {
-        for (ExchangeBag bag : bags.values()) {
-            GameClient client = bag.getOwner(),
-                       other  = other(client);
-            PlayerBag source = client.player().getBag(),
-                      target  = other.player().getBag();
+    protected void transferKamas(ExchangeBag first, ExchangeBag second) {
+        second.getOwner().player().getBag().plusKamas(first.getKamas());
+        first.getOwner().player().getBag().minusKamas(first.getKamas());
+        first.setKamas(0);
+    }
 
-            source.minusKamas(bag.getKamas());
-            target.plusKamas(bag.getKamas());
-            bag.setKamas(0);
+    protected void transferItems(ExchangeBag first, ExchangeBag second) {
+        PlayerBag firstPlayerBag = first.getOwner().player().getBag(),
+                  secondPlayerBag = second.getOwner().player().getBag();
 
-            other.write(other.player().getStats().packet());
+        for (GameItem item : first) {
+            GameItem original = first.getOwner().player().getBag().get(item.getId());
+            if (original.getQuantity() == 0) {
+                firstPlayerBag.delete(original);
 
-            for (GameItem item : bag) {
-                GameItem original = bag.getOwner().player().getBag().get(item.getId());
-                if (original.getQuantity() == 0) {
-                    client.write(ItemGameMessageFormatter.deleteMessage(original.getId()));
-
-                    source.delete(original);
-                } else {
-                    client.write(ItemGameMessageFormatter.quantityMessage(original.getId(), original.getQuantity()));
-                }
-
-                GameItem same = target.sameAs(item);
-                if (same != null) {
-                    same.plusQuantity(item.getQuantity());
-
-                    other.write(ItemGameMessageFormatter.quantityMessage(same.getId(), same.getQuantity()));
-                } else {
-                    target.persist(item);
-
-                    other.write(ItemGameMessageFormatter.addItemMessage(item.toBaseItemType()));
-                }
-                item.setQuantity(0);
+                first.getOwner().write(ItemGameMessageFormatter.deleteMessage(original.getId()));
+            } else {
+                first.getOwner().write(ItemGameMessageFormatter.quantityMessage(original.getId(), original.getQuantity()));
             }
 
-            other.write(ItemGameMessageFormatter.inventoryStatsMessage(other.player().getStats().pods()));
+            GameItem same = secondPlayerBag.sameAs(item);
+            if (same != null) {
+                same.plusQuantity(item.getQuantity());
+                item.setQuantity(0);
+
+                second.getOwner().write(ItemGameMessageFormatter.quantityMessage(same.getId(), same.getQuantity()));
+            } else {
+                secondPlayerBag.persist(item);
+
+                second.getOwner().write(ItemGameMessageFormatter.addItemMessage(item.toBaseItemType()));
+            }
         }
+    }
+
+    protected void transfer() throws InteractionException {
+        ExchangeBag first  = bags.get(source),
+                    second = bags.get(target);
+
+        transferKamas(first, second);
+        transferKamas(second, first);
+
+        source.write(source.player().getStats().packet());
+        target.write(target.player().getStats().packet());
+
+        transferItems(first, second);
+        transferItems(second, first);
+
+        source.write(ItemGameMessageFormatter.inventoryStatsMessage(source.player().getStats().pods()));
+        target.write(ItemGameMessageFormatter.inventoryStatsMessage(target.player().getStats().pods()));
+    }
+
+    protected void writeToAll(String message) {
+        source.write(message);
+        target.write(message);
     }
 
 	@Override
@@ -150,11 +166,6 @@ public class PlayerExchange extends AbstractInteraction implements LinkedInterac
         transfer();
 
         writeToAll(TradeGameMessageFormatter.tradeSuccessMessage());
-	}
-
-	protected void writeToAll(String message) {
-		source.write(message);
-		target.write(message);
 	}
 
 	@Override
