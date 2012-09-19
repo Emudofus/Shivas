@@ -33,48 +33,40 @@ public class TradeGameMessageFormatter {
         return "EV";
     }
 
-    public static String tradeLocalSetKamasMessage(long kamas) {
-        return "EMKG" + kamas;
-    }
-
-    public static String tradeRemoteSetKamasMessage(long kamas) {
-        return "EmKG" + kamas;
+    public static String tradeSetKamasMessage(long kamas, boolean local) {
+        return "E" + (local ? "M" : "m") + "KG" + kamas;
     }
 
     public static String tradeReadyMessage(boolean ready, long sourceId){
         return "EK" + (ready ? "1" : "0") + sourceId;
     }
 
-    public static String tradeLocalPutItemMessage(long itemId, int quantity){
-        return "EMKO+" + itemId + "|" + quantity;
-    }
-
-    public static String tradeRemotePutItemMessage(BaseItemType item){
-        StringBuilder sb = new StringBuilder().append("EmKO+");
+    public static String tradePutItemMessage(BaseItemType item, boolean local){
+        StringBuilder sb = new StringBuilder(local ? "EMKO+" : "EmKO+");
 
         sb.append(item.getId()).append('|');
-        sb.append(item.getQuantity()).append('|');
-        sb.append(item.getTemplateId()).append('|');
+        sb.append(item.getQuantity());
 
-        boolean first = true;
-        for (BaseItemEffectType effect : item.getEffects()){
-            if (first) first = false;
-            else sb.append(',');
+        if (!local) {
+            sb.append('|').append(item.getTemplateId());
+            sb.append('|');
 
-            sb.append(Integer.toHexString(effect.getEffect().value())).append('#');
-            sb.append(Integer.toHexString(effect.getBonus())).append('#');
-            sb.append("0#0#0d0+0");
+            boolean first = true;
+            for (BaseItemEffectType effect : item.getEffects()){
+                if (first) first = false;
+                else sb.append(',');
+
+                sb.append(Integer.toHexString(effect.getEffect().value())).append('#');
+                sb.append(Integer.toHexString(effect.getBonus())).append('#');
+                sb.append("0#0#0d0+0");
+            }
         }
 
         return sb.toString();
     }
 
-    public static String tradeLocalRemoveItemMessage(long itemId){
-        return "EMKO-" + itemId;
-    }
-
-    public static String tradeRemoteRemoveItemMessage(long itemId){
-        return "EmKO-" + itemId;
+    public static String tradeRemoveItemMessage(long itemId, boolean local){
+        return "E" + (local ? "M" : "m") + "KO-" + itemId;
     }
 
     public static String tradeSuccessMessage(){

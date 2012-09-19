@@ -4,12 +4,11 @@ import org.shivas.protocol.client.enums.TradeErrorEnum;
 import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
 import org.shivas.server.core.exchanges.PlayerExchange;
-import org.shivas.server.core.interactions.Acceptable;
-import org.shivas.server.core.interactions.Declinable;
-import org.shivas.server.core.interactions.InteractionType;
-import org.shivas.server.core.interactions.PlayerExchangeInvitation;
+import org.shivas.server.core.interactions.*;
+import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
+import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +34,10 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 		case 'A':
 			parseAcceptMessage();
 			break;
+
+        case 'K':
+            parseReadyMessage();
+            break;
 			
 		case 'M':
 			switch (message.charAt(2)) {
@@ -43,6 +46,17 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 				break;
 				
 			case 'O': // TODO exchanges
+                args = message.substring(4).split("\\|");
+                long itemId = Long.parseLong(args[0]);
+                int quantity = Integer.parseInt(args[1]);
+                switch (message.charAt(3)) {
+                case '+':
+                    parseAddItemMessage(itemId, quantity);
+                    break;
+                case '-':
+                    parseRemoveItemMessage(itemId, quantity);
+                    break;
+                }
 				break;
 			}
 			break;
@@ -62,7 +76,7 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 		}
 	}
 
-	private void parseRequestMessage(TradeTypeEnum type, Integer targetId, Short cellId) throws Exception {
+    private void parseRequestMessage(TradeTypeEnum type, Integer targetId, Short cellId) throws Exception {
 		switch (type) {
 		case PLAYER:
 			assertTrue(targetId != null, "no id has been given");
@@ -107,5 +121,23 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 	private void parseSetKamasMessage(long kamas) throws Exception {
 		client.interactions().current(PlayerExchange.class).setKamas(client, kamas);
 	}
+
+    private void parseAddItemMessage(long itemId, int quantity) throws CriticalException, InteractionException {
+        GameItem item = client.player().getBag().get(itemId);
+        assertFalse(item == null, "unknown item %d", itemId);
+
+        client.interactions().current(PlayerExchange.class).addItem(client, item, quantity);
+    }
+
+    private void parseRemoveItemMessage(long itemId, int quantity) throws CriticalException, InteractionException {
+        GameItem item = client.player().getBag().get(itemId);
+        assertFalse(item == null, "unknown item %d", itemId);
+
+        client.interactions().current(PlayerExchange.class).removeItem(client, item, quantity);
+    }
+
+    private void parseReadyMessage() throws InteractionException {
+        client.interactions().current(PlayerExchange.class).setReady(client);
+    }
 
 }

@@ -1,11 +1,7 @@
 package org.shivas.server.services.game;
 
 import org.shivas.data.entity.Waypoint;
-import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
-import org.shivas.protocol.client.formatters.GameMessageFormatter;
-import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
-import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
-import org.shivas.protocol.client.formatters.PartyGameMessageFormatter;
+import org.shivas.protocol.client.formatters.*;
 import org.shivas.server.core.channels.ChannelEvent;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
@@ -13,6 +9,10 @@ import org.shivas.server.core.events.events.ChangeMapEvent;
 import org.shivas.server.core.events.events.FriendConnectionEvent;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.events.events.SystemMessageEvent;
+import org.shivas.server.core.exchanges.ExchangeEvent;
+import org.shivas.server.core.exchanges.ItemExchangeEvent;
+import org.shivas.server.core.exchanges.KamasExchangeEvent;
+import org.shivas.server.core.exchanges.ReadyExchangeEvent;
 import org.shivas.server.core.interactions.Interaction;
 import org.shivas.server.core.interactions.RolePlayMovement;
 import org.shivas.server.core.maps.GameMap;
@@ -64,10 +64,14 @@ public class DefaultEventListener implements EventListener {
 		case CHANGE_MAP:
 			listenChangeMap((ChangeMapEvent) event);
 			break;
+
+        case EXCHANGE:
+            listenExchange((ExchangeEvent) event);
+            break;
 		}
 	}
 
-	private void listenAction(Interaction action) {
+    private void listenAction(Interaction action) {
 		switch (action.getInteractionType()) {
 		case MOVEMENT:
 			RolePlayMovement movement = (RolePlayMovement) action;
@@ -185,5 +189,32 @@ public class DefaultEventListener implements EventListener {
 		
 		// TODO party : refresh mini-map
 	}
+
+    private void listenExchange(ExchangeEvent event) {
+        boolean local = event.getSource() == client;
+
+        switch (event.getExchangeEventType()) {
+        case READY:
+            ReadyExchangeEvent readyExchangeEvent = (ReadyExchangeEvent) event;
+            client.write(TradeGameMessageFormatter.tradeReadyMessage(
+                    readyExchangeEvent.isReady(),
+                    readyExchangeEvent.getSource().player().getId()
+            ));
+            break;
+
+        case KAMAS:
+            client.write(TradeGameMessageFormatter.tradeSetKamasMessage(((KamasExchangeEvent) event).getKamas(), local));
+            break;
+
+        case UPDATE_ITEM:
+        case ADD_ITEM:
+            client.write(TradeGameMessageFormatter.tradePutItemMessage(((ItemExchangeEvent) event).getItem().toBaseItemType(), local));
+            break;
+
+        case REMOVE_ITEM:
+            client.write(TradeGameMessageFormatter.tradeRemoveItemMessage(((ItemExchangeEvent) event).getItem().getId(), local));
+            break;
+        }
+    }
 
 }

@@ -12,6 +12,10 @@ public class ExchangeBag extends SimpleBag {
 		this.owner = owner;
 	}
 
+    public boolean isEmpty() {
+        return count() <= 0 && kamas <= 0;
+    }
+
 	public GameClient getOwner() {
 		return owner;
 	}
@@ -45,4 +49,8 @@ public class ExchangeBag extends SimpleBag {
 	public void setReady(boolean ready) {
 		this.ready = ready;
 	}
+
+    public void setReady() {
+        ready = !ready;
+    }
 }

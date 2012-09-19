@@ -10,4 +10,5 @@ public enum EventType {
 	FRIEND_CONNECTION,
 	PARTY,
 	CHANGE_MAP,
+    EXCHANGE,
 }
