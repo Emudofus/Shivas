@@ -48,7 +48,8 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 			case 'O': // TODO exchanges
                 args = message.substring(4).split("\\|");
                 long itemId = Long.parseLong(args[0]);
-                int quantity = Integer.parseInt(args[1]);
+                int quantity = Math.min(Integer.parseInt(args[1]), 1);
+
                 switch (message.charAt(3)) {
                 case '+':
                     parseAddItemMessage(itemId, quantity);
