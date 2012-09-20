@@ -1,9 +1,6 @@
 package org.shivas.server.core.exchanges;
 
-import java.security.InvalidParameterException;
-import java.util.Arrays;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
@@ -11,8 +8,6 @@ import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.interactions.AbstractInteraction;
-import org.shivas.server.core.interactions.Acceptable;
-import org.shivas.server.core.interactions.Declinable;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
 import org.shivas.server.core.interactions.LinkedInteraction;
@@ -21,9 +16,10 @@ import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.services.game.GameClient;
 
-import com.google.common.collect.Maps;
+import java.security.InvalidParameterException;
+import java.util.Map;
 
-public class PlayerExchange extends AbstractInteraction implements LinkedInteraction, Acceptable, Declinable {
+public class PlayerExchange extends AbstractInteraction implements LinkedInteraction {
 	
 	private final GameClient source, target;
 	private final Map<GameClient, ExchangeBag> bags = Maps.newIdentityHashMap();
@@ -158,7 +154,12 @@ public class PlayerExchange extends AbstractInteraction implements LinkedInterac
 
 	@Override
 	public void cancel() throws InteractionException {
-		decline();
+        writeToAll(TradeGameMessageFormatter.tradeQuitMessage());
+
+        clearBags();
+
+        event.unsubscribe(source.eventListener());
+        event.unsubscribe(target.eventListener());
 	}
 
 	@Override
@@ -174,21 +175,6 @@ public class PlayerExchange extends AbstractInteraction implements LinkedInterac
 		
 		event.subscribe(source.eventListener());
 		event.subscribe(target.eventListener());
-	}
-
-	@Override
-	public void decline() throws InteractionException {
-		writeToAll(TradeGameMessageFormatter.tradeQuitMessage());
-
-        clearBags();
-		
-		event.unsubscribe(source.eventListener());
-		event.unsubscribe(target.eventListener());
-	}
-
-	@Override
-	public void accept() throws InteractionException {
-        end();
 	}
 
     public void setReady(GameClient owner) throws InteractionException {

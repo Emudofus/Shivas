@@ -66,7 +66,7 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 			args = message.substring(2).split("\\|");
 			parseRequestMessage(
 					TradeTypeEnum.valueOf(Integer.parseInt(args[0])),
-					args[1].length() > 0 ? Integer.parseInt(args[1]) : null,
+					args.length > 1 && args[1].length() > 0 ? Integer.parseInt(args[1]) : null,
 					args.length > 2 && args[2].length() > 0 ? Short.parseShort(args[2]) : null
 			);
 			break;
@@ -83,6 +83,10 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 			assertTrue(targetId != null, "no id has been given");
 			parsePlayerInvitationMessage(targetId);
 			break;
+
+        case STORE_MANAGEMENT:
+            parseStoreManagementMessage();
+            break;
 			
 		default:
 			log.warn("unknown trade type {}", type.name());
@@ -90,7 +94,7 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 		}
 	}
 
-	private void parsePlayerInvitationMessage(int targetId) throws Exception {
+    private void parsePlayerInvitationMessage(int targetId) throws Exception {
 		Player target = client.service().repositories().players().find(targetId);
 		assertTrue(target != null, "unknown player {}", targetId);
 		
@@ -104,19 +108,11 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseAcceptMessage() throws Exception {
-		client.interactions().removeIf(
-				Acceptable.class,
-				InteractionType.PLAYER_EXCHANGE_INVITATION,
-				InteractionType.PLAYER_EXCHANGE
-		).accept();
+        client.interactions().remove(PlayerExchangeInvitation.class).accept();
 	}
 
 	private void parseQuitMessage() throws Exception {
-		client.interactions().removeIf(
-				Declinable.class,
-				InteractionType.PLAYER_EXCHANGE_INVITATION,
-				InteractionType.PLAYER_EXCHANGE
-		).decline();
+        client.interactions().remove().cancel();
 	}
 
 	private void parseSetKamasMessage(long kamas) throws Exception {
@@ -139,6 +135,10 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 
     private void parseReadyMessage() throws InteractionException {
         client.interactions().current(PlayerExchange.class).setReady(client);
+    }
+
+    private void parseStoreManagementMessage() {
+
     }
 
 }
