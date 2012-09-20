@@ -5,6 +5,7 @@ import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
 import org.shivas.server.core.exchanges.PlayerExchange;
 import org.shivas.server.core.interactions.*;
+import org.shivas.server.core.stores.StoreManagementInteraction;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
@@ -137,8 +138,8 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
         client.interactions().current(PlayerExchange.class).setReady(client);
     }
 
-    private void parseStoreManagementMessage() {
-
+    private void parseStoreManagementMessage() throws InteractionException {
+        client.interactions().push(new StoreManagementInteraction(client)).begin();
     }
 
 }
