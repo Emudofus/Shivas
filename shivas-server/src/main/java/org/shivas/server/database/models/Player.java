@@ -1,7 +1,5 @@
 package org.shivas.server.database.models;
 
-import java.io.Serializable;
-
 import org.atomium.PersistableEntity;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.entity.Breed;
@@ -23,8 +21,11 @@ import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.spells.SpellList;
 import org.shivas.server.core.statistics.PlayerStatistics;
+import org.shivas.server.core.stores.PlayerStore;
 import org.shivas.server.core.waypoints.WaypointList;
 import org.shivas.server.services.game.GameClient;
+
+import java.io.Serializable;
 
 public class Player implements Serializable, PersistableEntity<Integer>, GameActor {
 
@@ -42,6 +43,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private PlayerBag bag;
 	private SpellList spells;
 	private WaypointList waypoints;
+    private PlayerStore store;
 	
 	private final EventDispatcher event = EventDispatchers.create();
 	
@@ -238,7 +240,15 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		this.waypoints = waypoints;
 	}
 
-	public EventDispatcher getEvent() {
+    public PlayerStore getStore() {
+        return store;
+    }
+
+    public void setStore(PlayerStore store) {
+        this.store = store;
+    }
+
+    public EventDispatcher getEvent() {
 		return event;
 	}
 

@@ -1,11 +1,5 @@
 package org.shivas.server.database.repositories;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.atomium.EntityManager;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
@@ -26,9 +20,16 @@ import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.spells.SpellList;
 import org.shivas.server.core.statistics.PlayerStatistics;
+import org.shivas.server.core.stores.PlayerStore;
 import org.shivas.server.core.waypoints.WaypointList;
 import org.shivas.server.database.RepositoryContainer;
-import org.shivas.server.database.models.*;
+import org.shivas.server.database.models.Player;
+import org.shivas.server.database.models.Spell;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Singleton
 public class PlayerRepository extends AbstractEntityRepository<Integer, Player> {
@@ -115,6 +116,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		player.setSpells(new SpellList(player, repositories.spells()).fill());
 		
 		player.setWaypoints(new WaypointList(player));
+
+        player.setStore(new PlayerStore(player, repositories.storedItems()));
 		
 		if (config.addAllWaypoints()) {
 			for (Waypoint waypoint : ctner.get(Waypoint.class).all()) {

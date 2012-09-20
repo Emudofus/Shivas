@@ -1,5 +1,6 @@
 package org.shivas.server.utils;
 
+import com.google.common.base.Function;
 import org.shivas.common.random.Dice;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.data.entity.ConstantItemEffect;
@@ -7,22 +8,9 @@ import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.data.entity.WeaponItemEffect;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
-import org.shivas.protocol.client.types.BaseCharacterType;
-import org.shivas.protocol.client.types.BaseContactType;
-import org.shivas.protocol.client.types.BaseGiftType;
-import org.shivas.protocol.client.types.BaseItemEffectType;
-import org.shivas.protocol.client.types.BaseItemType;
-import org.shivas.protocol.client.types.BasePartyMemberType;
-import org.shivas.protocol.client.types.BaseRolePlayActorType;
-import org.shivas.protocol.client.types.BaseSpellType;
+import org.shivas.protocol.client.types.*;
 import org.shivas.server.core.GameActor;
-import org.shivas.server.database.models.Contact;
-import org.shivas.server.database.models.GameItem;
-import org.shivas.server.database.models.Gift;
-import org.shivas.server.database.models.Player;
-import org.shivas.server.database.models.Spell;
-
-import com.google.common.base.Function;
+import org.shivas.server.database.models.*;
 
 public class Converters {
 	private Converters() {}
@@ -146,4 +134,10 @@ public class Converters {
 			return input.getId();
 		}
 	};
+
+    public static Function<StoredItem, StoreItemType> STOREDITEM_TO_STOREITEMTYPE = new Function<StoredItem, StoreItemType>() {
+        public StoreItemType apply(StoredItem input) {
+            return input.toStoreItemType();
+        }
+    };
 }

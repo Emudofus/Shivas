@@ -13,4 +13,5 @@ public interface RepositoryContainer {
 	SpellRepository spells();
 	ContactRepository contacts();
 	GiftRepository gifts();
+    StoredItemRepository storedItems();
 }
