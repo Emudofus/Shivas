@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2012-09-12 11:30:04
+Date: 2012-09-20 19:04:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -173,4 +173,20 @@ CREATE TABLE `spells` (
 
 -- ----------------------------
 -- Records of spells
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `stored_items`
+-- ----------------------------
+DROP TABLE IF EXISTS `stored_items`;
+CREATE TABLE `stored_items` (
+  `id` bigint(20) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_stored_items_id` FOREIGN KEY (`id`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of stored_items
 -- ----------------------------
