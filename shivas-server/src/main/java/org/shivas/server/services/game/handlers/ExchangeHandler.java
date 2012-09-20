@@ -42,7 +42,7 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 		case 'M':
 			switch (message.charAt(2)) {
 			case 'G':
-				parseSetKamasMessage(Long.parseLong(message.substring(3)));
+				parseSetKamasMessage(Math.min(Long.parseLong(message.substring(3)), 0));
 				break;
 				
 			case 'O': // TODO exchanges
@@ -81,7 +81,7 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 		switch (type) {
 		case PLAYER:
 			assertTrue(targetId != null, "no id has been given");
-			parsePlayerInvitationMessage(targetId.intValue());
+			parsePlayerInvitationMessage(targetId);
 			break;
 			
 		default:
