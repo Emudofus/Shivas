@@ -7,7 +7,6 @@ import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.exchanges.PlayerExchange;
-import org.shivas.server.core.interactions.Interaction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
 import org.shivas.server.core.interactions.PlayerExchangeInvitation;
@@ -159,7 +158,12 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parseQuitMessage() throws Exception {
-        client.interactions().remove().cancel();
+        client.interactions().removeIf(
+                InteractionType.PLAYER_EXCHANGE_INVITATION,
+                InteractionType.PLAYER_EXCHANGE,
+                InteractionType.STORE_MANAGEMENT,
+                InteractionType.STORE
+        ).cancel();
 	}
 
 	private void parseSetKamasMessage(long kamas) throws Exception {
@@ -210,14 +214,7 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
     }
 
     private void parseEnableStoreMessage() throws InteractionException, CriticalException {
-        if (client.isBusy()) {
-            Interaction current = client.interactions().removeIf(InteractionType.STORE_MANAGEMENT);
-            if (current == null) {
-                throw new CriticalException("you are busy but you are not managing your store");
-            }
-
-            current.end();
-        }
+        assertFalse(client.isBusy(), "you are busy");
 
         GameMap map = client.player().getLocation().getMap();
 
