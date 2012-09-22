@@ -44,6 +44,16 @@ public class StoredItem implements PersistableEntity<Long> {
         this.quantity = quantity;
     }
 
+    public StoredItem plusQuantity(int quantity) {
+        this.quantity += quantity;
+        return this;
+    }
+
+    public StoredItem minusQuantity(int quantity) {
+        this.quantity -= quantity;
+        return this;
+    }
+
     public long getPrice() {
         return price;
     }

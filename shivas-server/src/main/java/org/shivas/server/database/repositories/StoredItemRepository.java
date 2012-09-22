@@ -48,19 +48,22 @@ public class StoredItemRepository extends AbstractEntityRepository<Long, StoredI
     }
 
     protected Query bindValues(Query query, StoredItem entity) {
-        return query.setParameter("id", entity.getId())
-                    .setParameter("quantity", entity.getQuantity())
-                    .setParameter("price", entity.getPrice());
+        query.setParameter("id", entity.getId());
+        query.setParameter("quantity", entity.getQuantity());
+        query.setParameter("price", entity.getPrice());
+        return query;
     }
 
     @Override
     protected Query buildPersistQuery(StoredItem entity) {
-        return bindValues(persistQuery.toQuery(), entity);
+        Query query = bindValues(persistQuery.toQuery(), entity);
+        return query;
     }
 
     @Override
     protected Query buildSaveQuery(StoredItem entity) {
-        return bindValues(saveQuery.toQuery(), entity);
+        Query query = bindValues(saveQuery.toQuery(), entity);
+        return query;
     }
 
     @Override

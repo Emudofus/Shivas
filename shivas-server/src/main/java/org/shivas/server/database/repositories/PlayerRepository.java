@@ -287,6 +287,8 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				new WaypointList(player),
 				result.getString("waypoints")
 		));
+
+        player.setStore(new PlayerStore(player, repositories.storedItems()));
 		
 		player.getOwner().getPlayers().add(player);
 		

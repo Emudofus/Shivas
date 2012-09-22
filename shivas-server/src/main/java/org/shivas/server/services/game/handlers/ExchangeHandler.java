@@ -8,6 +8,7 @@ import org.shivas.server.core.interactions.*;
 import org.shivas.server.core.stores.StoreManagementInteraction;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
+import org.shivas.server.database.models.StoredItem;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
@@ -43,20 +44,35 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 		case 'M':
 			switch (message.charAt(2)) {
 			case 'G':
-				parseSetKamasMessage(Math.min(Long.parseLong(message.substring(3)), 0));
+				parseSetKamasMessage(Math.max(Long.parseLong(message.substring(3)), 0));
 				break;
 				
-			case 'O': // TODO exchanges
+			case 'O':
                 args = message.substring(4).split("\\|");
                 long itemId = Long.parseLong(args[0]);
-                int quantity = Math.min(Integer.parseInt(args[1]), 1);
+                int quantity = Math.max(Integer.parseInt(args[1]), 0);
 
                 switch (message.charAt(3)) {
                 case '+':
-                    parseAddItemMessage(itemId, quantity);
+                    switch (client.interactions().current().getInteractionType()) {
+                    case PLAYER_EXCHANGE:
+                        parsePlayerExchangeAddItemMessage(itemId, quantity);
+                        break;
+                    case STORE_MANAGEMENT:
+                        if (quantity > 0) parseStoreManagementAddMessage(itemId, quantity, Long.parseLong(args[2]));
+                        else parseStoreManagementUpdateMessage(itemId, Long.parseLong(args[2]));
+                        break;
+                    }
                     break;
                 case '-':
-                    parseRemoveItemMessage(itemId, quantity);
+                    switch (client.interactions().current().getInteractionType()) {
+                    case PLAYER_EXCHANGE:
+                        parsePlayerExchangeRemoveItemMessage(itemId, quantity);
+                        break;
+                    case STORE_MANAGEMENT:
+                        parseStoreManagementRemoveMessage(itemId);
+                        break;
+                    }
                     break;
                 }
 				break;
@@ -120,14 +136,14 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 		client.interactions().current(PlayerExchange.class).setKamas(client, kamas);
 	}
 
-    private void parseAddItemMessage(long itemId, int quantity) throws CriticalException, InteractionException {
+    private void parsePlayerExchangeAddItemMessage(long itemId, int quantity) throws CriticalException, InteractionException {
         GameItem item = client.player().getBag().get(itemId);
         assertFalse(item == null, "unknown item %d", itemId);
 
         client.interactions().current(PlayerExchange.class).addItem(client, item, quantity);
     }
 
-    private void parseRemoveItemMessage(long itemId, int quantity) throws CriticalException, InteractionException {
+    private void parsePlayerExchangeRemoveItemMessage(long itemId, int quantity) throws CriticalException, InteractionException {
         GameItem item = client.player().getBag().get(itemId);
         assertFalse(item == null, "unknown item %d", itemId);
 
@@ -140,6 +156,27 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 
     private void parseStoreManagementMessage() throws InteractionException {
         client.interactions().push(new StoreManagementInteraction(client)).begin();
+    }
+
+    private void parseStoreManagementAddMessage(long itemId, int quantity, long price) throws CriticalException, InteractionException {
+        GameItem item = client.player().getBag().get(itemId);
+        assertFalse(item == null, "unknown item %d", itemId);
+
+        client.interactions().current(StoreManagementInteraction.class).add(item,  quantity, price);
+    }
+
+    private void parseStoreManagementUpdateMessage(long itemId, long price) throws CriticalException, InteractionException {
+        StoredItem stored = client.player().getStore().get(itemId);
+        assertFalse(stored == null, "unknown item %d", itemId);
+
+        client.interactions().current(StoreManagementInteraction.class).update(stored, price);
+    }
+
+    private void parseStoreManagementRemoveMessage(long itemId) throws CriticalException, InteractionException {
+        StoredItem stored = client.player().getStore().get(itemId);
+        assertFalse(stored == null, "unknown item %d", itemId);
+
+        client.interactions().current(StoreManagementInteraction.class).remove(stored);
     }
 
 }

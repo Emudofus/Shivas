@@ -1,12 +1,5 @@
 package org.shivas.server.database.repositories;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collection;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.atomium.EntityManager;
 import org.atomium.repository.BaseEntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
@@ -22,6 +15,12 @@ import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.utils.Converters;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collection;
 
 @Singleton
 public class GameItemRepository extends AbstractEntityRepository<Long, GameItem> {
@@ -119,7 +118,9 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 				result.getInt("quantity")
 		);
 
-		item.getOwner().getBag().add(item);
+        if (item.getQuantity() > 0) {
+            item.getOwner().getBag().add(item);
+        }
 		
 		return item;
 	}

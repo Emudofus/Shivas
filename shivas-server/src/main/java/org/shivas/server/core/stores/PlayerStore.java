@@ -28,6 +28,10 @@ public class PlayerStore implements Iterable<StoredItem> {
         this.repo = repo;
     }
 
+    public StoredItem get(long itemId) {
+        return items.get(itemId);
+    }
+
     public void add(StoredItem item) {
         items.put(item.getId(), item);
     }
