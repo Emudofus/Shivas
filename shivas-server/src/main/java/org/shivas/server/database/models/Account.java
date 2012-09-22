@@ -1,7 +1,5 @@
 package org.shivas.server.database.models;
 
-import java.io.Serializable;
-
 import org.atomium.LazyReference;
 import org.atomium.util.Entity;
 import org.joda.time.DateTime;
@@ -10,6 +8,9 @@ import org.shivas.server.core.channels.ChannelList;
 import org.shivas.server.core.contacts.ContactList;
 import org.shivas.server.core.gifts.GiftList;
 import org.shivas.server.core.players.PlayerList;
+import org.shivas.server.core.stores.PlayerStore;
+
+import java.io.Serializable;
 
 public class Account implements Serializable, Entity<Integer> {
 	
@@ -38,6 +39,7 @@ public class Account implements Serializable, Entity<Integer> {
 	private GiftList gifts;
 	
 	private Player currentPlayer;
+    private PlayerStore currentStore;
 
 	public Account(int id, long version, String name, String password, String salt,
 			String nickname, String secretQuestion, String secretAnswer,
@@ -358,7 +360,15 @@ public class Account implements Serializable, Entity<Integer> {
 		this.currentPlayer = currentPlayer;
 	}
 
-	public LazyReference<Integer, Account> toReference() {
+    public PlayerStore getCurrentStore() {
+        return currentStore;
+    }
+
+    public void setCurrentStore(PlayerStore currentStore) {
+        this.currentStore = currentStore;
+    }
+
+    public LazyReference<Integer, Account> toReference() {
 		return new LazyReference<Integer, Account>(this);
 	}
 

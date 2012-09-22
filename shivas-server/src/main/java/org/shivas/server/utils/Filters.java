@@ -1,9 +1,10 @@
 package org.shivas.server.utils;
 
+import com.google.common.base.Predicate;
+import org.shivas.server.core.GameActor;
+import org.shivas.server.core.stores.PlayerStore;
 import org.shivas.server.database.models.Contact;
 import org.shivas.server.database.models.GameItem;
-
-import com.google.common.base.Predicate;
 
 public final class Filters {
 	private Filters() {}
@@ -31,4 +32,10 @@ public final class Filters {
 						input.getType() == Contact.Type.ENNEMY;
 		}
 	};
+
+    public static Predicate<GameActor> STOREACTOR_FILTER = new Predicate<GameActor>() {
+        public boolean apply(GameActor input) {
+            return input instanceof PlayerStore;
+        }
+    };
 }

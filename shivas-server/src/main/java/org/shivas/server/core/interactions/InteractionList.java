@@ -1,16 +1,15 @@
 package org.shivas.server.core.interactions;
 
-import java.security.InvalidParameterException;
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.events.events.NewInteractionEvent;
 import org.shivas.server.services.game.GameClient;
 
-import com.google.common.collect.Lists;
+import java.security.InvalidParameterException;
+import java.util.Iterator;
+import java.util.List;
 
 public class InteractionList {
 	
@@ -97,22 +96,27 @@ public class InteractionList {
 	public <T extends Interaction> T remove(Class<T> clazz) {
 		return clazz.cast(remove());
 	}
-	
-	public <T extends Interaction> T removeIf(Class<T> clazz, InteractionType... types) {
-		Iterator<Interaction> it = interactions.iterator();
-		while (it.hasNext()) {
-			Interaction interaction = it.next();
-			for (InteractionType type : types) {
-				if (interaction.getInteractionType() == type) {
-					it.remove();
-					onRemoved(interaction);
-					
-					return clazz.cast(interaction);
-				}
-			}
-		}
 
-		return null;
-	}
+    public Interaction removeIf(InteractionType... types) {
+        Iterator<Interaction> it = interactions.iterator();
+        while (it.hasNext()) {
+            Interaction interaction = it.next();
+            for (InteractionType type : types) {
+                if (interaction.getInteractionType() == type) {
+                    it.remove();
+                    onRemoved(interaction);
+
+                    return interaction;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public <T extends Interaction> T removeIf(Class<T> clazz, InteractionType... types) {
+        Interaction interaction = removeIf(types);
+        return interaction != null ? clazz.cast(interaction) : null;
+    }
 	
 }

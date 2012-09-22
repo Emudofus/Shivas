@@ -2,9 +2,17 @@ package org.shivas.server.services.game.handlers;
 
 import org.shivas.protocol.client.enums.TradeErrorEnum;
 import org.shivas.protocol.client.enums.TradeTypeEnum;
+import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
+import org.shivas.server.core.GameActor;
 import org.shivas.server.core.exchanges.PlayerExchange;
-import org.shivas.server.core.interactions.*;
+import org.shivas.server.core.interactions.Interaction;
+import org.shivas.server.core.interactions.InteractionException;
+import org.shivas.server.core.interactions.InteractionType;
+import org.shivas.server.core.interactions.PlayerExchangeInvitation;
+import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.core.stores.PlayerStore;
+import org.shivas.server.core.stores.StoreInteraction;
 import org.shivas.server.core.stores.StoreManagementInteraction;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
@@ -78,6 +86,10 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 				break;
 			}
 			break;
+
+        case 'q':
+            parseEnableStoreMessage();
+            break;
 		
 		case 'R':
 			args = message.substring(2).split("\\|");
@@ -103,6 +115,12 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 
         case STORE_MANAGEMENT:
             parseStoreManagementMessage();
+            break;
+
+        case STORE:
+            assertTrue(targetId != null, "no id has been given");
+            assertTrue(cellId != null, "no cellid has been given");
+            parseViewStoreMessage(targetId);
             break;
 			
 		default:
@@ -162,7 +180,7 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
         GameItem item = client.player().getBag().get(itemId);
         assertFalse(item == null, "unknown item %d", itemId);
 
-        client.interactions().current(StoreManagementInteraction.class).add(item,  quantity, price);
+        client.interactions().current(StoreManagementInteraction.class).add(item, quantity, price);
     }
 
     private void parseStoreManagementUpdateMessage(long itemId, long price) throws CriticalException, InteractionException {
@@ -177,6 +195,43 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
         assertFalse(stored == null, "unknown item %d", itemId);
 
         client.interactions().current(StoreManagementInteraction.class).remove(stored);
+    }
+
+    private void parseEnableStoreMessage() throws InteractionException, CriticalException {
+        if (client.isBusy()) {
+            Interaction current = client.interactions().removeIf(InteractionType.STORE_MANAGEMENT);
+            if (current == null) {
+                throw new CriticalException("you are busy but you are not managing your store");
+            }
+
+            current.end();
+        }
+
+        GameMap map = client.player().getLocation().getMap();
+
+        if (client.player().getStore().isEmpty()) {
+            client.write(InfoGameMessageFormatter.emptyStoreMessage());
+        } else if (!map.hasAvailableStorePlaces()) {
+            client.write(InfoGameMessageFormatter.notEnoughStorePlacesMessage(GameMap.MAX_STORE_PER_MAP));
+        } else {
+            PlayerStore store = client.player().getStore();
+            client.account().setCurrentStore(store);
+            map.enter(store);
+
+            client.kick();
+        }
+    }
+
+    private void parseViewStoreMessage(int targetId) throws CriticalException, InteractionException {
+        GameMap map = client.player().getLocation().getMap();
+
+        GameActor actor = map.get(targetId);
+        assertTrue(actor != null, "there is no store %d on this map %d", targetId, map.getId());
+        assertTrue(actor instanceof PlayerStore, "actor %d is not a store", targetId);
+
+        PlayerStore store = (PlayerStore) actor;
+
+        client.interactions().push(new StoreInteraction(client, store)).begin();
     }
 
 }

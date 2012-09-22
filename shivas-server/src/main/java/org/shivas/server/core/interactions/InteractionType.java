@@ -7,4 +7,5 @@ public enum InteractionType {
 	PLAYER_EXCHANGE_INVITATION,
 	PLAYER_EXCHANGE,
     STORE_MANAGEMENT,
+    STORE,
 }
