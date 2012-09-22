@@ -305,10 +305,6 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		return true;
 	}
 
-    public StoreActor toStoreActor() {
-        return new StoreActor(this);
-    }
-
 	public BaseCharacterType toBaseCharacterType() {
 		return new BaseCharacterType(
 				id,
@@ -319,7 +315,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 				look.colors().second(),
 				look.colors().third(),
 				look.accessories(),
-				owner.getCurrentStore() != null && owner.getCurrentStore().getPlayer() == this
+				owner.getCurrentStore() == store
 		);
 	}
 	

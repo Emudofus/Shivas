@@ -45,6 +45,11 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 			parseAcceptMessage();
 			break;
 
+        case 'B':
+            args = message.substring(2).split("\\|");
+            parseBuyMessage(Long.parseLong(args[0]), Math.max(Integer.parseInt(args[1]), 0));
+            break;
+
         case 'K':
             parseReadyMessage();
             break;
@@ -232,6 +237,10 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
         PlayerStore store = (PlayerStore) actor;
 
         client.interactions().push(new StoreInteraction(client, store)).begin();
+    }
+
+    private void parseBuyMessage(long itemId, int quantity) throws InteractionException {
+        client.interactions().current(StoreInteraction.class).buy(itemId, quantity);
     }
 
 }

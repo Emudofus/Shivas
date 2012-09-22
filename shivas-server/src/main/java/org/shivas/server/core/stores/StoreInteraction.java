@@ -1,10 +1,14 @@
 package org.shivas.server.core.stores;
 
 import org.shivas.protocol.client.enums.TradeTypeEnum;
+import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
+import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
 import org.shivas.server.core.interactions.AbstractInteraction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
+import org.shivas.server.database.models.GameItem;
+import org.shivas.server.database.models.StoredItem;
 import org.shivas.server.services.game.GameClient;
 
 /**
@@ -29,6 +33,7 @@ public class StoreInteraction extends AbstractInteraction {
 
     @Override
     protected void internalEnd() throws InteractionException {
+        client.write(TradeGameMessageFormatter.tradeQuitMessage());
     }
 
     @Override
@@ -39,5 +44,42 @@ public class StoreInteraction extends AbstractInteraction {
 
     @Override
     public void cancel() throws InteractionException {
+        internalEnd();
+    }
+
+    public void buy(long itemId, int quantity) throws InteractionException {
+        StoredItem stored = store.get(itemId);
+        if (stored == null) {
+            throw new InteractionException("unknown item " + itemId);
+        }
+        if (stored.getQuantity() < quantity) {
+            throw new InteractionException("not enough quantity");
+        }
+
+        long price = stored.getPrice() * quantity;
+
+        if (price > client.player().getBag().getKamas()) {
+            client.write(InfoGameMessageFormatter.notEnoughKamasMessage());
+        } else {
+            client.player().getBag().minusKamas(price);
+            store.plusEarnedKamas(price);
+            stored.minusQuantity(quantity);
+
+            GameItem same = client.player().getBag().sameAs(stored.getItem());
+            if (same != null) {
+                same.plusQuantity(quantity);
+                client.write(ItemGameMessageFormatter.quantityMessage(same.getId(), same.getQuantity()));
+            } else {
+                GameItem copy = stored.getItem().copy();
+                copy.setQuantity(quantity);
+
+                client.player().getBag().persist(copy);
+                client.write(ItemGameMessageFormatter.addItemMessage(copy.toBaseItemType()));
+            }
+
+            client.write(TradeGameMessageFormatter.buySuccessMessage());
+            client.write(client.player().getStats().packet());
+            client.write(TradeGameMessageFormatter.storedItemsListMessage(store.toStoreItemType()));
+        }
     }
 }

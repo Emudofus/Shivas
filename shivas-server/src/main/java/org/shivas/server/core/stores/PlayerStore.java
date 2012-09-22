@@ -30,6 +30,7 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
     private final Map<Long, StoredItem> items = Maps.newHashMap();
 
     private int id;
+    private long earnedKamas;
 
     public PlayerStore(Player owner, EntityRepository<Long, StoredItem> repo) {
         this.owner = owner;
@@ -69,6 +70,24 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
         if (remove(item)) {
             repo.deleteLater(item);
         }
+    }
+
+    public long getEarnedKamas() {
+        return earnedKamas;
+    }
+
+    public void setEarnedKamas(long earnedKamas) {
+        this.earnedKamas = earnedKamas;
+    }
+
+    public PlayerStore plusEarnedKamas(long earnedKamas) {
+        this.earnedKamas += earnedKamas;
+        return this;
+    }
+
+    public PlayerStore minusEarnedKamas(long earnedKamas) {
+        this.earnedKamas -= earnedKamas;
+        return this;
     }
 
     @Override
