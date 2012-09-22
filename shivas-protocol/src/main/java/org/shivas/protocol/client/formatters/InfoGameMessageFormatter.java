@@ -118,4 +118,8 @@ public class InfoGameMessageFormatter {
     public static String genericInfoMessage(InfoTypeEnum type){
         return "Im" + type.value();
     }
+
+    public static String earnedKamasMessage(long kamas) {
+        return "Im045;" + kamas;
+    }
 }
