@@ -1,7 +1,7 @@
 package org.shivas.server.database.repositories;
 
 import org.atomium.EntityManager;
-import org.atomium.repository.BaseEntityRepository;
+import org.atomium.repository.EntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.EmptyPrimaryKeyGenerator;
 import org.atomium.util.query.Op;
@@ -25,13 +25,13 @@ import java.sql.SQLException;
 public class StoredItemRepository extends AbstractEntityRepository<Long, StoredItem> {
     private static final String TABLE_NAME = "stored_items";
 
-    private final BaseEntityRepository<Long, GameItem> items;
+    private final EntityRepository<Long, GameItem> items;
 
     private final QueryBuilder deleteQuery, persistQuery, saveQuery;
     private final Query loadQuery;
 
     @Inject
-    public StoredItemRepository(EntityManager em, BaseEntityRepository<Long, GameItem> items) {
+    public StoredItemRepository(EntityManager em, EntityRepository<Long, GameItem> items) {
         super(em, new EmptyPrimaryKeyGenerator<Long>());
 
         this.items = items;
@@ -58,6 +58,15 @@ public class StoredItemRepository extends AbstractEntityRepository<Long, StoredI
     protected Query buildPersistQuery(StoredItem entity) {
         Query query = bindValues(persistQuery.toQuery(), entity);
         return query;
+    }
+
+    @Override
+    protected void onDeleted(StoredItem entity) {
+        super.onDeleted(entity);
+
+        if (entity.getItem().getQuantity() <= 0) {
+            items.deleteLater(entity.getItem());
+        }
     }
 
     @Override
