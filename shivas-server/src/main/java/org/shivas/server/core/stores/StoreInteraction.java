@@ -26,20 +26,28 @@ public class StoreInteraction extends AbstractInteraction {
         this.store = store;
     }
 
+    public PlayerStore getStore() {
+        return store;
+    }
+
     @Override
     public InteractionType getInteractionType() {
         return InteractionType.STORE;
     }
 
     @Override
-    protected void internalEnd() throws InteractionException {
-        client.write(TradeGameMessageFormatter.tradeQuitMessage());
+    public void begin() throws InteractionException {
+        store.subscribe(client.eventListener());
+
+        client.write(TradeGameMessageFormatter.startTradeMessage(TradeTypeEnum.STORE));
+        client.write(TradeGameMessageFormatter.storedItemsListMessage(store.toStoreItemType()));
     }
 
     @Override
-    public void begin() throws InteractionException {
-        client.write(TradeGameMessageFormatter.startTradeMessage(TradeTypeEnum.STORE));
-        client.write(TradeGameMessageFormatter.storedItemsListMessage(store.toStoreItemType()));
+    protected void internalEnd() throws InteractionException {
+        store.unsubscribe(client.eventListener());
+
+        client.write(TradeGameMessageFormatter.tradeQuitMessage());
     }
 
     @Override
@@ -79,7 +87,8 @@ public class StoreInteraction extends AbstractInteraction {
 
             client.write(TradeGameMessageFormatter.buySuccessMessage());
             client.write(client.player().getStats().packet());
-            client.write(TradeGameMessageFormatter.storedItemsListMessage(store.toStoreItemType()));
+
+            store.refresh(); // will send storedItemsListMessage to client
         }
     }
 }

@@ -11,4 +11,5 @@ public enum EventType {
 	PARTY,
 	CHANGE_MAP,
     EXCHANGE,
+    STORE,
 }

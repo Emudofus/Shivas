@@ -9,6 +9,9 @@ import org.shivas.protocol.client.types.StoreItemType;
 import org.shivas.server.core.GameActorWithoutId;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Look;
+import org.shivas.server.core.events.EventDispatcher;
+import org.shivas.server.core.events.EventDispatchers;
+import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.database.models.StoredItem;
@@ -28,6 +31,7 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
     private final Player owner;
     private final EntityRepository<Long, StoredItem> repo;
     private final Map<Long, StoredItem> items = Maps.newHashMap();
+    private final EventDispatcher event = EventDispatchers.create();
 
     private int id;
     private long earnedKamas;
@@ -35,6 +39,14 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
     public PlayerStore(Player owner, EntityRepository<Long, StoredItem> repo) {
         this.owner = owner;
         this.repo = repo;
+    }
+
+    public void subscribe(EventListener listener) {
+        event.subscribe(listener);
+    }
+
+    public void unsubscribe(EventListener listener) {
+        event.unsubscribe(listener);
     }
 
     public int count() {
@@ -70,6 +82,28 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
         if (remove(item)) {
             repo.deleteLater(item);
         }
+    }
+
+    public void refresh() {
+        Iterator<StoredItem> it = iterator();
+        while (it.hasNext()) {
+            StoredItem stored = it.next();
+            if (stored.getQuantity() <= 0) {
+                it.remove();
+                repo.deleteLater(stored);
+            }
+        }
+
+        if (count() <= 0) {
+            close();
+        } else {
+            event.publish(StoreEvent.REFRESH);
+        }
+    }
+
+    public void close() {
+        event.publish(StoreEvent.CLOSE);
+        owner.getLocation().getMap().leave(this);
     }
 
     public long getEarnedKamas() {

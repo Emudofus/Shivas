@@ -1,5 +1,6 @@
 package org.shivas.server.services.game.handlers;
 
+import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.enums.TradeErrorEnum;
 import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
@@ -220,7 +221,9 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
             client.write(InfoGameMessageFormatter.notEnoughStorePlacesMessage(GameMap.MAX_STORE_PER_MAP));
         } else {
             PlayerStore store = client.player().getStore();
+
             client.account().setCurrentStore(store);
+            client.player().getLocation().setOrientation(OrientationEnum.SOUTH_WEST);
             map.enter(store);
 
             client.kick();

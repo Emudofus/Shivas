@@ -14,10 +14,13 @@ import org.shivas.server.core.exchanges.ItemExchangeEvent;
 import org.shivas.server.core.exchanges.KamasExchangeEvent;
 import org.shivas.server.core.exchanges.ReadyExchangeEvent;
 import org.shivas.server.core.interactions.Interaction;
+import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.RolePlayMovement;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.maps.MapEvent;
 import org.shivas.server.core.parties.PartyEvent;
+import org.shivas.server.core.stores.StoreEvent;
+import org.shivas.server.core.stores.StoreInteraction;
 import org.shivas.server.database.models.Player;
 
 public class DefaultEventListener implements EventListener {
@@ -67,6 +70,10 @@ public class DefaultEventListener implements EventListener {
 
         case EXCHANGE:
             listenExchange((ExchangeEvent) event);
+            break;
+
+        case STORE:
+            listenStore((StoreEvent) event);
             break;
 		}
 	}
@@ -213,6 +220,24 @@ public class DefaultEventListener implements EventListener {
 
         case REMOVE_ITEM:
             client.write(TradeGameMessageFormatter.tradeRemoveItemMessage(((ItemExchangeEvent) event).getItem().getId(), local));
+            break;
+        }
+    }
+
+    private void listenStore(StoreEvent event) {
+        StoreInteraction interaction = client.interactions().current(StoreInteraction.class);
+
+        switch (event.getStoreEventType()) {
+        case CLOSE:
+            try {
+                client.interactions().remove(StoreInteraction.class).end();
+            } catch (InteractionException e) {
+                e.printStackTrace();
+            }
+            break;
+
+        case REFRESH:
+            client.write(TradeGameMessageFormatter.storedItemsListMessage(interaction.getStore().toStoreItemType()));
             break;
         }
     }
