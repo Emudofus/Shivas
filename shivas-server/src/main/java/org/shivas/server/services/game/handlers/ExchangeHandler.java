@@ -33,7 +33,13 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	@Override
-	public void init() throws Exception { }
+	public void init() throws Exception {
+        if (client.player().getStore().isActive()) {
+            client.write(InfoGameMessageFormatter.earnedKamasMessage(client.player().getStore().getEarnedKamas()));
+
+            client.player().getStore().close();
+        }
+    }
 
 	@Override
 	public void onClosed() { }

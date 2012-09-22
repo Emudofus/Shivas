@@ -62,6 +62,10 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
         return count() <= 0;
     }
 
+    public boolean isActive() {
+        return owner.getOwner().getCurrentStore() == this;
+    }
+
     public StoredItem get(long itemId) {
         return items.get(itemId);
     }
@@ -109,6 +113,10 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
     public void close() {
         event.publish(StoreEvent.CLOSE);
         owner.getLocation().getMap().leave(this);
+        owner.getOwner().setCurrentStore(null);
+
+        owner.getBag().plusKamas(earnedKamas);
+        earnedKamas = 0;
     }
 
     public long getEarnedKamas() {
