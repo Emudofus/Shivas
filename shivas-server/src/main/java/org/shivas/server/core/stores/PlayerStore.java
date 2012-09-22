@@ -32,6 +32,7 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
     private final EntityRepository<Long, StoredItem> repo;
     private final Map<Long, StoredItem> items = Maps.newHashMap();
     private final EventDispatcher event = EventDispatchers.create();
+    private final Object lock = new Object();
 
     private int id;
     private long earnedKamas;
@@ -39,6 +40,10 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
     public PlayerStore(Player owner, EntityRepository<Long, StoredItem> repo) {
         this.owner = owner;
         this.repo = repo;
+    }
+
+    public Object getLock() {
+        return lock;
     }
 
     public void subscribe(EventListener listener) {

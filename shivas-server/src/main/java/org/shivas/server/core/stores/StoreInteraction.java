@@ -69,26 +69,28 @@ public class StoreInteraction extends AbstractInteraction {
         if (price > client.player().getBag().getKamas()) {
             client.write(InfoGameMessageFormatter.notEnoughKamasMessage());
         } else {
-            client.player().getBag().minusKamas(price);
-            store.plusEarnedKamas(price);
-            stored.minusQuantity(quantity);
+            synchronized (store.getLock()) {
+                client.player().getBag().minusKamas(price);
+                store.plusEarnedKamas(price);
+                stored.minusQuantity(quantity);
 
-            GameItem same = client.player().getBag().sameAs(stored.getItem());
-            if (same != null) {
-                same.plusQuantity(quantity);
-                client.write(ItemGameMessageFormatter.quantityMessage(same.getId(), same.getQuantity()));
-            } else {
-                GameItem copy = stored.getItem().copy();
-                copy.setQuantity(quantity);
+                GameItem same = client.player().getBag().sameAs(stored.getItem());
+                if (same != null) {
+                    same.plusQuantity(quantity);
+                    client.write(ItemGameMessageFormatter.quantityMessage(same.getId(), same.getQuantity()));
+                } else {
+                    GameItem copy = stored.getItem().copy();
+                    copy.setQuantity(quantity);
 
-                client.player().getBag().persist(copy);
-                client.write(ItemGameMessageFormatter.addItemMessage(copy.toBaseItemType()));
+                    client.player().getBag().persist(copy);
+                    client.write(ItemGameMessageFormatter.addItemMessage(copy.toBaseItemType()));
+                }
+
+                client.write(TradeGameMessageFormatter.buySuccessMessage());
+                client.write(client.player().getStats().packet());
+
+                store.refresh(); // will send storedItemsListMessage to client
             }
-
-            client.write(TradeGameMessageFormatter.buySuccessMessage());
-            client.write(client.player().getStats().packet());
-
-            store.refresh(); // will send storedItemsListMessage to client
         }
     }
 }
