@@ -44,6 +44,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private SpellList spells;
 	private WaypointList waypoints;
     private PlayerStore store;
+    private GuildMember guildMember;
 	
 	private final EventDispatcher event = EventDispatchers.create();
 	
@@ -248,6 +249,14 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
         this.store = store;
     }
 
+    public GuildMember getGuildMember() {
+        return guildMember;
+    }
+
+    public void setGuildMember(GuildMember guildMember) {
+        this.guildMember = guildMember;
+    }
+
     public EventDispatcher getEvent() {
 		return event;
 	}
@@ -357,5 +366,4 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 				null
 		);
 	}
-
 }

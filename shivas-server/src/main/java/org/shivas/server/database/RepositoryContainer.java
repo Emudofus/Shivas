@@ -14,4 +14,6 @@ public interface RepositoryContainer {
 	ContactRepository contacts();
 	GiftRepository gifts();
     StoredItemRepository storedItems();
+    GuildRepository guilds();
+    GuildMemberRepository guildMembers();
 }

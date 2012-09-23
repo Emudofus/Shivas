@@ -31,6 +31,12 @@ public class ShivasDatabaseModule extends AbstractModule {
 
         bind(new TypeLiteral<BaseEntityRepository<Long, StoredItem>>(){}).to(StoredItemRepository.class);
         bind(new TypeLiteral<EntityRepository<Long, StoredItem>>(){}).to(StoredItemRepository.class);
+
+        bind(new TypeLiteral<BaseEntityRepository<Integer, Guild>>(){}).to(GuildRepository.class);
+        bind(new TypeLiteral<EntityRepository<Integer, Guild>>(){}).to(GuildRepository.class);
+
+        bind(new TypeLiteral<BaseEntityRepository<Long, GuildMember>>(){}).to(GuildMemberRepository.class);
+        bind(new TypeLiteral<EntityRepository<Long, GuildMember>>(){}).to(GuildMemberRepository.class);
 	}
 
 }

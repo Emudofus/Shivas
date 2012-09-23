@@ -40,6 +40,12 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 
     @Inject
     private StoredItemRepository storedItems;
+
+    @Inject
+    private GuildRepository guilds;
+
+    @Inject
+    private GuildMemberRepository guildMembers;
 	
 	private Timer timer;
 	
@@ -52,6 +58,8 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 			log.debug("{} spells loaded", spells.load());
 			log.debug("{} gifts loaded", gifts.load());
             log.debug("{} stored items loaded", storedItems.load());
+            log.debug("{} guilds loaded", guilds.load());
+            log.debug("{} guild members loaded", guildMembers.load());
 		} catch (LoadingException e) {
 			log.error("can't load because of {}", e.getMessage());
 		}
@@ -118,4 +126,13 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
         return storedItems;
     }
 
+    @Override
+    public GuildRepository guilds() {
+        return guilds;
+    }
+
+    @Override
+    public GuildMemberRepository guildMembers() {
+        return guildMembers;
+    }
 }
