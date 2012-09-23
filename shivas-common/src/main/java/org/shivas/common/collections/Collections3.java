@@ -1,10 +1,10 @@
 package org.shivas.common.collections;
 
-import java.util.Collection;
-import java.util.List;
-
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+
+import java.util.Collection;
+import java.util.List;
 
 public final class Collections3 {
 	private Collections3(){}
@@ -23,7 +23,9 @@ public final class Collections3 {
 		List<T> output = Lists.newArrayListWithCapacity(input.length);
 		for (String in : input) {
 			T out = transformer.apply(in);
-			output.add(out);
+            if (out != null) {
+                output.add(out);
+            }
 		}
 		return output;
 	}

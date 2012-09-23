@@ -10,6 +10,7 @@ import org.shivas.data.entity.WeaponItemEffect;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.*;
 import org.shivas.server.core.GameActor;
+import org.shivas.server.database.models.GuildMember;
 import org.shivas.server.database.models.*;
 
 public class Converters {
@@ -102,6 +103,7 @@ public class Converters {
 	public static Function<String, ItemEffect> STRING_TO_ITEMEFFECT = new Function<String, ItemEffect>() {
 		public ItemEffect apply(String input) {
 			int index = input.indexOf(',');
+            if (index < 0) return null;
 
 			ItemEffectEnum effect = ItemEffectEnum.valueOf(Integer.parseInt(input.substring(0, index), RADIX));
 			
@@ -138,6 +140,18 @@ public class Converters {
     public static Function<StoredItem, StoreItemType> STOREDITEM_TO_STOREITEMTYPE = new Function<StoredItem, StoreItemType>() {
         public StoreItemType apply(StoredItem input) {
             return input.toStoreItemType();
+        }
+    };
+
+    public static Function<Player, BaseGuildMemberType> PLAYER_TO_BASEGUILDMEMBERTYPE = new Function<Player, BaseGuildMemberType>() {
+        public BaseGuildMemberType apply(Player input) {
+            return input.getGuildMember().toBaseGuildMemberType();
+        }
+    };
+
+    public static Function<GuildMember, BaseGuildMemberType> GUILDMEMBER_TO_BASEGUILDMEMBERTYPE = new Function<GuildMember, BaseGuildMemberType>() {
+        public BaseGuildMemberType apply(GuildMember input) {
+            return input.toBaseGuildMemberType();
         }
     };
 }
