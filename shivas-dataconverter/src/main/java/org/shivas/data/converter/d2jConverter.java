@@ -1,17 +1,16 @@
 package org.shivas.data.converter;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.atomium.util.Action1;
 import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Map;
 
 public class d2jConverter extends MySqlUserConverter {
 	
@@ -295,6 +294,7 @@ public class d2jConverter extends MySqlUserConverter {
 			Structs.Experience exp = new Structs.Experience();
 			exp.level = result.getInt("level");
 			exp.player = result.getLong("character");
+            exp.guild = exp.player * 10;
 			exp.job = result.getInt("job");
 			exp.mount = result.getInt("mount");
 			exp.alignment = result.getShort("alignment");

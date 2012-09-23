@@ -1,13 +1,5 @@
 package org.shivas.data.converter;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Map;
-
 import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -16,6 +8,14 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.converter.Structs.Breed;
 import org.shivas.data.converter.Structs.Waypoint;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Map;
 
 public class XMLDataOutputter implements DataOutputter {
 	
@@ -86,6 +86,7 @@ public class XMLDataOutputter implements DataOutputter {
 			Element exp_elem = new Element("experience");
 			exp_elem.setAttribute("level", String.valueOf(exp.level));
 			exp_elem.setAttribute("player", String.valueOf(exp.player));
+            exp_elem.setAttribute("guild", String.valueOf(exp.guild));
 			exp_elem.setAttribute("job", String.valueOf(exp.job));
 			exp_elem.setAttribute("mount", String.valueOf(exp.mount));
 			exp_elem.setAttribute("alignment", String.valueOf(exp.alignment));

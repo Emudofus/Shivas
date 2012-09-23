@@ -1,9 +1,9 @@
 package org.shivas.data.loader;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -21,10 +21,9 @@ import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 import org.shivas.protocol.client.enums.SpellEffectsEnum;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 public class XmlLoader extends AbstractLoader {
 	
@@ -148,6 +147,7 @@ public class XmlLoader extends AbstractLoader {
 			Experience experience = factory.newExperience();
 			experience.setLevel((short) element.getAttribute("level").getIntValue());
 			experience.setPlayer(element.getAttribute("player").getLongValue());
+            experience.setGuild(element.getAttribute("guild").getLongValue());
 			experience.setJob(element.getAttribute("job").getIntValue());
 			experience.setMount(element.getAttribute("mount").getIntValue());
 			experience.setAlignment((short) element.getAttribute("alignment").getIntValue());

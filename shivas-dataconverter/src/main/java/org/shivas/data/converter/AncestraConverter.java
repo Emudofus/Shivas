@@ -1,11 +1,9 @@
 package org.shivas.data.converter;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import org.atomium.util.Action1;
 import org.atomium.util.query.Order;
 import org.shivas.common.maths.Point;
@@ -13,10 +11,11 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 public class AncestraConverter extends MySqlUserConverter {
 	
@@ -153,6 +152,7 @@ public class AncestraConverter extends MySqlUserConverter {
 			Structs.Experience exp = new Structs.Experience();
 			exp.level = results.getInt("lvl");
 			exp.player = results.getLong("perso");
+            exp.guild = exp.player * 10;
 			exp.job = results.getInt("metier");
 			exp.mount = results.getInt("dinde");
 			exp.alignment = results.getShort("pvp");

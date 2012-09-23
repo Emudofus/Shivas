@@ -1,8 +1,9 @@
 package org.shivas.data.converter;
 
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import org.shivas.common.maths.Point;
 import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dice;
@@ -11,10 +12,8 @@ import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
+import java.util.List;
+import java.util.Map;
 
 public final class Structs {
 	private Structs(){}
@@ -34,6 +33,7 @@ public final class Structs {
 	public static final class Experience {
 		public int level;
 		public long player;
+        public long guild;
 		public int job;
 		public int mount;
 		public short alignment;

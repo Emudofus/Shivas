@@ -1,19 +1,18 @@
 package org.shivas.data.converter;
 
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.atomium.util.Action1;
 import org.atomium.util.query.Order;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 public class VemuConverter extends MySqlUserConverter {
 	
@@ -146,6 +145,7 @@ public class VemuConverter extends MySqlUserConverter {
 			Structs.Experience exp = new Structs.Experience();
 			exp.level = r.getInt("Level");
 			exp.player = r.getLong("Character");
+            exp.guild = exp.player * 10;
 			exp.job = r.getInt("Job");
 			exp.mount = r.getInt("mount");
 			exp.alignment = r.getShort("Pvp");
