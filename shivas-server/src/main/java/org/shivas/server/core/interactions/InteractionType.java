@@ -8,4 +8,5 @@ public enum InteractionType {
 	PLAYER_EXCHANGE,
     STORE_MANAGEMENT,
     STORE,
+    GUILD_CREATION,
 }

@@ -1,16 +1,14 @@
 package org.shivas.server.core.actions;
 
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import com.google.common.collect.Maps;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Action;
 import org.shivas.data.entity.factory.ActionFactory;
 import org.shivas.server.config.Config;
 
-import com.google.common.collect.Maps;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Map;
 
 @Singleton
 public class ShivasActionFactory implements ActionFactory {
@@ -36,6 +34,12 @@ public class ShivasActionFactory implements ActionFactory {
 				return RegenLifeAction.make(parameters);
 			}
 		});
+
+        add(CreateGuildAction.TYPE, new ItemActionMaker() {
+            public Action make(Map<String, String> parameters) {
+                return CreateGuildAction.make(parameters);
+            }
+        });
 	}
 	
 	public void add(int type, ItemActionMaker maker) {

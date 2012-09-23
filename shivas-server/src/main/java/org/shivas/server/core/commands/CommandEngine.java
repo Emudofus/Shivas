@@ -1,10 +1,6 @@
 package org.shivas.server.core.commands;
 
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import com.google.common.collect.Maps;
 import org.shivas.common.params.GnuParser;
 import org.shivas.common.params.Parameters;
 import org.shivas.common.params.ParametersParser;
@@ -15,7 +11,9 @@ import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.game.GameClient;
 import org.shivas.server.services.game.GameService;
 
-import com.google.common.collect.Maps;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Map;
 
 @Singleton
 public class CommandEngine {
@@ -29,6 +27,7 @@ public class CommandEngine {
 		add(new SaveCommand(repo));
 		add(new GiveItemCommand(repo));
 		add(new AverageHandleCommand(gservice.statistics()));
+        add(new CreateGuildCommand());
 	}
 	
 	public void add(Command command) {
