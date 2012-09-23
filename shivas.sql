@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2012-09-20 19:04:24
+Date: 2012-09-23 16:20:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -88,6 +88,49 @@ CREATE TABLE `gifts` (
 
 -- ----------------------------
 -- Records of gifts
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `guilds`
+-- ----------------------------
+DROP TABLE IF EXISTS `guilds`;
+CREATE TABLE `guilds` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `leader_id` int(11) NOT NULL,
+  `emblem_background_id` int(11) NOT NULL,
+  `emblem_background_color` int(11) NOT NULL,
+  `emblem_foreground_id` int(11) NOT NULL,
+  `emblem_foreground_color` int(11) NOT NULL,
+  `level` smallint(6) NOT NULL,
+  `experience` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_guilds_name` (`name`) USING BTREE,
+  KEY `fk_leader_guilds` (`leader_id`),
+  CONSTRAINT `fk_leader_guilds` FOREIGN KEY (`leader_id`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of guilds
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `guild_members`
+-- ----------------------------
+DROP TABLE IF EXISTS `guild_members`;
+CREATE TABLE `guild_members` (
+  `id` bigint(20) NOT NULL,
+  `guild_id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_guild_guild_members` (`guild_id`),
+  KEY `fk_player_guild_members` (`player_id`),
+  CONSTRAINT `fk_guild_guild_members` FOREIGN KEY (`guild_id`) REFERENCES `guilds` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_player_guild_members` FOREIGN KEY (`player_id`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of guild_members
 -- ----------------------------
 
 -- ----------------------------
