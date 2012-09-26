@@ -50,7 +50,7 @@ public class GuildGameMessageFormatter {
     }
 
     public static String invitationErrorMessage(GuildInvitationErrorEnum error){
-        return "gCE" + String.valueOf(error.value());
+        return "gJE" + String.valueOf(error.value());
     }
 
     public static String invitationLocalMessage(String name){
@@ -69,7 +69,7 @@ public class GuildGameMessageFormatter {
         return "gJKa" + name;
     }
 
-    public static String invitationRemoteFailureMessage(){
+    public static String invitationFailureMessage(){
         return "gJEc";
     }
 
