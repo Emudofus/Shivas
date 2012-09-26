@@ -23,7 +23,15 @@ public class GuildHandler extends AbstractBaseHandler<GameClient> {
     @Override
     public void init() throws Exception {
         if (client.player().hasGuild()) {
-            client.player().getGuild().subscribe(client.eventListener());
+            Guild guild = client.player().getGuild();
+
+            client.write(GuildGameMessageFormatter.statsMessage(
+                    guild.getName(),
+                    guild.getEmblem(),
+                    client.player().getGuildMember().getRank()
+            ));
+
+            guild.subscribe(client.eventListener());
         }
     }
 
