@@ -11,8 +11,7 @@ import org.shivas.server.core.guilds.GuildMemberRights;
  * Date: 23/09/12
  * Time: 11:56
  */
-public class GuildMember implements PersistableEntity<Long> {
-    private Long id;
+public class GuildMember implements PersistableEntity<Integer> {
     private Guild guild;
     private Player player;
     private GuildRankEnum rank;
@@ -30,14 +29,12 @@ public class GuildMember implements PersistableEntity<Long> {
     }
 
     @Override
-    public Long getId() {
-        return id;
+    public Integer getId() {
+        return player.getId();
     }
 
     @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Integer id) { }
 
     public Guild getGuild() {
         return guild;

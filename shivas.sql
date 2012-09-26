@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2012-09-26 13:14:09
+Date: 2012-09-26 14:56:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -119,18 +119,16 @@ CREATE TABLE `guilds` (
 -- ----------------------------
 DROP TABLE IF EXISTS `guild_members`;
 CREATE TABLE `guild_members` (
-  `id` bigint(20) NOT NULL,
+  `id` int(11) NOT NULL,
   `guild_id` int(11) NOT NULL,
-  `player_id` int(11) NOT NULL,
   `rank` int(11) NOT NULL,
   `rights` int(11) NOT NULL,
   `experience_rate` tinyint(4) NOT NULL,
   `experience_given` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_guild_guild_members` (`guild_id`),
-  KEY `fk_player_guild_members` (`player_id`),
-  CONSTRAINT `fk_guild_guild_members` FOREIGN KEY (`guild_id`) REFERENCES `guilds` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_player_guild_members` FOREIGN KEY (`player_id`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_id_guild_members` FOREIGN KEY (`id`) REFERENCES `players` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_guild_guild_members` FOREIGN KEY (`guild_id`) REFERENCES `guilds` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------

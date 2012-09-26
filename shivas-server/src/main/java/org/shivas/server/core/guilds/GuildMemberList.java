@@ -22,10 +22,10 @@ import java.util.Map;
  */
 public class GuildMemberList implements Iterable<GuildMember> {
     private final Guild owner;
-    private final EntityRepository<Long, GuildMember> repo;
+    private final EntityRepository<Integer, GuildMember> repo;
     private final Map<Integer, GuildMember> members = Maps.newHashMap();
 
-    public GuildMemberList(Guild owner, EntityRepository<Long, GuildMember> repo) {
+    public GuildMemberList(Guild owner, EntityRepository<Integer, GuildMember> repo) {
         this.owner = owner;
         this.repo = repo;
     }

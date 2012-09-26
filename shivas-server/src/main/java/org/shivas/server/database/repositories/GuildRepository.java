@@ -37,11 +37,11 @@ public class GuildRepository extends AbstractEntityRepository<Integer, Guild> {
     private final QueryBuilder deleteQuery, persistQuery, saveQuery;
 
     private final BaseEntityRepository<Integer, Player> players;
-    private final EntityRepository<Long, GuildMember> guildMembers;
+    private final EntityRepository<Integer, GuildMember> guildMembers;
     private final Container ctner;
 
     @Inject
-    public GuildRepository(EntityManager em, BaseEntityRepository<Integer, Player> players, EntityRepository<Long, GuildMember> guildMembers, Container ctner) {
+    public GuildRepository(EntityManager em, BaseEntityRepository<Integer, Player> players, EntityRepository<Integer, GuildMember> guildMembers, Container ctner) {
         super(em, new IntegerPrimaryKeyGenerator());
         this.players = players;
         this.guildMembers = guildMembers;
