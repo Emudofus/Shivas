@@ -16,6 +16,9 @@ import org.shivas.server.core.guilds.GuildMemberList;
  * Time: 11:52
  */
 public class Guild implements PersistableEntity<Integer> {
+    public static final int MIN_MEMBERS = 10;
+    public static final int BASE_AVAILABLE_PLACES = 40;
+
     private Integer id;
     private String name;
     private Player leader;
@@ -76,7 +79,15 @@ public class Guild implements PersistableEntity<Integer> {
     }
 
     public boolean isValid() {
-        return members.count() >= 10;
+        return members.count() >= MIN_MEMBERS;
+    }
+
+    public int getMaxPlaces() {
+        return BASE_AVAILABLE_PLACES + experience.level();
+    }
+
+    public boolean isFull() {
+        return members.count() >= getMaxPlaces();
     }
 
     public void unsubscribe(EventListener listener) {

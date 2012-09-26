@@ -1,11 +1,10 @@
 package org.shivas.protocol.client.formatters;
 
-import org.shivas.protocol.client.enums.GuildInvitationErrorEnum;
-import org.shivas.protocol.client.enums.GuildRankEnum;
-import org.shivas.protocol.client.types.BaseGuildMemberType;
-import org.shivas.protocol.client.types.GuildEmblem;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.shivas.protocol.client.enums.GuildInvitationErrorEnum;
+import org.shivas.protocol.client.types.BaseGuildMemberType;
+import org.shivas.protocol.client.types.GuildEmblem;
 
 import java.util.Collection;
 
@@ -36,13 +35,13 @@ public class GuildGameMessageFormatter {
         return "gCEa";
     }
 
-    public static String statsMessage(String name, GuildEmblem emblem, GuildRankEnum rank){
+    public static String statsMessage(String name, GuildEmblem emblem, int rights){
         return "gS" + name                                  + "|" +
                       Integer.toString(emblem.getBackgroundId(), 36)    + "|" +
                       Integer.toString(emblem.getBackgroundColor(), 36) + "|" +
                       Integer.toString(emblem.getForegroundId(), 36)    + "|" +
                       Integer.toString(emblem.getForegroundColor(), 36) + "|" +
-                      Integer.toString(rank.value());
+                      Integer.toString(rights);
     }
 
     public static String creationSuccessMessage(){

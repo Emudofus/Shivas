@@ -12,4 +12,5 @@ public enum EventType {
 	CHANGE_MAP,
     EXCHANGE,
     STORE,
+    GUILD,
 }

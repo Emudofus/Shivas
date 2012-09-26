@@ -26,6 +26,10 @@ public class GuildMemberRights {
         return right != null && (rights & right.value()) != 0;
     }
 
+    public boolean has(GuildMemberRightsEnum right) { // more explicit than "get"
+        return get(right);
+    }
+
     public void set(GuildMemberRightsEnum right, boolean value){
         if (right != null){
             if (value){
@@ -39,5 +43,9 @@ public class GuildMemberRights {
 
     public int toInt(){
         return rights;
+    }
+
+    public void fromInt(int rights) {
+        this.rights = rights;
     }
 }

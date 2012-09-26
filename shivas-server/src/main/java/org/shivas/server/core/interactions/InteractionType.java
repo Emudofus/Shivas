@@ -9,4 +9,5 @@ public enum InteractionType {
     STORE_MANAGEMENT,
     STORE,
     GUILD_CREATION,
+    GUILD_INVITATION,
 }

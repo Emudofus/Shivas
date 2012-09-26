@@ -13,6 +13,7 @@ import org.shivas.server.core.exchanges.ExchangeEvent;
 import org.shivas.server.core.exchanges.ItemExchangeEvent;
 import org.shivas.server.core.exchanges.KamasExchangeEvent;
 import org.shivas.server.core.exchanges.ReadyExchangeEvent;
+import org.shivas.server.core.guilds.GuildEvent;
 import org.shivas.server.core.interactions.Interaction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.RolePlayMovement;
@@ -74,6 +75,10 @@ public class DefaultEventListener implements EventListener {
 
         case STORE:
             listenStore((StoreEvent) event);
+            break;
+
+        case GUILD:
+            listenGuild((GuildEvent) event);
             break;
 		}
 	}
@@ -238,6 +243,16 @@ public class DefaultEventListener implements EventListener {
 
         case REFRESH:
             client.write(TradeGameMessageFormatter.storedItemsListMessage(interaction.getStore().toStoreItemType()));
+            break;
+        }
+    }
+
+    private void listenGuild(GuildEvent event) {
+        switch (event.getGuildEventType()) {
+        case ADD_MEMBER:
+            break;
+
+        case REMOVE_MEMBER:
             break;
         }
     }

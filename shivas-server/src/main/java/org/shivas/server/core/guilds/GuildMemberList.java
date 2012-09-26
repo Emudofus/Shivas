@@ -52,6 +52,8 @@ public class GuildMemberList implements Iterable<GuildMember> {
 
     public void add(GuildMember member) {
         members.put(member.getPlayer().getId(), member);
+
+        owner.publish(new MemberGuildEvent(member.getPlayer(), GuildEvent.Type.ADD_MEMBER));
     }
 
     public boolean remove(int playerId) {
@@ -59,6 +61,9 @@ public class GuildMemberList implements Iterable<GuildMember> {
         if (member != null) {
             member.getPlayer().setGuildMember(null);
             repo.deleteLater(member);
+
+            owner.publish(new MemberGuildEvent(member.getPlayer(), GuildEvent.Type.REMOVE_MEMBER));
+
             return true;
         }
         return false;
