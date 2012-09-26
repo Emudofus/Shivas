@@ -141,6 +141,7 @@ public class GuildRepository extends AbstractEntityRepository<Integer, Guild> {
                 ctner.get(Experience.class).byId(rset.getInt("level")),
                 rset.getLong("experience")
         ));
+        guild.setMembers(new GuildMemberList(guild, guildMembers));
 
         return guild;
     }
