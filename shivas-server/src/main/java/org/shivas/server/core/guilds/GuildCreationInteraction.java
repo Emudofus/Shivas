@@ -1,9 +1,12 @@
 package org.shivas.server.core.guilds;
 
 import org.shivas.protocol.client.formatters.GuildGameMessageFormatter;
+import org.shivas.protocol.client.types.GuildEmblem;
 import org.shivas.server.core.interactions.AbstractInteraction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
+import org.shivas.server.database.models.Guild;
+import org.shivas.server.database.repositories.GuildRepository;
 import org.shivas.server.services.game.GameClient;
 
 /**
@@ -37,5 +40,24 @@ public class GuildCreationInteraction extends AbstractInteraction {
     @Override
     public void cancel() throws InteractionException {
         client.write(GuildGameMessageFormatter.quitCreationMessage());
+    }
+
+    public boolean create(String name, GuildEmblem emblem) throws InteractionException {
+        GuildRepository guilds = client.service().repositories().guilds();
+
+        if (client.player().hasGuild()) {
+            client.write(GuildGameMessageFormatter.alreadyHaveGuildMessage());
+        } else if (guilds.exists(name)) {
+            client.write(GuildGameMessageFormatter.nameExistsMessage());
+        } else {
+            Guild guild = guilds.createDefault(name, client.player(), emblem);
+
+            client.write(GuildGameMessageFormatter.statsMessage(guild.getName(), guild.getEmblem(), 0)); // TODO guilds
+            client.write(GuildGameMessageFormatter.creationSuccessMessage());
+
+            return true;
+        }
+
+        return false;
     }
 }

@@ -257,6 +257,14 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
         this.guildMember = guildMember;
     }
 
+    public Guild getGuild() {
+        return guildMember.getGuild();
+    }
+
+    public boolean hasGuild() {
+        return guildMember != null;
+    }
+
     public EventDispatcher getEvent() {
 		return event;
 	}

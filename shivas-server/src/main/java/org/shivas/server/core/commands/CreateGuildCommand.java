@@ -31,8 +31,7 @@ public class CreateGuildCommand implements Command {
 
     @Override
     public boolean canUse(GameClient client) {
-        return true; // TODO guilds
-        // return !client.player().hasGuild();
+        return !client.player().hasGuild();
     }
 
     @Override

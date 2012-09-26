@@ -2,6 +2,7 @@ package org.shivas.server.database.repositories;
 
 import org.atomium.EntityManager;
 import org.atomium.repository.BaseEntityRepository;
+import org.atomium.repository.EntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
 import org.atomium.util.query.Op;
@@ -11,7 +12,9 @@ import org.shivas.data.Container;
 import org.shivas.data.entity.Experience;
 import org.shivas.protocol.client.types.GuildEmblem;
 import org.shivas.server.core.experience.GuildExperience;
+import org.shivas.server.core.guilds.GuildMemberList;
 import org.shivas.server.database.models.Guild;
+import org.shivas.server.database.models.GuildMember;
 import org.shivas.server.database.models.Player;
 
 import javax.inject.Inject;
@@ -32,12 +35,14 @@ public class GuildRepository extends AbstractEntityRepository<Integer, Guild> {
     private final QueryBuilder deleteQuery, persistQuery, saveQuery;
 
     private final BaseEntityRepository<Integer, Player> players;
+    private final EntityRepository<Long, GuildMember> guildMembers;
     private final Container ctner;
 
     @Inject
-    public GuildRepository(EntityManager em, BaseEntityRepository<Integer, Player> players, Container ctner) {
+    public GuildRepository(EntityManager em, BaseEntityRepository<Integer, Player> players, EntityRepository<Long, GuildMember> guildMembers, Container ctner) {
         super(em, new IntegerPrimaryKeyGenerator());
         this.players = players;
+        this.guildMembers = guildMembers;
         this.ctner = ctner;
 
         deleteQuery = em.builder().delete(TABLE_NAME).where("id", Op.EQ);
@@ -56,6 +61,28 @@ public class GuildRepository extends AbstractEntityRepository<Integer, Guild> {
                 .value("emblem_foreground_id").value("emblem_foreground_color")
                 .value("level").value("experience")
                 .where("id", Op.EQ);
+    }
+
+    public Guild createDefault(String name, Player leader, GuildEmblem emblem) {
+        Guild guild = new Guild();
+        guild.setName(name);
+        guild.setLeader(leader);
+        guild.setEmblem(emblem);
+        guild.setExperience(new GuildExperience(ctner.get(Experience.class).byId(1)));
+        guild.setMembers(new GuildMemberList(guild, guildMembers));
+
+        persistLater(guild);
+
+        return guild;
+    }
+
+    public boolean exists(String guildName) {
+        for (Guild guild : entities.values()) {
+            if (guild.getName() == guildName) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
