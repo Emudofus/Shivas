@@ -59,6 +59,8 @@ public class GuildCreationInteraction extends AbstractInteraction {
             ));
             client.write(GuildGameMessageFormatter.creationSuccessMessage());
 
+            guild.subscribe(client.eventListener());
+
             return true;
         }
 

@@ -1,12 +1,11 @@
 package org.shivas.server.core.channels;
 
-import java.util.Collection;
-import java.util.HashMap;
-
-import javax.inject.Singleton;
-
 import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.server.core.events.EventListener;
+
+import javax.inject.Singleton;
+import java.util.Collection;
+import java.util.HashMap;
 
 @Singleton
 public class ChannelContainer extends HashMap<ChannelEnum, Channel> {
@@ -21,6 +20,7 @@ public class ChannelContainer extends HashMap<ChannelEnum, Channel> {
 		put(ChannelEnum.Recruitment, new PublicChannel(ChannelEnum.Recruitment));
 		put(ChannelEnum.Admin, new PublicChannel(ChannelEnum.Admin));
 		put(ChannelEnum.Party, new PartyChannel());
+        put(ChannelEnum.Guild, new GuildChannel());
 		
 		system = new SystemChannel("(Global) %2$s");
 	}

@@ -21,10 +21,18 @@ public class GuildHandler extends AbstractBaseHandler<GameClient> {
     }
 
     @Override
-    public void init() throws Exception { }
+    public void init() throws Exception {
+        if (client.player().hasGuild()) {
+            client.player().getGuild().subscribe(client.eventListener());
+        }
+    }
 
     @Override
-    public void onClosed() { }
+    public void onClosed() {
+        if (client.player().hasGuild()) {
+            client.player().getGuild().unsubscribe(client.eventListener());
+        }
+    }
 
     @Override
     public void handle(String message) throws Exception {
