@@ -2,6 +2,10 @@ package org.shivas.server.database.models;
 
 import org.atomium.PersistableEntity;
 import org.shivas.protocol.client.types.GuildEmblem;
+import org.shivas.server.core.events.Event;
+import org.shivas.server.core.events.EventDispatcher;
+import org.shivas.server.core.events.EventDispatchers;
+import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.experience.GuildExperience;
 import org.shivas.server.core.guilds.GuildMemberList;
 
@@ -18,6 +22,8 @@ public class Guild implements PersistableEntity<Integer> {
     private GuildEmblem emblem;
     private GuildExperience experience;
     private GuildMemberList members;
+
+    private final EventDispatcher event = EventDispatchers.create();
 
     @Override
     public Integer getId() {
@@ -71,5 +77,17 @@ public class Guild implements PersistableEntity<Integer> {
 
     public boolean isValid() {
         return members.count() >= 10;
+    }
+
+    public void unsubscribe(EventListener listener) {
+        event.unsubscribe(listener);
+    }
+
+    public void subscribe(EventListener listener) {
+        event.subscribe(listener);
+    }
+
+    public void publish(Event event) {
+        this.event.publish(event);
     }
 }
