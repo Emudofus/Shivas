@@ -68,4 +68,8 @@ public class Guild implements PersistableEntity<Integer> {
     public void setMembers(GuildMemberList members) {
         this.members = members;
     }
+
+    public boolean isValid() {
+        return members.count() >= 10;
+    }
 }
