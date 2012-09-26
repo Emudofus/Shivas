@@ -3,6 +3,7 @@ package org.shivas.server.core.guilds;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
 import org.atomium.repository.EntityRepository;
+import org.shivas.protocol.client.enums.GuildRankEnum;
 import org.shivas.protocol.client.types.BaseGuildMemberType;
 import org.shivas.server.database.models.Guild;
 import org.shivas.server.database.models.GuildMember;
@@ -42,7 +43,7 @@ public class GuildMemberList implements Iterable<GuildMember> {
     }
 
     public void add(Player player) {
-        GuildMember member = new GuildMember(owner, player);
+        GuildMember member = new GuildMember(owner, player, GuildRankEnum.TESTING, new GuildMemberRights());
         player.setGuildMember(member);
         repo.persistLater(member);
 
@@ -57,6 +58,7 @@ public class GuildMemberList implements Iterable<GuildMember> {
         GuildMember member = members.remove(playerId);
         if (member != null) {
             member.getPlayer().setGuildMember(null);
+            repo.deleteLater(member);
             return true;
         }
         return false;

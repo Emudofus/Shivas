@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2012-09-23 16:20:58
+Date: 2012-09-26 13:14:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -122,6 +122,10 @@ CREATE TABLE `guild_members` (
   `id` bigint(20) NOT NULL,
   `guild_id` int(11) NOT NULL,
   `player_id` int(11) NOT NULL,
+  `rank` int(11) NOT NULL,
+  `rights` int(11) NOT NULL,
+  `experience_rate` tinyint(4) NOT NULL,
+  `experience_given` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_guild_guild_members` (`guild_id`),
   KEY `fk_player_guild_members` (`player_id`),

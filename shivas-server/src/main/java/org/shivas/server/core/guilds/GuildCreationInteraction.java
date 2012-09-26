@@ -52,7 +52,11 @@ public class GuildCreationInteraction extends AbstractInteraction {
         } else {
             Guild guild = guilds.createDefault(name, client.player(), emblem);
 
-            client.write(GuildGameMessageFormatter.statsMessage(guild.getName(), guild.getEmblem(), 0)); // TODO guilds
+            client.write(GuildGameMessageFormatter.statsMessage(
+                    guild.getName(),
+                    guild.getEmblem(),
+                    client.player().getGuildMember().getRank()
+            ));
             client.write(GuildGameMessageFormatter.creationSuccessMessage());
 
             return true;

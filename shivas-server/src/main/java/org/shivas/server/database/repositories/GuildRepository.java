@@ -10,9 +10,11 @@ import org.atomium.util.query.Query;
 import org.atomium.util.query.QueryBuilder;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Experience;
+import org.shivas.protocol.client.enums.GuildRankEnum;
 import org.shivas.protocol.client.types.GuildEmblem;
 import org.shivas.server.core.experience.GuildExperience;
 import org.shivas.server.core.guilds.GuildMemberList;
+import org.shivas.server.core.guilds.GuildMemberRights;
 import org.shivas.server.database.models.Guild;
 import org.shivas.server.database.models.GuildMember;
 import org.shivas.server.database.models.Player;
@@ -71,7 +73,12 @@ public class GuildRepository extends AbstractEntityRepository<Integer, Guild> {
         guild.setExperience(new GuildExperience(ctner.get(Experience.class).byId(1)));
         guild.setMembers(new GuildMemberList(guild, guildMembers));
 
+        GuildMember leaderMember = new GuildMember(guild, leader, GuildRankEnum.LEADER, new GuildMemberRights().fill(true));
+        leader.setGuildMember(leaderMember);
+        guild.getMembers().add(leaderMember);
+
         persistLater(guild);
+        guildMembers.persistLater(leaderMember);
 
         return guild;
     }

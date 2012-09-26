@@ -7,6 +7,8 @@ import org.atomium.util.pk.LongPrimaryKeyGenerator;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.QueryBuilder;
+import org.shivas.protocol.client.enums.GuildRankEnum;
+import org.shivas.server.core.guilds.GuildMemberRights;
 import org.shivas.server.database.models.Guild;
 import org.shivas.server.database.models.GuildMember;
 import org.shivas.server.database.models.Player;
@@ -40,10 +42,11 @@ public class GuildMemberRepository extends AbstractEntityRepository<Long, GuildM
         deleteQuery = em.builder().delete(TABLE_NAME).where("id", Op.EQ);
         persistQuery = em.builder()
                 .insert(TABLE_NAME)
-                .values("id", "guild_id", "player_id");
+                .values("id", "guild_id", "player_id", "rank", "rights", "experience_rate", "experience_given");
         saveQuery = em.builder()
                 .update(TABLE_NAME)
-                .value("guild_id").value("player_id")
+                .value("guild_id").value("player_id").value("rank").value("rights")
+                .value("experience_rate").value("experience_given")
                 .where("id", Op.EQ);
     }
 
@@ -56,7 +59,11 @@ public class GuildMemberRepository extends AbstractEntityRepository<Long, GuildM
         return q.toQuery()
                 .setParameter("id", guildMember.getId())
                 .setParameter("guild_id", guildMember.getGuild().getId())
-                .setParameter("player_id", guildMember.getPlayer().getId());
+                .setParameter("player_id", guildMember.getPlayer().getId())
+                .setParameter("rank", guildMember.getRank().value())
+                .setParameter("rights", guildMember.getRights().toInt())
+                .setParameter("experience_rate", guildMember.getExperienceRate())
+                .setParameter("experience_given", guildMember.getExperienceGiven());
     }
 
     @Override
@@ -80,6 +87,10 @@ public class GuildMemberRepository extends AbstractEntityRepository<Long, GuildM
         member.setId(rset.getLong("id"));
         member.setGuild(guilds.find(rset.getInt("guild_id")));
         member.setPlayer(players.find(rset.getInt("player_id")));
+        member.setRank(GuildRankEnum.valueOf(rset.getInt("rank")));
+        member.setRights(new GuildMemberRights(rset.getInt("rights")));
+        member.setExperienceRate(rset.getByte("experience_rate"));
+        member.setExperienceGiven(rset.getLong("experience_given"));
 
         member.getPlayer().setGuildMember(member);
         member.getGuild().getMembers().add(member);
