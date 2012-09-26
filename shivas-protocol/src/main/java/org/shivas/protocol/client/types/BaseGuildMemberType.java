@@ -16,8 +16,8 @@ public class BaseGuildMemberType {
     private short level;
     private short skin;
     private GuildRankEnum rank;
-    private byte experienceGiven;
-    private long experienceRate;
+    private long experienceGiven;
+    private byte experienceRate;
     private int rights;
     private boolean online;
     private int alignment;
@@ -26,7 +26,7 @@ public class BaseGuildMemberType {
     public BaseGuildMemberType() {
     }
 
-    public BaseGuildMemberType(long id, String name, short level, short skin, GuildRankEnum rank, byte experienceGiven, long experienceRate, int rights, boolean online, int alignment, DateTime lastConnection) {
+    public BaseGuildMemberType(long id, String name, short level, short skin, GuildRankEnum rank, long experienceGiven, byte experienceRate, int rights, boolean online, int alignment, DateTime lastConnection) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -80,7 +80,7 @@ public class BaseGuildMemberType {
         this.rank = rank;
     }
 
-    public byte getExperienceGiven() {
+    public long getExperienceGiven() {
         return experienceGiven;
     }
 
@@ -88,11 +88,11 @@ public class BaseGuildMemberType {
         this.experienceGiven = experienceGiven;
     }
 
-    public long getExperienceRate() {
+    public byte getExperienceRate() {
         return experienceRate;
     }
 
-    public void setExperienceRate(long experienceRate) {
+    public void setExperienceRate(byte experienceRate) {
         this.experienceRate = experienceRate;
     }
 
