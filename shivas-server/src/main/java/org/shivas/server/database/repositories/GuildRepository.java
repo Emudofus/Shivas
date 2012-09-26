@@ -85,7 +85,7 @@ public class GuildRepository extends AbstractEntityRepository<Integer, Guild> {
 
     public boolean exists(String guildName) {
         for (Guild guild : entities.values()) {
-            if (guild.getName() == guildName) {
+            if (guild.getName().equals(guildName)) {
                 return true;
             }
         }
