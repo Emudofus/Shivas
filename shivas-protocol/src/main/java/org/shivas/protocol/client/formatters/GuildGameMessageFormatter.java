@@ -93,8 +93,8 @@ public class GuildGameMessageFormatter {
             sb.append(member.getLevel()).append(';');
             sb.append(member.getSkin()).append(';');
             sb.append(member.getRank().value()).append(';');
-            sb.append(member.getExperienceRate()).append(';');
             sb.append(member.getExperienceGiven()).append(';');
+            sb.append(member.getExperienceRate()).append(';');
             sb.append(member.getRights()).append(';');
             sb.append(member.isOnline() ? '1' : '0').append(';');
             sb.append(member.getAlignment()).append(';');
