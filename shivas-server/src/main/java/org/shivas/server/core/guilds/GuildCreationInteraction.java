@@ -55,7 +55,7 @@ public class GuildCreationInteraction extends AbstractInteraction {
             client.write(GuildGameMessageFormatter.statsMessage(
                     guild.getName(),
                     guild.getEmblem(),
-                    client.player().getGuildMember().getRank()
+                    client.player().getGuildMember().getRights().toInt()
             ));
             client.write(GuildGameMessageFormatter.creationSuccessMessage());
 

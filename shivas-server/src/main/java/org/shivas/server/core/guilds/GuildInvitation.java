@@ -45,7 +45,7 @@ public class GuildInvitation extends Invitation {
         target.write(GuildGameMessageFormatter.statsMessage(
                 guild.getName(),
                 guild.getEmblem(),
-                target.player().getGuildMember().getRank()
+                target.player().getGuildMember().getRights().toInt()
         ));
         target.write(GuildGameMessageFormatter.invitationLocalSuccessMessage());
     }

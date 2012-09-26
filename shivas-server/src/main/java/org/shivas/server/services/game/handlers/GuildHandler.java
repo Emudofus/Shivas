@@ -35,7 +35,7 @@ public class GuildHandler extends AbstractBaseHandler<GameClient> {
             client.write(GuildGameMessageFormatter.statsMessage(
                     guild.getName(),
                     guild.getEmblem(),
-                    client.player().getGuildMember().getRank()
+                    client.player().getGuildMember().getRights().toInt()
             ));
 
             guild.subscribe(client.eventListener());
@@ -207,7 +207,7 @@ public class GuildHandler extends AbstractBaseHandler<GameClient> {
             member.getPlayer().getClient().write(GuildGameMessageFormatter.statsMessage(
                     guild.getName(),
                     guild.getEmblem(),
-                    member.getRank()
+                    member.getRights().toInt()
             ));
         }
     }
