@@ -1,6 +1,7 @@
 package org.shivas.protocol.client.types;
 
 import org.joda.time.DateTime;
+import org.shivas.protocol.client.enums.GuildRankEnum;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,7 +15,7 @@ public class BaseGuildMemberType {
     private String name;
     private short level;
     private short skin;
-    private int rank;
+    private GuildRankEnum rank;
     private byte experienceGiven;
     private long experienceRate;
     private int rights;
@@ -25,7 +26,7 @@ public class BaseGuildMemberType {
     public BaseGuildMemberType() {
     }
 
-    public BaseGuildMemberType(long id, String name, short level, short skin, int rank, byte experienceGiven, long experienceRate, int rights, boolean online, int alignment, DateTime lastConnection) {
+    public BaseGuildMemberType(long id, String name, short level, short skin, GuildRankEnum rank, byte experienceGiven, long experienceRate, int rights, boolean online, int alignment, DateTime lastConnection) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -71,11 +72,11 @@ public class BaseGuildMemberType {
         this.skin = skin;
     }
 
-    public int getRank() {
+    public GuildRankEnum getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(GuildRankEnum rank) {
         this.rank = rank;
     }
 

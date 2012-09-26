@@ -1,6 +1,7 @@
 package org.shivas.protocol.client.formatters;
 
 import org.shivas.protocol.client.enums.GuildInvitationErrorEnum;
+import org.shivas.protocol.client.enums.GuildRankEnum;
 import org.shivas.protocol.client.types.BaseGuildMemberType;
 import org.shivas.protocol.client.types.GuildEmblem;
 import org.joda.time.DateTime;
@@ -35,13 +36,13 @@ public class GuildGameMessageFormatter {
         return "gCEa";
     }
 
-    public static String statsMessage(String name, GuildEmblem emblem, int rank){
+    public static String statsMessage(String name, GuildEmblem emblem, GuildRankEnum rank){
         return "gS" + name                                  + "|" +
                       Integer.toString(emblem.getBackgroundId(), 36)    + "|" +
                       Integer.toString(emblem.getBackgroundColor(), 36) + "|" +
                       Integer.toString(emblem.getForegroundId(), 36)    + "|" +
                       Integer.toString(emblem.getForegroundColor(), 36) + "|" +
-                      Integer.toString(rank);
+                      Integer.toString(rank.value());
     }
 
     public static String creationSuccessMessage(){
@@ -92,7 +93,7 @@ public class GuildGameMessageFormatter {
             sb.append(member.getName()).append(';');
             sb.append(member.getLevel()).append(';');
             sb.append(member.getSkin()).append(';');
-            sb.append(member.getRank()).append(';');
+            sb.append(member.getRank().value()).append(';');
             sb.append(member.getExperienceRate()).append(';');
             sb.append(member.getExperienceGiven()).append(';');
             sb.append(member.getRights()).append(';');
