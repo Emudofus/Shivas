@@ -1,33 +1,23 @@
 package org.shivas.data.entity;
 
-import java.io.Serializable;
-
 import org.shivas.common.random.Dice;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
+import org.shivas.protocol.client.types.BaseItemEffectType;
 
-public class WeaponItemEffect implements Serializable, ItemEffect {
+import java.io.Serializable;
+
+public class WeaponItemEffect extends ItemEffect implements Serializable {
 
 	private static final long serialVersionUID = -249953587810140756L;
-	
-	private ItemEffectEnum type;
+
 	private Dice dice;
 	
 	public WeaponItemEffect() {
 	}
 
 	public WeaponItemEffect(ItemEffectEnum type, Dice dice) {
-		this.type = type;
+        super(type);
 		this.dice = dice;
-	}
-
-	@Override
-	public ItemEffectEnum getType() {
-		return type;
-	}
-
-	@Override
-	public void setType(ItemEffectEnum type) {
-		this.type = type;
 	}
 
 	public Dice getDice() {
@@ -43,7 +33,18 @@ public class WeaponItemEffect implements Serializable, ItemEffect {
 		return new WeaponItemEffect();
 	}
 
-	@Override
+    @Override
+    public BaseItemEffectType toBaseItemEffectType() {
+        return new BaseItemEffectType(type, dice);
+    }
+
+    @Override
+    public String toString(int radix) {
+        return Integer.toString(type.value(), radix) + "," +
+               dice.toString(radix);
+    }
+
+    @Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

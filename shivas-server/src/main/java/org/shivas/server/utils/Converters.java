@@ -1,16 +1,11 @@
 package org.shivas.server.utils;
 
 import com.google.common.base.Function;
-import org.shivas.common.random.Dice;
-import org.shivas.common.random.Dofus1Dice;
-import org.shivas.data.entity.ConstantItemEffect;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
-import org.shivas.data.entity.WeaponItemEffect;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.*;
 import org.shivas.server.core.GameActor;
-import org.shivas.server.database.models.GuildMember;
 import org.shivas.server.database.models.*;
 
 public class Converters {
@@ -42,12 +37,7 @@ public class Converters {
 	
 	public static Function<ItemEffect, BaseItemEffectType> ITEMEFFECT_TO_BASEITEMEFFECTTYPE = new Function<ItemEffect, BaseItemEffectType>() {
 		public BaseItemEffectType apply(ItemEffect arg0) {
-			if (arg0 instanceof ConstantItemEffect) {
-				return new BaseItemEffectType(arg0.getType(), ((ConstantItemEffect) arg0).getBonus());
-			} else if (arg0 instanceof WeaponItemEffect) {
-				return new BaseItemEffectType(arg0.getType(), ((WeaponItemEffect) arg0).getDice());
-			}
-			return null;
+			return arg0.toBaseItemEffectType();
 		}
 	};
 	
@@ -89,33 +79,13 @@ public class Converters {
 	
 	public static Function<ItemEffect, String> ITEMEFFECT_TO_STRING = new Function<ItemEffect, String>() {
 		public String apply(ItemEffect input) {
-		    if (input instanceof ConstantItemEffect) {
-				return Integer.toString(input.getType().value(), RADIX) + "," +
-					   Integer.toString(((ConstantItemEffect) input).getBonus(), RADIX);
-			} else if (input instanceof WeaponItemEffect) {
-				return Integer.toString(input.getType().value(), RADIX) + "," +
-					   ((WeaponItemEffect) input).getDice().toString(RADIX);
-			}
-			return null;
+		    return input.toString(RADIX);
 		}
 	};
 	
 	public static Function<String, ItemEffect> STRING_TO_ITEMEFFECT = new Function<String, ItemEffect>() {
 		public ItemEffect apply(String input) {
-			int index = input.indexOf(',');
-            if (index < 0) return null;
-
-			ItemEffectEnum effect = ItemEffectEnum.valueOf(Integer.parseInt(input.substring(0, index), RADIX));
-			
-			if (!effect.isWeaponEffect()) {
-				short bonus = Short.parseShort(input.substring(index + 1), RADIX);
-				
-				return new ConstantItemEffect(effect, bonus);
-			} else {
-				Dice dice = Dofus1Dice.parseDice(input.substring(index + 1), RADIX);
-				
-				return new WeaponItemEffect(effect, dice);
-			}
+            return ItemEffect.valueOf(input, RADIX);
 		}
 	};
 	
