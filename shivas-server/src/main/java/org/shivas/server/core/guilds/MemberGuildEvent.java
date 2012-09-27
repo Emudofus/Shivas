@@ -1,5 +1,6 @@
 package org.shivas.server.core.guilds;
 
+import org.shivas.server.database.models.Guild;
 import org.shivas.server.database.models.Player;
 
 /**
@@ -9,11 +10,13 @@ import org.shivas.server.database.models.Player;
  * Time: 15:55
  */
 public final class MemberGuildEvent extends GuildEvent {
-    private final Player player;
+    private final Player player, source;
     private final Type type;
 
-    public MemberGuildEvent(Player player, Type type) {
+    public MemberGuildEvent(Guild guild, Player player, Player source, Type type) {
+        super(guild);
         this.player = player;
+        this.source = source;
         this.type = type;
     }
 
@@ -24,5 +27,9 @@ public final class MemberGuildEvent extends GuildEvent {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Player getSource() {
+        return source;
     }
 }

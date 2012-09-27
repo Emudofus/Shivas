@@ -14,6 +14,7 @@ import org.shivas.server.core.exchanges.ItemExchangeEvent;
 import org.shivas.server.core.exchanges.KamasExchangeEvent;
 import org.shivas.server.core.exchanges.ReadyExchangeEvent;
 import org.shivas.server.core.guilds.GuildEvent;
+import org.shivas.server.core.guilds.MemberGuildEvent;
 import org.shivas.server.core.interactions.Interaction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.RolePlayMovement;
@@ -253,6 +254,11 @@ public class DefaultEventListener implements EventListener {
             break;
 
         case REMOVE_MEMBER:
+            MemberGuildEvent memberGuildEvent = (MemberGuildEvent) event;
+            if (memberGuildEvent.getPlayer() == client.player()) {
+                memberGuildEvent.getGuild().unsubscribe(client.eventListener());
+                client.write(GuildGameMessageFormatter.kickRemoteSuccessMessage(memberGuildEvent.getSource().getName()));
+            }
             break;
         }
     }

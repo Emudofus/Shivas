@@ -38,7 +38,7 @@ public class GuildInvitation extends Invitation {
     public void accept() throws InteractionException {
         Guild guild = source.player().getGuild();
 
-        guild.getMembers().add(target.player());
+        guild.getMembers().add(target.player(), source.player());
 
         source.write(GuildGameMessageFormatter.invitationRemoteSuccessMessage(target.player().getName()));
 
@@ -48,6 +48,8 @@ public class GuildInvitation extends Invitation {
                 target.player().getGuildMember().getRights().toInt()
         ));
         target.write(GuildGameMessageFormatter.invitationLocalSuccessMessage());
+
+        guild.subscribe(target.eventListener());
     }
 
     @Override

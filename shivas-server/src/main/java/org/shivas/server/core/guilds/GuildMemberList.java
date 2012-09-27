@@ -42,35 +42,42 @@ public class GuildMemberList implements Iterable<GuildMember> {
         return members.get(playerId);
     }
 
-    public void add(Player player) {
+    public GuildMember get(String playerName) {
+        for (GuildMember member : members.values()) {
+            if (member.getPlayer().getName().equals(playerName)) return member;
+        }
+        return null;
+    }
+
+    public void add(Player player, Player source) {
         GuildMember member = new GuildMember(owner, player, GuildRankEnum.TESTING, new GuildMemberRights());
         player.setGuildMember(member);
         repo.persistLater(member);
 
         add(member);
+
+        owner.publish(new MemberGuildEvent(owner, member.getPlayer(), source, GuildEvent.Type.ADD_MEMBER));
     }
 
     public void add(GuildMember member) {
         members.put(member.getPlayer().getId(), member);
-
-        owner.publish(new MemberGuildEvent(member.getPlayer(), GuildEvent.Type.ADD_MEMBER));
     }
 
-    public boolean remove(int playerId) {
+    public boolean remove(int playerId, Player source) {
         GuildMember member = members.remove(playerId);
         if (member != null) {
             member.getPlayer().setGuildMember(null);
             repo.deleteLater(member);
 
-            owner.publish(new MemberGuildEvent(member.getPlayer(), GuildEvent.Type.REMOVE_MEMBER));
+            owner.publish(new MemberGuildEvent(owner, member.getPlayer(), source, GuildEvent.Type.REMOVE_MEMBER));
 
             return true;
         }
         return false;
     }
 
-    public void remove(Player player) {
-        remove(player.getId());
+    public void remove(GuildMember member, Player source) {
+        remove(member.getId(), source);
     }
 
     public Collection<BaseGuildMemberType> toBaseGuildMemberType() {

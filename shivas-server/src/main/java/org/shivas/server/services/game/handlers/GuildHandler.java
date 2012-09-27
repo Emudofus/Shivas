@@ -92,6 +92,10 @@ public class GuildHandler extends AbstractBaseHandler<GameClient> {
             }
             break;
 
+        case 'K':
+            parseKickMessage(message.substring(2));
+            break;
+
         case 'P':
             args = message.substring(2).split("\\|");
             parseEditMemberMessage(
@@ -209,6 +213,25 @@ public class GuildHandler extends AbstractBaseHandler<GameClient> {
                     guild.getEmblem(),
                     member.getRights().toInt()
             ));
+        }
+    }
+
+    private void parseKickMessage(String name) throws CriticalException {
+        assertTrue(client.player().hasGuild(), "you must have a guild");
+
+        Guild guild = client.player().getGuild();
+        GuildMember member = guild.getMembers().get(name), source = client.player().getGuildMember();
+
+        assertTrue(member != null, "unknown member %s", name);
+        assertTrue(member.getRank() != GuildRankEnum.LEADER, "you can not kick the leader");
+        assertTrue(source.getRights().has(GuildMemberRightsEnum.BAN) || member == source, "you have not enough rights");
+
+        guild.getMembers().remove(member, client.player());
+
+        client.write(GuildGameMessageFormatter.kickLocalSuccessMessage(source.getPlayer().getName(), member.getPlayer().getName()));
+
+        if (member != source) {
+            client.write(GuildGameMessageFormatter.membersListMessage(guild.getMembers().toBaseGuildMemberType()));
         }
     }
 }
