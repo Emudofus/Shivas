@@ -500,11 +500,21 @@ public class XmlLoader extends AbstractLoader {
 
             Element accessories_elem = npcTemplate_elem.getChild("accessories");
             ItemTemplate[] accessories = new ItemTemplate[5];
-            accessories[0] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("weapon").getIntValue());
-            accessories[1] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("hat").getIntValue());
-            accessories[2] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("cloak").getIntValue());
-            accessories[3] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("pet").getIntValue());
-            accessories[4] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("shield").getIntValue());
+            if (accessories_elem.getAttribute("weapon") != null) {
+                accessories[0] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("weapon").getIntValue());
+            }
+            if (accessories_elem.getAttribute("hat") != null) {
+                accessories[1] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("hat").getIntValue());
+            }
+            if (accessories_elem.getAttribute("cloak") != null) {
+                accessories[2] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("cloak").getIntValue());
+            }
+            if (accessories_elem.getAttribute("pet") != null) {
+                accessories[3] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("pet").getIntValue());
+            }
+            if (accessories_elem.getAttribute("shield") != null) {
+                accessories[4] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("shield").getIntValue());
+            }
             npcTemplate.setAccessories(accessories);
 
             repo.put(npcTemplate.getId(), npcTemplate);
