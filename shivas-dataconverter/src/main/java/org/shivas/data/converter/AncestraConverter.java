@@ -1,13 +1,16 @@
 package org.shivas.data.converter;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import org.atomium.util.Action1;
 import org.atomium.util.query.Order;
+import org.shivas.common.collections.CollectionQuery;
 import org.shivas.common.maths.Point;
 import org.shivas.common.random.Dofus1Dice;
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 
@@ -86,9 +89,26 @@ public class AncestraConverter extends MySqlUserConverter {
 				}
 			});
 			App.log("Tous les panoplies ont été écrites.");
-			
-			items.clear();
 		}
+
+        ////////////// NPCTEMPLATES //////////////
+
+        if (canWrite("Souhaitez-vous écrire les NPC templates ?")) {
+            App.log("Les NPC templates vont être chargés puis écris, cela peut prendre quelques secondes.");
+            super.query(q.select("npc_template").toQuery(), new Action1<ResultSet>() {
+                public Void invoke(ResultSet rset) throws Exception {
+                    createNpcTemplates(
+                            rset,
+                            App.prompt("Veuillez entrer le répertoire où seront stockés les NPC templates."),
+                            out
+                    );
+                    return null;
+                }
+            });
+            App.log("Tous les NPC templates ont été écris.");
+        }
+
+        items.clear(); // NPC loading needs items
 
 		//////////// MAPS /////////////////
 		
@@ -316,5 +336,48 @@ public class AncestraConverter extends MySqlUserConverter {
 		
 		out.outputWaypoints(waypoints, directory + "waypoints");
 	}
+
+    private void createNpcTemplates(ResultSet rset, String dir, DataOutputter out) throws Exception {
+        List<Structs.NpcTemplate> npcTemplates = Lists.newArrayList();
+        Map<Integer, Structs.ItemTemplate> items = CollectionQuery.from(this.items.values()).computeMap(new Function<Structs.ItemTemplate, Integer>() {
+            public Integer apply(Structs.ItemTemplate itemTemplate) {
+                return itemTemplate.id;
+            }
+        });
+
+        while (rset.next()) {
+            Structs.NpcTemplate npcTemplate = new Structs.NpcTemplate();
+            npcTemplate.id = rset.getInt("id");
+            npcTemplate.gender = Gender.valueOf(rset.getInt("sex"));
+            npcTemplate.skin = rset.getShort("skin");
+            npcTemplate.size = rset.getShort("scaleX");
+            npcTemplate.color1 = rset.getInt("color1");
+            npcTemplate.color2 = rset.getInt("color2");
+            npcTemplate.color3 = rset.getInt("color3");
+
+            String[] accessoriesStr = rset.getString("accessories").split(",");
+            Structs.ItemTemplate[] accessories = new Structs.ItemTemplate[5];
+            for (int i = 0; i < accessoriesStr.length; ++i) {
+                int itemId = Integer.parseInt(accessoriesStr[i], 16);
+                if (itemId == 0) continue;
+
+                Structs.ItemTemplate item = items.get(itemId);
+                if (item == null) {
+                    App.log("Item N°%d inconnu !", itemId);
+                }
+                else {
+                    accessories[i] = item;
+                }
+            }
+            npcTemplate.accessories = accessories;
+
+            npcTemplate.extraClip = rset.getInt("extraClip");
+            npcTemplate.customArtwork = rset.getInt("customArtWork");
+
+            npcTemplates.add(npcTemplate);
+        }
+
+        out.outputNpcTemplates(npcTemplates, dir + "npcTemplates");
+    }
 
 }

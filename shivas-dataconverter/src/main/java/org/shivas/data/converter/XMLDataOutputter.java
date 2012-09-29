@@ -296,4 +296,47 @@ public class XMLDataOutputter implements DataOutputter {
 		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
 	}
 
+    @Override
+    public void outputNpcTemplates(Collection<Structs.NpcTemplate> npcTemplates, String fileName) throws IOException {
+        Element root_elem = new Element("npcTemplates");
+
+        for (Structs.NpcTemplate npcTemplate : npcTemplates) {
+            Element npcTemplate_elem = new Element("npcTemplate");
+            npcTemplate_elem.setAttribute("id", String.valueOf(npcTemplate.id));
+            npcTemplate_elem.setAttribute("gender", npcTemplate.gender.name());
+            npcTemplate_elem.setAttribute("skin", String.valueOf(npcTemplate.skin));
+            npcTemplate_elem.setAttribute("size", String.valueOf(npcTemplate.size));
+            npcTemplate_elem.setAttribute("extraClip", String.valueOf(npcTemplate.extraClip));
+            npcTemplate_elem.setAttribute("customArtwork", String.valueOf(npcTemplate.customArtwork));
+
+            Element colors_elem = new Element("colors");
+            colors_elem.setAttribute("first",  String.valueOf(npcTemplate.color1));
+            colors_elem.setAttribute("second", String.valueOf(npcTemplate.color2));
+            colors_elem.setAttribute("third",  String.valueOf(npcTemplate.color3));
+            npcTemplate_elem.addContent(colors_elem);
+
+            Element accessories_elem = new Element("accessories");
+            if (npcTemplate.accessories[0] != null) {
+                accessories_elem.setAttribute("weapon", String.valueOf(npcTemplate.accessories[0].id));
+            }
+            if (npcTemplate.accessories[1] != null) {
+                accessories_elem.setAttribute("hat", String.valueOf(npcTemplate.accessories[1].id));
+            }
+            if (npcTemplate.accessories[2] != null) {
+                accessories_elem.setAttribute("cloak", String.valueOf(npcTemplate.accessories[2].id));
+            }
+            if (npcTemplate.accessories[3] != null) {
+                accessories_elem.setAttribute("pet", String.valueOf(npcTemplate.accessories[3].id));
+            }
+            if (npcTemplate.accessories[4] != null) {
+                accessories_elem.setAttribute("shield", String.valueOf(npcTemplate.accessories[4].id));
+            }
+            npcTemplate_elem.addContent(accessories_elem);
+
+            root_elem.addContent(npcTemplate_elem);
+        }
+
+        out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+    }
+
 }

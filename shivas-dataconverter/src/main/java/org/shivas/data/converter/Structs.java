@@ -9,6 +9,7 @@ import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dice;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 
@@ -125,4 +126,13 @@ public final class Structs {
 		public int mapId;
 		public short cell;
 	}
+
+    public static final class NpcTemplate {
+        public int id;
+        public Gender gender;
+        public short skin, size;
+        public int color1, color2, color3;
+        public ItemTemplate[] accessories;
+        public int extraClip, customArtwork;
+    }
 }

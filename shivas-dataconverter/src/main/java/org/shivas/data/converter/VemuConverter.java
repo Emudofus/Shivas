@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import org.atomium.util.Action1;
 import org.atomium.util.query.Order;
 import org.shivas.common.random.Dofus1Dice;
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 
@@ -83,9 +84,27 @@ public class VemuConverter extends MySqlUserConverter {
 				}
 			});
 			App.log("Toutes les panoplies ont été écris.");
-			
-			items.clear(); // free unused memory
 		}
+
+        //////////// NPCTEMPLATES /////////////////
+
+        if (items.size() > 0 && canWrite("Souhaitez-vous écrire les NPC templates ?")) {
+            App.log("Les NPC templates vont être chargés puis écris, cela peut prendre quelques secondes.");
+            super.query(q.select("npcs_templates").toQuery(), new Action1<ResultSet>() {
+                public Void invoke(ResultSet rset) throws Exception {
+                    createNpcTemplates(
+                            rset,
+                            App.prompt("Veuillez entrer le répertoire où seront stockés les NPC templates."),
+                            out
+                    );
+                    return null;
+                }
+            });
+            App.log("Tous les NPC templates ont été écris.");
+        }
+
+        // npcs loading needs items
+        items.clear(); // free memory
 		
 		//////////// SPELLS /////////////////
 		
@@ -136,8 +155,8 @@ public class VemuConverter extends MySqlUserConverter {
 		
 		App.log("Tout s'est bien passé, vous pouvez à présent lancer l'émulateur");
 	}
-	
-	private void createExperiences(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {
+
+    private void createExperiences(ResultSet r, String directory, DataOutputter out) throws SQLException, IOException {
 		List<Structs.Experience> exps = Lists.newArrayList();
 		
 		while (r.next()) {
@@ -349,5 +368,43 @@ public class VemuConverter extends MySqlUserConverter {
 		
 		out.outputSpells(spells, directory + "spells");
 	}
+
+    private void createNpcTemplates(ResultSet rset, String dir, DataOutputter out) throws Exception {
+        List<Structs.NpcTemplate> npcTemplates = Lists.newArrayList();
+
+        while (rset.next()) {
+            Structs.NpcTemplate npcTemplate = new Structs.NpcTemplate();
+            npcTemplate.id = rset.getInt("ID");
+            npcTemplate.gender = Gender.valueOf(rset.getInt("Sex"));
+            npcTemplate.skin = rset.getShort("Gfx");
+            npcTemplate.size = rset.getShort("Size");
+            npcTemplate.color1 = rset.getInt("Color1");
+            npcTemplate.color2 = rset.getInt("Color2");
+            npcTemplate.color3 = rset.getInt("Color3");
+
+            String[] accessoriesStr = rset.getString("Items").split(",");
+            Structs.ItemTemplate[] accessories = new Structs.ItemTemplate[5];
+            for (int i = 0; i < accessoriesStr.length; ++i) {
+                int itemId = Integer.parseInt(accessoriesStr[i], 16);
+                if (itemId == 0) continue;
+
+                Structs.ItemTemplate item = items.get(itemId);
+                if (item == null) {
+                    App.log("Item N°%d inconnu !", itemId);
+                }
+                else {
+                    accessories[i] = item;
+                }
+            }
+            npcTemplate.accessories = accessories;
+
+            npcTemplate.extraClip = rset.getInt("Bonus");
+            npcTemplate.customArtwork = rset.getInt("ArtWork");
+
+            npcTemplates.add(npcTemplate);
+        }
+
+        out.outputNpcTemplates(npcTemplates, dir + "npcTemplates");
+    }
 
 }
