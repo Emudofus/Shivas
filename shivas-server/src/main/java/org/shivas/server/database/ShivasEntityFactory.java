@@ -2,11 +2,13 @@ package org.shivas.server.database;
 
 import org.shivas.data.Container;
 import org.shivas.data.entity.Item;
+import org.shivas.data.entity.Npc;
 import org.shivas.data.entity.factory.AbstractEntityFactory;
 import org.shivas.data.entity.factory.ActionFactory;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.actions.ShivasActionFactory;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.core.npcs.GameNpc;
 import org.shivas.server.database.models.GameItem;
 
 import javax.inject.Inject;
@@ -27,6 +29,11 @@ public class ShivasEntityFactory extends AbstractEntityFactory {
 	public Item newItem() {
 		return new GameItem();
 	}
+
+    @Override
+    public Npc newNpc() {
+        return new GameNpc();
+    }
 
 	@Override
 	public ActionFactory newActionFactory(Container ctner) {

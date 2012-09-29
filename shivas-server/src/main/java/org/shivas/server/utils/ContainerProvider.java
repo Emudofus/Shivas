@@ -1,26 +1,19 @@
 package org.shivas.server.utils;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import com.google.inject.Provider;
 import org.shivas.data.Container;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.Loader;
 import org.shivas.data.Loaders;
 import org.shivas.data.container.ProxyContainer;
-import org.shivas.data.entity.Breed;
-import org.shivas.data.entity.Experience;
-import org.shivas.data.entity.Action;
-import org.shivas.data.entity.ItemSet;
-import org.shivas.data.entity.ItemTemplate;
-import org.shivas.data.entity.SpellTemplate;
-import org.shivas.data.entity.Waypoint;
+import org.shivas.data.entity.*;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.maps.GameMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Provider;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class ContainerProvider implements Provider<Container> {
@@ -48,6 +41,7 @@ public class ContainerProvider implements Provider<Container> {
 			loader.load(ItemTemplate.class, config.dataPath() + "items/");
 			loader.load(ItemSet.class, config.dataPath() + "itemsets/");
 			loader.load(Action.class, config.dataPath() + "actions/");
+            loader.load(NpcTemplate.class, config.dataPath() + "npcTemplates/");
 			loader.load(Waypoint.class, config.dataPath() + "waypoints/");
 
 			proxy.setParent(loader.create());
