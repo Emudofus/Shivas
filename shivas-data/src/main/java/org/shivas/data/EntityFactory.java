@@ -25,10 +25,13 @@ public interface EntityFactory {
 	ConstantItemEffect newConstantItemEffect();
 	WeaponItemEffect newWeaponItemEffect();
 	
-	ActionFactory newItemActionFactory(Container ctner);
+	ActionFactory newActionFactory(Container ctner);
 	
 	SpellTemplate newSpellTemplate();
 	SpellLevel newSpellLevel();
 	SpellEffect newSpellEffect();
 	SpellBreed newSpellBreed();
+
+    NpcTemplate newNpcTemplate();
+    Npc newNpc();
 }

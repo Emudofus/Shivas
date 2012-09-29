@@ -98,4 +98,14 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 		return new SpellBreed();
 	}
 
+    @Override
+    public NpcTemplate newNpcTemplate() {
+        return new NpcTemplate();
+    }
+
+    @Override
+    public Npc newNpc() {
+        return new Npc();
+    }
+
 }

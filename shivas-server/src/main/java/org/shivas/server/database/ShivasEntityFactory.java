@@ -1,8 +1,5 @@
 package org.shivas.server.database;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.shivas.data.Container;
 import org.shivas.data.entity.Item;
 import org.shivas.data.entity.factory.AbstractEntityFactory;
@@ -11,6 +8,9 @@ import org.shivas.server.config.Config;
 import org.shivas.server.core.actions.ShivasActionFactory;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.database.models.GameItem;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class ShivasEntityFactory extends AbstractEntityFactory {
@@ -29,7 +29,7 @@ public class ShivasEntityFactory extends AbstractEntityFactory {
 	}
 
 	@Override
-	public ActionFactory newItemActionFactory(Container ctner) {
+	public ActionFactory newActionFactory(Container ctner) {
 		return new ShivasActionFactory(ctner, config);
 	}
 	

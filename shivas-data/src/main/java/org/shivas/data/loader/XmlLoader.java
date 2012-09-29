@@ -17,22 +17,24 @@ import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.*;
 import org.shivas.data.entity.factory.ActionFactory;
 import org.shivas.data.repository.BaseRepository;
-import org.shivas.protocol.client.enums.ItemEffectEnum;
-import org.shivas.protocol.client.enums.ItemTypeEnum;
-import org.shivas.protocol.client.enums.SpellEffectsEnum;
+import org.shivas.protocol.client.enums.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 public class XmlLoader extends AbstractLoader {
+
+    private final Logger log = LoggerFactory.getLogger(XmlLoader.class);
 	
 	private final SAXBuilder builder = new SAXBuilder();
-	private final ActionFactory itemActions;
+	private final ActionFactory actionFactory;
 	
 	public XmlLoader(EntityFactory factory) {
 		super(factory);
-		itemActions = factory.newItemActionFactory(ctner);
+		actionFactory = factory.newActionFactory(ctner);
 		
 		loaders.put(Breed.class, new FileLoader<Breed>() {
 			public int load(BaseRepository<Breed> repo, File file) throws Exception {
@@ -81,6 +83,18 @@ public class XmlLoader extends AbstractLoader {
 				return loadZaap(repo, file);
 			}
 		});
+
+        loaders.put(NpcTemplate.class, new FileLoader<NpcTemplate>() {
+            public int load(BaseRepository<NpcTemplate> repo, File file) throws Exception {
+                return loadNpcTemplates(repo, file);
+            }
+        });
+
+        loaders.put(Npc.class, new FileLoader<Npc>() {
+            public int load(BaseRepository<Npc> repo, File file) throws Exception {
+                return loadNpcs(repo, file);
+            }
+        });
 	}
 
 	@Override
@@ -267,7 +281,7 @@ public class XmlLoader extends AbstractLoader {
 			parameters.put(attr.getName(), attr.getValue());
 		}
 		
-		return itemActions.make(type, parameters);
+		return actionFactory.make(type, parameters);
 	}
 	
 	private ItemTemplate makeItemTemplate(Element elem, ItemTypeEnum type) throws Exception {
@@ -325,22 +339,33 @@ public class XmlLoader extends AbstractLoader {
 		Document doc = builder.build(file);
 		
 		for (Element actions_elem : doc.getDescendants(new ElementFilter("actions"))) {
-			int tplId = actions_elem.getAttribute("item").getIntValue();
-			ItemTemplate tpl = get(ItemTemplate.class).byId(tplId);
-			if (tpl == null) continue;
-			if (!(tpl instanceof UsableItemTemplate)) throw new Exception("you can't add action on non-usable item");
-			
-			UsableItemTemplate usable = (UsableItemTemplate) tpl;
-			if (usable.getActions() != null) throw new Exception("you can't add anymore actions on this item");
-			
-			List<Action> actions = Lists.newArrayList();
-			for (Element action_elem : actions_elem.getChildren("action")) {
-				Action action = makeItemAction(action_elem);
-				if (action != null) {
-					actions.add(action);
-				}
-			}
-			usable.setActions(actions);
+            if (actions_elem.getAttribute("item") != null) {
+                int tplId = actions_elem.getAttribute("item").getIntValue();
+                ItemTemplate tpl = get(ItemTemplate.class).byId(tplId);
+                if (tpl == null) continue;
+                if (!(tpl instanceof UsableItemTemplate)) throw new Exception("you can't add action on non-usable item");
+
+                UsableItemTemplate usable = (UsableItemTemplate) tpl;
+                if (usable.getActions() != null) throw new Exception("you can't add anymore actions on this item");
+
+                List<Action> actions = Lists.newArrayList();
+                for (Element action_elem : actions_elem.getChildren("action")) {
+                    Action action = makeItemAction(action_elem);
+                    if (action != null) {
+                        actions.add(action);
+                    }
+                }
+                usable.setActions(actions);
+            } else if (actions_elem.getAttribute("npc") != null) {
+                int npcId = actions_elem.getAttribute("npc").getIntValue();
+                Npc npc = get(Npc.class).byId(npcId);
+                if (npc == null) {
+                    log.warn("unknown npc {}", npcId);
+                    continue;
+                }
+
+
+            }
 			
 			++count;
 		}
@@ -453,5 +478,60 @@ public class XmlLoader extends AbstractLoader {
 		
 		return count;
 	}
+
+    private int loadNpcTemplates(BaseRepository<NpcTemplate> repo, File file) throws Exception {
+        int count = 0;
+        Document doc = builder.build(file);
+
+        Element root = doc.getDescendants(new ElementFilter("npcTemplates")).next();
+        for (Element npcTemplate_elem : root.getChildren("npcTemplate")) {
+            NpcTemplate npcTemplate = factory.newNpcTemplate();
+            npcTemplate.setId(npcTemplate_elem.getAttribute("id").getIntValue());
+            npcTemplate.setGender(Gender.valueOf(npcTemplate_elem.getAttributeValue("gender")));
+            npcTemplate.setSkin((short) npcTemplate_elem.getAttribute("skin").getIntValue());
+            npcTemplate.setSize((short) npcTemplate_elem.getAttribute("size").getIntValue());
+            npcTemplate.setExtraClip(npcTemplate_elem.getAttribute("extraClip").getIntValue());
+            npcTemplate.setCustomArtwork(npcTemplate_elem.getAttribute("customArtwork").getIntValue());
+
+            Element colors_elem = npcTemplate_elem.getChild("colors");
+            npcTemplate.setColor1(colors_elem.getAttribute("first").getIntValue());
+            npcTemplate.setColor2(colors_elem.getAttribute("second").getIntValue());
+            npcTemplate.setColor3(colors_elem.getAttribute("third").getIntValue());
+
+            Element accessories_elem = npcTemplate_elem.getChild("accessories");
+            ItemTemplate[] accessories = new ItemTemplate[5];
+            accessories[0] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("weapon").getIntValue());
+            accessories[1] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("hat").getIntValue());
+            accessories[2] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("cloak").getIntValue());
+            accessories[3] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("pet").getIntValue());
+            accessories[4] = ctner.get(ItemTemplate.class).byId(accessories_elem.getAttribute("shield").getIntValue());
+            npcTemplate.setAccessories(accessories);
+
+            repo.put(npcTemplate.getId(), npcTemplate);
+            ++count;
+        }
+
+        return count;
+    }
+
+    private int loadNpcs(BaseRepository<Npc> repo, File file) throws Exception {
+        int count = 0;
+        Document doc = builder.build(file);
+
+        Element root = doc.getDescendants(new ElementFilter("npcs")).next();
+        for (Element npc_elem : root.getChildren("npc")) {
+            Npc npc = factory.newNpc();
+            npc.setId(npc_elem.getAttribute("id").getIntValue());
+            npc.setTemplate(ctner.get(NpcTemplate.class).byId(npc_elem.getAttribute("template").getIntValue()));
+            npc.setMap(ctner.get(MapTemplate.class).byId(npc_elem.getAttribute("map").getIntValue()));
+            npc.setCell((short) npc_elem.getAttribute("cell").getIntValue());
+            npc.setOrientation(OrientationEnum.valueOf(npc_elem.getAttributeValue("orientation")));
+
+            repo.put(npc.getId(), npc);
+            ++count;
+        }
+
+        return count;
+    }
 
 }
