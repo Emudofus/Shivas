@@ -4,6 +4,7 @@ import org.shivas.common.maths.LimitedValue;
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
 import org.shivas.protocol.client.types.RolePlayCharacterType;
 import org.shivas.protocol.client.types.RolePlayNpcType;
@@ -250,7 +251,7 @@ public class GameMessageFormatter {
         sb.append(npc.getSkin()).append('^');
         if (npc.sameScale()) sb.append(npc.getSize()).append(';');
         else sb.append(npc.getScaleX()).append('x').append(npc.getScaleY()).append(';');
-        sb.append(npc.getGender() ? '1' : '0').append(';');
+        sb.append(npc.getGender() == Gender.FEMALE ? '1' : '0').append(';');
         sb.append(toHexOrNegative(npc.getColor1())).append(';');
         sb.append(toHexOrNegative(npc.getColor2())).append(';');
         sb.append(toHexOrNegative(npc.getColor3())).append(';');

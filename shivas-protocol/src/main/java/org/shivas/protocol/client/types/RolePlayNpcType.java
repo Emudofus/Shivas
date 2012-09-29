@@ -1,7 +1,6 @@
 package org.shivas.protocol.client.types;
 
-import java.util.Collection;
-
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.OrientationEnum;
 
 /**
@@ -14,16 +13,16 @@ public class RolePlayNpcType extends BaseRolePlayActorType {
     private int templateId;
     private short scaleX, scaleY;
     private short skin;
-    private boolean gender;
+    private Gender gender;
     private int color1, color2, color3;
-    private Collection<Integer> accessories;
+    private int[] accessories;
     private int customArtwork;
     private int extraClip;
 
     public RolePlayNpcType() {
     }
 
-    public RolePlayNpcType(long id, int templateId, short scaleX, short scaleY, short skin, boolean gender, int color1, int color2, int color3, short cellId, OrientationEnum orientation, Collection<Integer> accessories, int customArtwork, int extraClip) {
+    public RolePlayNpcType(long id, int templateId, short scaleX, short scaleY, short skin, Gender gender, int color1, int color2, int color3, short cellId, OrientationEnum orientation, int[] accessories, int customArtwork, int extraClip) {
         super(id, cellId, orientation);
         this.templateId = templateId;
         this.scaleX = scaleX;
@@ -70,11 +69,11 @@ public class RolePlayNpcType extends BaseRolePlayActorType {
         this.skin = skin;
     }
 
-    public boolean getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -102,11 +101,11 @@ public class RolePlayNpcType extends BaseRolePlayActorType {
         this.color3 = color3;
     }
 
-    public Collection<Integer> getAccessories() {
+    public int[] getAccessories() {
         return accessories;
     }
 
-    public void setAccessories(Collection<Integer> accessories) {
+    public void setAccessories(int[] accessories) {
         this.accessories = accessories;
     }
 
