@@ -1,5 +1,6 @@
 package org.shivas.server.core.npcs;
 
+import com.google.common.collect.Collections2;
 import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
 import org.shivas.server.core.exchanges.Purchasable;
@@ -8,6 +9,7 @@ import org.shivas.server.core.interactions.AbstractInteraction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
 import org.shivas.server.services.game.GameClient;
+import org.shivas.server.utils.Converters;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,6 +34,7 @@ public class NpcExchangeInteraction extends AbstractInteraction implements Purch
     @Override
     public void begin() throws InteractionException {
         client.write(TradeGameMessageFormatter.startTradeMessage(TradeTypeEnum.NPC));
+        client.write(TradeGameMessageFormatter.itemListMessage(Collections2.transform(npc.getSales().values(), Converters.NPCSALE_TO_BASEITEMTEMPLATETYPE)));
     }
 
     @Override

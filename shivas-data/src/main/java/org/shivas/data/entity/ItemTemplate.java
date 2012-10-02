@@ -3,11 +3,16 @@ package org.shivas.data.entity;
 import java.io.Serializable;
 import java.util.Collection;
 
+import com.google.common.collect.Collections2;
 import org.shivas.common.collections.Collections3;
 import org.shivas.data.EntityFactory;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
 
 import com.google.common.base.Function;
+import org.shivas.protocol.client.types.BaseItemTemplateEffectType;
+import org.shivas.protocol.client.types.BaseItemTemplateType;
+
+import javax.annotation.Nullable;
 
 public class ItemTemplate implements Serializable {
 
@@ -153,4 +158,11 @@ public class ItemTemplate implements Serializable {
 		return item;
 	}
 
+    public BaseItemTemplateType toBaseItemTemplateType() {
+        return new BaseItemTemplateType(id, Collections2.transform(effects, new Function<ItemEffectTemplate, BaseItemTemplateEffectType>() {
+            public BaseItemTemplateEffectType apply(ItemEffectTemplate input) {
+                return input.toBaseItemTemplateEffectType();
+            }
+        }));
+    }
 }

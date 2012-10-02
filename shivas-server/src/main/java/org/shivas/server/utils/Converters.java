@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.data.entity.NpcAnswer;
+import org.shivas.data.entity.NpcSale;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.*;
 import org.shivas.server.core.GameActor;
@@ -14,6 +15,11 @@ public class Converters {
         @Override
         public Integer apply(NpcAnswer input) {
             return input.getId();
+        }
+    };
+    public static final Function<NpcSale,BaseItemTemplateType> NPCSALE_TO_BASEITEMTEMPLATETYPE = new Function<NpcSale, BaseItemTemplateType>() {
+        public BaseItemTemplateType apply(NpcSale input) {
+            return input.getItem().toBaseItemTemplateType();
         }
     };
 

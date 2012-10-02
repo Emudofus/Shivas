@@ -582,22 +582,16 @@ public class XmlLoader extends AbstractLoader {
                 loadNpcQuestions(npc, npc_elem);
             }
 
-            if (npc_elem.getChildren("sale").size() > 0 && (npc.getTemplate().getType() != NpcTypeEnum.BUY || npc.getTemplate().getType() != NpcTypeEnum.BUY_SELL)) {
-                log.warn("NPC {} has sales but template's type is neither BUY nor BUY_SELL", npc.getId());
-            }
-
             switch (npc.getTemplate().getType()) {
             case BUY_SELL:
-            case BUY:
+            case SELL:
                 loadNpcSales(npc, npc_elem);
                 break;
 
-            case SPEAK:
-            case SELL:
-                break;
-
             default:
-                log.warn("npc type {} not handled", npc.getTemplate().getType());
+                if (npc_elem.getChildren("sale").size() > 0) {
+                    log.warn("NPC (id={}) has 2 sales but type is neither SELL nor BUY_SELL");
+                }
                 break;
             }
 

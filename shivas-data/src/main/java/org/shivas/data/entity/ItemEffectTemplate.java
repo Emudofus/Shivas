@@ -1,9 +1,10 @@
 package org.shivas.data.entity;
 
-import java.io.Serializable;
-
 import org.shivas.common.random.Dice;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
+import org.shivas.protocol.client.types.BaseItemTemplateEffectType;
+
+import java.io.Serializable;
 
 public class ItemEffectTemplate implements Serializable {
 
@@ -42,5 +43,13 @@ public class ItemEffectTemplate implements Serializable {
 				new WeaponItemEffect(effect, bonus) :
 				new ConstantItemEffect(effect, (short) bonus.roll());
 	}
+
+    public BaseItemTemplateEffectType toBaseItemTemplateEffectType() {
+        return new BaseItemTemplateEffectType(
+                effect,
+                0, 0, 0,
+                bonus
+        );
+    }
 
 }
