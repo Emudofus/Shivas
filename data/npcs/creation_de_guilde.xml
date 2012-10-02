@@ -1,0 +1,18 @@
+<npcs>
+	<npc id="1" template="615" map="7411" cell="370" orientation="SOUTH_WEST" start="1936">
+		<question id="1936">
+			<answer id="1937">
+				<action type="5" question="5452" />
+			</answer>
+		</question>
+		<question id="5452">
+			<answer id="2627">
+				<action type="4" />
+			</answer>
+		</question>
+	</npc>
+
+	<npc id="2" template="486" map="7411" cell="270" orientation="SOUTH_WEST" start="0">
+		<question id="0"/>
+	</npc>
+</npcs>
