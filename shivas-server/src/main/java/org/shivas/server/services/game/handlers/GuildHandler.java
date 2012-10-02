@@ -105,6 +105,10 @@ public class GuildHandler extends AbstractBaseHandler<GameClient> {
                     Integer.parseInt(args[3])
             );
             break;
+
+        case 'V':
+            parseClosePanelMessage();
+            break;
         }
     }
 
@@ -233,5 +237,9 @@ public class GuildHandler extends AbstractBaseHandler<GameClient> {
         if (member != source) {
             client.write(GuildGameMessageFormatter.membersListMessage(guild.getMembers().toBaseGuildMemberType()));
         }
+    }
+
+    private void parseClosePanelMessage() throws InteractionException {
+        client.interactions().remove(GuildCreationInteraction.class).end();
     }
 }
