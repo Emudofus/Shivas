@@ -3,6 +3,7 @@ package org.shivas.data.entity;
 import org.shivas.protocol.client.enums.OrientationEnum;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,14 +12,15 @@ import java.io.Serializable;
  * Time: 18:25
  */
 public class Npc implements Serializable {
-    private static final long serialVersionUID = -3403427613062336090L;
+    private static final long serialVersionUID = -903644772609069966L;
 
     private int id;
     private NpcTemplate template;
     private MapTemplate map;
     private short cell;
     private OrientationEnum orientation;
-    private Action action;
+    private NpcQuestion startQuestion;
+    private Map<Integer, NpcQuestion> questions;
 
     public int getId() {
         return id;
@@ -60,11 +62,19 @@ public class Npc implements Serializable {
         this.orientation = orientation;
     }
 
-    public Action getAction() {
-        return action;
+    public NpcQuestion getStartQuestion() {
+        return startQuestion;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
+    public void setStartQuestion(NpcQuestion startQuestion) {
+        this.startQuestion = startQuestion;
+    }
+
+    public Map<Integer, NpcQuestion> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Map<Integer, NpcQuestion> questions) {
+        this.questions = questions;
     }
 }

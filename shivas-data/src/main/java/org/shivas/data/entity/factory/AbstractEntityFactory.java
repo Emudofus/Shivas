@@ -108,4 +108,14 @@ public abstract class AbstractEntityFactory implements EntityFactory {
         return new Npc();
     }
 
+    @Override
+    public NpcQuestion newNpcQuestion() {
+        return new NpcQuestion();
+    }
+
+    @Override
+    public NpcAnswer newNpcAnswer() {
+        return new NpcAnswer();
+    }
+
 }

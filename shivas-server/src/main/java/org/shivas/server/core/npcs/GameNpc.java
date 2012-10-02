@@ -1,5 +1,6 @@
 package org.shivas.server.core.npcs;
 
+import org.shivas.data.entity.MapTemplate;
 import org.shivas.data.entity.Npc;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
 import org.shivas.protocol.client.types.RolePlayNpcType;
@@ -55,7 +56,16 @@ public class GameNpc extends Npc implements GameActor {
     }
 
     @Override
-    public BaseRolePlayActorType toBaseRolePlayActorType() {
+    public void setMap(MapTemplate map) {
+        if (getMap() != null) {
+            ((GameMap) getMap()).leave(this);
+        }
+
+        super.setMap(map);
+        ((GameMap) getMap()).enter(this);
+    }
+
+    public RolePlayNpcType toRolePlayNpcType() {
         return new RolePlayNpcType(
                 getId(),
                 getTemplate().getId(),
@@ -72,5 +82,10 @@ public class GameNpc extends Npc implements GameActor {
                 getTemplate().getCustomArtwork(),
                 getTemplate().getExtraClip()
         );
+    }
+
+    @Override
+    public BaseRolePlayActorType toBaseRolePlayActorType() {
+        return toRolePlayNpcType();
     }
 }

@@ -9,6 +9,7 @@ import org.shivas.data.container.ProxyContainer;
 import org.shivas.data.entity.*;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.core.npcs.GameNpc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +43,7 @@ public class ContainerProvider implements Provider<Container> {
 			loader.load(ItemSet.class, config.dataPath() + "itemsets/");
 			loader.load(Action.class, config.dataPath() + "actions/");
             loader.load(NpcTemplate.class, config.dataPath() + "npcTemplates/");
+            loader.load(GameNpc.class, config.dataPath() + "npcs/");
 			loader.load(Waypoint.class, config.dataPath() + "waypoints/");
 
 			proxy.setParent(loader.create());

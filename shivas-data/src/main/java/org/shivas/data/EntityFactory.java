@@ -33,5 +33,7 @@ public interface EntityFactory {
 	SpellBreed newSpellBreed();
 
     NpcTemplate newNpcTemplate();
-    Npc newNpc();
+    Npc         newNpc();
+    NpcQuestion newNpcQuestion();
+    NpcAnswer   newNpcAnswer();
 }

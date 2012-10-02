@@ -16,20 +16,19 @@ public class NpcLook implements Look {
         int[] accessories = new int[5];
         int i = 0;
         for (ItemTemplate item : itemTemplates) {
-            accessories[i] = item.getId();
+            accessories[i] = item != null ? item.getId() : -1;
             i++;
         }
         return accessories;
     }
 
     private final Npc npc;
-    private final Colors colors;
-    private final int[] accessoriesId;
+
+    private Colors colors;
+    private int[] accessoriesId;
 
     public NpcLook(Npc npc) {
         this.npc = npc;
-        this.colors = new Colors(npc.getTemplate().getColor1(), npc.getTemplate().getColor2(), npc.getTemplate().getColor3());
-        this.accessoriesId = itemTemplateToArray(npc.getTemplate().getAccessories());
     }
 
     @Override
@@ -50,6 +49,9 @@ public class NpcLook implements Look {
 
     @Override
     public Colors colors() {
+        if (colors == null) {
+            colors = new Colors(npc.getTemplate().getColor1(), npc.getTemplate().getColor2(), npc.getTemplate().getColor3());
+        }
         return colors;
     }
 
@@ -58,6 +60,10 @@ public class NpcLook implements Look {
 
     @Override
     public int[] accessories() {
+        if (accessoriesId == null) {
+            accessoriesId = itemTemplateToArray(npc.getTemplate().getAccessories());
+        }
+
         return accessoriesId;
     }
 }

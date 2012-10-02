@@ -18,16 +18,12 @@ import org.shivas.data.entity.*;
 import org.shivas.data.entity.factory.ActionFactory;
 import org.shivas.data.repository.BaseRepository;
 import org.shivas.protocol.client.enums.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 public class XmlLoader extends AbstractLoader {
-
-    private final Logger log = LoggerFactory.getLogger(XmlLoader.class);
 	
 	private final SAXBuilder builder = new SAXBuilder();
 	private final ActionFactory actionFactory;
@@ -198,7 +194,7 @@ public class XmlLoader extends AbstractLoader {
 			map.setCells(CellLoader.parse(element.getChild("data").getAttributeValue("value"), factory));
 			map.setDate(element.getAttribute("date").getValue());
 			map.setKey(element.getChild("key").getAttributeValue("value"));
-			map.setSubscriber(element.getAttributeValue("subscriber") == "1");
+			map.setSubscriber(element.getAttributeValue("subscriber").equals("1"));
 			
 			repo.put(map.getId(), map);
 			++count;
@@ -271,7 +267,7 @@ public class XmlLoader extends AbstractLoader {
 		return count;
 	}
 	
-	private Action makeItemAction(Element elem) throws Exception {
+	private Action makeAction(Element elem) throws Exception {
 		int type = elem.getAttribute("type").getIntValue();
 		
 		Map<String, String> parameters = Maps.newHashMap();
@@ -339,33 +335,22 @@ public class XmlLoader extends AbstractLoader {
 		Document doc = builder.build(file);
 		
 		for (Element actions_elem : doc.getDescendants(new ElementFilter("actions"))) {
-            if (actions_elem.getAttribute("item") != null) {
-                int tplId = actions_elem.getAttribute("item").getIntValue();
-                ItemTemplate tpl = get(ItemTemplate.class).byId(tplId);
-                if (tpl == null) continue;
-                if (!(tpl instanceof UsableItemTemplate)) throw new Exception("you can't add action on non-usable item");
+            int tplId = actions_elem.getAttribute("item").getIntValue();
+            ItemTemplate tpl = get(ItemTemplate.class).byId(tplId);
+            if (tpl == null) continue;
+            if (!(tpl instanceof UsableItemTemplate)) throw new Exception("you can't add action on non-usable item");
 
-                UsableItemTemplate usable = (UsableItemTemplate) tpl;
-                if (usable.getActions() != null) throw new Exception("you can't add anymore actions on this item");
+            UsableItemTemplate usable = (UsableItemTemplate) tpl;
+            if (usable.getActions() != null) throw new Exception("you can't add anymore actions on this item");
 
-                List<Action> actions = Lists.newArrayList();
-                for (Element action_elem : actions_elem.getChildren("action")) {
-                    Action action = makeItemAction(action_elem);
-                    if (action != null) {
-                        actions.add(action);
-                    }
+            List<Action> actions = Lists.newArrayList();
+            for (Element action_elem : actions_elem.getChildren("action")) {
+                Action action = makeAction(action_elem);
+                if (action != null) {
+                    actions.add(action);
                 }
-                usable.setActions(actions);
-            } else if (actions_elem.getAttribute("npc") != null) {
-                int npcId = actions_elem.getAttribute("npc").getIntValue();
-                Npc npc = get(Npc.class).byId(npcId);
-                if (npc == null) {
-                    log.warn("unknown npc {}", npcId);
-                    continue;
-                }
-
-
             }
+            usable.setActions(actions);
 			
 			++count;
 		}
@@ -536,6 +521,38 @@ public class XmlLoader extends AbstractLoader {
             npc.setMap(ctner.get(MapTemplate.class).byId(npc_elem.getAttribute("map").getIntValue()));
             npc.setCell((short) npc_elem.getAttribute("cell").getIntValue());
             npc.setOrientation(OrientationEnum.valueOf(npc_elem.getAttributeValue("orientation")));
+
+            Map<Integer, NpcQuestion> questions = Maps.newHashMap();
+            for (Element question_elem : npc_elem.getChildren("question")) {
+                NpcQuestion question = factory.newNpcQuestion();
+                question.setId(question_elem.getAttribute("id").getIntValue());
+
+                Map<Integer, NpcAnswer> answers = Maps.newHashMap();
+                for (Element answer_elem : question_elem.getChildren("answer")) {
+                    NpcAnswer answer = factory.newNpcAnswer();
+                    answer.setId(answer_elem.getAttribute("id").getIntValue());
+
+                    List<Action> actions = Lists.newArrayList();
+                    for (Element action_elem : answer_elem.getChildren("action")) {
+                        Action action = makeAction(action_elem);
+                        actions.add(action);
+                    }
+                    answer.setActions(actions);
+
+                    answers.put(answer.getId(), answer);
+                }
+                question.setAnswers(answers);
+
+                questions.put(question.getId(), question);
+            }
+            npc.setQuestions(questions);
+
+            int startQuestionId = npc_elem.getAttribute("start").getIntValue();
+            NpcQuestion startQuestion = questions.get(startQuestionId);
+            if (startQuestion == null) {
+                throw new Exception("unknown question " + startQuestionId);
+            }
+            npc.setStartQuestion(startQuestion);
 
             repo.put(npc.getId(), npc);
             ++count;
