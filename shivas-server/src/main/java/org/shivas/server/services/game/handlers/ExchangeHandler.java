@@ -7,10 +7,14 @@ import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.exchanges.PlayerExchange;
+import org.shivas.server.core.exchanges.Purchasable;
+import org.shivas.server.core.exchanges.Salable;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
 import org.shivas.server.core.interactions.PlayerExchangeInvitation;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.core.npcs.GameNpc;
+import org.shivas.server.core.npcs.NpcExchangeInteraction;
 import org.shivas.server.core.stores.PlayerStore;
 import org.shivas.server.core.stores.StoreInteraction;
 import org.shivas.server.core.stores.StoreManagementInteraction;
@@ -110,6 +114,11 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
 					args.length > 2 && args[2].length() > 0 ? Short.parseShort(args[2]) : null
 			);
 			break;
+
+        case 'S':
+            args = message.substring(2).split("\\|");
+            parseSellMessage(Long.parseLong(args[0]), Integer.parseInt(args[1]));
+            break;
 			
 		case 'V':
 			parseQuitMessage();
@@ -132,6 +141,10 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
             assertTrue(targetId != null, "no id has been given");
             assertTrue(cellId != null, "no cellid has been given");
             parseViewStoreMessage(targetId);
+            break;
+
+        case NPC:
+            parseNpcExchangeMessage(targetId);
             break;
 			
 		default:
@@ -162,7 +175,8 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
                 InteractionType.PLAYER_EXCHANGE_INVITATION,
                 InteractionType.PLAYER_EXCHANGE,
                 InteractionType.STORE_MANAGEMENT,
-                InteractionType.STORE
+                InteractionType.STORE,
+                InteractionType.NPC_EXCHANGE
         ).cancel();
 	}
 
@@ -246,7 +260,19 @@ public class ExchangeHandler extends AbstractBaseHandler<GameClient> {
     }
 
     private void parseBuyMessage(long itemId, int quantity) throws InteractionException {
-        client.interactions().current(StoreInteraction.class).buy(itemId, quantity);
+        client.interactions().current(Purchasable.class).purchase(itemId, quantity);
+    }
+
+    private void parseSellMessage(long itemId, int quantity) throws InteractionException {
+        client.interactions().current(Salable.class).sell(itemId, quantity);
+    }
+
+    private void parseNpcExchangeMessage(int npcId) throws CriticalException, InteractionException {
+        GameActor actor = client.player().getLocation().getMap().get(npcId);
+        assertTrue(actor != null, "unknown npc %d", npcId);
+        assertTrue(actor instanceof GameNpc, "actor %d isn't a npc", npcId);
+
+        client.interactions().push(new NpcExchangeInteraction(client, (GameNpc) actor)).begin();
     }
 
 }

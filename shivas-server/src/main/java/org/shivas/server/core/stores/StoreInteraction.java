@@ -4,6 +4,7 @@ import org.shivas.protocol.client.enums.TradeTypeEnum;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 import org.shivas.protocol.client.formatters.TradeGameMessageFormatter;
+import org.shivas.server.core.exchanges.Purchasable;
 import org.shivas.server.core.interactions.AbstractInteraction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
@@ -17,7 +18,7 @@ import org.shivas.server.services.game.GameClient;
  * Date: 22/09/12
  * Time: 18:59
  */
-public class StoreInteraction extends AbstractInteraction {
+public class StoreInteraction extends AbstractInteraction implements Purchasable {
     private final GameClient client;
     private final PlayerStore store;
 
@@ -55,7 +56,7 @@ public class StoreInteraction extends AbstractInteraction {
         internalEnd();
     }
 
-    public void buy(long itemId, int quantity) throws InteractionException {
+    public void purchase(long itemId, int quantity) throws InteractionException {
         StoredItem stored = store.get(itemId);
         if (stored == null) {
             throw new InteractionException("unknown item " + itemId);
