@@ -12,6 +12,7 @@ import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
+import org.shivas.protocol.client.enums.NpcTypeEnum;
 
 import java.util.List;
 import java.util.Map;
@@ -129,6 +130,7 @@ public final class Structs {
 
     public static final class NpcTemplate {
         public int id;
+        public NpcTypeEnum type;
         public Gender gender;
         public short skin, size;
         public int color1, color2, color3;

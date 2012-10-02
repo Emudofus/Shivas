@@ -12,7 +12,8 @@
 		</question>
 	</npc>
 
-	<npc id="2" template="486" map="7411" cell="270" orientation="SOUTH_WEST" start="0">
-		<question id="0"/>
+	<npc id="2" template="486" map="7411" cell="270" orientation="SOUTH_WEST">
+		<sale item="39" price="1000" />
+		<sale item="40" /> <!-- price attr is optional -->
 	</npc>
 </npcs>

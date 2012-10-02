@@ -222,7 +222,7 @@ public class XMLDataOutputter implements DataOutputter {
 		if (effect.turns >= 0) effect_elem.setAttribute("turns", String.valueOf(effect.turns));
 		if (effect.chance >= 0) effect_elem.setAttribute("chance", String.valueOf(effect.chance));
 		if (!effect.dice.equals(Dofus1Dice.ZERO)) effect_elem.setAttribute("dice", String.valueOf(effect.dice.toString()));
-		if (effect.target != "") effect_elem.setAttribute("target", String.valueOf(effect.target));
+		if (!effect.target.isEmpty()) effect_elem.setAttribute("target", String.valueOf(effect.target));
 		
 		return effect_elem;
 	}
@@ -303,6 +303,7 @@ public class XMLDataOutputter implements DataOutputter {
         for (Structs.NpcTemplate npcTemplate : npcTemplates) {
             Element npcTemplate_elem = new Element("npcTemplate");
             npcTemplate_elem.setAttribute("id", String.valueOf(npcTemplate.id));
+            npcTemplate_elem.setAttribute("type", npcTemplate.type.name());
             npcTemplate_elem.setAttribute("gender", npcTemplate.gender.name());
             npcTemplate_elem.setAttribute("skin", String.valueOf(npcTemplate.skin));
             npcTemplate_elem.setAttribute("size", String.valueOf(npcTemplate.size));

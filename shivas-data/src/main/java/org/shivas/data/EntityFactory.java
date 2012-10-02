@@ -36,4 +36,5 @@ public interface EntityFactory {
     Npc         newNpc();
     NpcQuestion newNpcQuestion();
     NpcAnswer   newNpcAnswer();
+    NpcSale     newNpcSale();
 }

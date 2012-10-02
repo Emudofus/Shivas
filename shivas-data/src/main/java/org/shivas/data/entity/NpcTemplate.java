@@ -1,6 +1,7 @@
 package org.shivas.data.entity;
 
 import org.shivas.protocol.client.enums.Gender;
+import org.shivas.protocol.client.enums.NpcTypeEnum;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ public class NpcTemplate implements Serializable {
     private static final long serialVersionUID = 7294532367891387836L;
 
     private int id;
+    private NpcTypeEnum type;
     private Gender gender;
     private short skin, size;
     private int color1, color2, color3;
@@ -26,6 +28,14 @@ public class NpcTemplate implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public NpcTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(NpcTypeEnum type) {
+        this.type = type;
     }
 
     public Gender getGender() {

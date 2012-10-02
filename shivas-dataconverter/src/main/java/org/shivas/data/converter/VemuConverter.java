@@ -8,6 +8,7 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
+import org.shivas.protocol.client.enums.NpcTypeEnum;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -375,6 +376,7 @@ public class VemuConverter extends MySqlUserConverter {
         while (rset.next()) {
             Structs.NpcTemplate npcTemplate = new Structs.NpcTemplate();
             npcTemplate.id = rset.getInt("ID");
+            npcTemplate.type = !rset.getString("SellingList").isEmpty() ? NpcTypeEnum.SELL : NpcTypeEnum.SPEAK;
             npcTemplate.gender = Gender.valueOf(rset.getInt("Sex"));
             npcTemplate.skin = rset.getShort("Gfx");
             npcTemplate.size = rset.getShort("Size");

@@ -18,12 +18,16 @@ import org.shivas.data.entity.*;
 import org.shivas.data.entity.factory.ActionFactory;
 import org.shivas.data.repository.BaseRepository;
 import org.shivas.protocol.client.enums.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 public class XmlLoader extends AbstractLoader {
+
+    private final Logger log = LoggerFactory.getLogger(XmlLoader.class);
 	
 	private final SAXBuilder builder = new SAXBuilder();
 	private final ActionFactory actionFactory;
@@ -472,6 +476,7 @@ public class XmlLoader extends AbstractLoader {
         for (Element npcTemplate_elem : root.getChildren("npcTemplate")) {
             NpcTemplate npcTemplate = factory.newNpcTemplate();
             npcTemplate.setId(npcTemplate_elem.getAttribute("id").getIntValue());
+            npcTemplate.setType(NpcTypeEnum.valueOf(npcTemplate_elem.getAttributeValue("type")));
             npcTemplate.setGender(Gender.valueOf(npcTemplate_elem.getAttributeValue("gender")));
             npcTemplate.setSkin((short) npcTemplate_elem.getAttribute("skin").getIntValue());
             npcTemplate.setSize((short) npcTemplate_elem.getAttribute("size").getIntValue());
@@ -509,6 +514,57 @@ public class XmlLoader extends AbstractLoader {
         return count;
     }
 
+    private void loadNpcQuestions(Npc npc, Element elem) throws Exception {
+        Map<Integer, NpcQuestion> questions = Maps.newHashMap();
+        for (Element question_elem : elem.getChildren("question")) {
+            NpcQuestion question = factory.newNpcQuestion();
+            question.setId(question_elem.getAttribute("id").getIntValue());
+
+            Map<Integer, NpcAnswer> answers = Maps.newHashMap();
+            for (Element answer_elem : question_elem.getChildren("answer")) {
+                NpcAnswer answer = factory.newNpcAnswer();
+                answer.setId(answer_elem.getAttribute("id").getIntValue());
+
+                List<Action> actions = Lists.newArrayList();
+                for (Element action_elem : answer_elem.getChildren("action")) {
+                    Action action = makeAction(action_elem);
+                    actions.add(action);
+                }
+                answer.setActions(actions);
+
+                answers.put(answer.getId(), answer);
+            }
+            question.setAnswers(answers);
+
+            questions.put(question.getId(), question);
+        }
+        npc.setQuestions(questions);
+
+        int startQuestionId = elem.getAttribute("start").getIntValue();
+        NpcQuestion startQuestion = questions.get(startQuestionId);
+        if (startQuestion == null) {
+            throw new Exception("unknown question " + startQuestionId);
+        }
+        npc.setStartQuestion(startQuestion);
+    }
+
+    private void loadNpcSales(Npc npc, Element elem) throws Exception {
+        Map<Integer, NpcSale> sales = Maps.newHashMap();
+        for (Element sale_elem : elem.getChildren("sale")) {
+            NpcSale sale = factory.newNpcSale();
+            sale.setNpc(npc);
+            sale.setItem(get(ItemTemplate.class).byId(sale_elem.getAttribute("item").getIntValue()));
+            if (sale_elem.getAttribute("price") != null) {
+                sale.setPrice((short) sale_elem.getAttribute("price").getIntValue());
+            } else {
+                sale.setPrice(sale.getItem().getPrice());
+            }
+
+            sales.put((int) sale.getItem().getId(), sale);
+        }
+        npc.setSales(sales);
+    }
+
     private int loadNpcs(BaseRepository<Npc> repo, File file) throws Exception {
         int count = 0;
         Document doc = builder.build(file);
@@ -522,37 +578,23 @@ public class XmlLoader extends AbstractLoader {
             npc.setCell((short) npc_elem.getAttribute("cell").getIntValue());
             npc.setOrientation(OrientationEnum.valueOf(npc_elem.getAttributeValue("orientation")));
 
-            Map<Integer, NpcQuestion> questions = Maps.newHashMap();
-            for (Element question_elem : npc_elem.getChildren("question")) {
-                NpcQuestion question = factory.newNpcQuestion();
-                question.setId(question_elem.getAttribute("id").getIntValue());
-
-                Map<Integer, NpcAnswer> answers = Maps.newHashMap();
-                for (Element answer_elem : question_elem.getChildren("answer")) {
-                    NpcAnswer answer = factory.newNpcAnswer();
-                    answer.setId(answer_elem.getAttribute("id").getIntValue());
-
-                    List<Action> actions = Lists.newArrayList();
-                    for (Element action_elem : answer_elem.getChildren("action")) {
-                        Action action = makeAction(action_elem);
-                        actions.add(action);
-                    }
-                    answer.setActions(actions);
-
-                    answers.put(answer.getId(), answer);
-                }
-                question.setAnswers(answers);
-
-                questions.put(question.getId(), question);
+            if (npc_elem.getAttribute("start") != null) {
+                loadNpcQuestions(npc, npc_elem);
             }
-            npc.setQuestions(questions);
 
-            int startQuestionId = npc_elem.getAttribute("start").getIntValue();
-            NpcQuestion startQuestion = questions.get(startQuestionId);
-            if (startQuestion == null) {
-                throw new Exception("unknown question " + startQuestionId);
+            switch (npc.getTemplate().getType()) {
+            case BUY_SELL:
+            case BUY:
+                loadNpcSales(npc, npc_elem);
+                break;
+
+            case SELL:
+                break;
+
+            default:
+                log.warn("npc type {} not handled", npc.getTemplate().getType());
+                break;
             }
-            npc.setStartQuestion(startQuestion);
 
             repo.put(npc.getId(), npc);
             ++count;

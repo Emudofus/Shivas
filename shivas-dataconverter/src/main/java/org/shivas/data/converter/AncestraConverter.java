@@ -13,6 +13,7 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
+import org.shivas.protocol.client.enums.NpcTypeEnum;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -348,6 +349,7 @@ public class AncestraConverter extends MySqlUserConverter {
         while (rset.next()) {
             Structs.NpcTemplate npcTemplate = new Structs.NpcTemplate();
             npcTemplate.id = rset.getInt("id");
+            npcTemplate.type = !rset.getString("ventes").isEmpty() ? NpcTypeEnum.SELL : NpcTypeEnum.SPEAK;
             npcTemplate.gender = Gender.valueOf(rset.getInt("sex"));
             npcTemplate.skin = rset.getShort("skin");
             npcTemplate.size = rset.getShort("scaleX");

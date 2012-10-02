@@ -21,6 +21,7 @@ public class Npc implements Serializable {
     private OrientationEnum orientation;
     private NpcQuestion startQuestion;
     private Map<Integer, NpcQuestion> questions;
+    private Map<Integer, NpcSale> sales;
 
     public int getId() {
         return id;
@@ -76,5 +77,13 @@ public class Npc implements Serializable {
 
     public void setQuestions(Map<Integer, NpcQuestion> questions) {
         this.questions = questions;
+    }
+
+    public Map<Integer, NpcSale> getSales() {
+        return sales;
+    }
+
+    public void setSales(Map<Integer, NpcSale> sales) {
+        this.sales = sales;
     }
 }
