@@ -10,4 +10,5 @@ public enum InteractionType {
     STORE,
     GUILD_CREATION,
     GUILD_INVITATION,
+    NPC_DIALOG,
 }

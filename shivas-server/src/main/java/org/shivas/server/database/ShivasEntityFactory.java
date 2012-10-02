@@ -16,7 +16,7 @@ import javax.inject.Singleton;
 
 @Singleton
 public class ShivasEntityFactory extends AbstractEntityFactory {
-	
+
 	@Inject
 	private Config config;
 	

@@ -3,13 +3,21 @@ package org.shivas.server.utils;
 import com.google.common.base.Function;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
+import org.shivas.data.entity.NpcAnswer;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.*;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.database.models.*;
 
 public class Converters {
-	private Converters() {}
+    public static final Function<NpcAnswer,Integer> NPCANSWER_TO_ID = new Function<NpcAnswer, Integer>() {
+        @Override
+        public Integer apply(NpcAnswer input) {
+            return input.getId();
+        }
+    };
+
+    private Converters() {}
 
 	public static Function<Player, Integer> PLAYER_TO_ID = new Function<Player, Integer>() {
 		public Integer apply(Player arg0) {

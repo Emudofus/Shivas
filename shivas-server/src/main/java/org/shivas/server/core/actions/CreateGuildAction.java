@@ -28,8 +28,16 @@ public class CreateGuildAction implements Action {
 
     @Override
     public boolean able(Object target) {
-        return (target instanceof GameClient) ||
-               (target instanceof Player && ((Player) target).getClient() != null);
+        Player player;
+        if (target instanceof GameClient) {
+            player = ((GameClient) target).player();
+        } else if (target instanceof Player) {
+            player = (Player) target;
+        } else {
+            return false;
+        }
+
+        return player.getClient() != null && !player.hasGuild();
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.Map;
 public class ShivasActionFactory implements ActionFactory {
 	
 	private final Map<Integer, ItemActionMaker> makers = Maps.newHashMap();
-	
+
 	@Inject
 	public ShivasActionFactory(final Container ctner, final Config config) {
 		add(TeleportAction.TYPE, new ItemActionMaker() {
@@ -22,13 +22,13 @@ public class ShivasActionFactory implements ActionFactory {
 				return TeleportAction.make(parameters, ctner, config);
 			}
 		});
-		
+
 		add(GiveKamasAction.TYPE, new ItemActionMaker() {
 			public Action make(Map<String, String> parameters) {
 				return GiveKamasAction.make(parameters);
 			}
 		});
-		
+
 		add(RegenLifeAction.TYPE, new ItemActionMaker() {
 			public Action make(Map<String, String> parameters) {
 				return RegenLifeAction.make(parameters);
@@ -38,6 +38,12 @@ public class ShivasActionFactory implements ActionFactory {
         add(CreateGuildAction.TYPE, new ItemActionMaker() {
             public Action make(Map<String, String> parameters) {
                 return CreateGuildAction.make(parameters);
+            }
+        });
+
+        add(NewQuestionAction.TYPE, new ItemActionMaker() {
+            public Action make(Map<String, String> parameters) {
+                return NewQuestionAction.make(parameters, ctner);
             }
         });
 	}
