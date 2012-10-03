@@ -40,6 +40,10 @@ public class DialogHandler extends AbstractBaseHandler<GameClient> {
             args = message.substring(2).split("\\|");
             parseAnswerMessage(Integer.parseInt(args[1]));
             break;
+
+        case 'V':
+            parseCloseDialogMessage();
+            break;
         }
     }
 
@@ -67,5 +71,9 @@ public class DialogHandler extends AbstractBaseHandler<GameClient> {
         if (dialog.getCurrentQuestion() == question) {
             dialog.end(); // stop the dialog if current question has not changed
         }
+    }
+
+    private void parseCloseDialogMessage() throws InteractionException {
+        client.interactions().remove(NpcDialogInteraction.class).end();
     }
 }
