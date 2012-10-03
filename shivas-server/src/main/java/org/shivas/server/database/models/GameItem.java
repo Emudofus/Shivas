@@ -1,12 +1,11 @@
 package org.shivas.server.database.models;
 
-import java.util.Collection;
-import java.util.Map;
-
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import org.atomium.PersistableEntity;
 import org.shivas.common.collections.Maps2;
-import org.shivas.data.entity.Item;
 import org.shivas.data.entity.ConstantItemEffect;
+import org.shivas.data.entity.Item;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
@@ -14,8 +13,8 @@ import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.types.BaseItemType;
 import org.shivas.server.utils.Converters;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
+import java.util.Collection;
+import java.util.Map;
 
 public class GameItem implements Item, PersistableEntity<Long> {
 
@@ -199,8 +198,8 @@ public class GameItem implements Item, PersistableEntity<Long> {
 		
 		GameItem other = (GameItem) obj;
 		
-		if (other.template == template)
-			return true;
+		if (other.template != template)
+			return false;
 		if (sum(this) != sum(other))
 			return false;
 		
