@@ -1,10 +1,7 @@
 package org.shivas.server.core.items;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Maps;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
@@ -13,9 +10,9 @@ import org.shivas.server.database.models.GameItem;
 import org.shivas.server.utils.Converters;
 import org.shivas.server.utils.Filters;
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 
 public class SimpleBag implements Bag {
 	
@@ -77,14 +74,13 @@ public class SimpleBag implements Bag {
 		return null;
 	}
 	
-	public Collection<GameItem> get(ItemTemplate template) {
-		List<GameItem> items = Lists.newArrayList();
+	public GameItem get(ItemTemplate template) {
 		for (GameItem item : this) {
 			if (item.getTemplate() == template) {
-				items.add(item);
+                return item;
 			}
 		}
-		return items;
+		return null;
 	}
 	
 	public void add(GameItem item) {
