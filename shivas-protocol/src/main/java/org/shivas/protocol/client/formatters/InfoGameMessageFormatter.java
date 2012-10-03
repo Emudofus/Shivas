@@ -115,6 +115,10 @@ public class InfoGameMessageFormatter {
         return "Im063";
     }
 
+    public static String fullBagMessage() {
+        return "Im062";
+    }
+
     public static String genericInfoMessage(InfoTypeEnum type){
         return "Im" + type.value();
     }
