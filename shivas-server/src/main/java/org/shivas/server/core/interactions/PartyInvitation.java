@@ -17,13 +17,10 @@ public class PartyInvitation extends Invitation {
 
 	@Override
 	public void begin() throws InteractionException {
-		String message = PartyGameMessageFormatter.invitationSuccessMessage(
-				source.player().getName(),
-				target.player().getName()
-		);
-		
-		source.write(message);
-		target.write(message);
+		writeToAll(PartyGameMessageFormatter.invitationSuccessMessage(
+                source.player().getName(),
+                target.player().getName()
+        ));
 	}
 	
 	private static void process(Party party, GameClient client) {
@@ -54,8 +51,7 @@ public class PartyInvitation extends Invitation {
 
 	@Override
 	public void decline() throws InteractionException {
-		source.write(PartyGameMessageFormatter.declineInvitationMessage());
-		target.write(PartyGameMessageFormatter.declineInvitationMessage());
+        writeToAll(PartyGameMessageFormatter.declineInvitationMessage());
 	}
 
 }

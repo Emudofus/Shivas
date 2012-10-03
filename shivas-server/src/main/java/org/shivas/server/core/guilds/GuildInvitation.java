@@ -54,7 +54,6 @@ public class GuildInvitation extends Invitation {
 
     @Override
     public void decline() throws InteractionException {
-        source.write(GuildGameMessageFormatter.invitationFailureMessage());
-        target.write(GuildGameMessageFormatter.invitationFailureMessage());
+        writeToAll(GuildGameMessageFormatter.invitationFailureMessage());
     }
 }

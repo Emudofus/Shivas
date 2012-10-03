@@ -1,26 +1,29 @@
 package org.shivas.server.services.game.handlers;
 
+import com.google.common.collect.Collections2;
 import org.shivas.data.entity.Waypoint;
 import org.shivas.protocol.client.enums.ActionTypeEnum;
 import org.shivas.protocol.client.enums.InteractiveObjectTypeEnum;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
+import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
 import org.shivas.server.core.Path;
 import org.shivas.server.core.events.events.ChangeMapEvent;
+import org.shivas.server.core.fights.FightInvitation;
 import org.shivas.server.core.interactions.Interaction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.RolePlayMovement;
 import org.shivas.server.core.interactions.WaypointPanelInteraction;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.database.models.Player;
 import org.shivas.server.services.AbstractBaseHandler;
+import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 import org.shivas.server.utils.Converters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Collections2;
 
 public class GameHandler extends AbstractBaseHandler<GameClient> {
 	
@@ -88,20 +91,32 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		client.player().getEvent().publish(new ChangeMapEvent(client.player()));
 	}
 
-	private void parseGameActionMessage(ActionTypeEnum action, String args) throws Exception {
-		String[] splitted = null;
+	private void parseGameActionMessage(ActionTypeEnum action, String data) throws Exception {
+		String[] args;
 		switch (action) {
 		case MOVEMENT:
-			parseMovementMessage(Path.parsePath(args));
+			parseMovementMessage(Path.parsePath(data));
 			break;
 			
 		case INTERACTIVE_OBJECT:
-			splitted = args.split(";");
+			args = data.split(";");
 			parseUseObject(
-					Short.parseShort(splitted[0]),
-					InteractiveObjectTypeEnum.valueOf(Integer.parseInt(splitted[1]))
+					Short.parseShort(args[0]),
+					InteractiveObjectTypeEnum.valueOf(Integer.parseInt(args[1]))
 			);
 			break;
+
+        case ASK_FIGHT:
+            parseFightInvitationMessage(Integer.parseInt(data));
+            break;
+
+        case DECLINE_FIGHT:
+            parseDeclineFightInvitationMessage();
+            break;
+
+        case ACCEPT_FIGHT:
+            parseAcceptFightInvitationMessage();
+            break;
 			
 		default:
 			log.trace("action {} is not implemented", action);
@@ -109,9 +124,29 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		}
 	}
 
-	private void parseMovementMessage(Path path) throws InteractionException {
+    private void parseMovementMessage(Path path) throws InteractionException {
 		client.interactions().push(new RolePlayMovement(client, path)).begin();
 	}
+
+    private void parseFightInvitationMessage(int playerId) throws CriticalException, InteractionException {
+        GameActor actor = client.player().getLocation().getMap().get(playerId);
+        assertTrue(actor != null, "unknown player %d on current map", playerId);
+        assertTrue(actor instanceof Player, "target must be a Player");
+
+        Player player = (Player) actor;
+
+        client.interactions().push(new FightInvitation(client, player.getClient())).begin(); // target != null because player is on map and therefore connected
+    }
+
+    private void parseDeclineFightInvitationMessage() throws InteractionException {
+        client.interactions().remove(FightInvitation.class).decline();
+    }
+
+    private void parseAcceptFightInvitationMessage() throws CriticalException, InteractionException {
+        assertFalse(client.interactions().current(FightInvitation.class).getSource() == client, "only target can accept invitation");
+
+        client.interactions().remove(FightInvitation.class).accept();
+    }
 
 	private void parseUseObject(short cellId, InteractiveObjectTypeEnum objectType) throws Exception {
 		switch (objectType) {

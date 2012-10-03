@@ -18,14 +18,11 @@ public class PlayerExchangeInvitation extends Invitation {
 
 	@Override
 	public void begin() throws InteractionException {
-		String message = TradeGameMessageFormatter.tradeRequestMessage(
-				source.player().getId(), 
-				target.player().getId(), 
-				TradeTypeEnum.PLAYER
-		);
-		
-		source.write(message);
-		target.write(message);
+		writeToAll(TradeGameMessageFormatter.tradeRequestMessage(
+                source.player().getId(),
+                target.player().getId(),
+                TradeTypeEnum.PLAYER
+        ));
 	}
 
 	@Override
@@ -35,8 +32,7 @@ public class PlayerExchangeInvitation extends Invitation {
 
 	@Override
 	public void decline() throws InteractionException {
-		source.write(TradeGameMessageFormatter.tradeQuitMessage());
-		target.write(TradeGameMessageFormatter.tradeQuitMessage());
+        writeToAll(TradeGameMessageFormatter.tradeQuitMessage());
 	}
 
 }

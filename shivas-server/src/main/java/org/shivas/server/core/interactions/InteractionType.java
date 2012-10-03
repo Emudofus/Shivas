@@ -12,4 +12,5 @@ public enum InteractionType {
     GUILD_INVITATION,
     NPC_DIALOG,
     NPC_EXCHANGE,
+    FIGHT_INVITATION,
 }

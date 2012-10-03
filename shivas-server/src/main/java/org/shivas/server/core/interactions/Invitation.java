@@ -9,6 +9,11 @@ public abstract class Invitation extends AbstractInteraction implements LinkedIn
 		this.source = source;
 		this.target = target;
 	}
+
+    protected void writeToAll(Object message) {
+        source.write(message);
+        target.write(message);
+    }
 	
 	@Override
 	public GameClient getSource() {
