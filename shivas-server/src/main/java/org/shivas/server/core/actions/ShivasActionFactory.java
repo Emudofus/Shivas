@@ -46,6 +46,12 @@ public class ShivasActionFactory implements ActionFactory {
                 return NewQuestionAction.make(parameters, ctner);
             }
         });
+
+        add(RemoveItemAction.TYPE, new ItemActionMaker() {
+            public Action make(Map<String, String> parameters) {
+                return RemoveItemAction.make(parameters, ctner);
+            }
+        });
 	}
 	
 	public void add(int type, ItemActionMaker maker) {
