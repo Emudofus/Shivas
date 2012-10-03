@@ -1,9 +1,9 @@
 package org.shivas.server.config;
 
-import javax.inject.Singleton;
-
 import org.shivas.data.Containers;
 import org.shivas.server.core.maps.GameMap;
+
+import javax.inject.Singleton;
 
 @Singleton
 public class DefaultConfig implements Config {
@@ -107,7 +107,12 @@ public class DefaultConfig implements Config {
 		return true;
 	}
 
-	@Override
+    @Override
+    public int npcBuyCoefficient() {
+        return 10;
+    }
+
+    @Override
 	public short startSize() {
 		return 100;
 	}

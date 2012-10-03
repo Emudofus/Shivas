@@ -32,6 +32,7 @@ public interface Config {
 	short deleteAnswerLevelNeeded();
 	short maxSpellLevel();
 	boolean addAllWaypoints();
+    int npcBuyCoefficient();
 
 	short startSize();
 	short startLevel();
