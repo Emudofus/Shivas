@@ -1,9 +1,9 @@
 package org.shivas.data.entity.factory;
 
-import java.util.Map;
-
 import org.shivas.data.entity.Action;
 
+import java.util.Map;
+
 public interface ActionFactory {
-	Action make(int type, Map<String, String> parameters);
+	Action make(String name, Map<String, String> parameters);
 }

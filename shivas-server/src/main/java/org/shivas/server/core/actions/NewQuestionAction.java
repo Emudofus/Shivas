@@ -15,7 +15,7 @@ import java.util.Map;
  * Time: 18:38
  */
 public class NewQuestionAction implements Action {
-    public static final int TYPE = 5;
+    public static final String NAME = "NEW_QUESTION";
 
     public static NewQuestionAction make(Map<String, String> params, Container ctner) {
         int questionId = Integer.parseInt(params.get("question"));
@@ -29,8 +29,8 @@ public class NewQuestionAction implements Action {
     }
 
     @Override
-    public int getType() {
-        return TYPE;
+    public String getName() {
+        return NAME;
     }
 
     @Override

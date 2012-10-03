@@ -1,14 +1,14 @@
 package org.shivas.server.core.actions;
 
-import java.util.Map;
-
 import org.shivas.data.entity.Action;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.game.GameClient;
 
+import java.util.Map;
+
 public class GiveKamasAction implements Action {
 
-	public static final int TYPE = 2;
+	public static final String NAME = "GIVE_KAMAS";
 	
 	public static GiveKamasAction make(Map<String, String> parameters) {
 		String raw = parameters.get("kamas");
@@ -24,8 +24,8 @@ public class GiveKamasAction implements Action {
 	}
 
 	@Override
-	public int getType() {
-		return TYPE;
+	public String getName() {
+		return NAME;
 	}
 
 	@Override

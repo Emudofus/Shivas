@@ -1,16 +1,16 @@
 package org.shivas.server.core.actions;
 
-import java.util.Map;
-
 import org.shivas.data.Container;
 import org.shivas.data.entity.Action;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.maps.GameMap;
 
+import java.util.Map;
+
 public class TeleportAction implements Action {
 
-	public static final int TYPE = 1;
+	public static final String NAME = "TELEPORT";
 	
 	private static final String START_PLACEHOLDER = "%start%";
 	
@@ -40,8 +40,8 @@ public class TeleportAction implements Action {
 	}
 
 	@Override
-	public int getType() {
-		return TYPE;
+	public String getName() {
+		return NAME;
 	}
 
 	@Override

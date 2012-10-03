@@ -272,7 +272,7 @@ public class XmlLoader extends AbstractLoader {
 	}
 	
 	private Action makeAction(Element elem) throws Exception {
-		int type = elem.getAttribute("type").getIntValue();
+		String type = elem.getAttributeValue("type");
 		
 		Map<String, String> parameters = Maps.newHashMap();
 		for (Attribute attr : elem.getAttributes()) {

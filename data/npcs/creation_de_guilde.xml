@@ -2,16 +2,16 @@
 	<npc id="1" template="615" map="7411" cell="370" orientation="SOUTH_WEST" start="1936">
 		<question id="1936">
 			<answer id="1937">
-				<action type="5" question="5452" />
+				<action type="NEW_QUESTION" question="5452" />
 			</answer>
 		</question>
 		<question id="5452">
 			<answer id="2627"> <!-- remove Guildalogemme and open creation guild panel -->
-				<action type="6" item="1575" quantity="1" />
-				<action type="4" />
+				<action type="REMOVE_ITEM" item="1575" quantity="1" />
+				<action type="CREATE_GUILD" />
 			</answer>
 			<answer id="1937">
-				<action type="5" question="1936" />
+				<action type="NEW_QUESTION" question="1936" />
 			</answer>
 		</question>
 	</npc>

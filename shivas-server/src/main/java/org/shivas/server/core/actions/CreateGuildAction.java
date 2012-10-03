@@ -15,15 +15,15 @@ import java.util.Map;
  * Time: 23:40
  */
 public class CreateGuildAction implements Action {
-    public static final int TYPE = 4;
+    public static final String NAME = "CREATE_GUILD";
 
     public static CreateGuildAction make(Map<String, String> params) {
         return new CreateGuildAction();
     }
 
     @Override
-    public int getType() {
-        return TYPE;
+    public String getName() {
+        return NAME;
     }
 
     @Override

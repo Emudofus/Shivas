@@ -17,7 +17,7 @@ import java.util.Map;
  * Time: 10:49
  */
 public class RemoveItemAction implements Action {
-    public static final int TYPE = 6;
+    public static final String NAME = "REMOVE_ITEM";
 
     public static RemoveItemAction make(Map<String, String> params, Container ctner) {
         int templateId = Integer.parseInt(params.get("item"));
@@ -38,8 +38,8 @@ public class RemoveItemAction implements Action {
     }
 
     @Override
-    public int getType() {
-        return TYPE;
+    public String getName() {
+        return NAME;
     }
 
     @Override
