@@ -51,7 +51,7 @@ public class GiveItemCommand implements Command {
 	public void use(GameClient client, DofusLogger log, Parameters params) {
 		Player target = params.get("target", Player.class);
 		ItemTemplate template = params.get("item", ItemTemplate.class);
-		int quantity = params.get("quantity", Integer.class).intValue();
+		int quantity = params.get("quantity", Integer.class);
 		if (quantity <= 0) quantity = 1;
 		
 		GameItem item = (GameItem) template.generate();
@@ -59,11 +59,13 @@ public class GiveItemCommand implements Command {
 		
 		target.getBag().persist(item);
 		
-		if (target.getClient() != null && target.getClient() != client) {
-			target.getClient().tchat().info("\"%s\" gave you %d item (id=%d).", client.player().url(), quantity, template.getId());
-		}
+		if (target.getClient() != null) {
+            target.getClient().write(ItemGameMessageFormatter.addItemMessage(item.toBaseItemType()));
 
-		client.write(ItemGameMessageFormatter.addItemMessage(item.toBaseItemType()));
+            if (target.getClient() != client) {
+                target.getClient().tchat().info("\"%s\" gave you %d item (id=%d).", client.player().url(), quantity, template.getId());
+            }
+		}
 		
 		log.info("You successfully gave %d item (id=%d).", quantity, template.getId());
 	}

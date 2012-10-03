@@ -188,7 +188,7 @@ public class GuildHandler extends AbstractBaseHandler<GameClient> {
             return; // don't know if it may throws an exception or anything else
         }
 
-        if (source.getRights().has(GuildMemberRightsEnum.RANK)) {
+        if (source.getRights().has(GuildMemberRightsEnum.RANK) && rank != member.getRank()) {
             assertFalse(rank == GuildRankEnum.LEADER && member != source, "only leader can set a new leader");
 
             member.setRank(rank);
