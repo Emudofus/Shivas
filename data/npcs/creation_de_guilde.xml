@@ -6,14 +6,17 @@
 			</answer>
 		</question>
 		<question id="5452">
-			<answer id="2627">
+			<answer id="2627"> <!-- remove Guildalogemme and open creation guild panel -->
+				<action type="6" item="1575" quantity="1" />
 				<action type="4" />
+			</answer>
+			<answer id="1937">
+				<action type="5" question="1936" />
 			</answer>
 		</question>
 	</npc>
 
 	<npc id="2" template="486" map="7411" cell="270" orientation="SOUTH_WEST">
-		<sale item="39" price="1000" />
-		<sale item="40" /> <!-- price attr is optional -->
+		<sale item="1575" /> <!-- you can add `price` attr -->
 	</npc>
 </npcs>
