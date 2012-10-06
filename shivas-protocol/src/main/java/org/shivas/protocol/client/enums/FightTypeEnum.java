@@ -10,7 +10,7 @@ import java.util.Map;
  * IDE : IntelliJ IDEA
  */
 public enum FightTypeEnum {
-    CHALLENGE,
+    DUEL,
     AGRESSION,
     UNKNOWN0,
     UNKNOWN1,
