@@ -1,6 +1,7 @@
 package org.shivas.server.config;
 
 import org.shivas.data.Containers;
+import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.core.maps.GameMap;
 
 import javax.inject.Singleton;
@@ -214,5 +215,10 @@ public class DefaultConfig implements Config {
 	public String warnColor() {
 		return "#FF8000";
 	}
+
+    @Override
+    public long turnDuration(FightTypeEnum fightType) {
+        return 30 * 60;
+    }
 
 }

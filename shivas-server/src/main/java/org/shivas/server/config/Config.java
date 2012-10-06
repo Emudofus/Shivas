@@ -1,5 +1,6 @@
 package org.shivas.server.config;
 
+import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.core.maps.GameMap;
 
 public interface Config {
@@ -56,5 +57,11 @@ public interface Config {
 	String errorColor();
 	String warnName();
 	String warnColor();
-	
+
+    /**
+     * seconds
+     * @param fightType fight type
+     * @return seconds
+     */
+    long turnDuration(FightTypeEnum fightType);
 }
