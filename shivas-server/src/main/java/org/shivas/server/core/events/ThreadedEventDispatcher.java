@@ -1,18 +1,26 @@
 package org.shivas.server.core.events;
 
+import com.google.common.collect.Lists;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.google.common.collect.Lists;
-
 public class ThreadedEventDispatcher implements EventDispatcher {
 	
-	private ExecutorService worker = Executors.newSingleThreadExecutor();
+	private ExecutorService worker;
 	
 	private final List<EventListener> listeners = Lists.newArrayList();
 
-	@Override
+    public ThreadedEventDispatcher() {
+        this(Executors.newSingleThreadExecutor());
+    }
+
+    public ThreadedEventDispatcher(ExecutorService worker) {
+        this.worker = worker;
+    }
+
+    @Override
 	public void publish(final Event event) {
 		worker.execute(new Runnable() {
 			public void run() {
