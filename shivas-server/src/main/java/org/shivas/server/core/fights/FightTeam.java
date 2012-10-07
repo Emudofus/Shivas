@@ -24,6 +24,7 @@ public class FightTeam implements Iterable<Fighter> {
         this.type = type;
         this.fight = fight;
         this.leader = leader;
+        this.leader.setTeam(this);
         this.fighters.put(leader.getId(), leader);
     }
 

@@ -2,7 +2,7 @@ package org.shivas.server.services.game.handlers;
 
 import org.shivas.protocol.client.enums.ActionTypeEnum;
 import org.shivas.server.core.fights.Fight;
-import org.shivas.server.core.fights.Fighter;
+import org.shivas.server.core.fights.PlayerFighter;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ public class FightHandler extends AbstractBaseHandler<GameClient> {
     private static final Logger log = LoggerFactory.getLogger(FightHandler.class);
 
     protected Fight fight;
-    protected Fighter fighter;
+    protected PlayerFighter fighter;
 
     public FightHandler(GameClient client) {
         super(client);

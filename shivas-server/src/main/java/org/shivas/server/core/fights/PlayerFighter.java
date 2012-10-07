@@ -18,8 +18,8 @@ public class PlayerFighter extends Fighter {
     private OrientationEnum currentOrientation;
     private boolean dead;
 
-    public PlayerFighter(Fight fight, FightTeam team, Player player) {
-        super(fight, team);
+    public PlayerFighter(Fight fight, Player player) {
+        super(fight);
         this.player = player;
     }
 

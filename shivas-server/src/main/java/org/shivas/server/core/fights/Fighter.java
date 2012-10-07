@@ -14,9 +14,8 @@ public abstract class Fighter {
 
     protected FightTeam team;
 
-    protected Fighter(Fight fight, FightTeam team) {
+    protected Fighter(Fight fight) {
         this.fight = fight;
-        this.team = team;
     }
 
     public abstract Integer getId();

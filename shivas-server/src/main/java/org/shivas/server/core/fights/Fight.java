@@ -38,12 +38,9 @@ public abstract class Fight extends AbstractInteraction {
 
     protected FightStateEnum state;
 
-    protected Fight(Config config, GameMap map, Fighter challenger, Fighter defender) {
+    protected Fight(Config config, GameMap map) {
         this.turns = new FightTurnList(this, config.turnDuration(getFightType()));
         this.map = map;
-
-        this.teams.put(FightTeamEnum.CHALLENGERS, new FightTeam(FightTeamEnum.CHALLENGERS, this, challenger));
-        this.teams.put(FightTeamEnum.DEFENDERS, new FightTeam(FightTeamEnum.DEFENDERS, this, defender));
     }
 
     public ExecutorService getWorker() {
@@ -56,6 +53,18 @@ public abstract class Fight extends AbstractInteraction {
 
     public EventDispatcher getEvent() {
         return event;
+    }
+
+    public FightTeam getTeam(FightTeamEnum fightTeamEnum) {
+        return teams.get(fightTeamEnum);
+    }
+
+    public FightTeam getChallengers() {
+        return getTeam(FightTeamEnum.CHALLENGERS);
+    }
+
+    public FightTeam getDefenders() {
+        return getTeam(FightTeamEnum.DEFENDERS);
     }
 
     public FightStateEnum getState() {

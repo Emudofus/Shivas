@@ -25,8 +25,13 @@ public class FightInvitation extends Invitation {
         map.leave(client.player());
     }
 
-    protected void startFight() {
-
+    protected void startFight() throws InteractionException {
+        new DuelFight(
+                source.service().config(),
+                source.player().getLocation().getMap(),
+                source.player(),
+                target.player()
+        ).init();
     }
 
     @Override
