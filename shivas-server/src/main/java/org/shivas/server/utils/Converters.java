@@ -8,6 +8,7 @@ import org.shivas.data.entity.NpcSale;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.*;
 import org.shivas.server.core.GameActor;
+import org.shivas.server.core.fights.Fighter;
 import org.shivas.server.database.models.*;
 
 public class Converters {
@@ -20,6 +21,11 @@ public class Converters {
     public static final Function<NpcSale,BaseItemTemplateType> NPCSALE_TO_BASEITEMTEMPLATETYPE = new Function<NpcSale, BaseItemTemplateType>() {
         public BaseItemTemplateType apply(NpcSale input) {
             return input.getItem().toBaseItemTemplateType();
+        }
+    };
+    public static final Function<Fighter,BaseFighterType> FIGHTER_TO_BASEFIGHTERTYPE = new Function<Fighter, BaseFighterType>() {
+        public BaseFighterType apply(Fighter input) {
+            return input.toBaseFighterType();
         }
     };
 

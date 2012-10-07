@@ -1,6 +1,8 @@
 package org.shivas.server.services.game.handlers;
 
 import org.shivas.protocol.client.enums.ActionTypeEnum;
+import org.shivas.protocol.client.enums.FightTypeEnum;
+import org.shivas.protocol.client.formatters.FightGameMessageFormatter;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.fights.Fight;
@@ -84,7 +86,29 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
 
     private void listenFight(FightEvent event) {
         switch (event.getFightEventType()) {
-
+        case INITIALIZATION:
+            listenFightInitialization();
+            break;
         }
+    }
+
+    private void listenFightInitialization() {
+        client.write(FightGameMessageFormatter.newFightMessage(
+                fight.getState(),
+                fight.canCancel(),
+                fight.getFightType() == FightTypeEnum.DUEL,
+                false, // TODO fight spectators
+                fight.getRemainingPreparation(),
+                fight.getFightType()
+        ));
+
+        client.write(FightGameMessageFormatter.startCellsMessage(
+                "", // TODO fight team placement cells
+                "",
+                fighter.getTeam().getType()
+        ));
+
+        client.write(FightGameMessageFormatter.showFightersMessage(fight.getChallengers().toBaseFighterType()));
+        client.write(FightGameMessageFormatter.showFightersMessage(fight.getDefenders().toBaseFighterType()));
     }
 }

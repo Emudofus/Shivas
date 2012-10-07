@@ -1,8 +1,12 @@
 package org.shivas.server.core.fights;
 
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
 import org.shivas.protocol.client.enums.FightTeamEnum;
+import org.shivas.protocol.client.types.BaseFighterType;
+import org.shivas.server.utils.Converters;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -81,5 +85,9 @@ public class FightTeam implements Iterable<Fighter> {
     @Override
     public Iterator<Fighter> iterator() {
         return fighters.values().iterator();
+    }
+
+    public Collection<BaseFighterType> toBaseFighterType() {
+        return Collections2.transform(fighters.values(), Converters.FIGHTER_TO_BASEFIGHTERTYPE);
     }
 }

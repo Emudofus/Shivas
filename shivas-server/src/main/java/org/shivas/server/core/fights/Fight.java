@@ -7,6 +7,7 @@ import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.ThreadedEventDispatcher;
+import org.shivas.server.core.fights.events.FightInitializationEvent;
 import org.shivas.server.core.interactions.AbstractInteraction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
@@ -71,6 +72,8 @@ public abstract class Fight extends AbstractInteraction {
         return state;
     }
 
+    public abstract int getRemainingPreparation();
+
     @Override
     public InteractionType getInteractionType() {
         return InteractionType.FIGHT;
@@ -85,6 +88,8 @@ public abstract class Fight extends AbstractInteraction {
         beforeInit();
 
         state = FightStateEnum.PLACE;
+
+        event.publish(new FightInitializationEvent(this));
 
         afterInit();
     }
@@ -141,4 +146,6 @@ public abstract class Fight extends AbstractInteraction {
     public void exceptionThrowed(Throwable throwable) {
         log.error("unhandled exception {} : {}", throwable.getClass(), throwable.toString());
     }
+
+    public abstract boolean canCancel();
 }

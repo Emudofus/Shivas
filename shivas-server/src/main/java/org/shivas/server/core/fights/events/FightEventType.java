@@ -7,4 +7,5 @@ package org.shivas.server.core.fights.events;
  * Time: 11:57
  */
 public enum FightEventType {
+    INITIALIZATION,
 }

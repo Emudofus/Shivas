@@ -31,6 +31,21 @@ public class DuelFight extends Fight {
     }
 
     @Override
+    public boolean canCancel() {
+        return true;
+    }
+
+    @Override
+    public int getRemainingPreparation() {
+        return -1;
+    }
+
+    @Override
+    public FightTypeEnum getFightType() {
+        return FightTypeEnum.DUEL;
+    }
+
+    @Override
     protected void beforeInit() throws InteractionException {
         super.beforeInit();
 
@@ -42,10 +57,5 @@ public class DuelFight extends Fight {
 
         teams.put(FightTeamEnum.CHALLENGERS, new FightTeam(FightTeamEnum.CHALLENGERS, this, challenger));
         teams.put(FightTeamEnum.DEFENDERS,   new FightTeam(FightTeamEnum.DEFENDERS,   this, defender));
-    }
-
-    @Override
-    public FightTypeEnum getFightType() {
-        return FightTypeEnum.DUEL;
     }
 }
