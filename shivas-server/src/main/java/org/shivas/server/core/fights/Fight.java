@@ -1,6 +1,8 @@
 package org.shivas.server.core.fights;
 
+import com.google.common.collect.Maps;
 import org.shivas.protocol.client.enums.FightStateEnum;
+import org.shivas.protocol.client.enums.FightTeamEnum;
 import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.events.EventDispatcher;
@@ -12,6 +14,7 @@ import org.shivas.server.core.maps.GameMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -29,14 +32,18 @@ public abstract class Fight extends AbstractInteraction {
     protected final ExecutorService worker = Executors.newSingleThreadExecutor();
     protected final ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
     protected final EventDispatcher event = new ThreadedEventDispatcher(worker);
+    protected final Map<FightTeamEnum, FightTeam> teams = Maps.newIdentityHashMap();
     protected final FightTurnList turns;
     protected final GameMap map;
 
     protected FightStateEnum state;
 
-    protected Fight(Config config, GameMap map) {
+    protected Fight(Config config, GameMap map, Fighter challenger, Fighter defender) {
         this.turns = new FightTurnList(this, config.turnDuration(getFightType()));
         this.map = map;
+
+        this.teams.put(FightTeamEnum.CHALLENGERS, new FightTeam(FightTeamEnum.CHALLENGERS, this, challenger));
+        this.teams.put(FightTeamEnum.DEFENDERS, new FightTeam(FightTeamEnum.DEFENDERS, this, defender));
     }
 
     public ExecutorService getWorker() {

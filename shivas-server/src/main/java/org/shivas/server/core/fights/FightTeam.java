@@ -1,6 +1,7 @@
 package org.shivas.server.core.fights;
 
 import com.google.common.collect.Maps;
+import org.shivas.protocol.client.enums.FightTeamEnum;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -15,13 +16,19 @@ public class FightTeam implements Iterable<Fighter> {
     private static final int MAX_FIGHTERS = 8;
 
     private final Map<Integer, Fighter> fighters = Maps.newHashMap();
+    private final FightTeamEnum type;
     private final Fight fight;
     private final Fighter leader;
 
-    public FightTeam(Fight fight, Fighter leader) {
+    public FightTeam(FightTeamEnum type, Fight fight, Fighter leader) {
+        this.type = type;
         this.fight = fight;
         this.leader = leader;
         this.fighters.put(leader.getId(), leader);
+    }
+
+    public FightTeamEnum getType() {
+        return type;
     }
 
     public Fight getFight() {
