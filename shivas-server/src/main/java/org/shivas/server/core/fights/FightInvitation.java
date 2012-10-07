@@ -6,6 +6,7 @@ import org.shivas.server.core.interactions.InteractionType;
 import org.shivas.server.core.interactions.Invitation;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.services.game.GameClient;
+import org.shivas.server.services.game.handlers.FightHandler;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,12 +27,21 @@ public class FightInvitation extends Invitation {
     }
 
     protected void startFight() throws InteractionException {
-        new DuelFight(
+        Fight fight = new DuelFight(
                 source.service().config(),
                 source.player().getLocation().getMap(),
                 source.player(),
                 target.player()
-        ).init();
+        );
+
+        try {
+            source.newHandler(new FightHandler(source));
+            target.newHandler(new FightHandler(target));
+        } catch (Exception e) {
+            throw new InteractionException(e);
+        }
+
+        fight.init();
     }
 
     @Override

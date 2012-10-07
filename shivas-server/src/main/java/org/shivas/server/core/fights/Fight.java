@@ -42,6 +42,7 @@ public abstract class Fight extends AbstractInteraction {
     protected Fight(Config config, GameMap map) {
         this.turns = new FightTurnList(this, config.turnDuration(getFightType()));
         this.map = map;
+        this.state = FightStateEnum.INIT;
     }
 
     public ExecutorService getWorker() {
@@ -72,14 +73,14 @@ public abstract class Fight extends AbstractInteraction {
         return state;
     }
 
-    public abstract int getRemainingPreparation();
-
     @Override
     public InteractionType getInteractionType() {
         return InteractionType.FIGHT;
     }
 
     public abstract FightTypeEnum getFightType();
+    public abstract int getRemainingPreparation();
+    public abstract boolean canCancel();
 
     protected void beforeInit() throws InteractionException {}
     public void init() throws InteractionException {
@@ -89,6 +90,7 @@ public abstract class Fight extends AbstractInteraction {
 
         state = FightStateEnum.PLACE;
 
+        setFighterStartCells();
         event.publish(new FightInitializationEvent(this));
 
         afterInit();
@@ -143,9 +145,15 @@ public abstract class Fight extends AbstractInteraction {
         if (state != FightStateEnum.ACTIVE) throw new FightException("you can't move now");
     }
 
+    private void setFighterStartCells() {
+        for (FightTeam team : teams.values()) {
+            for (Fighter fighter : team) {
+                // TODO
+            }
+        }
+    }
+
     public void exceptionThrowed(Throwable throwable) {
         log.error("unhandled exception {} : {}", throwable.getClass(), throwable.toString());
     }
-
-    public abstract boolean canCancel();
 }
