@@ -1,8 +1,11 @@
 package org.shivas.server.services.game.handlers;
 
 import org.shivas.protocol.client.enums.ActionTypeEnum;
+import org.shivas.server.core.events.Event;
+import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.fights.Fight;
 import org.shivas.server.core.fights.PlayerFighter;
+import org.shivas.server.core.fights.events.FightEvent;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 import org.slf4j.Logger;
@@ -14,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * Date: 06/10/12
  * Time: 22:31
  */
-public class FightHandler extends AbstractBaseHandler<GameClient> {
+public class FightHandler extends AbstractBaseHandler<GameClient> implements EventListener {
     private static final Logger log = LoggerFactory.getLogger(FightHandler.class);
 
     protected Fight fight;
@@ -30,10 +33,14 @@ public class FightHandler extends AbstractBaseHandler<GameClient> {
 
         fight = client.player().getFight();
         fighter = client.player().getFighter();
+
+        fight.getEvent().subscribe(this);
     }
 
     @Override
-    public void onClosed() { }
+    public void onClosed() {
+        fight.getEvent().unsubscribe(this);
+    }
 
     @Override
     public void handle(String message) throws Exception {
@@ -63,6 +70,21 @@ public class FightHandler extends AbstractBaseHandler<GameClient> {
         default:
             log.warn("unknown action {} (data={})", actionType, data);
             break;
+        }
+    }
+
+    @Override
+    public void listen(Event event) {
+        switch (event.type()) {
+        case FIGHT:
+            listenFight((FightEvent) event);
+            break;
+        }
+    }
+
+    private void listenFight(FightEvent event) {
+        switch (event.getFightEventType()) {
+
         }
     }
 }

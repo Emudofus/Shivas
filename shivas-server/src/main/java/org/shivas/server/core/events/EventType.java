@@ -13,4 +13,5 @@ public enum EventType {
     EXCHANGE,
     STORE,
     GUILD,
+    FIGHT,
 }
