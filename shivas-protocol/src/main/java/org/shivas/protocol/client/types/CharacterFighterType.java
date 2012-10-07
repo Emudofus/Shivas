@@ -2,6 +2,7 @@ package org.shivas.protocol.client.types;
 
 import org.shivas.common.statistics.Statistics;
 import org.shivas.protocol.client.enums.FightTeamEnum;
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.OrientationEnum;
 
 /**
@@ -11,7 +12,7 @@ import org.shivas.protocol.client.enums.OrientationEnum;
  * IDE : IntelliJ IDEA
  */
 public class CharacterFighterType extends BaseFighterType {
-    protected boolean gender;
+    protected Gender gender;
     protected short alignId, alignLevel;
     protected boolean pvpEnabled;
     protected int color1, color2, color3;
@@ -19,7 +20,7 @@ public class CharacterFighterType extends BaseFighterType {
     protected Statistics statistics;
     protected FightTeamEnum team;
 
-    public CharacterFighterType(long id, String name, byte breedId, short skin, short size, short level, short currentCellId, OrientationEnum orientation, boolean dead, Statistics stats, boolean gender, short alignId, short alignLevel, boolean pvpEnabled, int color1, int color2, int color3, int[] accessories, Statistics statistics, FightTeamEnum team) {
+    public CharacterFighterType(long id, String name, byte breedId, short skin, short size, short level, short currentCellId, OrientationEnum orientation, boolean dead, Statistics stats, Gender gender, short alignId, short alignLevel, boolean pvpEnabled, int color1, int color2, int color3, int[] accessories, FightTeamEnum team) {
         super(id, name, breedId, skin, size, level, currentCellId, orientation, dead, stats);
 
         this.gender = gender;
@@ -34,11 +35,11 @@ public class CharacterFighterType extends BaseFighterType {
         this.team = team;
     }
 
-    public boolean isGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
