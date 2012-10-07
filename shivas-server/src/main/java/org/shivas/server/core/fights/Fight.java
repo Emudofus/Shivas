@@ -47,6 +47,10 @@ public abstract class Fight extends AbstractInteraction {
         return timer;
     }
 
+    public EventDispatcher getEvent() {
+        return event;
+    }
+
     public FightStateEnum getState() {
         return state;
     }

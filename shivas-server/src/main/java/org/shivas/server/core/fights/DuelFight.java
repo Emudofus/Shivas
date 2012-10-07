@@ -3,6 +3,7 @@ package org.shivas.server.core.fights;
 import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.database.models.Player;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +12,7 @@ import org.shivas.server.core.maps.GameMap;
  * Time: 20:13
  */
 public class DuelFight extends Fight {
-    public DuelFight(Config config, GameMap map) {
+    public DuelFight(Config config, GameMap map, Player source, Player target) {
         super(config, map);
     }
 

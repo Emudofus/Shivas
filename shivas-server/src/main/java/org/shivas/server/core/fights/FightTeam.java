@@ -47,6 +47,8 @@ public class FightTeam implements Iterable<Fighter> {
     public void add(Fighter fighter) {
         if (!isAvailable() || fighters.containsKey(fighter.getId())) return;
 
+        fighter.setTeam(this);
+
         fighters.put(fighter.getId(), fighter);
     }
 
@@ -57,6 +59,8 @@ public class FightTeam implements Iterable<Fighter> {
 
         Fighter fighter = fighters.remove(id);
         if (fighter != null) {
+            fighter.setTeam(null);
+
             return fighter;
         }
         return null;

@@ -17,6 +17,8 @@ import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.EventDispatchers;
 import org.shivas.server.core.events.events.PlayerTeleportationEvent;
 import org.shivas.server.core.experience.PlayerExperience;
+import org.shivas.server.core.fights.Fight;
+import org.shivas.server.core.fights.Fighter;
 import org.shivas.server.core.items.PlayerBag;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.core.spells.SpellList;
@@ -45,6 +47,7 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 	private WaypointList waypoints;
     private PlayerStore store;
     private GuildMember guildMember;
+    private Fighter fighter;
 	
 	private final EventDispatcher event = EventDispatchers.create();
 	
@@ -259,6 +262,22 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 
     public Guild getGuild() {
         return guildMember.getGuild();
+    }
+
+    public Fighter getFighter() {
+        return fighter;
+    }
+
+    public void setFighter(Fighter fighter) {
+        this.fighter = fighter;
+    }
+
+    public Fight getFight() {
+        return fighter.getFight();
+    }
+
+    public boolean isFighting() {
+        return fighter != null;
     }
 
     public boolean hasGuild() {
