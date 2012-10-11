@@ -94,6 +94,10 @@ public class NpcTemplate implements Serializable {
         this.accessories = accessories;
     }
 
+    public ItemTemplate getAccessory(int index) {
+        return accessories[index];
+    }
+
     public int getExtraClip() {
         return extraClip;
     }

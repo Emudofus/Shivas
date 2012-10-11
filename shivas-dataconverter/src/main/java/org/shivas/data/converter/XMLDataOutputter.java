@@ -6,15 +6,12 @@ import org.jdom2.output.XMLOutputter;
 import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
-import org.shivas.data.converter.Structs.Breed;
-import org.shivas.data.converter.Structs.Waypoint;
+import org.shivas.data.entity.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Map;
 
 public class XMLDataOutputter implements DataOutputter {
@@ -24,25 +21,25 @@ public class XMLDataOutputter implements DataOutputter {
 	private final XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 
 	@Override
-	public void outputBreed(Structs.Breed breed, String fileName) throws IOException {
+	public void outputBreed(Breed breed, String fileName) throws IOException {
 		Element root_elem = new Element("breeds");
 		
 		Element breed_elem = new Element("breed");
-		breed_elem.setAttribute("id", String.valueOf(breed.id));
-		breed_elem.setAttribute("startActionPoints", String.valueOf(breed.startActionPoints));
-		breed_elem.setAttribute("startMovementPoints", String.valueOf(breed.startMovementPoints));
-		breed_elem.setAttribute("startLife", String.valueOf(breed.startLife));
-		breed_elem.setAttribute("startProspection", String.valueOf(breed.startProspection));
+		breed_elem.setAttribute("id", String.valueOf(breed.getId()));
+		breed_elem.setAttribute("startActionPoints", String.valueOf(breed.getStartActionPoints()));
+		breed_elem.setAttribute("startMovementPoints", String.valueOf(breed.getStartMovementPoints()));
+		breed_elem.setAttribute("startLife", String.valueOf(breed.getStartLife()));
+		breed_elem.setAttribute("startProspection", String.valueOf(breed.getStartProspection()));
 		
-		for (Map.Entry<CharacteristicType, Map<Range, Structs.BreedLevel>> entry1 : breed.levels.entrySet()) {
+		for (Map.Entry<CharacteristicType, Map<Range, Breed.Level>> entry1 : breed.getLevels().entrySet()) {
 			Element levels_elem = new Element("levels");
 			levels_elem.setAttribute("type", entry1.getKey().name());
 			
-			for (Map.Entry<Range, Structs.BreedLevel> entry2 : entry1.getValue().entrySet()) {
+			for (Map.Entry<Range, Breed.Level> entry2 : entry1.getValue().entrySet()) {
 				Element level_elem = new Element("level");
 				level_elem.setAttribute("range", entry2.getKey().toString());
-				level_elem.setAttribute("bonus", String.valueOf(entry2.getValue().bonus));
-				level_elem.setAttribute("cost", String.valueOf(entry2.getValue().cost));
+				level_elem.setAttribute("bonus", String.valueOf(entry2.getValue().bonus()));
+				level_elem.setAttribute("cost", String.valueOf(entry2.getValue().cost()));
 				
 				levels_elem.addContent(level_elem);
 			}
@@ -50,17 +47,12 @@ public class XMLDataOutputter implements DataOutputter {
 		}
 		
 		Element spells_elem = new Element("spells");
-		Collections.sort(breed.spells, new Comparator<Structs.SpellBreed>() {
-			public int compare(Structs.SpellBreed o1, Structs.SpellBreed o2) {
-				return o1.level - o2.level;
-			}
-		});
-		for (Structs.SpellBreed spell : breed.spells) {
+		for (SpellBreed spell : breed.getSpells().values()) {
 			Element spell_elem = new Element("spell");
 			
-			spell_elem.setAttribute("id", String.valueOf(spell.template.id));
-			spell_elem.setAttribute("minLevel", String.valueOf(spell.level));
-			spell_elem.setAttribute("startPosition", String.valueOf(spell.position));
+			spell_elem.setAttribute("id", String.valueOf(spell.getTemplate().getId()));
+			spell_elem.setAttribute("minLevel", String.valueOf(spell.getMinLevel()));
+			spell_elem.setAttribute("startPosition", String.valueOf(spell.getPosition()));
 			
 			spells_elem.addContent(spell_elem);
 		}
@@ -72,24 +64,24 @@ public class XMLDataOutputter implements DataOutputter {
 	}
 
 	@Override
-	public void outputBreeds(Collection<Structs.Breed> breeds, String directory) throws IOException {
+	public void outputBreeds(Collection<Breed> breeds, String directory) throws IOException {
 		for (Breed breed : breeds) {
-			outputBreed(breed, directory + breed.name);
+			outputBreed(breed, directory + breed.getId());
 		}
 	}
 
 	@Override
-	public void outputExperiences(Collection<Structs.Experience> exps, String fileName) throws IOException {
+	public void outputExperiences(Collection<Experience> exps, String fileName) throws IOException {
 		Element root_elem = new Element("experiences");
 		
-		for (Structs.Experience exp : exps) {
+		for (Experience exp : exps) {
 			Element exp_elem = new Element("experience");
-			exp_elem.setAttribute("level", String.valueOf(exp.level));
-			exp_elem.setAttribute("player", String.valueOf(exp.player));
-            exp_elem.setAttribute("guild", String.valueOf(exp.guild));
-			exp_elem.setAttribute("job", String.valueOf(exp.job));
-			exp_elem.setAttribute("mount", String.valueOf(exp.mount));
-			exp_elem.setAttribute("alignment", String.valueOf(exp.alignment));
+			exp_elem.setAttribute("level", String.valueOf(exp.getLevel()));
+			exp_elem.setAttribute("player", String.valueOf(exp.getPlayer()));
+            exp_elem.setAttribute("guild", String.valueOf(exp.getGuild()));
+			exp_elem.setAttribute("job", String.valueOf(exp.getJob()));
+			exp_elem.setAttribute("mount", String.valueOf(exp.getMount()));
+			exp_elem.setAttribute("alignment", String.valueOf(exp.getAlignment()));
 			
 			root_elem.addContent(exp_elem);
 		}
@@ -98,33 +90,33 @@ public class XMLDataOutputter implements DataOutputter {
 	}
 
 	@Override
-	public void outputMaps(Collection<Structs.GameMap> maps, String fileName) throws IOException {
+	public void outputMaps(Collection<MapData> maps, String fileName) throws IOException {
 		Element root_elem = new Element("maps");
 		
-		for (Structs.GameMap map : maps) {			
+		for (MapData map : maps) {
 			Element map_elem = new Element("map");
-			map_elem.setAttribute("id", String.valueOf(map.id));
-			map_elem.setAttribute("abscissa", String.valueOf(map.position.abscissa()));
-			map_elem.setAttribute("ordinate", String.valueOf(map.position.ordinate()));
-			map_elem.setAttribute("width", String.valueOf(map.width));
-			map_elem.setAttribute("height", String.valueOf(map.height));
-			map_elem.setAttribute("date", String.valueOf(map.date));
-			map_elem.setAttribute("subscriber", map.subscriber ? "1" : "0");
+			map_elem.setAttribute("id", String.valueOf(map.getId()));
+			map_elem.setAttribute("abscissa", String.valueOf(map.getPosition().abscissa()));
+			map_elem.setAttribute("ordinate", String.valueOf(map.getPosition().ordinate()));
+			map_elem.setAttribute("width", String.valueOf(map.getWidth()));
+			map_elem.setAttribute("height", String.valueOf(map.getHeight()));
+			map_elem.setAttribute("date", String.valueOf(map.getDate()));
+			map_elem.setAttribute("subscriber", map.isSubscriber() ? "1" : "0");
 			
 			Element data_elem = new Element("data");
-			data_elem.setAttribute("value", map.data);
+			data_elem.setAttribute("value", map.getData());
 			map_elem.addContent(data_elem);
 			
 			Element key_elem = new Element("key");
-			key_elem.setAttribute("value", map.key);
+			key_elem.setAttribute("value", map.getKey());
 			map_elem.addContent(key_elem);
 			
-			for (Structs.GameMapTrigger trigger : map.triggers) {
+			for (MapTrigger trigger : map.getTrigger().values()) {
 				Element trigger_elem = new Element("trigger");
-				trigger_elem.setAttribute("id", String.valueOf(trigger.id));
-				trigger_elem.setAttribute("cell", String.valueOf(trigger.cell));
-				trigger_elem.setAttribute("next_map", trigger.nextMap != null ? String.valueOf(trigger.nextMap.id) : "");
-				trigger_elem.setAttribute("next_cell", String.valueOf(trigger.nextCell));
+				trigger_elem.setAttribute("id", String.valueOf(trigger.getId()));
+				trigger_elem.setAttribute("cell", String.valueOf(trigger.getCell()));
+				trigger_elem.setAttribute("next_map", trigger.getNextMap() != null ? String.valueOf(trigger.getNextMap().getId()) : "");
+				trigger_elem.setAttribute("next_cell", String.valueOf(trigger.getNextCell()));
 				
 				map_elem.addContent(trigger_elem);
 			}
@@ -136,31 +128,31 @@ public class XMLDataOutputter implements DataOutputter {
 	}
 
 	@Override
-	public void outputItemSets(Collection<Structs.ItemSet> itemsets, String fileName) throws IOException {
+	public void outputItemSets(Collection<ItemSet> itemsets, String fileName) throws IOException {
 		Element root_elem = new Element("itemsets");
 		
-		for (Structs.ItemSet itemset : itemsets) {
+		for (ItemSet itemset : itemsets) {
 			Element itemset_elem = new Element("itemset");
 			
-			itemset_elem.setAttribute("id", String.valueOf(itemset.id));
+			itemset_elem.setAttribute("id", String.valueOf(itemset.getId()));
 			
-			for (Structs.ItemTemplate item : itemset.items) {
+			for (ItemTemplate item : itemset.getItems()) {
 				Element item_elem = new Element("item");
-				item_elem.setAttribute("id", String.valueOf(item.id));
+				item_elem.setAttribute("id", String.valueOf(item.getId()));
 				
 				itemset_elem.addContent(item_elem);
 			}
 			
-			for (Map.Entry<Integer, Collection<Structs.ItemEffect>> entry : itemset.effects.asMap().entrySet()) {
+			for (Map.Entry<Integer, Collection<ConstantItemEffect>> entry : itemset.getEffects().asMap().entrySet()) {
 				Element effects_elem = new Element("effects");
 				
 				effects_elem.setAttribute("level", entry.getKey().toString());
 				
-				for (Structs.ItemEffect effect : entry.getValue()) {
+				for (ConstantItemEffect effect : entry.getValue()) {
 					Element effect_elem = new Element("effect");
 					
-					effect_elem.setAttribute("type", String.valueOf(effect.effect.value()));
-					effect_elem.setAttribute("bonus", String.valueOf(effect.bonus));
+					effect_elem.setAttribute("type", String.valueOf(effect.getType().value()));
+					effect_elem.setAttribute("bonus", String.valueOf(effect.getBonus()));
 					
 					effects_elem.addContent(effect_elem);
 				}
@@ -175,34 +167,34 @@ public class XMLDataOutputter implements DataOutputter {
 	}
 
 	@Override
-	public void outputItems(Collection<Structs.ItemTemplate> items, String fileName) throws IOException {
+	public void outputItems(Collection<ItemTemplate> items, String fileName) throws IOException {
 		Element root_elem = new Element("items");
 		
-		for (Structs.ItemTemplate item : items) {
+		for (ItemTemplate item : items) {
 			Element item_elem = new Element("item");
 			
-			item_elem.setAttribute("id", String.valueOf(item.id));
-			item_elem.setAttribute("type", item.type != null ? String.valueOf(item.type.value()) : "-1");
-			item_elem.setAttribute("level", String.valueOf(item.level));
-			item_elem.setAttribute("weight", String.valueOf(item.weight));
-			item_elem.setAttribute("forgemageable", String.valueOf(item.forgemageable));
-			item_elem.setAttribute("price", String.valueOf(item.price));
-			
-			if (item.type.isWeapon()) {
-				Structs.WeaponItemTemplate weapon = (Structs.WeaponItemTemplate) item;
-				item_elem.setAttribute("twoHands", String.valueOf(weapon.twoHands));
-				item_elem.setAttribute("ethereal", String.valueOf(weapon.ethereal));
-			} else if (item.type.isUsable()) {
+			item_elem.setAttribute("id", String.valueOf(item.getId()));
+			item_elem.setAttribute("type", item.getType() != null ? String.valueOf(item.getType().value()) : "-1");
+			item_elem.setAttribute("level", String.valueOf(item.getLevel()));
+			item_elem.setAttribute("weight", String.valueOf(item.getWeight()));
+			item_elem.setAttribute("forgemageable", String.valueOf(item.isForgemageable()));
+			item_elem.setAttribute("price", String.valueOf(item.getPrice()));
+
+			if (item.getType().isWeapon()) {
+				WeaponTemplate weapon = (WeaponTemplate) item;
+				item_elem.setAttribute("twoHands", String.valueOf(weapon.isTwoHands()));
+				item_elem.setAttribute("ethereal", String.valueOf(weapon.isEthereal()));
+			} else if (item.getType().isUsable()) {
 				// TODO usable items
 			}
 			
-			item_elem.addContent(new Element("conditions").setText(item.conditions));
+			item_elem.addContent(new Element("conditions").setText(item.getConditions()));
 			
-			for (Structs.ItemEffectTemplate effect : item.effects) {
+			for (ItemEffectTemplate effect : item.getEffects()) {
 				Element effect_elem = new Element("effect");
 				
-				effect_elem.setAttribute("type", String.valueOf(effect.effect.value()));
-				effect_elem.setAttribute("bonus", effect.bonus.toString());
+				effect_elem.setAttribute("type", String.valueOf(effect.getEffect().value()));
+				effect_elem.setAttribute("bonus", effect.getBonus().toString());
 				
 				item_elem.addContent(effect_elem);
 			}
@@ -213,57 +205,57 @@ public class XMLDataOutputter implements DataOutputter {
 		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
 	}
 	
-	private Element toElement(Structs.SpellEffect effect) {
+	private Element toElement(SpellEffect effect) {
 		Element effect_elem = new Element("effect");
-		effect_elem.setAttribute("type", String.valueOf(effect.type));
-		effect_elem.setAttribute("first", String.valueOf(effect.first));
-		effect_elem.setAttribute("second", String.valueOf(effect.second));
-		effect_elem.setAttribute("third", String.valueOf(effect.third));
-		if (effect.turns >= 0) effect_elem.setAttribute("turns", String.valueOf(effect.turns));
-		if (effect.chance >= 0) effect_elem.setAttribute("chance", String.valueOf(effect.chance));
-		if (!effect.dice.equals(Dofus1Dice.ZERO)) effect_elem.setAttribute("dice", String.valueOf(effect.dice.toString()));
-		if (!effect.target.isEmpty()) effect_elem.setAttribute("target", String.valueOf(effect.target));
+		effect_elem.setAttribute("type", String.valueOf(effect.getType()));
+		effect_elem.setAttribute("first", String.valueOf(effect.getFirst()));
+		effect_elem.setAttribute("second", String.valueOf(effect.getSecond()));
+		effect_elem.setAttribute("third", String.valueOf(effect.getThird()));
+		if (effect.getTurns() >= 0) effect_elem.setAttribute("turns", String.valueOf(effect.getTurns()));
+		if (effect.getChance() >= 0) effect_elem.setAttribute("chance", String.valueOf(effect.getChance()));
+		if (!effect.getDice().equals(Dofus1Dice.ZERO)) effect_elem.setAttribute("dice", String.valueOf(effect.getDice().toString()));
+		if (!effect.getTarget().isEmpty()) effect_elem.setAttribute("target", String.valueOf(effect.getTarget()));
 		
 		return effect_elem;
 	}
 
 	@Override
-	public void outputSpells(Collection<Structs.SpellTemplate> spells, String fileName) throws IOException {
+	public void outputSpells(Collection<SpellTemplate> spells, String fileName) throws IOException {
 		Element root_elem = new Element("spells");
 		
-		for (Structs.SpellTemplate spell : spells) {
+		for (SpellTemplate spell : spells) {
 			Element spell_elem = new Element("spell");
-			spell_elem.setAttribute("id", String.valueOf(spell.id));
+			spell_elem.setAttribute("id", String.valueOf(spell.getId()));
 			
 			Element sprite_elem = new Element("sprite");
-			sprite_elem.setAttribute("id", String.valueOf(spell.sprite));
-			sprite_elem.setAttribute("infos", spell.spriteInfos);
+			sprite_elem.setAttribute("id", String.valueOf(spell.getSprite()));
+			sprite_elem.setAttribute("infos", spell.getSpriteInfos());
 			spell_elem.addContent(sprite_elem);
 			
-			for (Structs.SpellLevel level : spell.levels) {
+			for (SpellLevel level : spell.getLevels()) {
 				if (level == null) continue;
 				
 				Element level_elem = new Element("level");
-				level_elem.setAttribute("id", String.valueOf(level.id));
-				level_elem.setAttribute("costAP", String.valueOf(level.costAP));
-				level_elem.setAttribute("minRange", String.valueOf(level.minRange));
-				level_elem.setAttribute("maxRange", String.valueOf(level.maxRange));
-				level_elem.setAttribute("criticalRate", String.valueOf(level.criticalRate));
-				level_elem.setAttribute("failureRate", String.valueOf(level.failureRate));
-				level_elem.setAttribute("inline", String.valueOf(level.inline));
-				level_elem.setAttribute("los", String.valueOf(level.los));
-				level_elem.setAttribute("emptyCell", String.valueOf(level.emptyCell));
-				level_elem.setAttribute("adjustableRange", String.valueOf(level.adjustableRange));
-				level_elem.setAttribute("endsTurnOnFailure", String.valueOf(level.endsTurnOnFailure));
-				level_elem.setAttribute("maxPerTurn", String.valueOf(level.maxPerTurn));
-				level_elem.setAttribute("maxPerPlayer", String.valueOf(level.maxPerPlayer));
-				level_elem.setAttribute("turns", String.valueOf(level.turns));
-				level_elem.setAttribute("rangeType", String.valueOf(level.rangeType));
+				level_elem.setAttribute("id", String.valueOf(level.getId()));
+				level_elem.setAttribute("costAP", String.valueOf(level.getCostAP()));
+				level_elem.setAttribute("minRange", String.valueOf(level.getMinRange()));
+				level_elem.setAttribute("maxRange", String.valueOf(level.getMaxRange()));
+				level_elem.setAttribute("criticalRate", String.valueOf(level.getCriticalRate()));
+				level_elem.setAttribute("failureRate", String.valueOf(level.getFailureRate()));
+				level_elem.setAttribute("inline", String.valueOf(level.isInline()));
+				level_elem.setAttribute("los", String.valueOf(level.isLos()));
+				level_elem.setAttribute("emptyCell", String.valueOf(level.isEmptyCell()));
+				level_elem.setAttribute("adjustableRange", String.valueOf(level.isAdjustableRange()));
+				level_elem.setAttribute("endsTurnOnFailure", String.valueOf(level.isEndsTurnOnFailure()));
+				level_elem.setAttribute("maxPerTurn", String.valueOf(level.getMaxPerTurn()));
+				level_elem.setAttribute("maxPerPlayer", String.valueOf(level.getMaxPerPlayer()));
+				level_elem.setAttribute("turns", String.valueOf(level.getTurns()));
+				level_elem.setAttribute("rangeType", String.valueOf(level.getRangeType()));
 				
-				for (Structs.SpellEffect effect : level.effects) {					
+				for (SpellEffect effect : level.getEffects()) {
 					level_elem.addContent(toElement(effect));
 				}
-				for (Structs.SpellEffect effect : level.criticalEffects) {
+				for (SpellEffect effect : level.getCriticalEffects()) {
 					Element effect_elem = toElement(effect);
 					effect_elem.setAttribute("critical", "");
 					
@@ -286,9 +278,9 @@ public class XMLDataOutputter implements DataOutputter {
 		for (Waypoint waypoint : waypoints) {
 			Element waypoint_elem = new Element("waypoint");
 			
-			waypoint_elem.setAttribute("id", String.valueOf(waypoint.id));
-			waypoint_elem.setAttribute("map", String.valueOf(waypoint.mapId));
-			waypoint_elem.setAttribute("cell", String.valueOf(waypoint.cell));
+			waypoint_elem.setAttribute("id", String.valueOf(waypoint.getId()));
+			waypoint_elem.setAttribute("map", String.valueOf(waypoint.getMap().getId()));
+			waypoint_elem.setAttribute("cell", String.valueOf(waypoint.getCell()));
 			
 			root_elem.addContent(waypoint_elem);
 		}
@@ -297,40 +289,40 @@ public class XMLDataOutputter implements DataOutputter {
 	}
 
     @Override
-    public void outputNpcTemplates(Collection<Structs.NpcTemplate> npcTemplates, String fileName) throws IOException {
+    public void outputNpcTemplates(Collection<NpcTemplate> npcTemplates, String fileName) throws IOException {
         Element root_elem = new Element("npcTemplates");
 
-        for (Structs.NpcTemplate npcTemplate : npcTemplates) {
+        for (NpcTemplate npcTemplate : npcTemplates) {
             Element npcTemplate_elem = new Element("npcTemplate");
-            npcTemplate_elem.setAttribute("id", String.valueOf(npcTemplate.id));
-            npcTemplate_elem.setAttribute("type", npcTemplate.type.name());
-            npcTemplate_elem.setAttribute("gender", npcTemplate.gender.name());
-            npcTemplate_elem.setAttribute("skin", String.valueOf(npcTemplate.skin));
-            npcTemplate_elem.setAttribute("size", String.valueOf(npcTemplate.size));
-            npcTemplate_elem.setAttribute("extraClip", String.valueOf(npcTemplate.extraClip));
-            npcTemplate_elem.setAttribute("customArtwork", String.valueOf(npcTemplate.customArtwork));
+            npcTemplate_elem.setAttribute("id", String.valueOf(npcTemplate.getId()));
+            npcTemplate_elem.setAttribute("type", npcTemplate.getType().name());
+            npcTemplate_elem.setAttribute("gender", npcTemplate.getGender().name());
+            npcTemplate_elem.setAttribute("skin", String.valueOf(npcTemplate.getSkin()));
+            npcTemplate_elem.setAttribute("size", String.valueOf(npcTemplate.getSize()));
+            npcTemplate_elem.setAttribute("extraClip", String.valueOf(npcTemplate.getExtraClip()));
+            npcTemplate_elem.setAttribute("customArtwork", String.valueOf(npcTemplate.getCustomArtwork()));
 
             Element colors_elem = new Element("colors");
-            colors_elem.setAttribute("first",  String.valueOf(npcTemplate.color1));
-            colors_elem.setAttribute("second", String.valueOf(npcTemplate.color2));
-            colors_elem.setAttribute("third",  String.valueOf(npcTemplate.color3));
+            colors_elem.setAttribute("first",  String.valueOf(npcTemplate.getColor1()));
+            colors_elem.setAttribute("second", String.valueOf(npcTemplate.getColor2()));
+            colors_elem.setAttribute("third",  String.valueOf(npcTemplate.getColor3()));
             npcTemplate_elem.addContent(colors_elem);
 
             Element accessories_elem = new Element("accessories");
-            if (npcTemplate.accessories[0] != null) {
-                accessories_elem.setAttribute("weapon", String.valueOf(npcTemplate.accessories[0].id));
+            if (npcTemplate.getAccessory(0) != null) {
+                accessories_elem.setAttribute("weapon", String.valueOf(npcTemplate.getAccessory(0).getId()));
             }
-            if (npcTemplate.accessories[1] != null) {
-                accessories_elem.setAttribute("hat", String.valueOf(npcTemplate.accessories[1].id));
+            if (npcTemplate.getAccessory(1) != null) {
+                accessories_elem.setAttribute("hat", String.valueOf(npcTemplate.getAccessory(1).getId()));
             }
-            if (npcTemplate.accessories[2] != null) {
-                accessories_elem.setAttribute("cloak", String.valueOf(npcTemplate.accessories[2].id));
+            if (npcTemplate.getAccessory(2) != null) {
+                accessories_elem.setAttribute("cloak", String.valueOf(npcTemplate.getAccessory(2).getId()));
             }
-            if (npcTemplate.accessories[3] != null) {
-                accessories_elem.setAttribute("pet", String.valueOf(npcTemplate.accessories[3].id));
+            if (npcTemplate.getAccessory(3) != null) {
+                accessories_elem.setAttribute("pet", String.valueOf(npcTemplate.getAccessory(3).getId()));
             }
-            if (npcTemplate.accessories[4] != null) {
-                accessories_elem.setAttribute("shield", String.valueOf(npcTemplate.accessories[4].id));
+            if (npcTemplate.getAccessory(4) != null) {
+                accessories_elem.setAttribute("shield", String.valueOf(npcTemplate.getAccessory(4).getId()));
             }
             npcTemplate_elem.addContent(accessories_elem);
 
