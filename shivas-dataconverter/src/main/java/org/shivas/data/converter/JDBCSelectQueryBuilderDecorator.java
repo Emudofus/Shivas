@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,6 +18,54 @@ import java.sql.Statement;
  * Time: 14:20
  */
 public class JDBCSelectQueryBuilderDecorator implements SelectQueryBuilder {
+    private static class ResultSetIterator implements Iterator<ResultSet> {
+        private final Statement statement;
+        private final ResultSet resultSet;
+
+        private SQLException lastException;
+
+        private ResultSetIterator(Statement statement, ResultSet resultSet) {
+            this.statement = statement;
+            this.resultSet = resultSet;
+        }
+
+        public boolean hasNext() {
+            try {
+                if (!resultSet.next()) {
+                    statement.close();
+                    return false;
+                }
+                return true;
+            } catch (SQLException e) {
+                lastException = e;
+                return false;
+            }
+        }
+
+        public ResultSet next() {
+            return lastException != null ? null : resultSet;
+        }
+
+        public void remove() {
+            throw new RuntimeException("you can't do this");
+        }
+    }
+
+    private static class ResultSetIterable implements Iterable<ResultSet> {
+
+        private final Statement statement;
+        private final ResultSet resultSet;
+
+        private ResultSetIterable(Statement statement, ResultSet resultSet) {
+            this.statement = statement;
+            this.resultSet = resultSet;
+        }
+
+        public Iterator<ResultSet> iterator() {
+            return new ResultSetIterator(statement, resultSet);
+        }
+    }
+
     private final Connection connection;
     private SelectQueryBuilder sqb;
 
@@ -28,8 +77,7 @@ public class JDBCSelectQueryBuilderDecorator implements SelectQueryBuilder {
     public Iterable<ResultSet> execute() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqb.toQuery().toString());
-        statement.close();
-        return ResultSetIterator.iterable(resultSet);
+        return new ResultSetIterable(statement, resultSet);
     }
 
     @Override

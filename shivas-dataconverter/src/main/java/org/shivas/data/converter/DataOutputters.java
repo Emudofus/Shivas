@@ -13,7 +13,9 @@ public final class DataOutputters {
         while (true) {
             String input = App.prompt("Choisissez le type de base de donnée :\n\tXML\n\tYAML\n\tbin\n");
             if (input.equalsIgnoreCase("XML")) {
-                return null;
+                return new XMLDataOutputter(
+                        App.prompt("Entrez le nom de répertoire où seront écris les données")
+                );
             } else if (input.equalsIgnoreCase("YAML")) {
             } else if (input.equalsIgnoreCase("bin")) {
             }

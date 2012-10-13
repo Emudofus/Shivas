@@ -127,7 +127,7 @@ public class XMLDataOutputter implements DataOutputter {
 			
 			root_elem.addContent(map_elem);
 		}
-		
+
 		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "maps/maps" + EXTENSION, false)));
 	}
 

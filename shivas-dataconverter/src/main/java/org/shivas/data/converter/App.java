@@ -1,7 +1,9 @@
 package org.shivas.data.converter;
 
 import org.shivas.data.converter.loaders.DataLoaders;
+import org.shivas.data.entity.Breed;
 
+import java.util.Collection;
 import java.util.Scanner;
 
 public class App {
@@ -15,6 +17,10 @@ public class App {
 
     public static void outln(String format, Object... args) {
         System.out.format(format + "\n", args);
+    }
+
+    public static void outln(Exception e) {
+        e.printStackTrace();
     }
 
     public static String readln() {
@@ -36,9 +42,23 @@ public class App {
 
         if (confirmation("Souhaitez-vous écrire les classes ?")) {
             try {
-                outputter.outputBreeds(loader.loadBreeds());
+                Collection<Breed> breeds = loader.loadBreeds();
+                outputter.outputBreeds(breeds);
+
+                outln("%d classes ont été écrites", breeds.size());
             } catch (Exception e) {
-                outln("impossible d'écrire les classes car : %s", e.getMessage());
+                outln(e);
+            }
+        }
+
+        if (confirmation("Souhaitez-vous écrire les maps ?")) {
+            try {
+                Collection<MapData> maps = loader.loadMaps();
+                outputter.outputMaps(maps);
+
+                outln("%d maps ont été écrites", maps.size());
+            } catch (Exception e) {
+                outln(e);
             }
         }
 
