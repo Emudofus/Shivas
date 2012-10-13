@@ -10,7 +10,6 @@ import org.shivas.data.entity.*;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -20,8 +19,13 @@ public class XMLDataOutputter implements DataOutputter {
 	
 	private final XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
 
-	@Override
-	public void outputBreed(Breed breed, String fileName) throws IOException {
+    private final String baseDir;
+
+    public XMLDataOutputter(String baseDir) {
+        this.baseDir = baseDir;
+    }
+
+    public void outputBreed(Breed breed) throws Exception {
 		Element root_elem = new Element("breeds");
 		
 		Element breed_elem = new Element("breed");
@@ -60,18 +64,18 @@ public class XMLDataOutputter implements DataOutputter {
 		
 		root_elem.addContent(breed_elem);
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + String.format("breeds/breed%d", breed.getId()) + EXTENSION, false)));
 	}
 
 	@Override
-	public void outputBreeds(Collection<Breed> breeds, String directory) throws IOException {
+	public void outputBreeds(Collection<Breed> breeds) throws Exception {
 		for (Breed breed : breeds) {
-			outputBreed(breed, directory + breed.getId());
+			outputBreed(breed);
 		}
 	}
 
 	@Override
-	public void outputExperiences(Collection<Experience> exps, String fileName) throws IOException {
+	public void outputExperiences(Collection<Experience> exps) throws Exception {
 		Element root_elem = new Element("experiences");
 		
 		for (Experience exp : exps) {
@@ -86,11 +90,11 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(exp_elem);
 		}
 		
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "experiences/experiences" + EXTENSION, false)));
 	}
 
 	@Override
-	public void outputMaps(Collection<MapData> maps, String fileName) throws IOException {
+	public void outputMaps(Collection<MapData> maps) throws Exception {
 		Element root_elem = new Element("maps");
 		
 		for (MapData map : maps) {
@@ -124,11 +128,11 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(map_elem);
 		}
 		
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "maps/maps" + EXTENSION, false)));
 	}
 
 	@Override
-	public void outputItemSets(Collection<ItemSet> itemsets, String fileName) throws IOException {
+	public void outputItemSets(Collection<ItemSet> itemsets) throws Exception {
 		Element root_elem = new Element("itemsets");
 		
 		for (ItemSet itemset : itemsets) {
@@ -163,11 +167,11 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(itemset_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "itemSets/itemSets" + EXTENSION, false)));
 	}
 
 	@Override
-	public void outputItems(Collection<ItemTemplate> items, String fileName) throws IOException {
+	public void outputItems(Collection<ItemTemplate> items) throws Exception {
 		Element root_elem = new Element("items");
 		
 		for (ItemTemplate item : items) {
@@ -202,7 +206,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(item_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "items/items" + EXTENSION, false)));
 	}
 	
 	private Element toElement(SpellEffect effect) {
@@ -220,7 +224,7 @@ public class XMLDataOutputter implements DataOutputter {
 	}
 
 	@Override
-	public void outputSpells(Collection<SpellTemplate> spells, String fileName) throws IOException {
+	public void outputSpells(Collection<SpellTemplate> spells) throws Exception {
 		Element root_elem = new Element("spells");
 		
 		for (SpellTemplate spell : spells) {
@@ -268,11 +272,11 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(spell_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "spells/spells" + EXTENSION, false)));
 	}
 
 	@Override
-	public void outputWaypoints(Collection<Waypoint> waypoints, String fileName) throws IOException {
+	public void outputWaypoints(Collection<Waypoint> waypoints) throws Exception {
 		Element root_elem = new Element("waypoints");
 		
 		for (Waypoint waypoint : waypoints) {
@@ -285,11 +289,11 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(waypoint_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "waypoints/waypoints" + EXTENSION, false)));
 	}
 
     @Override
-    public void outputNpcTemplates(Collection<NpcTemplate> npcTemplates, String fileName) throws IOException {
+    public void outputNpcTemplates(Collection<NpcTemplate> npcTemplates) throws Exception {
         Element root_elem = new Element("npcTemplates");
 
         for (NpcTemplate npcTemplate : npcTemplates) {
@@ -329,7 +333,7 @@ public class XMLDataOutputter implements DataOutputter {
             root_elem.addContent(npcTemplate_elem);
         }
 
-        out.output(root_elem, new BufferedWriter(new FileWriter(fileName + EXTENSION, false)));
+        out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "npcTemplates/npcTemplates" + EXTENSION, false)));
     }
 
 }
