@@ -25,11 +25,11 @@ public class JDBCSelectQueryBuilderDecorator implements SelectQueryBuilder {
         this.sqb = sqb;
     }
 
-    public ResultSet execute() throws SQLException {
+    public Iterable<ResultSet> execute() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqb.toQuery().toString());
         statement.close();
-        return resultSet;
+        return ResultSetIterator.iterable(resultSet);
     }
 
     @Override
