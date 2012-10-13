@@ -1,5 +1,6 @@
 package org.shivas.data.converter.loaders;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.atomium.util.query.Op;
@@ -10,6 +11,7 @@ import org.shivas.data.converter.App;
 import org.shivas.data.converter.JDBCLoader;
 import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
 
 import java.sql.ResultSet;
 import java.util.Collection;
@@ -116,14 +118,61 @@ public class AncestraLoader extends JDBCLoader {
         return Lists.newArrayList(maps.values());
     }
 
+    private Map<Short, ItemSet> itemSets;
+
     @Override
     public Collection<ItemSet> loadItemSets() throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (this.itemSets != null) {
+            return this.itemSets.values();
+        }
+
+        Map<Short, ItemSet> itemSets = Maps.newHashMap();
+
+        for (ResultSet rset : select("itemsets").execute()) {
+            ItemSet itemSet = new ItemSet();
+
+            itemSet.setId(rset.getShort("ID"));
+            itemSet.setItems(Lists.<ItemTemplate>newArrayList());
+            itemSet.setEffects(HashMultimap.<Integer, ConstantItemEffect>create());
+
+            int level = 2;
+            for (String bonus : rset.getString("bonus").split(";")) {
+                if (bonus.isEmpty()) continue;
+                for (String effect : bonus.split(",")) {
+                    String[] args = effect.split(":");
+
+                    itemSet.getEffects().put(level, new ConstantItemEffect(
+                            ItemEffectEnum.valueOf(Integer.parseInt(args[0].trim())),
+                            Short.parseShort(args[1].trim())
+                    ));
+                }
+                ++level;
+            }
+
+            itemSets.put(itemSet.getId(), itemSet);
+        }
+
+        this.itemSets = itemSets;
+        return itemSets.values();
     }
 
     @Override
     public Collection<ItemTemplate> loadItems() throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (itemSets == null) {
+            loadItemSets();
+        }
+
+        List<ItemTemplate> itemTemplates = Lists.newArrayList();
+
+        for (ResultSet rset : select("item_template").execute()) {
+            ItemTemplate itemTemplate = new ItemTemplate(null);
+
+            itemTemplate.setId(rset.getShort("id"));
+
+            itemTemplates.add(itemTemplate);
+        }
+
+        return itemTemplates;
     }
 
     @Override

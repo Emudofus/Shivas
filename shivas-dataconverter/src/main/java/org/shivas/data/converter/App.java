@@ -2,6 +2,8 @@ package org.shivas.data.converter;
 
 import org.shivas.data.converter.loaders.DataLoaders;
 import org.shivas.data.entity.Breed;
+import org.shivas.data.entity.ItemSet;
+import org.shivas.data.entity.ItemTemplate;
 
 import java.util.Collection;
 import java.util.Scanner;
@@ -57,6 +59,20 @@ public class App {
                 outputter.outputMaps(maps);
 
                 outln("%d maps ont été écrites", maps.size());
+            } catch (Exception e) {
+                outln(e);
+            }
+        }
+
+        if (confirmation("Souhaitez-vous écrire les objets ?")) {
+            try {
+                Collection<ItemSet> itemSets = loader.loadItemSets();
+                Collection<ItemTemplate> itemTemplates = loader.loadItems();
+
+                outputter.outputItemSets(itemSets);
+                outputter.outputItems(itemTemplates);
+
+                outln("%d objets et %d panoplies ont été écris", itemTemplates.size(), itemSets.size());
             } catch (Exception e) {
                 outln(e);
             }
