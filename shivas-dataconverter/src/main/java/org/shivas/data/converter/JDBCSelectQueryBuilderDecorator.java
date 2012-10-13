@@ -18,7 +18,7 @@ import java.sql.Statement;
  */
 public class JDBCSelectQueryBuilderDecorator implements SelectQueryBuilder {
     private final Connection connection;
-    private final SelectQueryBuilder sqb;
+    private SelectQueryBuilder sqb;
 
     public JDBCSelectQueryBuilderDecorator(Connection connection, SelectQueryBuilder sqb) {
         this.connection = connection;
@@ -33,43 +33,51 @@ public class JDBCSelectQueryBuilderDecorator implements SelectQueryBuilder {
     }
 
     @Override
-    public SelectQueryBuilder where(String s, Op op) {
-        return sqb.where(s, op);
+    public JDBCSelectQueryBuilderDecorator where(String s, Op op) {
+        sqb = sqb.where(s, op);
+        return this;
     }
 
     @Override
-    public SelectQueryBuilder where(String s, Op op, Object o) {
-        return sqb.where(s, op, o);
+    public JDBCSelectQueryBuilderDecorator where(String s, Op op, Object o) {
+        sqb = sqb.where(s, op, o);
+        return this;
     }
 
     @Override
-    public SelectQueryBuilder and(String s, Op op) {
-        return sqb.and(s, op);
+    public JDBCSelectQueryBuilderDecorator and(String s, Op op) {
+        sqb = sqb.and(s, op);
+        return this;
     }
 
     @Override
-    public SelectQueryBuilder and(String s, Op op, Object o) {
-        return sqb.and(s, op, o);
+    public JDBCSelectQueryBuilderDecorator and(String s, Op op, Object o) {
+        sqb = sqb.and(s, op, o);
+        return this;
     }
 
     @Override
-    public SelectQueryBuilder or(String s, Op op) {
-        return sqb.or(s, op);
+    public JDBCSelectQueryBuilderDecorator or(String s, Op op) {
+        sqb = sqb.or(s, op);
+        return this;
     }
 
     @Override
-    public SelectQueryBuilder or(String s, Op op, Object o) {
-        return sqb.or(s, op, o);
+    public JDBCSelectQueryBuilderDecorator or(String s, Op op, Object o) {
+        sqb = sqb.or(s, op, o);
+        return this;
     }
 
     @Override
-    public SelectQueryBuilder orderBy(String s, Order order) {
-        return sqb.orderBy(s, order);
+    public JDBCSelectQueryBuilderDecorator orderBy(String s, Order order) {
+        sqb = sqb.orderBy(s, order);
+        return this;
     }
 
     @Override
-    public SelectQueryBuilder and(String s, Order order) {
-        return sqb.and(s, order);
+    public JDBCSelectQueryBuilderDecorator and(String s, Order order) {
+        sqb.and(s, order);
+        return this;
     }
 
     @Override
