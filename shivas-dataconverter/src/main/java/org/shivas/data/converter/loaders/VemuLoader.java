@@ -10,8 +10,10 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.data.converter.App;
 import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
+import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
+import org.shivas.protocol.client.enums.NpcTypeEnum;
 
 import java.sql.ResultSet;
 import java.util.Collection;
@@ -255,6 +257,43 @@ public class VemuLoader extends JDBCLoader {
 
     @Override
     public Collection<NpcTemplate> loadNpcTemplates() throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (items == null) {
+            loadItems();
+        }
+
+        List<NpcTemplate> npcs = Lists.newArrayList();
+
+        for (ResultSet rset : select("npcs_templates").execute()) {
+            NpcTemplate npc = new NpcTemplate();
+
+            npc.setId(rset.getInt("ID"));
+            npc.setSkin(rset.getShort("Gfx"));
+            npc.setSize(rset.getShort("Size"));
+            npc.setGender(Gender.valueOf(rset.getInt("Sex")));
+            npc.setColor1(rset.getInt("Color1"));
+            npc.setColor2(rset.getInt("Color2"));
+            npc.setColor3(rset.getInt("Color3"));
+            npc.setCustomArtwork(rset.getInt("ArtWork"));
+            npc.setExtraClip(rset.getInt("Bonus"));
+            if (!rset.getString("SellingList").isEmpty()) {
+                npc.setType(NpcTypeEnum.BUY_SELL);
+            } else {
+                npc.setType(NpcTypeEnum.SPEAK);
+            }
+
+            ItemTemplate[] accessories = new ItemTemplate[5];
+            int i = 0;
+            for (String accessoryString : rset.getString("Items").split(",")) {
+                if (accessoryString.isEmpty()) continue;
+
+                ItemTemplate accessory = items.get(Short.parseShort(accessoryString.trim(), 16));
+                accessories[i++] = accessory;
+            }
+            npc.setAccessories(accessories);
+
+            npcs.add(npc);
+        }
+
+        return npcs;
     }
 }
