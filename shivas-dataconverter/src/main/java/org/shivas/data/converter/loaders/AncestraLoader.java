@@ -13,6 +13,7 @@ import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemTypeEnum;
+import org.shivas.protocol.client.enums.SpellEffectsEnum;
 
 import java.sql.ResultSet;
 import java.util.Collection;
@@ -216,9 +217,74 @@ public class AncestraLoader extends JDBCLoader {
         return itemTemplates;
     }
 
+    private List<SpellEffect> loadEffects(String string) {
+        List<SpellEffect> effects = Lists.newArrayList();
+        for (String str : string.split("\\|")) {
+            if (str.equalsIgnoreCase("-1") || str.isEmpty()) continue;
+
+            String[] args = str.split(";");
+            if (args.length <= 1) continue;
+
+            SpellEffect effect = new SpellEffect();
+            effect.setType(SpellEffectsEnum.valueOf(Integer.parseInt(args[0])));
+            effect.setFirst(Short.parseShort(args[1]));
+            effect.setSecond(Short.parseShort(args[2]));
+            effect.setThird(Short.parseShort(args[3]));
+            if (args.length > 4) effect.setTurns(Short.parseShort(args[4]));
+            if (args.length > 5) effect.setChance(Short.parseShort(args[5]));
+            if (args.length > 6) effect.setDice(Dofus1Dice.parseDice(args[6]));
+            if (args.length > 7) effect.setTarget(args[7]);
+
+            effects.add(effect);
+        }
+        return effects;
+    }
+
     @Override
     public Collection<SpellTemplate> loadSpells() throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<SpellTemplate> spells = Lists.newArrayList();
+
+        for (ResultSet rset : select("sorts").execute()) {
+            SpellTemplate spellTemplate = new SpellTemplate();
+
+            spellTemplate.setId(rset.getShort("id"));
+            spellTemplate.setSprite(rset.getShort("sprite"));
+            spellTemplate.setSpriteInfos(rset.getString("spriteInfos"));
+
+            SpellLevel[] levels = new SpellLevel[6];
+            for (byte i = 1; i <= 6; ++i) {
+                String str = rset.getString("lvl" + i);
+                if (str.equalsIgnoreCase("-1") || str.isEmpty()) continue;
+                String[] args = str.split(",");
+
+                SpellLevel level = new SpellLevel();
+                level.setId(i);
+                level.setCostAP(args[2].isEmpty() ? 6 : Byte.parseByte(args[2].trim()));
+                level.setMinRange(Byte.parseByte(args[3].trim()));
+                level.setMaxRange(Byte.parseByte(args[4].trim()));
+                level.setCriticalRate(Short.parseShort(args[5].trim()));
+                level.setFailureRate(Short.parseShort(args[6].trim()));
+                level.setInline(args[7].trim().equalsIgnoreCase("true"));
+                level.setLos(args[8].trim().equalsIgnoreCase("true"));
+                level.setEmptyCell(args[9].trim().equalsIgnoreCase("true"));
+                level.setAdjustableRange(args[10].trim().equalsIgnoreCase("true"));
+                level.setMaxPerTurn(Byte.parseByte(args[12].trim()));
+                level.setMaxPerPlayer(Byte.parseByte(args[13].trim()));
+                level.setTurns(Byte.parseByte(args[14].trim()));
+                level.setRangeType(args[15].trim());
+                level.setEndsTurnOnFailure(args[19].trim().equalsIgnoreCase("true"));
+
+                level.setEffects(loadEffects(args[0]));
+                level.setCriticalEffects(loadEffects(args[1]));
+
+                levels[i - 1] = level;
+            }
+            spellTemplate.setLevels(levels);
+
+            spells.add(spellTemplate);
+        }
+
+        return spells;
     }
 
     @Override

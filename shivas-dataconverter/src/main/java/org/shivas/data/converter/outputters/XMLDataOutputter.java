@@ -232,8 +232,8 @@ public class XMLDataOutputter implements DataOutputter {
 		effect_elem.setAttribute("third", String.valueOf(effect.getThird()));
 		if (effect.getTurns() >= 0) effect_elem.setAttribute("turns", String.valueOf(effect.getTurns()));
 		if (effect.getChance() >= 0) effect_elem.setAttribute("chance", String.valueOf(effect.getChance()));
-		if (!effect.getDice().equals(Dofus1Dice.ZERO)) effect_elem.setAttribute("dice", String.valueOf(effect.getDice().toString()));
-		if (!effect.getTarget().isEmpty()) effect_elem.setAttribute("target", String.valueOf(effect.getTarget()));
+		if (effect.getDice() != null && !effect.getDice().equals(Dofus1Dice.ZERO)) effect_elem.setAttribute("dice", String.valueOf(effect.getDice().toString()));
+		if (effect.getTarget() != null && !effect.getTarget().isEmpty()) effect_elem.setAttribute("target", String.valueOf(effect.getTarget()));
 		
 		return effect_elem;
 	}

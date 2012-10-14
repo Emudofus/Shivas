@@ -4,9 +4,7 @@ import org.shivas.data.converter.loaders.DataLoader;
 import org.shivas.data.converter.loaders.DataLoaders;
 import org.shivas.data.converter.outputters.DataOutputter;
 import org.shivas.data.converter.outputters.DataOutputters;
-import org.shivas.data.entity.Breed;
-import org.shivas.data.entity.ItemSet;
-import org.shivas.data.entity.ItemTemplate;
+import org.shivas.data.entity.*;
 
 import java.util.Collection;
 import java.util.Scanner;
@@ -67,6 +65,17 @@ public class App {
             }
         }
 
+        if (confirmation("Souhaitez-vous écrire les seuils d'expérience ?")) {
+            try {
+                Collection<Experience> experiences = loader.loadExperiences();
+                outputter.outputExperiences(experiences);
+
+                outln("%d seuils d'expérience ont été écris", experiences.size());
+            } catch (Exception e) {
+                outln(e);
+            }
+        }
+
         if (confirmation("Souhaitez-vous écrire les objets ?")) {
             try {
                 Collection<ItemSet> itemSets = loader.loadItemSets();
@@ -76,6 +85,17 @@ public class App {
                 outputter.outputItems(itemTemplates);
 
                 outln("%d objets et %d panoplies ont été écris", itemTemplates.size(), itemSets.size());
+            } catch (Exception e) {
+                outln(e);
+            }
+        }
+
+        if (confirmation("Souhaitez-vous écrire les sorts ?")) {
+            try {
+                Collection<SpellTemplate> spells = loader.loadSpells();
+                outputter.outputSpells(spells);
+
+                outln("%d sorts ont été écris", spells.size());
             } catch (Exception e) {
                 outln(e);
             }
