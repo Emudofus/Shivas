@@ -7,10 +7,12 @@ import org.atomium.util.query.Op;
 import org.atomium.util.query.Order;
 import org.atomium.util.query.mysql.MySqlQueryBuilderFactory;
 import org.shivas.common.maths.Point;
+import org.shivas.common.random.Dofus1Dice;
 import org.shivas.data.converter.App;
 import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
+import org.shivas.protocol.client.enums.ItemTypeEnum;
 
 import java.sql.ResultSet;
 import java.util.Collection;
@@ -142,7 +144,7 @@ public class AncestraLoader extends JDBCLoader {
 
                     itemSet.getEffects().put(level, new ConstantItemEffect(
                             ItemEffectEnum.valueOf(Integer.parseInt(args[0].trim())),
-                            Short.parseShort(args[1].trim())
+                            Short.parseShort(args[1].trim().replace("%", ""))
                     ));
                 }
                 ++level;
@@ -164,9 +166,49 @@ public class AncestraLoader extends JDBCLoader {
         List<ItemTemplate> itemTemplates = Lists.newArrayList();
 
         for (ResultSet rset : select("item_template").execute()) {
-            ItemTemplate itemTemplate = new ItemTemplate(null);
+            ItemTypeEnum type = ItemTypeEnum.valueOf(rset.getInt("type"));
+
+            ItemTemplate itemTemplate;
+            if (type.isWeapon()) {
+                String[] infos = rset.getString("armesInfos").split(";");
+                if (infos.length < 7) continue;
+
+                WeaponTemplate weaponTemplate = new WeaponTemplate(null);
+                weaponTemplate.setEthereal(false);
+                weaponTemplate.setTwoHands(infos[6].equals("1"));
+
+                itemTemplate = weaponTemplate;
+            } else if (type.isUsable()) {
+                itemTemplate = new UsableItemTemplate(null); // TODO usable items
+            } else {
+                itemTemplate = new ItemTemplate(null);
+            }
 
             itemTemplate.setId(rset.getShort("id"));
+            itemTemplate.setType(type);
+            itemTemplate.setLevel(rset.getShort("level"));
+            itemTemplate.setWeight(rset.getShort("pod"));
+            itemTemplate.setItemSet(itemSets.get(rset.getShort("panoplie")));
+            itemTemplate.setPrice((short) rset.getInt("prix"));
+            itemTemplate.setConditions(rset.getString("condition"));
+            itemTemplate.setForgemageable(true);
+
+            List<ItemEffectTemplate> effects = Lists.newArrayList();
+            for (String effectString : rset.getString("statsTemplate").split(",")) {
+                if (effectString.isEmpty()) continue;
+                String[] args = effectString.split("#");
+
+                ItemEffectTemplate effect = new ItemEffectTemplate();
+                effect.setEffect(ItemEffectEnum.valueOf(Integer.parseInt(args[0], 16)));
+                try {
+                    effect.setBonus(Dofus1Dice.parseDice(args[4]));
+                } catch (IndexOutOfBoundsException ex) {
+                    effect.setBonus(new Dofus1Dice());
+                }
+
+                effects.add(effect);
+            }
+            itemTemplate.setEffects(effects);
 
             itemTemplates.add(itemTemplate);
         }
