@@ -130,7 +130,30 @@ public class VemuLoader extends JDBCLoader {
 
     @Override
     public Collection<Waypoint> loadWaypoints() throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (maps == null) {
+            loadMaps();
+        }
+
+        List<Waypoint> waypoints = Lists.newArrayList();
+
+        int id = 0;
+        for (ResultSet rset : select("zaaps").execute()) {
+            Waypoint waypoint = new Waypoint();
+            waypoint.setId(++id);
+
+            MapData map = maps.get(rset.getInt("mapid"));
+            if (map == null) {
+                App.outln("un zaap fait référence à une map inconnue (N°%d)", rset.getInt("mapid"));
+                continue;
+            }
+
+            waypoint.setMap(map);
+            waypoint.setCell(rset.getShort("cellid"));
+
+            waypoints.add(waypoint);
+        }
+
+        return waypoints;
     }
 
     @Override
