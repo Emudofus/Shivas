@@ -10,7 +10,9 @@ import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -24,6 +26,18 @@ public class XMLDataOutputter implements DataOutputter {
 
     public XMLDataOutputter(String baseDir) {
         this.baseDir = baseDir;
+    }
+
+    protected void createDirectoryIfNotExists(String directory) {
+        File dir = new File(baseDir + directory);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+    }
+
+    protected void outputXml(Element root, String directory, String fileName) throws IOException {
+        createDirectoryIfNotExists(directory);
+        out.output(root, new BufferedWriter(new FileWriter(baseDir + directory + "/" + fileName + EXTENSION, false)));
     }
 
     public void outputBreed(Breed breed) throws Exception {
@@ -65,7 +79,7 @@ public class XMLDataOutputter implements DataOutputter {
 		
 		root_elem.addContent(breed_elem);
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + String.format("breeds/breed%d", breed.getId()) + EXTENSION, false)));
+        outputXml(root_elem, "breeds", String.format("breed%d", breed.getId()));
 	}
 
 	@Override
@@ -90,8 +104,8 @@ public class XMLDataOutputter implements DataOutputter {
 			
 			root_elem.addContent(exp_elem);
 		}
-		
-		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "experiences/experiences" + EXTENSION, false)));
+
+        outputXml(root_elem, "experiences", "experiences");
 	}
 
 	@Override
@@ -129,7 +143,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(map_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "maps/maps" + EXTENSION, false)));
+        outputXml(root_elem, "maps", "maps");
 	}
 
 	@Override
@@ -168,7 +182,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(itemset_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "itemSets/itemSets" + EXTENSION, false)));
+        outputXml(root_elem, "itemSets", "itemSets");
 	}
 
 	@Override
@@ -207,7 +221,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(item_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "items/items" + EXTENSION, false)));
+        outputXml(root_elem, "items", "items");
 	}
 	
 	private Element toElement(SpellEffect effect) {
@@ -273,7 +287,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(spell_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "spells/spells" + EXTENSION, false)));
+        outputXml(root_elem, "spells", "spells");
 	}
 
 	@Override
@@ -290,7 +304,7 @@ public class XMLDataOutputter implements DataOutputter {
 			root_elem.addContent(waypoint_elem);
 		}
 
-		out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "waypoints/waypoints" + EXTENSION, false)));
+        outputXml(root_elem, "waypoints", "waypoints");
 	}
 
     @Override
@@ -334,7 +348,7 @@ public class XMLDataOutputter implements DataOutputter {
             root_elem.addContent(npcTemplate_elem);
         }
 
-        out.output(root_elem, new BufferedWriter(new FileWriter(baseDir + "npcTemplates/npcTemplates" + EXTENSION, false)));
+        outputXml(root_elem, "npcTemplates", "npcTemplates");
     }
 
 }
