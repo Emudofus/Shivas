@@ -1,5 +1,6 @@
-package org.shivas.data.converter;
+package org.shivas.data.converter.outputters;
 
+import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
 
 import java.util.Collection;

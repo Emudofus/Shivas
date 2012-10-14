@@ -1,4 +1,4 @@
-package org.shivas.data.converter;
+package org.shivas.data.converter.outputters;
 
 import org.jdom2.Element;
 import org.jdom2.output.Format;
@@ -6,6 +6,7 @@ import org.jdom2.output.XMLOutputter;
 import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
 
 import java.io.BufferedWriter;

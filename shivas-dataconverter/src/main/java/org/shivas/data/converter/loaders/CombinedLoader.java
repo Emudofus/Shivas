@@ -1,6 +1,5 @@
 package org.shivas.data.converter.loaders;
 
-import org.shivas.data.converter.DataLoader;
 import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
 

@@ -8,7 +8,6 @@ import org.atomium.util.query.Order;
 import org.atomium.util.query.mysql.MySqlQueryBuilderFactory;
 import org.shivas.common.maths.Point;
 import org.shivas.data.converter.App;
-import org.shivas.data.converter.JDBCLoader;
 import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
 import org.shivas.protocol.client.enums.ItemEffectEnum;

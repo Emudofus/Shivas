@@ -1,4 +1,4 @@
-package org.shivas.data.converter;
+package org.shivas.data.converter.loaders;
 
 import org.atomium.util.query.QueryBuilderFactory;
 

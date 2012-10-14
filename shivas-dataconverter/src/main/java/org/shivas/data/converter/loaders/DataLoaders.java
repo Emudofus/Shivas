@@ -1,7 +1,6 @@
 package org.shivas.data.converter.loaders;
 
 import org.shivas.data.converter.App;
-import org.shivas.data.converter.DataLoader;
 
 /**
  * Created with IntelliJ IDEA.
