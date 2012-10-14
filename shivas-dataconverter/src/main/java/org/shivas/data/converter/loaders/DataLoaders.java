@@ -26,6 +26,12 @@ public final class DataLoaders {
                         App.prompt("Entrez le nom de la base de donnée statique")
                 );
             } else if (input.equalsIgnoreCase("Vemu")) {
+                return new VemuLoader(
+                        App.prompt("Entrez l'adresse du serveur MySQL"),
+                        App.prompt("Entrez le nom d'utilisateur"),
+                        App.prompt("Entrez le mot de passe"),
+                        App.prompt("Entrez le nom de la base de donnée statique")
+                );
             } else if (input.equalsIgnoreCase("d2j")) {
             }
 
