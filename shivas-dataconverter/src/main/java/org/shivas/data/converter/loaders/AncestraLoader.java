@@ -14,7 +14,6 @@ import org.shivas.data.entity.*;
 import org.shivas.protocol.client.enums.*;
 
 import java.sql.ResultSet;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -30,13 +29,13 @@ public class AncestraLoader extends JDBCLoader {
     }
 
     @Override
-    public Collection<Breed> loadBreeds() throws Exception {
+    public Map<Integer, Breed> loadBreeds() throws Exception {
         throw new Exception("Ancestra's db doesn't support this feature");
     }
 
     @Override
-    public Collection<Experience> loadExperiences() throws Exception {
-        List<Experience> experiences = Lists.newArrayListWithExpectedSize(200);
+    public Map<Short, Experience> loadExperiences() throws Exception {
+        Map<Short, Experience> experiences = Maps.newHashMapWithExpectedSize(200);
 
         Experience last = null;
         for (ResultSet rset : select("experience").orderBy("lvl", Order.ASC).execute()) {
@@ -54,7 +53,7 @@ public class AncestraLoader extends JDBCLoader {
 
             last = experience;
 
-            experiences.add(experience);
+            experiences.put(experience.getLevel(), experience);
         }
 
         return experiences;
@@ -63,9 +62,9 @@ public class AncestraLoader extends JDBCLoader {
     private Map<Integer, MapData> maps;
 
     @Override
-    public Collection<MapData> loadMaps() throws Exception {
+    public Map<Integer, MapData> loadMaps() throws Exception {
         if (maps != null) {
-            return Lists.newArrayList(maps.values());
+            return maps;
         }
 
         Map<Integer, MapData> maps = Maps.newHashMapWithExpectedSize(6000);
@@ -122,15 +121,15 @@ public class AncestraLoader extends JDBCLoader {
         }
 
         this.maps = maps;
-        return Lists.newArrayList(maps.values());
+        return maps;
     }
 
     private Map<Short, ItemSet> itemSets;
 
     @Override
-    public Collection<ItemSet> loadItemSets() throws Exception {
+    public Map<Short, ItemSet> loadItemSets() throws Exception {
         if (itemSets != null) {
-            return Lists.newArrayList(itemSets.values());
+            return itemSets;
         }
 
         Map<Short, ItemSet> itemSets = Maps.newHashMap();
@@ -160,15 +159,15 @@ public class AncestraLoader extends JDBCLoader {
         }
 
         this.itemSets = itemSets;
-        return Lists.newArrayList(itemSets.values());
+        return itemSets;
     }
 
     private Map<Short, ItemTemplate> items;
 
     @Override
-    public Collection<ItemTemplate> loadItems() throws Exception {
+    public Map<Short, ItemTemplate> loadItems() throws Exception {
         if (items != null) {
-            return Lists.newArrayList(items.values());
+            return items;
         }
         if (itemSets == null) {
             loadItemSets();
@@ -225,7 +224,7 @@ public class AncestraLoader extends JDBCLoader {
         }
 
         this.items = items;
-        return Lists.newArrayList(items.values());
+        return items;
     }
 
     private List<SpellEffect> loadEffects(String string) {
@@ -252,8 +251,8 @@ public class AncestraLoader extends JDBCLoader {
     }
 
     @Override
-    public Collection<SpellTemplate> loadSpells() throws Exception {
-        List<SpellTemplate> spells = Lists.newArrayList();
+    public Map<Short, SpellTemplate> loadSpells() throws Exception {
+        Map<Short, SpellTemplate> spells = Maps.newHashMapWithExpectedSize(1882);
 
         for (ResultSet rset : select("sorts").execute()) {
             SpellTemplate spellTemplate = new SpellTemplate();
@@ -292,15 +291,15 @@ public class AncestraLoader extends JDBCLoader {
             }
             spellTemplate.setLevels(levels);
 
-            spells.add(spellTemplate);
+            spells.put(spellTemplate.getId(), spellTemplate);
         }
 
         return spells;
     }
 
     @Override
-    public Collection<Waypoint> loadWaypoints() throws Exception {
-        List<Waypoint> waypoints = Lists.newArrayList();
+    public Map<Integer, Waypoint> loadWaypoints() throws Exception {
+        Map<Integer, Waypoint> waypoints = Maps.newHashMap();
 
         int id = 0;
         for (ResultSet rset : select("zaaps").execute()) {
@@ -309,19 +308,19 @@ public class AncestraLoader extends JDBCLoader {
             waypoint.setMap(maps.get(rset.getInt("mapID")));
             waypoint.setCell(rset.getShort("cellID"));
 
-            waypoints.add(waypoint);
+            waypoints.put(waypoint.getId(), waypoint);
         }
 
         return waypoints;
     }
 
     @Override
-    public Collection<NpcTemplate> loadNpcTemplates() throws Exception {
+    public Map<Integer, NpcTemplate> loadNpcTemplates() throws Exception {
         if (items == null) {
             loadItems();
         }
 
-        List<NpcTemplate> npcTemplates = Lists.newArrayList();
+        Map<Integer, NpcTemplate> npcTemplates = Maps.newHashMap();
 
         for (ResultSet rset : select("npc_template").execute()) {
             NpcTemplate npcTemplate = new NpcTemplate();
@@ -352,7 +351,7 @@ public class AncestraLoader extends JDBCLoader {
                 npcTemplate.setType(NpcTypeEnum.SPEAK);
             }
 
-            npcTemplates.add(npcTemplate);
+            npcTemplates.put(npcTemplate.getId(), npcTemplate);
         }
 
         return npcTemplates;

@@ -6,7 +6,7 @@ import org.shivas.data.converter.outputters.DataOutputter;
 import org.shivas.data.converter.outputters.DataOutputters;
 import org.shivas.data.entity.*;
 
-import java.util.Collection;
+import java.util.Map;
 import java.util.Scanner;
 
 public class App {
@@ -45,8 +45,8 @@ public class App {
 
         if (confirmation("Souhaitez-vous écrire les classes ?")) {
             try {
-                Collection<Breed> breeds = loader.loadBreeds();
-                outputter.outputBreeds(breeds);
+                Map<Integer, Breed> breeds = loader.loadBreeds();
+                outputter.outputBreeds(breeds.values());
 
                 outln("%d classes ont été écrites", breeds.size());
             } catch (Exception e) {
@@ -56,14 +56,14 @@ public class App {
 
         if (confirmation("Souhaitez-vous écrire les maps ?")) {
             try {
-                Collection<MapData> maps = loader.loadMaps();
-                outputter.outputMaps(maps);
+                Map<Integer, MapData> maps = loader.loadMaps();
+                outputter.outputMaps(maps.values());
 
                 outln("%d maps ont été écrites", maps.size());
 
                 if (confirmation("Souhaitez-vous écrire les zaaps ?")) {
-                    Collection<Waypoint> waypoints = loader.loadWaypoints();
-                    outputter.outputWaypoints(waypoints);
+                    Map<Integer, Waypoint> waypoints = loader.loadWaypoints();
+                    outputter.outputWaypoints(waypoints.values());
 
                     outln("%d zaaps ont été écris", waypoints.size());
                 }
@@ -74,8 +74,8 @@ public class App {
 
         if (confirmation("Souhaitez-vous écrire les seuils d'expérience ?")) {
             try {
-                Collection<Experience> experiences = loader.loadExperiences();
-                outputter.outputExperiences(experiences);
+                Map<Short, Experience> experiences = loader.loadExperiences();
+                outputter.outputExperiences(experiences.values());
 
                 outln("%d seuils d'expérience ont été écris", experiences.size());
             } catch (Exception e) {
@@ -85,11 +85,11 @@ public class App {
 
         if (confirmation("Souhaitez-vous écrire les objets ?")) {
             try {
-                Collection<ItemSet> itemSets = loader.loadItemSets();
-                Collection<ItemTemplate> itemTemplates = loader.loadItems();
+                Map<Short, ItemSet> itemSets = loader.loadItemSets();
+                Map<Short, ItemTemplate> itemTemplates = loader.loadItems();
 
-                outputter.outputItemSets(itemSets);
-                outputter.outputItems(itemTemplates);
+                outputter.outputItemSets(itemSets.values());
+                outputter.outputItems(itemTemplates.values());
 
                 outln("%d objets et %d panoplies ont été écris", itemTemplates.size(), itemSets.size());
             } catch (Exception e) {
@@ -99,8 +99,8 @@ public class App {
 
         if (confirmation("Souhaitez-vous écrire les sorts ?")) {
             try {
-                Collection<SpellTemplate> spells = loader.loadSpells();
-                outputter.outputSpells(spells);
+                Map<Short, SpellTemplate> spells = loader.loadSpells();
+                outputter.outputSpells(spells.values());
 
                 outln("%d sorts ont été écris", spells.size());
             } catch (Exception e) {
@@ -110,8 +110,8 @@ public class App {
 
         if (confirmation("Souhaitez-vous écrire les PNJ ?")) {
             try {
-                Collection<NpcTemplate> npcs = loader.loadNpcTemplates();
-                outputter.outputNpcTemplates(npcs);
+                Map<Integer, NpcTemplate> npcs = loader.loadNpcTemplates();
+                outputter.outputNpcTemplates(npcs.values());
 
                 outln("%d pnj ont été écris", npcs.size());
             } catch (Exception e) {

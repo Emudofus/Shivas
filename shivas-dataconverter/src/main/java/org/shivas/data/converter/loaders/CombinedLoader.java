@@ -3,7 +3,7 @@ package org.shivas.data.converter.loaders;
 import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
 
-import java.util.Collection;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,58 +20,58 @@ public class CombinedLoader implements DataLoader {
     }
 
     @Override
-    public Collection<Breed> loadBreeds() throws Exception {
-        Collection<Breed> breeds = first.loadBreeds();
-        breeds.addAll(second.loadBreeds());
+    public Map<Integer, Breed> loadBreeds() throws Exception {
+        Map<Integer, Breed> breeds = first.loadBreeds();
+        breeds.putAll(second.loadBreeds());
         return breeds;
     }
 
     @Override
-    public Collection<Experience> loadExperiences() throws Exception {
-        Collection<Experience> experiences = first.loadExperiences();
-        experiences.addAll(second.loadExperiences());
+    public Map<Short, Experience> loadExperiences() throws Exception {
+        Map<Short, Experience> experiences = first.loadExperiences();
+        experiences.putAll(second.loadExperiences());
         return experiences;
     }
 
     @Override
-    public Collection<MapData> loadMaps() throws Exception {
-        Collection<MapData> maps = first.loadMaps();
-        maps.addAll(second.loadMaps());
+    public Map<Integer, MapData> loadMaps() throws Exception {
+        Map<Integer, MapData> maps = first.loadMaps();
+        maps.putAll(second.loadMaps());
         return maps;
     }
 
     @Override
-    public Collection<ItemSet> loadItemSets() throws Exception {
-        Collection<ItemSet> itemSets = first.loadItemSets();
-        itemSets.addAll(second.loadItemSets());
+    public Map<Short, ItemSet> loadItemSets() throws Exception {
+        Map<Short, ItemSet> itemSets = first.loadItemSets();
+        itemSets.putAll(second.loadItemSets());
         return itemSets;
     }
 
     @Override
-    public Collection<ItemTemplate> loadItems() throws Exception {
-        Collection<ItemTemplate> itemTemplates = first.loadItems();
-        itemTemplates.addAll(second.loadItems());
+    public Map<Short, ItemTemplate> loadItems() throws Exception {
+        Map<Short, ItemTemplate> itemTemplates = first.loadItems();
+        itemTemplates.putAll(second.loadItems());
         return itemTemplates;
     }
 
     @Override
-    public Collection<SpellTemplate> loadSpells() throws Exception {
-        Collection<SpellTemplate> spellTemplates = first.loadSpells();
-        spellTemplates.addAll(second.loadSpells());
+    public Map<Short, SpellTemplate> loadSpells() throws Exception {
+        Map<Short, SpellTemplate> spellTemplates = first.loadSpells();
+        spellTemplates.putAll(second.loadSpells());
         return spellTemplates;
     }
 
     @Override
-    public Collection<Waypoint> loadWaypoints() throws Exception {
-        Collection<Waypoint> waypoints = first.loadWaypoints();
-        waypoints.addAll(second.loadWaypoints());
+    public Map<Integer, Waypoint> loadWaypoints() throws Exception {
+        Map<Integer, Waypoint> waypoints = first.loadWaypoints();
+        waypoints.putAll(second.loadWaypoints());
         return waypoints;
     }
 
     @Override
-    public Collection<NpcTemplate> loadNpcTemplates() throws Exception {
-        Collection<NpcTemplate> npcTemplates = first.loadNpcTemplates();
-        npcTemplates.addAll(second.loadNpcTemplates());
+    public Map<Integer, NpcTemplate> loadNpcTemplates() throws Exception {
+        Map<Integer, NpcTemplate> npcTemplates = first.loadNpcTemplates();
+        npcTemplates.putAll(second.loadNpcTemplates());
         return npcTemplates;
     }
 }

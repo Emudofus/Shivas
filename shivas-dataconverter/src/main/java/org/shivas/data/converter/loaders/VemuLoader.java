@@ -13,7 +13,6 @@ import org.shivas.data.entity.*;
 import org.shivas.protocol.client.enums.*;
 
 import java.sql.ResultSet;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -29,13 +28,13 @@ public class VemuLoader extends JDBCLoader {
     }
 
     @Override
-    public Collection<Breed> loadBreeds() throws Exception {
+    public Map<Integer, Breed> loadBreeds() throws Exception {
         throw new Exception("Vemu's db doesn't support this feature");
     }
 
     @Override
-    public Collection<Experience> loadExperiences() throws Exception {
-        List<Experience> experiences = Lists.newArrayList();
+    public Map<Short, Experience> loadExperiences() throws Exception {
+        Map<Short, Experience> experiences = Maps.newHashMapWithExpectedSize(200);
 
         for (ResultSet rset : select("exp_data").orderBy("Level", Order.ASC).execute()) {
             Experience exp = new Experience();
@@ -46,7 +45,7 @@ public class VemuLoader extends JDBCLoader {
             exp.setAlignment(rset.getShort("Pvp"));
             exp.setGuild(rset.getLong("Guild"));
 
-            experiences.add(exp);
+            experiences.put(exp.getLevel(), exp);
         }
 
         return experiences;
@@ -55,9 +54,9 @@ public class VemuLoader extends JDBCLoader {
     private Map<Integer, MapData> maps;
 
     @Override
-    public Collection<MapData> loadMaps() throws Exception {
+    public Map<Integer, MapData> loadMaps() throws Exception {
         if (maps != null) {
-            return Lists.newArrayList(maps.values());
+            return maps;
         }
 
         Map<Integer, MapData> maps = Maps.newHashMap();
@@ -113,16 +112,16 @@ public class VemuLoader extends JDBCLoader {
         }
 
         this.maps = maps;
-        return Lists.newArrayList(maps.values());
+        return maps;
     }
 
     @Override
-    public Collection<ItemSet> loadItemSets() throws Exception {
+    public Map<Short, ItemSet> loadItemSets() throws Exception {
         if (items == null) {
             loadItems();
         }
 
-        List<ItemSet> itemSets = Lists.newArrayList();
+        Map<Short, ItemSet> itemSets = Maps.newHashMap();
 
         for (ResultSet rset : select("items_pano").execute()) {
             ItemSet itemSet = new ItemSet();
@@ -155,7 +154,7 @@ public class VemuLoader extends JDBCLoader {
                 }
             }
 
-            itemSets.add(itemSet);
+            itemSets.put(itemSet.getId(), itemSet);
         }
 
         return itemSets;
@@ -164,9 +163,9 @@ public class VemuLoader extends JDBCLoader {
     private Map<Short, ItemTemplate> items;
 
     @Override
-    public Collection<ItemTemplate> loadItems() throws Exception {
+    public Map<Short, ItemTemplate> loadItems() throws Exception {
         if (items != null) {
-            return Lists.newArrayList(items.values());
+            return items;
         }
 
         Map<Short, ItemTemplate> items = Maps.newHashMap();
@@ -216,7 +215,7 @@ public class VemuLoader extends JDBCLoader {
         }
 
         this.items = items;
-        return Lists.newArrayList(items.values());
+        return items;
     }
 
     private List<SpellEffect> loadEffects(String string) {
@@ -243,8 +242,8 @@ public class VemuLoader extends JDBCLoader {
     }
 
     @Override
-    public Collection<SpellTemplate> loadSpells() throws Exception {
-        List<SpellTemplate> spells = Lists.newArrayList();
+    public Map<Short, SpellTemplate> loadSpells() throws Exception {
+        Map<Short, SpellTemplate> spells = Maps.newHashMapWithExpectedSize(1882);
 
         for (ResultSet rset : select("spells_data").execute()) {
             SpellTemplate spell = new SpellTemplate();
@@ -283,19 +282,19 @@ public class VemuLoader extends JDBCLoader {
             }
             spell.setLevels(levels);
 
-            spells.add(spell);
+            spells.put(spell.getId(), spell);
         }
 
         return spells;
     }
 
     @Override
-    public Collection<Waypoint> loadWaypoints() throws Exception {
+    public Map<Integer, Waypoint> loadWaypoints() throws Exception {
         if (maps == null) {
             loadMaps();
         }
 
-        List<Waypoint> waypoints = Lists.newArrayList();
+        Map<Integer, Waypoint> waypoints = Maps.newHashMap();
 
         int id = 0;
         for (ResultSet rset : select("zaaps").execute()) {
@@ -311,19 +310,19 @@ public class VemuLoader extends JDBCLoader {
             waypoint.setMap(map);
             waypoint.setCell(rset.getShort("cellid"));
 
-            waypoints.add(waypoint);
+            waypoints.put(waypoint.getId(), waypoint);
         }
 
         return waypoints;
     }
 
     @Override
-    public Collection<NpcTemplate> loadNpcTemplates() throws Exception {
+    public Map<Integer, NpcTemplate> loadNpcTemplates() throws Exception {
         if (items == null) {
             loadItems();
         }
 
-        List<NpcTemplate> npcs = Lists.newArrayList();
+        Map<Integer, NpcTemplate> npcs = Maps.newHashMap();
 
         for (ResultSet rset : select("npcs_templates").execute()) {
             NpcTemplate npc = new NpcTemplate();
@@ -353,7 +352,7 @@ public class VemuLoader extends JDBCLoader {
             }
             npc.setAccessories(accessories);
 
-            npcs.add(npc);
+            npcs.put(npc.getId(), npc);
         }
 
         return npcs;
