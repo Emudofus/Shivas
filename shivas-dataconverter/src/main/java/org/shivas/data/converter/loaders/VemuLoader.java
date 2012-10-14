@@ -1,13 +1,17 @@
 package org.shivas.data.converter.loaders;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.atomium.util.query.Order;
 import org.atomium.util.query.mysql.MySqlQueryBuilderFactory;
 import org.shivas.common.maths.Point;
+import org.shivas.common.random.Dofus1Dice;
 import org.shivas.data.converter.App;
 import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
+import org.shivas.protocol.client.enums.ItemTypeEnum;
 
 import java.sql.ResultSet;
 import java.util.Collection;
@@ -115,12 +119,105 @@ public class VemuLoader extends JDBCLoader {
 
     @Override
     public Collection<ItemSet> loadItemSets() throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (items == null) {
+            loadItems();
+        }
+
+        List<ItemSet> itemSets = Lists.newArrayList();
+
+        for (ResultSet rset : select("items_pano").execute()) {
+            ItemSet itemSet = new ItemSet();
+
+            itemSet.setId(rset.getShort("id"));
+            itemSet.setItems(Lists.<ItemTemplate>newArrayList());
+            itemSet.setEffects(HashMultimap.<Integer, ConstantItemEffect>create());
+
+            for (String itemString : rset.getString("items").split(",")) {
+                ItemTemplate item = items.get(Short.parseShort(itemString));
+                if (item == null) {
+                    App.outln("la panoplie N°%d fait référence à un objet inexistant (id=%s)", itemSet.getId(), itemString);
+                    continue;
+                }
+                item.setItemSet(itemSet);
+                itemSet.getItems().add(item);
+            }
+
+            for (int level = 2; level <= 8; ++level) {
+                String effects = rset.getString("effects" + level);
+                if (effects.isEmpty()) continue;
+
+                for (String effect : effects.split(";")) {
+                    String[] args = effect.split(",");
+
+                    itemSet.getEffects().put(level, new ConstantItemEffect(
+                            ItemEffectEnum.valueOf(Integer.parseInt(args[0].trim())),
+                            Short.parseShort(args[1].trim())
+                    ));
+                }
+            }
+
+            itemSets.add(itemSet);
+        }
+
+        return itemSets;
     }
+
+    private Map<Short, ItemTemplate> items;
 
     @Override
     public Collection<ItemTemplate> loadItems() throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (items != null) {
+            return Lists.newArrayList(items.values());
+        }
+
+        Map<Short, ItemTemplate> items = Maps.newHashMap();
+
+        for (ResultSet rset : select("items_data").execute()) {
+            ItemTemplate itemTemplate;
+
+            ItemTypeEnum type = ItemTypeEnum.valueOf(rset.getInt("Type"));
+            if (type.isWeapon()) {
+                WeaponTemplate weaponTemplate = new WeaponTemplate(null);
+                weaponTemplate.setTwoHands(rset.getBoolean("TwoHands"));
+                weaponTemplate.setEthereal(rset.getBoolean("IsEthereal"));
+
+                itemTemplate = weaponTemplate;
+            } else if (type.isUsable()) {
+                itemTemplate = new UsableItemTemplate(null); // TODO usable items
+            } else {
+                itemTemplate = new ItemTemplate(null);
+            }
+
+            itemTemplate.setId(rset.getShort("ID"));
+            itemTemplate.setType(type);
+            itemTemplate.setLevel(rset.getShort("Level"));
+            itemTemplate.setWeight(rset.getShort("Weight"));
+            itemTemplate.setForgemageable(rset.getBoolean("Forgemageable"));
+            itemTemplate.setPrice((short) rset.getInt("Price"));
+            itemTemplate.setConditions(rset.getString("Conditions"));
+
+            List<ItemEffectTemplate> effects = Lists.newArrayList();
+            for (String effectString : rset.getString("Stats").split(",")) {
+                if (effectString.isEmpty()) continue;
+                String[] args = effectString.split("#");
+
+                ItemEffectTemplate effect = new ItemEffectTemplate();
+                effect.setEffect(ItemEffectEnum.valueOf(Integer.parseInt(args[0], 16)));
+                try {
+                    effect.setBonus(Dofus1Dice.parseDice(args[4].trim()));
+                } catch (IndexOutOfBoundsException ex) {
+                    effect.setBonus(new Dofus1Dice());
+                }
+
+                effects.add(effect);
+            }
+            itemTemplate.setEffects(effects);
+
+            items.put(itemTemplate.getId(), itemTemplate);
+        }
+
+        this.items = items;
+        return Lists.newArrayList(items.values());
     }
 
     @Override
