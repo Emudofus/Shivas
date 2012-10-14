@@ -60,6 +60,13 @@ public class App {
                 outputter.outputMaps(maps);
 
                 outln("%d maps ont été écrites", maps.size());
+
+                if (confirmation("Souhaitez-vous écrire les zaaps ?")) {
+                    Collection<Waypoint> waypoints = loader.loadWaypoints();
+                    outputter.outputWaypoints(waypoints);
+
+                    outln("%d zaaps ont été écris", waypoints.size());
+                }
             } catch (Exception e) {
                 outln(e);
             }

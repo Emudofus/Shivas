@@ -62,8 +62,14 @@ public class AncestraLoader extends JDBCLoader {
         return experiences;
     }
 
+    private Map<Integer, MapData> maps;
+
     @Override
     public Collection<MapData> loadMaps() throws Exception {
+        if (maps != null) {
+            return Lists.newArrayList(maps.values());
+        }
+
         Map<Integer, MapData> maps = Maps.newHashMapWithExpectedSize(6000);
 
         for (ResultSet rset : select("maps").execute()) {
@@ -117,6 +123,7 @@ public class AncestraLoader extends JDBCLoader {
             map.getTrigger().put(trigger.getCell(), trigger);
         }
 
+        this.maps = maps;
         return Lists.newArrayList(maps.values());
     }
 
@@ -124,8 +131,8 @@ public class AncestraLoader extends JDBCLoader {
 
     @Override
     public Collection<ItemSet> loadItemSets() throws Exception {
-        if (this.itemSets != null) {
-            return this.itemSets.values();
+        if (itemSets != null) {
+            return Lists.newArrayList(itemSets.values());
         }
 
         Map<Short, ItemSet> itemSets = Maps.newHashMap();
@@ -155,7 +162,7 @@ public class AncestraLoader extends JDBCLoader {
         }
 
         this.itemSets = itemSets;
-        return itemSets.values();
+        return Lists.newArrayList(itemSets.values());
     }
 
     @Override
@@ -289,7 +296,19 @@ public class AncestraLoader extends JDBCLoader {
 
     @Override
     public Collection<Waypoint> loadWaypoints() throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<Waypoint> waypoints = Lists.newArrayList();
+
+        int id = 0;
+        for (ResultSet rset : select("zaaps").execute()) {
+            Waypoint waypoint = new Waypoint();
+            waypoint.setId(++id);
+            waypoint.setMap(maps.get(rset.getInt("mapID")));
+            waypoint.setCell(rset.getShort("cellID"));
+
+            waypoints.add(waypoint);
+        }
+
+        return waypoints;
     }
 
     @Override
