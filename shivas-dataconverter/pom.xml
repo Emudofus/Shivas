@@ -46,6 +46,11 @@
     	<artifactId>shivas-protocol</artifactId>
     	<version>1</version>
     </dependency>
+    <dependency>
+        <groupId>org.shivas</groupId>
+        <artifactId>shivas-data</artifactId>
+        <version>1</version>
+    </dependency>
   </dependencies>
   
 	<build>
