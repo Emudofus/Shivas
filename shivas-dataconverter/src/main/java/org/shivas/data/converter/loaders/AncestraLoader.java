@@ -11,9 +11,7 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.data.converter.App;
 import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
-import org.shivas.protocol.client.enums.ItemEffectEnum;
-import org.shivas.protocol.client.enums.ItemTypeEnum;
-import org.shivas.protocol.client.enums.SpellEffectsEnum;
+import org.shivas.protocol.client.enums.*;
 
 import java.sql.ResultSet;
 import java.util.Collection;
@@ -165,13 +163,18 @@ public class AncestraLoader extends JDBCLoader {
         return Lists.newArrayList(itemSets.values());
     }
 
+    private Map<Short, ItemTemplate> items;
+
     @Override
     public Collection<ItemTemplate> loadItems() throws Exception {
+        if (items != null) {
+            return Lists.newArrayList(items.values());
+        }
         if (itemSets == null) {
             loadItemSets();
         }
 
-        List<ItemTemplate> itemTemplates = Lists.newArrayList();
+        Map<Short, ItemTemplate> items = Maps.newHashMap();
 
         for (ResultSet rset : select("item_template").execute()) {
             ItemTypeEnum type = ItemTypeEnum.valueOf(rset.getInt("type"));
@@ -218,10 +221,11 @@ public class AncestraLoader extends JDBCLoader {
             }
             itemTemplate.setEffects(effects);
 
-            itemTemplates.add(itemTemplate);
+            items.put(itemTemplate.getId(), itemTemplate);
         }
 
-        return itemTemplates;
+        this.items = items;
+        return Lists.newArrayList(items.values());
     }
 
     private List<SpellEffect> loadEffects(String string) {
@@ -313,6 +317,44 @@ public class AncestraLoader extends JDBCLoader {
 
     @Override
     public Collection<NpcTemplate> loadNpcTemplates() throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (items == null) {
+            loadItems();
+        }
+
+        List<NpcTemplate> npcTemplates = Lists.newArrayList();
+
+        for (ResultSet rset : select("npc_template").execute()) {
+            NpcTemplate npcTemplate = new NpcTemplate();
+
+            npcTemplate.setId(rset.getInt("id"));
+            npcTemplate.setSkin(rset.getShort("gfxID"));
+            npcTemplate.setSize(rset.getShort("scaleX"));
+            npcTemplate.setGender(Gender.valueOf(rset.getInt("sex")));
+            npcTemplate.setColor1(rset.getInt("color1"));
+            npcTemplate.setColor2(rset.getInt("color2"));
+            npcTemplate.setColor3(rset.getInt("color3"));
+            npcTemplate.setExtraClip(rset.getInt("extraClip"));
+            npcTemplate.setCustomArtwork(rset.getInt("customArtWork"));
+
+            ItemTemplate[] accessories = new ItemTemplate[5];
+            int i = 0;
+            for (String accessoryString : rset.getString("accessories").split(",")) {
+                if (accessoryString.isEmpty()) continue;
+
+                ItemTemplate accessory = items.get(Short.parseShort(accessoryString, 16));
+                accessories[i++] = accessory;
+            }
+            npcTemplate.setAccessories(accessories);
+
+            if (!rset.getString("ventes").isEmpty()) {
+                npcTemplate.setType(NpcTypeEnum.BUY_SELL);
+            } else {
+                npcTemplate.setType(NpcTypeEnum.SPEAK);
+            }
+
+            npcTemplates.add(npcTemplate);
+        }
+
+        return npcTemplates;
     }
 }

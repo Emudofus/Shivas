@@ -108,6 +108,17 @@ public class App {
             }
         }
 
+        if (confirmation("Souhaitez-vous écrire les PNJ ?")) {
+            try {
+                Collection<NpcTemplate> npcs = loader.loadNpcTemplates();
+                outputter.outputNpcTemplates(npcs);
+
+                outln("%d pnj ont été écris", npcs.size());
+            } catch (Exception e) {
+                outln(e);
+            }
+        }
+
         outln("Vous pouvez désormais démarrer Shivas");
     }
 }
