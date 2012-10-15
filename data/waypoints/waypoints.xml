@@ -14,21 +14,21 @@
   <waypoint id="13" map="10643" cell="269" />
   <waypoint id="14" map="11170" cell="326" />
   <waypoint id="15" map="1841" cell="150" />
-  <waypoint id="16" map="844" cell="212" />
   <waypoint id="17" map="11210" cell="401" />
-  <waypoint id="18" map="4263" cell="170" />
+  <waypoint id="16" map="844" cell="212" />
   <waypoint id="19" map="3022" cell="186" />
-  <waypoint id="20" map="6855" cell="253" />
+  <waypoint id="18" map="4263" cell="170" />
   <waypoint id="21" map="6137" cell="104" />
-  <waypoint id="22" map="3250" cell="165" />
+  <waypoint id="20" map="6855" cell="253" />
   <waypoint id="23" map="4739" cell="354" />
-  <waypoint id="24" map="5295" cell="561" />
+  <waypoint id="22" map="3250" cell="165" />
   <waypoint id="25" map="8785" cell="253" />
-  <waypoint id="26" map="7411" cell="311" />
+  <waypoint id="24" map="5295" cell="561" />
   <waypoint id="27" map="6954" cell="238" />
-  <waypoint id="28" map="2191" cell="200" />
+  <waypoint id="26" map="7411" cell="311" />
   <waypoint id="29" map="10297" cell="199" />
-  <waypoint id="30" map="10349" cell="282" />
+  <waypoint id="28" map="2191" cell="200" />
   <waypoint id="31" map="10304" cell="138" />
+  <waypoint id="30" map="10349" cell="282" />
   <waypoint id="32" map="10317" cell="195" />
 </waypoints>
