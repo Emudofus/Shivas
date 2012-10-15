@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class XMLDataOutputter implements DataOutputter {
@@ -139,6 +140,22 @@ public class XMLDataOutputter implements DataOutputter {
 				
 				map_elem.addContent(trigger_elem);
 			}
+
+            if (map.getStartCells() != null) {
+                int side = 0;
+                for (List<Short> startCells : map.getStartCells()) {
+                    Element startCells_elem = new Element("startCells");
+                    startCells_elem.setAttribute("side", String.valueOf(++side));
+
+                    for (Short cellId : startCells) {
+                        Element startCell_elem = new Element("startCell");
+                        startCell_elem.setAttribute("id", cellId.toString());
+
+                        startCells_elem.addContent(startCell_elem);
+                    }
+                    map_elem.addContent(startCells_elem);
+                }
+            }
 			
 			root_elem.addContent(map_elem);
 		}

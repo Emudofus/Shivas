@@ -1,5 +1,6 @@
 package org.shivas.data.converter.loaders;
 
+import com.google.common.collect.Maps;
 import org.shivas.data.converter.MapData;
 import org.shivas.data.entity.*;
 
@@ -19,59 +20,64 @@ public class CombinedLoader implements DataLoader {
         this.second = second;
     }
 
+    public static <V> void merge(V source, V target) {
+        // TODO merge entity
+    }
+
+    protected <K, V> Map<K, V> mergeAll(Map<K, V> target, Map<K, V> source) {
+        Map<K, V> result = Maps.newHashMap();
+
+        for (Map.Entry<K, V> entry : source.entrySet()) {
+            V first = entry.getValue(),
+              second = target.get(entry.getKey());
+
+            if (second == null) {
+                target.put(entry.getKey(), first);
+            } else {
+                merge(first, second);
+            }
+        }
+
+        return result;
+    }
+
     @Override
     public Map<Integer, Breed> loadBreeds() throws Exception {
-        Map<Integer, Breed> breeds = first.loadBreeds();
-        breeds.putAll(second.loadBreeds());
-        return breeds;
+        return mergeAll(first.loadBreeds(), second.loadBreeds());
     }
 
     @Override
     public Map<Short, Experience> loadExperiences() throws Exception {
-        Map<Short, Experience> experiences = first.loadExperiences();
-        experiences.putAll(second.loadExperiences());
-        return experiences;
+        return mergeAll(first.loadExperiences(), second.loadExperiences());
     }
 
     @Override
     public Map<Integer, MapData> loadMaps() throws Exception {
-        Map<Integer, MapData> maps = first.loadMaps();
-        maps.putAll(second.loadMaps());
-        return maps;
+        return mergeAll(first.loadMaps(), second.loadMaps());
     }
 
     @Override
     public Map<Short, ItemSet> loadItemSets() throws Exception {
-        Map<Short, ItemSet> itemSets = first.loadItemSets();
-        itemSets.putAll(second.loadItemSets());
-        return itemSets;
+        return mergeAll(first.loadItemSets(), second.loadItemSets());
     }
 
     @Override
     public Map<Short, ItemTemplate> loadItems() throws Exception {
-        Map<Short, ItemTemplate> itemTemplates = first.loadItems();
-        itemTemplates.putAll(second.loadItems());
-        return itemTemplates;
+        return mergeAll(first.loadItems(), second.loadItems());
     }
 
     @Override
     public Map<Short, SpellTemplate> loadSpells() throws Exception {
-        Map<Short, SpellTemplate> spellTemplates = first.loadSpells();
-        spellTemplates.putAll(second.loadSpells());
-        return spellTemplates;
+        return mergeAll(first.loadSpells(), second.loadSpells());
     }
 
     @Override
     public Map<Integer, Waypoint> loadWaypoints() throws Exception {
-        Map<Integer, Waypoint> waypoints = first.loadWaypoints();
-        waypoints.putAll(second.loadWaypoints());
-        return waypoints;
+        return mergeAll(first.loadWaypoints(), second.loadWaypoints());
     }
 
     @Override
     public Map<Integer, NpcTemplate> loadNpcTemplates() throws Exception {
-        Map<Integer, NpcTemplate> npcTemplates = first.loadNpcTemplates();
-        npcTemplates.putAll(second.loadNpcTemplates());
-        return npcTemplates;
+        return mergeAll(first.loadNpcTemplates(), second.loadNpcTemplates());
     }
 }
