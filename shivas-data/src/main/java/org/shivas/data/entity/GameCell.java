@@ -3,7 +3,7 @@ package org.shivas.data.entity;
 import java.io.Serializable;
 
 public class GameCell implements Serializable {
-	
+
     public static enum MovementType {
         Unwalkable,
         Door,
@@ -27,6 +27,7 @@ public class GameCell implements Serializable {
     private MovementType movementType;
     private int groundLevel;
     private int groundSlope;
+    private int startFightSide = -1;
     
 	public short getId() {
 		return id;
@@ -58,5 +59,13 @@ public class GameCell implements Serializable {
 	public void setGroundSlope(int groundSlope) {
 		this.groundSlope = groundSlope;
 	}
+
+    public int getStartFightSide() {
+        return startFightSide;
+    }
+
+    public void setStartFightSide(int startFightSide) {
+        this.startFightSide = startFightSide;
+    }
 
 }

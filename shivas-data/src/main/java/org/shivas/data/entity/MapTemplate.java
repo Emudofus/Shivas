@@ -1,10 +1,10 @@
 package org.shivas.data.entity;
 
+import org.shivas.common.maths.Point;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-
-import org.shivas.common.maths.Point;
 
 public class MapTemplate implements Serializable {
 
@@ -47,6 +47,9 @@ public class MapTemplate implements Serializable {
 	public List<GameCell> getCells() {
 		return cells;
 	}
+    public GameCell getCell(short cellId) {
+        return cells.size() <= cellId ? null : cells.get(cellId);
+    }
 	public void setCells(List<GameCell> cells) {
 		this.cells = cells;
 	}
@@ -80,5 +83,4 @@ public class MapTemplate implements Serializable {
 	public void setWaypoint(Waypoint waypoint) {
 		this.waypoint = waypoint;
 	}
-
 }

@@ -199,6 +199,25 @@ public class XmlLoader extends AbstractLoader {
 			map.setDate(element.getAttribute("date").getValue());
 			map.setKey(element.getChild("key").getAttributeValue("value"));
 			map.setSubscriber(element.getAttributeValue("subscriber").equals("1"));
+
+            int errors = 0;
+            for (Element startCells_elem : element.getChildren("startCells")) {
+                int side = startCells_elem.getAttribute("side").getIntValue();
+
+                for (Element startCell_elem : startCells_elem.getChildren("startCell")) {
+                    short cellId = (short) startCell_elem.getAttribute("id").getIntValue();
+                    GameCell cell = map.getCell(cellId);
+                    if (cell == null) {
+                        ++errors;
+                    } else {
+                        cell.setStartFightSide(side);
+                    }
+                }
+            }
+
+            if (errors > 0) {
+                log.warn("map {} has {} errors", map.getId(), errors);
+            }
 			
 			repo.put(map.getId(), map);
 			++count;
