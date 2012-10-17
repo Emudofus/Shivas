@@ -2,6 +2,7 @@ package org.shivas.server.core.fights;
 
 import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.protocol.client.types.CharacterFighterType;
+import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.database.models.Player;
 
 /**
@@ -13,6 +14,7 @@ import org.shivas.server.database.models.Player;
 public class PlayerFighter extends Fighter {
     private final Player player;
 
+    private boolean ready;
 
     public PlayerFighter(Fight fight, Player player) {
         super(fight);
@@ -22,6 +24,16 @@ public class PlayerFighter extends Fighter {
     @Override
     public Integer getId() {
         return player.getId();
+    }
+
+    @Override
+    public boolean isReady() {
+        return ready;
+    }
+
+    public void setReady() throws InteractionException {
+        ready = !ready;
+        fight.notifyReady(this);
     }
 
     @Override

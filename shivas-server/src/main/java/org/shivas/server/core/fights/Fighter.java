@@ -23,6 +23,7 @@ public abstract class Fighter {
     }
 
     public abstract Integer getId();
+    public abstract boolean isReady();
 
     public FightAction getCurrentAction() {
         return currentAction;
@@ -49,6 +50,9 @@ public abstract class Fighter {
     }
 
     public void setCurrentCell(FightCell currentCell) {
+        if (this.currentCell != null) {
+            this.currentCell.setCurrentFighter(null);
+        }
         this.currentCell = currentCell;
         currentCell.setCurrentFighter(this);
     }

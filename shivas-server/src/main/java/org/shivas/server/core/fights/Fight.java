@@ -9,7 +9,9 @@ import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.ThreadedEventDispatcher;
+import org.shivas.server.core.fights.events.FightEventType;
 import org.shivas.server.core.fights.events.FightInitializationEvent;
+import org.shivas.server.core.fights.events.FighterEvent;
 import org.shivas.server.core.interactions.AbstractInteraction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
@@ -143,6 +145,32 @@ public abstract class Fight extends AbstractInteraction {
         afterEnd();
     }
     protected void afterEnd() throws InteractionException {}
+
+    public void notifyReady(Fighter fighter) throws InteractionException {
+        if (state != FightStateEnum.PLACE) throw new FightException("you can only set ready when the fight's state allows it");
+
+        event.publish(new FighterEvent(FightEventType.FIGHTER_READY, fighter));
+    }
+
+    public void changePlace(Fighter fighter, short targetCellId) throws InteractionException {
+        if (state != FightStateEnum.PLACE) throw new FightException("you can only change place when the fight's state allows it");
+
+        if (fighter.isReady()) {
+            return;
+        }
+
+        FightCell cell = cells[targetCellId];
+
+        if (!cell.isAvailable()) {
+            return;
+        }
+        if (cell.getStartCellTeam() != fighter.getTeam().getType()) {
+            throw new FightException("you can't take place on other side's cell");
+        }
+
+        fighter.setCurrentCell(cell);
+        event.publish(new FighterEvent(FightEventType.FIGHTER_PLACEMENT, fighter));
+    }
 
     public void cast(Fighter caster, Castable castable, FightCell targetCell) throws InteractionException {
         if (state != FightStateEnum.ACTIVE) throw new FightException("you can't cast now");

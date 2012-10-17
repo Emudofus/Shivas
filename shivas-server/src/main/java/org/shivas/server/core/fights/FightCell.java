@@ -56,4 +56,8 @@ public class FightCell {
     public void setCurrentFighter(Fighter currentFighter) {
         this.currentFighter = currentFighter;
     }
+
+    public boolean isAvailable() {
+        return currentFighter == null;
+    }
 }

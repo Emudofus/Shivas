@@ -8,6 +8,8 @@ import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.fights.Fight;
 import org.shivas.server.core.fights.PlayerFighter;
 import org.shivas.server.core.fights.events.FightEvent;
+import org.shivas.server.core.fights.events.FighterEvent;
+import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
 import org.slf4j.Logger;
@@ -53,6 +55,14 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
             case 'A':
                 parseGameActionMessage(ActionTypeEnum.valueOf(Integer.parseInt(message.substring(2, 5))), message.substring(5));
                 break;
+
+            case 'p':
+                parseChangePlaceMessage(Short.parseShort(message.substring(2)));
+                break;
+
+            case 'R':
+                parseSetReadyMessage();
+                break;
             }
             break;
         }
@@ -75,6 +85,14 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         }
     }
 
+    private void parseChangePlaceMessage(short cellId) throws InteractionException {
+        fight.changePlace(fighter, cellId);
+    }
+
+    private void parseSetReadyMessage() throws InteractionException {
+        fighter.setReady();
+    }
+
     @Override
     public void listen(Event event) {
         switch (event.type()) {
@@ -88,6 +106,14 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         switch (event.getFightEventType()) {
         case INITIALIZATION:
             listenFightInitialization();
+            break;
+
+        case FIGHTER_PLACEMENT:
+            listenFighterPlacement((FighterEvent) event);
+            break;
+
+        case FIGHTER_READY:
+            listenFighterReady((FighterEvent) event);
             break;
         }
     }
@@ -110,5 +136,20 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
 
         client.write(FightGameMessageFormatter.showFightersMessage(fight.getChallengers().toBaseFighterType()));
         client.write(FightGameMessageFormatter.showFightersMessage(fight.getDefenders().toBaseFighterType()));
+    }
+
+    private void listenFighterPlacement(FighterEvent event) {
+        client.write(FightGameMessageFormatter.fighterPlacementMessage(
+                event.getFighter().getId(),
+                event.getFighter().getCurrentCell().getId(),
+                event.getFighter().getCurrentOrientation()
+        ));
+    }
+
+    private void listenFighterReady(FighterEvent event) {
+        client.write(FightGameMessageFormatter.fighterReadyMessage(
+                event.getFighter().getId(),
+                event.getFighter().isReady()
+        ));
     }
 }

@@ -8,4 +8,6 @@ package org.shivas.server.core.fights.events;
  */
 public enum FightEventType {
     INITIALIZATION,
+    FIGHTER_PLACEMENT,
+    FIGHTER_READY,
 }
