@@ -1,10 +1,12 @@
 package org.shivas.protocol.client.formatters;
 
+import org.shivas.common.StringUtils;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.protocol.client.enums.*;
 import org.shivas.protocol.client.types.BaseEndFighterType;
 import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
+import org.shivas.protocol.client.types.CharacterFighterType;
 
 import java.util.Collection;
 
@@ -71,7 +73,36 @@ public class FightGameMessageFormatter {
         sb.append(fighter.getId()).append(';');
         sb.append(fighter.getName()).append(';');
         
-        // TODO format fighter by its type (instanceof)
+        if (fighter instanceof CharacterFighterType) {
+            formatShowCharacterFighter((CharacterFighterType) fighter, sb);
+        }
+    }
+
+    private static void formatShowCharacterFighter(CharacterFighterType fighter, StringBuilder sb) {
+        sb.append(fighter.getBreedId()).append(';');
+        sb.append(fighter.getSkin()).append('^').append(fighter.getSize()).append(';');
+        sb.append(fighter.getGender() == Gender.FEMALE ? "1;" : "0;");
+        sb.append(fighter.getLevel()).append(';');
+        sb.append(fighter.getAlignId()).append(",0,").append(fighter.isPvpEnabled() ? fighter.getAlignLevel() : 0).append(',').append(fighter.getId()).append(';');
+        sb.append(StringUtils.toHexOrNegative(fighter.getColor1())).append(';');
+        sb.append(StringUtils.toHexOrNegative(fighter.getColor2())).append(';');
+        sb.append(StringUtils.toHexOrNegative(fighter.getColor3())).append(';');
+
+        ItemGameMessageFormatter.parseAccessories(sb, fighter.getAccessories());
+        sb.append(';');
+
+        sb.append(fighter.getStatistics().life().current()).append(';');
+        sb.append(fighter.getStatistics().get(CharacteristicType.ActionPoints).safeTotal()).append(';');
+        sb.append(fighter.getStatistics().get(CharacteristicType.MovementPoints).safeTotal()).append(';');
+        sb.append(fighter.getStatistics().get(CharacteristicType.ResistancePercentNeutral).total()).append(';');
+        sb.append(fighter.getStatistics().get(CharacteristicType.ResistancePercentEarth).total()).append(';');
+        sb.append(fighter.getStatistics().get(CharacteristicType.ResistancePercentFire).total()).append(';');
+        sb.append(fighter.getStatistics().get(CharacteristicType.ResistancePercentWater).total()).append(';');
+        sb.append(fighter.getStatistics().get(CharacteristicType.ResistancePercentWind).total()).append(';');
+        sb.append(fighter.getStatistics().get(CharacteristicType.DodgeActionPoints).total()).append(';');
+        sb.append(fighter.getStatistics().get(CharacteristicType.DodgeMovementPoints).total()).append(';');
+        sb.append(fighter.getTeam().ordinal()).append(';');
+        sb.append(';'); // todo mounts
     }
 
     public static String addFlagMessage(long fightId, FightTypeEnum fightType, BaseRolePlayActorType challenger, BaseRolePlayActorType defender){
