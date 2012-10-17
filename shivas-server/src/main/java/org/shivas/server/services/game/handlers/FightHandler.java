@@ -103,8 +103,8 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         ));
 
         client.write(FightGameMessageFormatter.startCellsMessage(
-                "", // TODO fight team placement cells
-                "",
+                fight.getChallengers().getEncodedStartCells(),
+                fight.getDefenders().getEncodedStartCells(),
                 fighter.getTeam().getType()
         ));
 

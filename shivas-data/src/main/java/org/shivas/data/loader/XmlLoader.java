@@ -202,7 +202,7 @@ public class XmlLoader extends AbstractLoader {
 			map.setSubscriber(element.getAttributeValue("subscriber").equals("1"));
 
             for (Element startCells_elem : element.getChildren("startCells")) {
-                int side = startCells_elem.getAttribute("side").getIntValue();
+                FightSideEnum side = FightSideEnum.valueOf(startCells_elem.getAttribute("side").getIntValue());
                 String places = startCells_elem.getAttributeValue("cells");
 
                 for (int i = 0; i < places.length(); i += 2) {

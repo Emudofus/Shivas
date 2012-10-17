@@ -1,5 +1,7 @@
 package org.shivas.data.entity;
 
+import org.shivas.protocol.client.enums.FightSideEnum;
+
 import java.io.Serializable;
 
 public class GameCell implements Serializable {
@@ -27,7 +29,7 @@ public class GameCell implements Serializable {
     private MovementType movementType;
     private int groundLevel;
     private int groundSlope;
-    private int startFightSide = -1;
+    private FightSideEnum startFightSide;
     
 	public short getId() {
 		return id;
@@ -60,11 +62,11 @@ public class GameCell implements Serializable {
 		this.groundSlope = groundSlope;
 	}
 
-    public int getStartFightSide() {
+    public FightSideEnum getStartFightSide() {
         return startFightSide;
     }
 
-    public void setStartFightSide(int startFightSide) {
+    public void setStartFightSide(FightSideEnum startFightSide) {
         this.startFightSide = startFightSide;
     }
 

@@ -1,6 +1,7 @@
 package org.shivas.data.entity;
 
 import com.google.common.collect.Iterators;
+import org.shivas.protocol.client.enums.FightSideEnum;
 
 import java.util.Iterator;
 
@@ -36,12 +37,12 @@ public class MapCells implements Iterable<GameCell> {
         this.cells = cells;
     }
 
-    public String getEncodedStartCells(int side) {
-        return encodedStartCells.length < side ? null : encodedStartCells[side - 1];
+    public String getEncodedStartCells(FightSideEnum side) {
+        return side == FightSideEnum.BLUE ? encodedStartCells[0] : encodedStartCells[1];
     }
 
-    public void setEncodedStartCells(int side, String encodedStartCells) {
-        this.encodedStartCells[side - 1] = encodedStartCells;
+    public void setEncodedStartCells(FightSideEnum side, String encodedStartCells) {
+        this.encodedStartCells[side == FightSideEnum.BLUE ? 0 : 1] = encodedStartCells;
     }
 
     @Override

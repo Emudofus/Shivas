@@ -1,10 +1,13 @@
 package org.shivas.server.core.fights;
 
+import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightTeamEnum;
 import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.maps.GameMap;
 import org.shivas.server.database.models.Player;
+
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,8 +25,12 @@ public class DuelFight extends Fight {
         source.setFighter(challenger);
         target.setFighter(defender);
 
-        teams.put(FightTeamEnum.CHALLENGERS, new FightTeam(FightTeamEnum.CHALLENGERS, this, challenger));
-        teams.put(FightTeamEnum.DEFENDERS,   new FightTeam(FightTeamEnum.DEFENDERS,   this, defender));
+        Random random = new Random(System.nanoTime());
+        FightSideEnum first  = random.nextBoolean()        ? FightSideEnum.BLUE : FightSideEnum.RED,
+                      second = first == FightSideEnum.BLUE ? FightSideEnum.RED  : FightSideEnum.BLUE;
+
+        teams.put(FightTeamEnum.CHALLENGERS, new FightTeam(FightTeamEnum.CHALLENGERS, first, this, challenger));
+        teams.put(FightTeamEnum.DEFENDERS,   new FightTeam(FightTeamEnum.DEFENDERS, second, this, defender));
     }
 
     @Override

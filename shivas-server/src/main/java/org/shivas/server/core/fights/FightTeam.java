@@ -2,6 +2,7 @@ package org.shivas.server.core.fights;
 
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
+import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightTeamEnum;
 import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.server.utils.Converters;
@@ -21,11 +22,13 @@ public class FightTeam implements Iterable<Fighter> {
 
     private final Map<Integer, Fighter> fighters = Maps.newHashMap();
     private final FightTeamEnum type;
+    private final FightSideEnum side;
     private final Fight fight;
     private final Fighter leader;
 
-    public FightTeam(FightTeamEnum type, Fight fight, Fighter leader) {
+    public FightTeam(FightTeamEnum type, FightSideEnum side, Fight fight, Fighter leader) {
         this.type = type;
+        this.side = side;
         this.fight = fight;
         this.leader = leader;
         this.leader.setTeam(this);
@@ -34,6 +37,10 @@ public class FightTeam implements Iterable<Fighter> {
 
     public FightTeamEnum getType() {
         return type;
+    }
+
+    public FightSideEnum getSide() {
+        return side;
     }
 
     public Fight getFight() {
@@ -50,6 +57,10 @@ public class FightTeam implements Iterable<Fighter> {
 
     public boolean isAvailable() {
         return count() < MAX_FIGHTERS;
+    }
+
+    public String getEncodedStartCells() {
+        return fight.getMap().getCells().getEncodedStartCells(side);
     }
 
     public Fighter get(Integer id) {

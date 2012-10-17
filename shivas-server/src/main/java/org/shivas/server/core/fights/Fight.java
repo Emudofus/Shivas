@@ -28,6 +28,8 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public abstract class Fight extends AbstractInteraction {
 
+    public static int BLUE_SIDE = 1, RED_SIDE = 2;
+
     private static final Logger log = LoggerFactory.getLogger(Fight.class);
 
     protected final ExecutorService worker = Executors.newSingleThreadExecutor();
@@ -67,6 +69,10 @@ public abstract class Fight extends AbstractInteraction {
 
     public FightTeam getDefenders() {
         return getTeam(FightTeamEnum.DEFENDERS);
+    }
+
+    public GameMap getMap() {
+        return map;
     }
 
     public FightStateEnum getState() {
