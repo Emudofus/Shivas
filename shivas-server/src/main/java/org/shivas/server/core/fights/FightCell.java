@@ -1,6 +1,8 @@
 package org.shivas.server.core.fights;
 
 import org.shivas.data.entity.GameCell;
+import org.shivas.protocol.client.enums.FightSideEnum;
+import org.shivas.protocol.client.enums.FightTeamEnum;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,31 +12,25 @@ import org.shivas.data.entity.GameCell;
  */
 public class FightCell {
     private final GameCell cell;
+    private final FightTeamEnum startCellTeam;
 
     private Fighter currentFighter;
 
-    public FightCell(GameCell cell) {
+    public FightCell(GameCell cell, FightTeamEnum startCellTeam) {
         this.cell = cell;
+        this.startCellTeam = startCellTeam;
     }
 
     public short getId() {
         return cell.getId();
     }
 
+    public FightTeamEnum getStartCellTeam() {
+        return startCellTeam;
+    }
+
     public int getGroundLevel() {
         return cell.getGroundLevel();
-    }
-
-    public boolean isLineOfSight() {
-        return cell.isLineOfSight();
-    }
-
-    public void setLineOfSight(boolean lineOfSight) {
-        cell.setLineOfSight(lineOfSight);
-    }
-
-    public void setMovementType(GameCell.MovementType movementType) {
-        cell.setMovementType(movementType);
     }
 
     public GameCell.MovementType getMovementType() {
@@ -45,16 +41,12 @@ public class FightCell {
         return cell.getGroundSlope();
     }
 
-    public void setId(short id) {
-        cell.setId(id);
-    }
-
     public void setGroundSlope(int groundSlope) {
         cell.setGroundSlope(groundSlope);
     }
 
-    public void setGroundLevel(int groundLevel) {
-        cell.setGroundLevel(groundLevel);
+    public FightSideEnum getStartFightSide() {
+        return cell.getStartFightSide();
     }
 
     public Fighter getCurrentFighter() {

@@ -4,6 +4,7 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
 import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightTeamEnum;
+import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.server.utils.Converters;
 
@@ -31,8 +32,7 @@ public class FightTeam implements Iterable<Fighter> {
         this.side = side;
         this.fight = fight;
         this.leader = leader;
-        this.leader.setTeam(this);
-        this.fighters.put(leader.getId(), leader);
+        add(leader);
     }
 
     public FightTeamEnum getType() {
@@ -71,6 +71,8 @@ public class FightTeam implements Iterable<Fighter> {
         if (!isAvailable() || fighters.containsKey(fighter.getId())) return;
 
         fighter.setTeam(this);
+        fighter.setCurrentCell(fight.firstAvailableStartCell(type));
+        fighter.setCurrentOrientation(OrientationEnum.SOUTH_WEST);
 
         fighters.put(fighter.getId(), fighter);
     }

@@ -1,5 +1,6 @@
 package org.shivas.server.core.fights;
 
+import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.types.BaseFighterType;
 
 /**
@@ -13,6 +14,9 @@ public abstract class Fighter {
     protected final Fight fight;
 
     protected FightTeam team;
+    protected FightCell currentCell;
+    protected OrientationEnum currentOrientation;
+    protected boolean dead;
 
     protected Fighter(Fight fight) {
         this.fight = fight;
@@ -38,6 +42,31 @@ public abstract class Fighter {
 
     public void setTeam(FightTeam team) {
         this.team = team;
+    }
+
+    public FightCell getCurrentCell() {
+        return currentCell;
+    }
+
+    public void setCurrentCell(FightCell currentCell) {
+        this.currentCell = currentCell;
+        currentCell.setCurrentFighter(this);
+    }
+
+    public OrientationEnum getCurrentOrientation() {
+        return currentOrientation;
+    }
+
+    public void setCurrentOrientation(OrientationEnum currentOrientation) {
+        this.currentOrientation = currentOrientation;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 
     public abstract BaseFighterType toBaseFighterType();

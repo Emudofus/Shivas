@@ -1,6 +1,8 @@
 package org.shivas.server.core.fights;
 
 import com.google.common.collect.Maps;
+import org.shivas.data.entity.GameCell;
+import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightStateEnum;
 import org.shivas.protocol.client.enums.FightTeamEnum;
 import org.shivas.protocol.client.enums.FightTypeEnum;
@@ -28,8 +30,6 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public abstract class Fight extends AbstractInteraction {
 
-    public static int BLUE_SIDE = 1, RED_SIDE = 2;
-
     private static final Logger log = LoggerFactory.getLogger(Fight.class);
 
     protected final ExecutorService worker = Executors.newSingleThreadExecutor();
@@ -38,6 +38,7 @@ public abstract class Fight extends AbstractInteraction {
     protected final Map<FightTeamEnum, FightTeam> teams = Maps.newIdentityHashMap();
     protected final FightTurnList turns;
     protected final GameMap map;
+    protected final FightCell[] cells;
 
     protected FightStateEnum state;
 
@@ -45,6 +46,7 @@ public abstract class Fight extends AbstractInteraction {
         this.turns = new FightTurnList(this, config.turnDuration(getFightType()));
         this.map = map;
         this.state = FightStateEnum.INIT;
+        this.cells = generateCells();
     }
 
     public ExecutorService getWorker() {
@@ -96,7 +98,6 @@ public abstract class Fight extends AbstractInteraction {
 
         state = FightStateEnum.PLACE;
 
-        setFighterStartCells();
         event.publish(new FightInitializationEvent(this));
 
         afterInit();
@@ -151,12 +152,33 @@ public abstract class Fight extends AbstractInteraction {
         if (state != FightStateEnum.ACTIVE) throw new FightException("you can't move now");
     }
 
-    private void setFighterStartCells() {
-        for (FightTeam team : teams.values()) {
-            for (Fighter fighter : team) {
-                // TODO
+    public FightSideEnum toSide(FightTeamEnum team) {
+        return team == FightTeamEnum.CHALLENGERS ? FightSideEnum.RED :
+               team == FightTeamEnum.DEFENDERS   ? FightSideEnum.BLUE : null;
+    }
+
+    public FightTeamEnum toTeam(FightSideEnum side) {
+        return side == FightSideEnum.RED  ? FightTeamEnum.CHALLENGERS :
+               side == FightSideEnum.BLUE ? FightTeamEnum.DEFENDERS : null;
+    }
+
+    public FightCell firstAvailableStartCell(FightTeamEnum team) {
+        for (FightCell cell : cells) {
+            if (cell.getStartCellTeam() == team) {
+                return cell;
             }
         }
+        throw new RuntimeException("there is not anymore available places");
+    }
+
+    protected FightCell[] generateCells() {
+        FightCell[] cells = new FightCell[map.getCells().length()];
+
+        for (GameCell cell : map.getCells()) {
+            cells[cell.getId()] = new FightCell(cell, toTeam(cell.getStartFightSide()));
+        }
+
+        return cells;
     }
 
     public void exceptionThrowed(Throwable throwable) {
