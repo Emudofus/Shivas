@@ -1,23 +1,19 @@
 package org.shivas.data.loader;
 
-import java.util.List;
-
 import org.shivas.common.StringUtils;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.GameCell;
 
-import com.google.common.collect.Lists;
-
 public class CellLoader {
 	private CellLoader() {}
 	
-	public static List<GameCell> parse(String string, EntityFactory factory) {
-		List<GameCell> cells = Lists.newArrayList();
+	public static GameCell[] parse(String string, EntityFactory factory) {
+		GameCell[] cells = new GameCell[string.length() / 10];
 		for (int i = 0; i < string.length(); i += 10) {
 			GameCell cell = factory.newGameCell();
 			cell.setId((short) (i / 10));
 			initCell(cell, string.substring(i, i + 10));
-			cells.add(cell);
+			cells[i / 10] = cell;
 		}
 		return cells;
 	}

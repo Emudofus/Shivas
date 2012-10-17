@@ -9,6 +9,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
+import org.shivas.common.StringUtils;
 import org.shivas.common.maths.Point;
 import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dofus1Dice;
@@ -195,28 +196,26 @@ public class XmlLoader extends AbstractLoader {
 			));
 			map.setWidth(element.getAttribute("width").getIntValue());
 			map.setHeight(element.getAttribute("height").getIntValue());
-			map.setCells(CellLoader.parse(element.getChild("data").getAttributeValue("value"), factory));
+			map.getCells().set(CellLoader.parse(element.getChild("data").getAttributeValue("value"), factory));
 			map.setDate(element.getAttribute("date").getValue());
 			map.setKey(element.getChild("key").getAttributeValue("value"));
 			map.setSubscriber(element.getAttributeValue("subscriber").equals("1"));
 
-            int errors = 0;
             for (Element startCells_elem : element.getChildren("startCells")) {
                 int side = startCells_elem.getAttribute("side").getIntValue();
+                String places = startCells_elem.getAttributeValue("cells");
 
-                for (Element startCell_elem : startCells_elem.getChildren("startCell")) {
-                    short cellId = (short) startCell_elem.getAttribute("id").getIntValue();
+                for (int i = 0; i < places.length(); i += 2) {
+                    short cellId = (short) ((StringUtils.EXTENDED_ALPHABET.indexOf(places.charAt(i)) << 6) +
+                                            StringUtils.EXTENDED_ALPHABET.indexOf(places.charAt(i + 1)));
+
                     GameCell cell = map.getCell(cellId);
-                    if (cell == null) {
-                        ++errors;
-                    } else {
+                    if (cell != null) {
                         cell.setStartFightSide(side);
                     }
                 }
-            }
 
-            if (errors > 0) {
-                log.warn("map {} has {} errors", map.getId(), errors);
+                map.getCells().setEncodedStartCells(side, places);
             }
 			
 			repo.put(map.getId(), map);
@@ -229,7 +228,6 @@ public class XmlLoader extends AbstractLoader {
 			Map<Short, MapTrigger> triggers = Maps.newHashMap();
 			for (Element trigger_elem : element.getChildren("trigger")) {
 				MapTrigger trigger = factory.newMapTrigger();
-				//trigger.setId(trigger_elem.getAttribute("id").getIntValue()); <- useless
 				trigger.setMap(map);
 				trigger.setCell((short) trigger_elem.getAttribute("cell").getIntValue());
 				if (!trigger_elem.getAttribute("next_map").getValue().isEmpty()) {

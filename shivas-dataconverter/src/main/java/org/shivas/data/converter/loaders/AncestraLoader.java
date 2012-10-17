@@ -6,7 +6,6 @@ import com.google.common.collect.Maps;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Order;
 import org.atomium.util.query.mysql.MySqlQueryBuilderFactory;
-import org.shivas.common.StringUtils;
 import org.shivas.common.maths.Point;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.data.converter.App;
@@ -83,19 +82,19 @@ public class AncestraLoader extends JDBCLoader {
             map.setKey(rset.getString("key"));
             map.setData(rset.getString("mapData"));
 
-            List<List<Short>> startCells = Lists.newArrayList();
-            for (String places : rset.getString("places").split("\\|")) {
-                List<Short> startCellsSide = Lists.newArrayList();
-                for (int i = 0; i < places.length(); i += 2) {
-                    char a = places.charAt(i), b = places.charAt(i + 1);
-                    short cellId = (short) ((StringUtils.EXTENDED_ALPHABET.indexOf(a) << 6) +
-                                            StringUtils.EXTENDED_ALPHABET.indexOf(b));
-
-                    startCellsSide.add(cellId);
+            String places = rset.getString("places");
+            if (!places.isEmpty()) {
+                List<String> startCells = Lists.newArrayList();
+                for (String p : places.split("\\|")) {
+                    if (p.isEmpty()) continue;
+                    startCells.add(p);
                 }
-                startCells.add(startCellsSide);
+
+                if (startCells.size() == 2) {
+                    map.setStartCells(startCells);
+                    map.setCanFight(true);
+                }
             }
-            map.setStartCells(startCells);
 
             String[] positions = rset.getString("mappos").split(",");
             map.setPosition(new Point(

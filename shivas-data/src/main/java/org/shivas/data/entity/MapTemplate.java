@@ -3,7 +3,6 @@ package org.shivas.data.entity;
 import org.shivas.common.maths.Point;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 public class MapTemplate implements Serializable {
@@ -13,12 +12,13 @@ public class MapTemplate implements Serializable {
 	private int id;
 	private Point position;
 	private int width, height;
-	private List<GameCell> cells;
+	private MapCells cells = new MapCells(this);
 	private String date;
 	private String key;
 	private boolean subscriber;
 	private Map<Short, MapTrigger> trigger;
 	private Waypoint waypoint;
+    private boolean canFight;
 	
 	public int getId() {
 		return id;
@@ -44,15 +44,12 @@ public class MapTemplate implements Serializable {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	public List<GameCell> getCells() {
+	public MapCells getCells() {
 		return cells;
 	}
     public GameCell getCell(short cellId) {
-        return cells.size() <= cellId ? null : cells.get(cellId);
+        return cells.get(cellId);
     }
-	public void setCells(List<GameCell> cells) {
-		this.cells = cells;
-	}
 	public String getDate() {
 		return date;
 	}
@@ -83,4 +80,10 @@ public class MapTemplate implements Serializable {
 	public void setWaypoint(Waypoint waypoint) {
 		this.waypoint = waypoint;
 	}
+    public boolean canFight() {
+        return canFight;
+    }
+    public void setCanFight(boolean canFight) {
+        this.canFight = canFight;
+    }
 }

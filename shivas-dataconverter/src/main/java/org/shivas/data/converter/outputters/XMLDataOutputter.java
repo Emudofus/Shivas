@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 public class XMLDataOutputter implements DataOutputter {
@@ -122,6 +121,7 @@ public class XMLDataOutputter implements DataOutputter {
 			map_elem.setAttribute("height", String.valueOf(map.getHeight()));
 			map_elem.setAttribute("date", String.valueOf(map.getDate()));
 			map_elem.setAttribute("subscriber", map.isSubscriber() ? "1" : "0");
+            map_elem.setAttribute("canFight", map.canFight() ? "1" : "0");
 			
 			Element data_elem = new Element("data");
 			data_elem.setAttribute("value", map.getData());
@@ -133,7 +133,6 @@ public class XMLDataOutputter implements DataOutputter {
 			
 			for (MapTrigger trigger : map.getTrigger().values()) {
 				Element trigger_elem = new Element("trigger");
-				trigger_elem.setAttribute("id", String.valueOf(trigger.getId()));
 				trigger_elem.setAttribute("cell", String.valueOf(trigger.getCell()));
 				trigger_elem.setAttribute("next_map", trigger.getNextMap() != null ? String.valueOf(trigger.getNextMap().getId()) : "");
 				trigger_elem.setAttribute("next_cell", String.valueOf(trigger.getNextCell()));
@@ -141,18 +140,13 @@ public class XMLDataOutputter implements DataOutputter {
 				map_elem.addContent(trigger_elem);
 			}
 
-            if (map.getStartCells() != null) {
+            if (map.canFight()) {
                 int side = 0;
-                for (List<Short> startCells : map.getStartCells()) {
+                for (String startCells : map.getStartCells()) {
                     Element startCells_elem = new Element("startCells");
                     startCells_elem.setAttribute("side", String.valueOf(++side));
+                    startCells_elem.setAttribute("cells", startCells);
 
-                    for (Short cellId : startCells) {
-                        Element startCell_elem = new Element("startCell");
-                        startCell_elem.setAttribute("id", cellId.toString());
-
-                        startCells_elem.addContent(startCell_elem);
-                    }
                     map_elem.addContent(startCells_elem);
                 }
             }

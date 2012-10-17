@@ -6,18 +6,11 @@ public class MapTrigger implements Serializable {
 
 	private static final long serialVersionUID = -3959363931599403565L;
 
-	private int id;
 	private MapTemplate map;
 	private short cell;
 	private MapTemplate nextMap;
 	private short nextCell;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public MapTemplate getMap() {
 		return map;
 	}

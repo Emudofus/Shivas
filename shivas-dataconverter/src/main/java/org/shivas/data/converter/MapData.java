@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class MapData extends MapTemplate {
     private String data;
-    private List<List<Short>> startCells;
+    private List<String> startCells;
 
     public String getData() {
         return data;
@@ -22,11 +22,11 @@ public class MapData extends MapTemplate {
         this.data = data;
     }
 
-    public List<List<Short>> getStartCells() {
+    public List<String> getStartCells() {
         return startCells;
     }
 
-    public void setStartCells(List<List<Short>> startCells) {
+    public void setStartCells(List<String> startCells) {
         this.startCells = startCells;
     }
 }
