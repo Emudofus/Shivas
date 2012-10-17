@@ -150,6 +150,10 @@ public abstract class Fight extends AbstractInteraction {
         if (state != FightStateEnum.PLACE) throw new FightException("you can only set ready when the fight's state allows it");
 
         event.publish(new FighterEvent(FightEventType.FIGHTER_READY, fighter));
+
+        if (getChallengers().isReady() && getDefenders().isReady()) {
+            begin();
+        }
     }
 
     public void changePlace(Fighter fighter, short targetCellId) throws InteractionException {

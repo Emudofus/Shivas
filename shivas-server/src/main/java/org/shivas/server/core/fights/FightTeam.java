@@ -59,6 +59,14 @@ public class FightTeam implements Iterable<Fighter> {
         return count() < MAX_FIGHTERS;
     }
 
+    public boolean isReady() {
+        boolean ready = true;
+        for (Fighter fighter : fighters.values()) {
+            ready &= fighter.isReady();
+        }
+        return ready;
+    }
+
     public String getEncodedStartCells() {
         return fight.getMap().getCells().getEncodedStartCells(side);
     }
