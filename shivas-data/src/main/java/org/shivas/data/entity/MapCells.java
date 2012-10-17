@@ -25,6 +25,10 @@ public class MapCells implements Iterable<GameCell> {
         return map;
     }
 
+    public int length() {
+        return cells.length;
+    }
+
     public GameCell[] get() {
         return cells;
     }
