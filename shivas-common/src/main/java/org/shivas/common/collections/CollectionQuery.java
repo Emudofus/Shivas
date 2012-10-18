@@ -1,21 +1,12 @@
 package org.shivas.common.collections;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Ordering;
+import com.google.common.collect.*;
 
-public class CollectionQuery<T> {
+import java.util.*;
+
+public class CollectionQuery<T> implements Iterable<T> {
 	
 	public static <T> CollectionQuery<T> from(Iterable<T> from) {
 		return new CollectionQuery<T>(from);
@@ -49,7 +40,7 @@ public class CollectionQuery<T> {
 	
 	public CollectionQuery<T> with(T... values) {
 		final Iterator<T> it = Iterators.forArray(values);
-		return from(new FluentIterable<T>() {
+		return from(new Iterable<T>() {
 			public Iterator<T> iterator() {
 				return Iterators.concat(from.iterator(), it);
 			}
@@ -94,14 +85,31 @@ public class CollectionQuery<T> {
 	public Iterable<T> end() {
 		return from;
 	}
+
+    public Collection<T> lazyCollection() {
+        return new AbstractCollection<T>() {
+            public Iterator<T> iterator() {
+                return from.iterator();
+            }
+
+            public int size() {
+                return count();
+            }
+        };
+    }
 	
 	public List<T> computeList() {
-		List<T> result = new ArrayList<T>();
-		for (T obj : from) {
-			result.add(obj);
-		}
-		return result;
+        return addTo(new ArrayList<T>());
 	}
+
+    public List<T> addTo(List<T> list) {
+        if (list == null) return null;
+
+        for (T obj : from) {
+            list.add(obj);
+        }
+        return list;
+    }
 	
 	public Set<T> computeSet() {
 		Set<T> result = new HashSet<T>();
@@ -115,4 +123,8 @@ public class CollectionQuery<T> {
 		return Maps2.toMap(from, function);
 	}
 
+    @Override
+    public Iterator<T> iterator() {
+        return from.iterator();
+    }
 }
