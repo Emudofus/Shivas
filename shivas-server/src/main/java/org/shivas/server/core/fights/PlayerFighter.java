@@ -1,5 +1,6 @@
 package org.shivas.server.core.fights;
 
+import org.shivas.common.statistics.Statistics;
 import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.protocol.client.types.CharacterFighterType;
 import org.shivas.server.core.interactions.InteractionException;
@@ -29,6 +30,11 @@ public class PlayerFighter extends Fighter {
     @Override
     public boolean isReady() {
         return ready;
+    }
+
+    @Override
+    public Statistics getStats() {
+        return player.getStats();
     }
 
     public void setReady() throws InteractionException {

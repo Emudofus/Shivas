@@ -1,5 +1,6 @@
 package org.shivas.server.config;
 
+import org.joda.time.Duration;
 import org.shivas.data.Containers;
 import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.core.maps.GameMap;
@@ -217,8 +218,8 @@ public class DefaultConfig implements Config {
 	}
 
     @Override
-    public long turnDuration(FightTypeEnum fightType) {
-        return 30 * 60;
+    public Duration turnDuration(FightTypeEnum fightType) {
+        return Duration.millis(30 * 1000);
     }
 
 }

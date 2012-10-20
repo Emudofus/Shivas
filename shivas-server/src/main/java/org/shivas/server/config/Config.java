@@ -1,5 +1,6 @@
 package org.shivas.server.config;
 
+import org.joda.time.Duration;
 import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.core.maps.GameMap;
 
@@ -61,7 +62,7 @@ public interface Config {
     /**
      * seconds
      * @param fightType fight type
-     * @return seconds
+     * @return duration
      */
-    long turnDuration(FightTypeEnum fightType);
+    Duration turnDuration(FightTypeEnum fightType);
 }

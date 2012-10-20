@@ -8,6 +8,7 @@ import org.shivas.data.entity.NpcSale;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.*;
 import org.shivas.server.core.GameActor;
+import org.shivas.server.core.fights.FightTurn;
 import org.shivas.server.core.fights.Fighter;
 import org.shivas.server.database.models.*;
 
@@ -26,6 +27,12 @@ public class Converters {
     public static final Function<Fighter,BaseFighterType> FIGHTER_TO_BASEFIGHTERTYPE = new Function<Fighter, BaseFighterType>() {
         public BaseFighterType apply(Fighter input) {
             return input.toBaseFighterType();
+        }
+    };
+    public static final Function<FightTurn,Integer> TURN_TO_FIGHTER_ID = new Function<FightTurn, Integer>() {
+        @Override
+        public Integer apply(FightTurn input) {
+            return input.getFighter().getId();
         }
     };
 

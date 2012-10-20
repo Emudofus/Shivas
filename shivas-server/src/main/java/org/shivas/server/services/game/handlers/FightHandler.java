@@ -6,9 +6,12 @@ import org.shivas.protocol.client.formatters.FightGameMessageFormatter;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.fights.Fight;
+import org.shivas.server.core.fights.FightTurn;
 import org.shivas.server.core.fights.PlayerFighter;
 import org.shivas.server.core.fights.events.FightEvent;
+import org.shivas.server.core.fights.events.FightTurnEvent;
 import org.shivas.server.core.fights.events.FighterEvent;
+import org.shivas.server.core.fights.events.StateUpdateEvent;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.game.GameClient;
@@ -115,6 +118,14 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         case FIGHTER_READY:
             listenFighterReady((FighterEvent) event);
             break;
+
+        case STATE_UPDATE:
+            listenStateUpdate((StateUpdateEvent) event);
+            break;
+
+        case TURN:
+            listenTurn((FightTurnEvent) event);
+            break;
         }
     }
 
@@ -151,5 +162,40 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
                 event.getFighter().getId(),
                 event.getFighter().isReady()
         ));
+    }
+
+    private void listenStateUpdate(StateUpdateEvent event) {
+        switch (event.getNewState()) {
+        case ACTIVE:
+            listenFightBeginning();
+            break;
+        }
+    }
+
+    private void listenFightBeginning() {
+        client.write(FightGameMessageFormatter.fightersPlacementMessage(fight.toBaseFighterType()));
+        client.write(FightGameMessageFormatter.fightStartMessage());
+        client.write(FightGameMessageFormatter.turnListMessage(fight.getTurns().toInt()));
+        client.write(FightGameMessageFormatter.fighterInformationsMessage(fight.toBaseFighterType()));
+    }
+
+    private void listenTurn(FightTurnEvent event) {
+        switch (event.getFightTurnEventType()) {
+        case START:
+            listenStartTurn(event.getTurn());
+            break;
+
+        case STOP:
+            listenStopTurn(event.getTurn());
+            break;
+        }
+    }
+
+    private void listenStartTurn(FightTurn turn) {
+        client.write(FightGameMessageFormatter.turnStartMessage(turn.getFighter().getId(), turn.getRemaining().getMillis()));
+    }
+
+    private void listenStopTurn(FightTurn turn) {
+        client.write(FightGameMessageFormatter.turnEndMessage(turn.getFighter().getId()));
     }
 }

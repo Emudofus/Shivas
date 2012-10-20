@@ -1,7 +1,11 @@
 package org.shivas.server.core.fights;
 
+import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.common.statistics.Statistics;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.types.BaseFighterType;
+
+import java.util.Comparator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,6 +14,15 @@ import org.shivas.protocol.client.types.BaseFighterType;
  * Time: 19:43
  */
 public abstract class Fighter {
+    public static Comparator<Fighter> compareBy(final CharacteristicType charac) {
+        return new Comparator<Fighter>() {
+            public int compare(Fighter o1, Fighter o2) {
+                return o1.getStats().get(charac).total() -
+                       o2.getStats().get(charac).total();
+            }
+        };
+    }
+
     protected FightAction currentAction;
     protected final Fight fight;
 
@@ -24,6 +37,7 @@ public abstract class Fighter {
 
     public abstract Integer getId();
     public abstract boolean isReady();
+    public abstract Statistics getStats();
 
     public FightAction getCurrentAction() {
         return currentAction;

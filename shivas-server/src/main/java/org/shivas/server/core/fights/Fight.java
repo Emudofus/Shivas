@@ -6,23 +6,29 @@ import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightStateEnum;
 import org.shivas.protocol.client.enums.FightTeamEnum;
 import org.shivas.protocol.client.enums.FightTypeEnum;
+import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.ThreadedEventDispatcher;
 import org.shivas.server.core.fights.events.FightEventType;
 import org.shivas.server.core.fights.events.FightInitializationEvent;
 import org.shivas.server.core.fights.events.FighterEvent;
+import org.shivas.server.core.fights.events.StateUpdateEvent;
 import org.shivas.server.core.interactions.AbstractInteraction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.utils.Converters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
+import static org.shivas.common.collections.CollectionQuery.from;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,21 +40,26 @@ public abstract class Fight extends AbstractInteraction {
 
     private static final Logger log = LoggerFactory.getLogger(Fight.class);
 
+    protected final Config config;
     protected final ExecutorService worker = Executors.newSingleThreadExecutor();
     protected final ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
     protected final EventDispatcher event = new ThreadedEventDispatcher(worker);
     protected final Map<FightTeamEnum, FightTeam> teams = Maps.newIdentityHashMap();
-    protected final FightTurnList turns;
     protected final GameMap map;
     protected final FightCell[] cells;
 
     protected FightStateEnum state;
+    protected FightTurnList turns;
 
     protected Fight(Config config, GameMap map) {
-        this.turns = new FightTurnList(this, config.turnDuration(getFightType()));
+        this.config = config;
         this.map = map;
         this.state = FightStateEnum.INIT;
         this.cells = generateCells();
+    }
+
+    public Config getConfig() {
+        return config;
     }
 
     public ExecutorService getWorker() {
@@ -73,6 +84,10 @@ public abstract class Fight extends AbstractInteraction {
 
     public FightTeam getDefenders() {
         return getTeam(FightTeamEnum.DEFENDERS);
+    }
+
+    public FightTurnList getTurns() {
+        return turns;
     }
 
     public GameMap getMap() {
@@ -113,7 +128,10 @@ public abstract class Fight extends AbstractInteraction {
 
         beforeBegin();
 
-        turns.begin();
+        turns = new FightTurnList(this);
+        event.publish(new StateUpdateEvent(this, FightStateEnum.ACTIVE));
+
+        turns.getCurrent().begin();
         state = FightStateEnum.ACTIVE;
 
         afterBegin();
@@ -151,7 +169,7 @@ public abstract class Fight extends AbstractInteraction {
 
         event.publish(new FighterEvent(FightEventType.FIGHTER_READY, fighter));
 
-        if (getChallengers().isReady() && getDefenders().isReady()) {
+        if (getChallengers().areReady() && getDefenders().areReady()) {
             begin();
         }
     }
@@ -215,5 +233,12 @@ public abstract class Fight extends AbstractInteraction {
 
     public void exceptionThrowed(Throwable throwable) {
         log.error("unhandled exception {} : {}", throwable.getClass(), throwable.toString());
+    }
+
+    public Collection<BaseFighterType> toBaseFighterType() {
+        return from(getChallengers())
+              .with(getDefenders())
+              .transform(Converters.FIGHTER_TO_BASEFIGHTERTYPE)
+              .lazyCollection();
     }
 }

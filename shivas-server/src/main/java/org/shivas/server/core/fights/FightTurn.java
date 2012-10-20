@@ -1,5 +1,11 @@
 package org.shivas.server.core.fights;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.shivas.server.core.fights.events.FightTurnEvent;
+
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Blackrush
@@ -11,6 +17,7 @@ public class FightTurn {
     private final Fighter fighter;
 
     private int past;
+    private DateTime end;
     private boolean current, left;
 
     public FightTurn(Fight fight, Fighter fighter) {
@@ -24,6 +31,10 @@ public class FightTurn {
 
     public int getPast() {
         return past;
+    }
+
+    public Duration getRemaining() {
+        return new Duration(DateTime.now(), end);
     }
 
     public boolean isCurrent() {
@@ -52,14 +63,6 @@ public class FightTurn {
         }
     }
 
-    public void begin() throws FightException {
-        ++past;
-    }
-
-    protected void doEnd() throws FightException {
-
-    }
-
     private class DoEndCallback implements Runnable {
         public void run() {
             try {
@@ -68,6 +71,23 @@ public class FightTurn {
                 fight.exceptionThrowed(e);
             }
         }
+    }
+
+    public void begin() throws FightException {
+        Duration turnDuration = fight.getConfig().turnDuration(fight.getFightType());
+
+        end = DateTime.now().plus(turnDuration);
+        fight.getTimer().schedule(new DoEndCallback(), turnDuration.getMillis(), TimeUnit.MILLISECONDS);
+
+        fight.getEvent().publish(new FightTurnEvent(FightTurnEvent.Type.START, fight, this));
+    }
+
+    protected void doEnd() throws FightException {
+        ++past;
+
+        fight.getEvent().publish(new FightTurnEvent(FightTurnEvent.Type.STOP, fight, this));
+
+        fight.getTurns().next().begin();
     }
 
     public void end() throws FightException {

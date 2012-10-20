@@ -59,12 +59,13 @@ public class FightTeam implements Iterable<Fighter> {
         return count() < MAX_FIGHTERS;
     }
 
-    public boolean isReady() {
-        boolean ready = true;
+    public boolean areReady() {
         for (Fighter fighter : fighters.values()) {
-            ready &= fighter.isReady();
+            if (!fighter.isReady()) {
+                return false;
+            }
         }
-        return ready;
+        return true;
     }
 
     public String getEncodedStartCells() {

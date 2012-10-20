@@ -10,4 +10,6 @@ public enum FightEventType {
     INITIALIZATION,
     FIGHTER_PLACEMENT,
     FIGHTER_READY,
+    STATE_UPDATE,
+    TURN,
 }
