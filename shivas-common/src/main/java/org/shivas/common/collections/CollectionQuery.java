@@ -11,6 +11,10 @@ public class CollectionQuery<T> implements Iterable<T> {
 	public static <T> CollectionQuery<T> from(Iterable<T> from) {
 		return new CollectionQuery<T>(from);
 	}
+
+    public static <T> CollectionQuery<T> from(T... obj) {
+        return new CollectionQuery<T>(Lists.newArrayList(obj));
+    }
 	
 	private Iterable<T> from;
 
@@ -50,6 +54,14 @@ public class CollectionQuery<T> implements Iterable<T> {
 	public CollectionQuery<T> orderBy(Comparator<T> comparator) {
 		return from(Ordering.from(comparator).sortedCopy(from));
 	}
+
+    public CollectionQuery<T> each(Function<T, Void> function) {
+        for (T obj : from) {
+            function.apply(obj);
+        }
+
+        return this;
+    }
 	
 	public T first() {
 		Iterator<T> it = from.iterator();
@@ -97,31 +109,31 @@ public class CollectionQuery<T> implements Iterable<T> {
             }
         };
     }
+
+    public <C extends Collection<T>> C addTo(C collection) {
+        if (collection == null) return null;
+
+        for (T obj : from) {
+            collection.add(obj);
+        }
+        return collection;
+    }
 	
 	public List<T> computeList() {
         return addTo(new ArrayList<T>());
 	}
-
-    public List<T> addTo(List<T> list) {
-        if (list == null) return null;
-
-        for (T obj : from) {
-            list.add(obj);
-        }
-        return list;
-    }
 	
 	public Set<T> computeSet() {
-		Set<T> result = new HashSet<T>();
-		for (T obj : from) {
-			result.add(obj);
-		}
-		return result;
+        return addTo(new HashSet<T>());
 	}
 	
 	public <K> Map<K, T> computeMap(Function<T, K> function) {
 		return Maps2.toMap(from, function);
 	}
+
+    public T[] computeArray(Class<T> clazz) {
+        return Iterables.toArray(from, clazz);
+    }
 
     @Override
     public Iterator<T> iterator() {
