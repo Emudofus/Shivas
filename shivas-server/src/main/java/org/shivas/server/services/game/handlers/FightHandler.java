@@ -6,6 +6,7 @@ import org.shivas.protocol.client.formatters.FightGameMessageFormatter;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.fights.Fight;
+import org.shivas.server.core.fights.FightException;
 import org.shivas.server.core.fights.FightTurn;
 import org.shivas.server.core.fights.PlayerFighter;
 import org.shivas.server.core.fights.events.FightEvent;
@@ -14,6 +15,7 @@ import org.shivas.server.core.fights.events.FighterEvent;
 import org.shivas.server.core.fights.events.StateUpdateEvent;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.services.AbstractBaseHandler;
+import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +68,10 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
             case 'R':
                 parseSetReadyMessage();
                 break;
+
+            case 't':
+                parseEndTurnMessage();
+                break;
             }
             break;
         }
@@ -94,6 +100,11 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
 
     private void parseSetReadyMessage() throws InteractionException {
         fighter.setReady();
+    }
+
+    private void parseEndTurnMessage() throws FightException, CriticalException {
+        assertTrue(fighter.getTurn().isCurrent(), "it is not your turn");
+        fighter.getTurn().end();
     }
 
     @Override

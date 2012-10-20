@@ -23,6 +23,7 @@ public class FightTurn {
     public FightTurn(Fight fight, Fighter fighter) {
         this.fight = fight;
         this.fighter = fighter;
+        this.fighter.setTurn(this);
     }
 
     public Fighter getFighter() {
@@ -74,20 +75,27 @@ public class FightTurn {
     }
 
     public void begin() throws FightException {
+        if (current) throw new FightException("you can not begin a running turn");
+
         Duration turnDuration = fight.getConfig().turnDuration(fight.getFightType());
 
         end = DateTime.now().plus(turnDuration);
         fight.getTimer().schedule(new DoEndCallback(), turnDuration.getMillis(), TimeUnit.MILLISECONDS);
 
         fight.getEvent().publish(new FightTurnEvent(FightTurnEvent.Type.START, fight, this));
+
+        current = true;
     }
 
     protected void doEnd() throws FightException {
+        if (!current) throw new FightException("you have to begin the turn before end it");
+
         ++past;
 
         fight.getEvent().publish(new FightTurnEvent(FightTurnEvent.Type.STOP, fight, this));
-
         fight.getTurns().next().begin();
+
+        current = false;
     }
 
     public void end() throws FightException {

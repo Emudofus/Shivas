@@ -25,6 +25,7 @@ public abstract class Fighter {
 
     protected FightAction currentAction;
     protected final Fight fight;
+    protected FightTurn turn;
 
     protected FightTeam team;
     protected FightCell currentCell;
@@ -49,6 +50,14 @@ public abstract class Fighter {
 
     public Fight getFight() {
         return fight;
+    }
+
+    public FightTurn getTurn() {
+        return turn;
+    }
+
+    public void setTurn(FightTurn turn) {
+        this.turn = turn;
     }
 
     public FightTeam getTeam() {
