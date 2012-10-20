@@ -170,12 +170,12 @@ public class FightGameMessageFormatter {
         return "GS";
     }
 
-    public static String turnListMessage(Collection<Long> fightersId){
+    public static String turnListMessage(Collection<? extends Number> fightersId){
         StringBuilder sb = new StringBuilder(3 + 2 * fightersId.size()).append("GTL");
 
-        for (Long fighterId : fightersId){
+        for (Number fighterId : fightersId){
             sb.append('|');
-            sb.append(fighterId);
+            sb.append(fighterId.toString());
         }
 
         return sb.toString();
