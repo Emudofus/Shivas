@@ -5,8 +5,9 @@ import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.server.core.GameActor;
 import org.shivas.server.core.Location;
-import org.shivas.server.core.Path;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.core.paths.Node;
+import org.shivas.server.core.paths.Path;
 import org.shivas.server.services.game.GameClient;
 
 public class RolePlayMovement extends AbstractInteraction {
@@ -20,7 +21,7 @@ public class RolePlayMovement extends AbstractInteraction {
 		
 		// add current location to the path
 		Location location = this.client.player().getLocation();
-		this.path.add(0, new Path.Node(location.getOrientation(), location.getCell()));
+		this.path.add(0, new Node(location.getOrientation(), location.getCell()));
 	}
 
 	public InteractionType getInteractionType() {
@@ -43,7 +44,7 @@ public class RolePlayMovement extends AbstractInteraction {
         Location location = client.player().getLocation();
         
         // set the new location
-        Path.Node target = path.last();
+        Node target = path.last();
         
         location.setCell(target.cell());
         location.setOrientation(target.orientation());
