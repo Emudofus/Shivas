@@ -62,6 +62,10 @@ public class GameCell implements Serializable {
 		this.groundSlope = groundSlope;
 	}
 
+    public boolean isWalkable() {
+        return movementType != MovementType.Unwalkable;
+    }
+
     public FightSideEnum getStartFightSide() {
         return startFightSide;
     }

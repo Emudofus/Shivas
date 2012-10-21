@@ -29,4 +29,11 @@ public enum OrientationEnum {
     public static OrientationEnum valueOf(int ordinal) {
         return values.get(ordinal);
     }
+
+    public static final OrientationEnum[] ADJACENTS = new OrientationEnum[] {
+            SOUTH_WEST,
+            SOUTH_EAST,
+            NORTH_EAST,
+            NORTH_WEST
+    };
 }
