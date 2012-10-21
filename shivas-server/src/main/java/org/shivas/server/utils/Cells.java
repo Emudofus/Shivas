@@ -6,6 +6,7 @@ import org.shivas.data.entity.GameCell;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.server.core.paths.Node;
+import org.shivas.server.core.paths.Path;
 
 public final class Cells {
 	private Cells() {}
@@ -89,5 +90,41 @@ public final class Cells {
 
     public static short getCellIdByOrientation(Node node, OrientationEnum orientation, MapTemplate map) {
         return getCellIdByOrientation(node.cell(), orientation, map.getWidth());
+    }
+
+    public static long estimateTime(Path path, int mapWidth){
+        long time = 0;
+        int steps = path.size();
+
+        for (int i = 0; i < steps - 1; ++i){
+            Node current = path.get(i), next = path.get(i + 1);
+            switch (next.orientation()){
+            case EAST:
+            case WEST:
+                time += ( Math.abs(current.cell() - next.cell()) ) * (steps >= 4 ? 350 : 875);
+                break;
+
+            case NORTH:
+            case SOUTH:
+                time += ( Math.abs(current.cell() - next.cell()) / ( mapWidth * 2 - 1 ) ) * (steps >= 4 ? 350 : 875);
+                break;
+
+            case NORTH_EAST:
+            case SOUTH_EAST:
+                time += ( Math.abs(current.cell() - next.cell()) / ( mapWidth - 1 ) ) * (steps >= 4 ? 250 : 625);
+                break;
+
+            case NORTH_WEST:
+            case SOUTH_WEST:
+                time += ( Math.abs(current.cell() - next.cell()) / (mapWidth - 1) ) * (steps >= 4 ? 250 : 62);
+                break;
+            }
+        }
+
+        return time;
+    }
+
+    public static long estimateTime(Path path, MapTemplate map) {
+        return estimateTime(path, map.getWidth());
     }
 }

@@ -1,6 +1,7 @@
 package org.shivas.server.core.fights;
 
 import com.google.common.collect.Maps;
+import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.data.entity.GameCell;
 import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightStateEnum;
@@ -10,14 +11,13 @@ import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.ThreadedEventDispatcher;
-import org.shivas.server.core.fights.events.FightEventType;
-import org.shivas.server.core.fights.events.FightInitializationEvent;
-import org.shivas.server.core.fights.events.FighterEvent;
-import org.shivas.server.core.fights.events.StateUpdateEvent;
+import org.shivas.server.core.fights.events.*;
 import org.shivas.server.core.interactions.AbstractInteraction;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
 import org.shivas.server.core.maps.GameMap;
+import org.shivas.server.core.paths.Node;
+import org.shivas.server.core.paths.Path;
 import org.shivas.server.utils.Converters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static org.shivas.common.collections.CollectionQuery.from;
 
@@ -92,6 +93,10 @@ public abstract class Fight extends AbstractInteraction {
 
     public GameMap getMap() {
         return map;
+    }
+
+    public FightCell getCell(short cellId) {
+        return cells.length <= cellId ? null : cells[cellId];
     }
 
     public FightStateEnum getState() {
@@ -198,8 +203,28 @@ public abstract class Fight extends AbstractInteraction {
         if (state != FightStateEnum.ACTIVE) throw new FightException("you can't cast now");
     }
 
-    public void move(Fighter fighter, FightCell targetCell) throws InteractionException {
+    protected void onMoved(Fighter fighter, Path path) {
+        Node lastNode = path.last();
+        fighter.setCurrentCell(getCell(lastNode.cell()));
+        fighter.setCurrentOrientation(lastNode.orientation());
+
+        int usedMovementPoints = path.size() - 1; // ignores fighter's current cell
+        fighter.getStats().get(CharacteristicType.MovementPoints).minusContext((short) usedMovementPoints);
+
+        event.publish(new FighterMovementEndEvent(fighter, usedMovementPoints));
+    }
+
+    public void move(final Fighter fighter, final Path path) throws InteractionException {
         if (state != FightStateEnum.ACTIVE) throw new FightException("you can't move now");
+        if (turns.getCurrent().getFighter() != fighter) throw new FightException("it is not your turn");
+
+        event.publish(new FighterMovementEvent(fighter, path));
+
+        timer.schedule(new Runnable() {
+            public void run() {
+                onMoved(fighter, path);
+            }
+        }, path.estimateTimeOn(map), TimeUnit.MILLISECONDS);
     }
 
     public FightSideEnum toSide(FightTeamEnum team) {

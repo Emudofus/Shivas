@@ -1,19 +1,17 @@
 package org.shivas.server.services.game.handlers;
 
 import org.shivas.protocol.client.enums.ActionTypeEnum;
+import org.shivas.protocol.client.enums.EndActionTypeEnum;
 import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.protocol.client.formatters.FightGameMessageFormatter;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
-import org.shivas.server.core.fights.Fight;
-import org.shivas.server.core.fights.FightException;
-import org.shivas.server.core.fights.FightTurn;
-import org.shivas.server.core.fights.PlayerFighter;
-import org.shivas.server.core.fights.events.FightEvent;
-import org.shivas.server.core.fights.events.FightTurnEvent;
-import org.shivas.server.core.fights.events.FighterEvent;
-import org.shivas.server.core.fights.events.StateUpdateEvent;
+import org.shivas.server.core.fights.*;
+import org.shivas.server.core.fights.events.*;
 import org.shivas.server.core.interactions.InteractionException;
+import org.shivas.server.core.paths.Path;
+import org.shivas.server.core.paths.PathNotFoundException;
+import org.shivas.server.core.paths.Pathfinder;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
@@ -77,9 +75,10 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         }
     }
 
-    private void parseGameActionMessage(ActionTypeEnum actionType, String data) {
+    private void parseGameActionMessage(ActionTypeEnum actionType, String data) throws Exception {
         switch (actionType) {
-        case MOVEMENT: // TODO
+        case MOVEMENT:
+            parseMovementMessage(Path.parsePath(data));
             break;
 
         case CAST_SPELL: // TODO
@@ -92,6 +91,14 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
             log.warn("unknown action {} (data={})", actionType, data);
             break;
         }
+    }
+
+    private void parseMovementMessage(Path path) throws CriticalException, PathNotFoundException, InteractionException {
+        assertTrue(fighter.getTurn().isCurrent(), "it is not your turn");
+        assertTrue(path.size() > 0, "invalid path");
+
+        Pathfinder finder = new FightPathfinder(fighter, path.last().cell());
+        fight.move(fighter, finder.find());
     }
 
     private void parseChangePlaceMessage(short cellId) throws InteractionException {
@@ -136,6 +143,14 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
 
         case TURN:
             listenTurn((FightTurnEvent) event);
+            break;
+
+        case FIGHTER_ACTION:
+            listenFighterAction((FighterActionEvent) event);
+            break;
+
+        case FIGHTER_MOVEMENT_END:
+            listenFightEndMovement((FighterMovementEndEvent) event);
             break;
         }
     }
@@ -208,5 +223,35 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
 
     private void listenStopTurn(FightTurn turn) {
         client.write(FightGameMessageFormatter.turnEndMessage(turn.getFighter().getId()));
+    }
+
+    private void listenFighterAction(FighterActionEvent event) {
+        switch (event.getActionType()) {
+        case MOVEMENT:
+            listenFighterMovement((FighterMovementEvent) event);
+            break;
+        }
+    }
+
+    private void listenFighterMovement(FighterMovementEvent event) {
+        client.write(FightGameMessageFormatter.fighterMovementMessage(
+                event.getFighter().getId(),
+                event.getPath().toString()
+        ));
+    }
+
+    private void listenFightEndMovement(FighterMovementEndEvent event) {
+        Fighter fighter = event.getFighter();
+
+        client.write(FightGameMessageFormatter.actionMessage(
+                ActionTypeEnum.MP_CHANGEMENT,
+                fighter.getId(),
+                fighter.getId(),
+                event.getUsedMovementPoints() * -1
+        ));
+
+        if (fighter instanceof PlayerFighter) {
+            client.write(FightGameMessageFormatter.endFightActionMessage(EndActionTypeEnum.MOVEMENT, fighter.getId()));
+        }
     }
 }

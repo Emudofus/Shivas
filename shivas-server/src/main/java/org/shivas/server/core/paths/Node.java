@@ -17,6 +17,10 @@ public class Node {
         );
     }
 
+    public static Node parseNodeWithoutOrientation(String string) {
+        return new Node(null, Cells.decode(string));
+    }
+
     private OrientationEnum orientation;
     private short cell;
 

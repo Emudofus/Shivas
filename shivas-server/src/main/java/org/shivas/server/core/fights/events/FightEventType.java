@@ -12,4 +12,6 @@ public enum FightEventType {
     FIGHTER_READY,
     STATE_UPDATE,
     TURN,
+    FIGHTER_ACTION,
+    FIGHTER_MOVEMENT_END,
 }

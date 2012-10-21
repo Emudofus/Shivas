@@ -18,30 +18,38 @@ public class Pathfinder {
     protected final ScoredNode start;
     protected final MapTemplate map;
     protected final short target;
+    protected final boolean allDirections;
 
     protected final SortedArrayList<ScoredNode> open = new SortedArrayList<ScoredNode>();
+    protected final Path path = new Path();
 
-    public Pathfinder(ScoredNode start, short target, MapTemplate map) {
+    protected boolean found;
+
+    public Pathfinder(ScoredNode start, short target, MapTemplate map, boolean allDirections) {
         this.start = start;
         this.target = target;
         this.map = map;
+        this.allDirections = allDirections;
     }
 
-    public Pathfinder(Location start, short target) {
-        this(new ScoredNode(start.getOrientation(), start.getCell()), target, start.getMap());
+    public Pathfinder(Location start, short target, boolean allDirections) {
+        this(new ScoredNode(start.getOrientation(), start.getCell()), target, start.getMap(), allDirections);
     }
 
-    public Pathfinder(short start, short target, OrientationEnum currentOrientation, MapTemplate map) {
-        this(new ScoredNode(currentOrientation, start), target, map);
+    public Pathfinder(short start, short target, OrientationEnum currentOrientation, MapTemplate map, boolean allDirections) {
+        this(new ScoredNode(currentOrientation, start), target, map, allDirections);
     }
 
-    public Path find(boolean allDirections) throws PathNotFoundException {
-        Path path = new Path();
+    public Path find() throws PathNotFoundException {
+        if (found) return path;
+        found = true;
+
         addAdjacents(start, allDirections);
 
         while (!open.isEmpty()) {
             ScoredNode best = open.remove(0);
             path.add(best);
+            onAdded(best);
             if (mayStop(best)) break;
 
             addAdjacents(best, allDirections);
@@ -51,12 +59,16 @@ public class Pathfinder {
         return path;
     }
 
+    protected void onAdded(Node node) {
+
+    }
+
     protected boolean mayStop(Node node) {
         return node.cell() == target;
     }
 
     protected boolean canAdd(short cellId) {
-        return map.getCell(cellId).isWalkable();
+        return !path.contains(cellId) && map.getCell(cellId).isWalkable();
     }
 
     protected void addAdjacents(Node node, boolean allDirections) {
