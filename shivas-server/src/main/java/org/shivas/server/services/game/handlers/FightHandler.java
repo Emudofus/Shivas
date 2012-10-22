@@ -222,6 +222,7 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
     }
 
     private void listenStopTurn(FightTurn turn) {
+        client.write(FightGameMessageFormatter.fighterInformationsMessage(fight.toBaseFighterType()));
         client.write(FightGameMessageFormatter.turnEndMessage(turn.getFighter().getId()));
     }
 

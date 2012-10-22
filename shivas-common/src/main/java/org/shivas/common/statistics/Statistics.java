@@ -7,4 +7,10 @@ public interface Statistics {
 	LimitedValue pods();
 	
 	Characteristic get(CharacteristicType charac);
+
+    void resetAll();
+    void resetBase();
+    void resetEquipment();
+    void resetGift();
+    void resetContext();
 }

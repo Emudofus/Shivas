@@ -1,9 +1,8 @@
 package org.shivas.server.core.statistics;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multiset;
 import org.shivas.common.maths.LimitedValue;
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
@@ -15,9 +14,9 @@ import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
 
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multiset;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayerStatistics implements Statistics {
 	
@@ -150,8 +149,46 @@ public class PlayerStatistics implements Statistics {
 	public Characteristic get(CharacteristicType charac) {
 		return characs.get(charac);
 	}
-	
-	public String packet() {
+
+    @Override
+    public void resetAll() {
+        for (Characteristic charac : characs.values()) {
+            charac.base((short) 0);
+            charac.equipment((short) 0);
+            charac.gift((short) 0);
+            charac.context((short) 0);
+        }
+    }
+
+    @Override
+    public void resetBase() {
+        for (Characteristic charac : characs.values()) {
+            charac.base((short) 0);
+        }
+    }
+
+    @Override
+    public void resetEquipment() {
+        for (Characteristic charac : characs.values()) {
+            charac.equipment((short) 0);
+        }
+    }
+
+    @Override
+    public void resetGift() {
+        for (Characteristic charac : characs.values()) {
+            charac.gift((short) 0);
+        }
+    }
+
+    @Override
+    public void resetContext() {
+        for (Characteristic charac : characs.values()) {
+            charac.context((short) 0);
+        }
+    }
+
+    public String packet() {
 		return GameMessageFormatter.statisticsMessage(
 				owner.getExperience().current(),
 				owner.getExperience().min(),

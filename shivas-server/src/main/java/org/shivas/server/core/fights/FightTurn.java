@@ -92,6 +92,8 @@ public class FightTurn {
 
         ++past;
 
+        fighter.getStats().resetContext();
+
         fight.getEvent().publish(new FightTurnEvent(FightTurnEvent.Type.STOP, fight, this));
         fight.getTurns().next().begin();
 

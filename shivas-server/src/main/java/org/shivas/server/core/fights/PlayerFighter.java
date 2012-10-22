@@ -1,9 +1,9 @@
 package org.shivas.server.core.fights;
 
-import org.shivas.common.statistics.Statistics;
 import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.protocol.client.types.CharacterFighterType;
 import org.shivas.server.core.interactions.InteractionException;
+import org.shivas.server.core.statistics.PlayerStatistics;
 import org.shivas.server.database.models.Player;
 
 /**
@@ -33,7 +33,7 @@ public class PlayerFighter extends Fighter {
     }
 
     @Override
-    public Statistics getStats() {
+    public PlayerStatistics getStats() {
         return player.getStats();
     }
 

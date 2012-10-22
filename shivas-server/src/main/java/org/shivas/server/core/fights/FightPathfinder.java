@@ -11,7 +11,6 @@ import org.shivas.server.core.paths.Pathfinder;
  * User: Blackrush
  * Date: 21/10/12
  * Time: 14:14
- * TODO
  */
 public class FightPathfinder extends Pathfinder {
     private final Fighter fighter;

@@ -31,9 +31,9 @@ public enum OrientationEnum {
     }
 
     public static final OrientationEnum[] ADJACENTS = new OrientationEnum[] {
-            SOUTH_WEST,
             SOUTH_EAST,
-            NORTH_EAST,
-            NORTH_WEST
+            SOUTH_WEST,
+            NORTH_WEST,
+            NORTH_EAST
     };
 }
