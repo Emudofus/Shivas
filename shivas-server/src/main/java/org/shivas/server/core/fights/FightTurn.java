@@ -94,6 +94,7 @@ public class FightTurn {
 
         fighter.getStats().resetContext();
 
+        fight.eraseCurrentFrame();
         fight.getEvent().publish(new FightTurnEvent(FightTurnEvent.Type.STOP, fight, this));
         fight.getTurns().next().begin();
 
@@ -101,10 +102,10 @@ public class FightTurn {
     }
 
     public void end() throws FightException {
-        if (fighter.getCurrentAction() == null) {
+        if (fight.getCurrentFrame() == null) {
             doEnd();
         } else {
-            fighter.getCurrentAction().getEndFuture().addListener(new DoEndCallback(), fight.getWorker());
+            fight.getCurrentFrame().getEndFuture().addListener(new DoEndCallback(), fight.getWorker());
         }
     }
 }

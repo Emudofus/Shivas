@@ -23,7 +23,6 @@ public abstract class Fighter {
         };
     }
 
-    protected FightAction currentAction;
     protected final Fight fight;
     protected FightTurn turn;
 
@@ -39,14 +38,6 @@ public abstract class Fighter {
     public abstract Integer getId();
     public abstract boolean isReady();
     public abstract Statistics getStats();
-
-    public FightAction getCurrentAction() {
-        return currentAction;
-    }
-
-    public void setCurrentAction(FightAction currentAction) {
-        this.currentAction = currentAction;
-    }
 
     public Fight getFight() {
         return fight;
