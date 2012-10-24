@@ -12,19 +12,17 @@ import org.shivas.server.core.fights.Fighter;
  * Time: 09:18
  */
 public class FighterCastFrame extends Frame {
-    private final Fighter caster;
     private final Castable castable;
     private final FightCell targetCell;
 
     public FighterCastFrame(Fighter caster, Castable castable, FightCell targetCell) {
-        super(caster.getFight(), caster.getTurn());
-        this.caster = caster;
+        super(caster.getTurn());
         this.castable = castable;
         this.targetCell = targetCell;
     }
 
     @Override
-    protected void doBegin() throws FightException {
+    public void begin() throws FightException {
         // TODO
     }
 

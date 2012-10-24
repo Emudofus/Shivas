@@ -5,6 +5,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import org.shivas.server.core.fights.Fight;
 import org.shivas.server.core.fights.FightException;
 import org.shivas.server.core.fights.FightTurn;
+import org.shivas.server.core.fights.Fighter;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,24 +18,26 @@ import java.util.concurrent.TimeUnit;
 public abstract class Frame {
     private final SettableFuture<Frame> endFuture = SettableFuture.create();
     private Frame next;
-    private final FightTurn turn;
 
+    protected final FightTurn turn;
+    protected final Fighter fighter;
     protected final Fight fight;
 
-    protected Frame(Fight fight, FightTurn turn) {
-        this.fight = fight;
+    protected Frame(FightTurn turn) {
         this.turn = turn;
+        this.fighter = this.turn.getFighter();
+        this.fight = this.fighter.getFight();
     }
 
-    protected abstract void doBegin() throws FightException;
-    protected abstract void doEnd();
-
+    /**
+     * @return frame's end future or next's if there is one
+     */
     public final ListenableFuture<Frame> getEndFuture() {
-        return endFuture;
+        return next != null ? next.getEndFuture() : endFuture;
     }
 
     public final void setNext(Frame next) {
-        if (next == this) return; // avoid potentials stack overflow
+        if (next == this) return; // avoids stack overflow
 
         if (this.next != null) {
             this.next.setNext(next);
@@ -43,28 +46,28 @@ public abstract class Frame {
         }
     }
 
-    /**
-     * begin frame only if turn is the current
-     * @throws FightException
-     */
-    public final void begin() throws FightException {
-        if (fight.getTurns().getCurrent() == turn) {
-            doBegin();
-        }
+    public final void blockNext() {
+        this.next = null;
     }
 
-    protected final void end() {
-        doEnd();
+    public abstract void begin() throws FightException;
+
+    protected abstract void doEnd();
+
+    protected void end() {
         endFuture.set(this);
+        doEnd();
 
-        try {
-            next.begin();
-        } catch (FightException e) {
-            fight.exceptionThrowed(e);
+        if (next != null) {
+            try {
+                next.begin();
+            } catch (FightException e) {
+                fight.exceptionThrowed(e);
+            }
         }
     }
 
-    protected final void scheduleEnd(long millis) {
+    protected void scheduleEnd(long millis) {
         fight.getTimer().schedule(new Runnable() {
             public void run() {
                 end();

@@ -15,17 +15,15 @@ import org.shivas.server.core.paths.Path;
  * Time: 19:42
  */
 public class FighterMovementFrame extends Frame {
-    private final Fighter fighter;
     private final Path path;
 
     public FighterMovementFrame(Fighter fighter, Path path) {
-        super(fighter.getFight(), fighter.getTurn());
-        this.fighter = fighter;
+        super(fighter.getTurn());
         this.path = path;
     }
 
     @Override
-    protected void doBegin() throws FightException {
+    public void begin() throws FightException {
         if (!fighter.getTurn().isCurrent()) throw new FightException("it is not your turn");
 
         fight.getEvent().publish(new FighterMovementEvent(fighter, path));

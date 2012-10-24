@@ -3,6 +3,7 @@ package org.shivas.server.core.fights;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.shivas.server.core.fights.events.FightTurnEvent;
+import org.shivas.server.core.fights.frames.Frame;
 
 import java.util.concurrent.TimeUnit;
 
@@ -102,10 +103,12 @@ public class FightTurn {
     }
 
     public void end() throws FightException {
-        if (fight.getCurrentFrame() == null) {
+        Frame frame = fight.getCurrentFrame();
+        if (frame == null) {
             doEnd();
         } else {
-            fight.getCurrentFrame().getEndFuture().addListener(new DoEndCallback(), fight.getWorker());
+            frame.blockNext();
+            frame.getEndFuture().addListener(new DoEndCallback(), fight.getWorker());
         }
     }
 }
