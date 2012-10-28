@@ -1,10 +1,9 @@
 package org.shivas.server.core.fights;
 
-import org.shivas.protocol.client.enums.FightTeamEnum;
+import org.shivas.common.threads.Timer;
 import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.maps.GameMap;
-import org.shivas.server.database.models.Player;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,17 +12,8 @@ import org.shivas.server.database.models.Player;
  * Time: 20:13
  */
 public class DuelFight extends Fight {
-    public DuelFight(Config config, GameMap map, Player source, Player target) {
-        super(config, map);
-
-        PlayerFighter challenger = new PlayerFighter(this, source),
-                      defender   = new PlayerFighter(this, target);
-
-        source.setFighter(challenger);
-        target.setFighter(defender);
-
-        teams.put(FightTeamEnum.CHALLENGERS, new FightTeam(FightTeamEnum.CHALLENGERS, toSide(FightTeamEnum.CHALLENGERS), this, challenger));
-        teams.put(FightTeamEnum.DEFENDERS,   new FightTeam(FightTeamEnum.DEFENDERS, toSide(FightTeamEnum.DEFENDERS), this, defender));
+    public DuelFight(Config config, Timer<Fight> timer, GameMap map, PlayerFighter challenger, PlayerFighter defender) {
+        super(config, timer, map, challenger, defender);
     }
 
     @Override

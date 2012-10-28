@@ -17,8 +17,7 @@ public class PlayerFighter extends Fighter {
 
     private boolean ready;
 
-    public PlayerFighter(Fight fight, Player player) {
-        super(fight);
+    public PlayerFighter(Player player) {
         this.player = player;
     }
 

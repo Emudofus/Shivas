@@ -79,6 +79,7 @@ public class FightTeam implements Iterable<Fighter> {
     public void add(Fighter fighter) {
         if (!isAvailable() || fighters.containsKey(fighter.getId())) return;
 
+        fighter.setFight(fight);
         fighter.setTeam(this);
         fighter.setCurrentCell(fight.firstAvailableStartCell(type));
         fighter.setCurrentOrientation(OrientationEnum.SOUTH_WEST);

@@ -23,7 +23,7 @@ public abstract class Fighter {
         };
     }
 
-    protected final Fight fight;
+    protected Fight fight;
     protected FightTurn turn;
 
     protected FightTeam team;
@@ -31,16 +31,16 @@ public abstract class Fighter {
     protected OrientationEnum currentOrientation;
     protected boolean dead;
 
-    protected Fighter(Fight fight) {
-        this.fight = fight;
-    }
-
     public abstract Integer getId();
     public abstract boolean isReady();
     public abstract Statistics getStats();
 
     public Fight getFight() {
         return fight;
+    }
+
+    public void setFight(Fight fight) {
+        this.fight = fight;
     }
 
     public FightTurn getTurn() {

@@ -135,7 +135,8 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 
         Player player = (Player) actor;
 
-        client.interactions().push(new FightInvitation(client, player.getClient())).begin(); // target != null because player is on map and therefore connected
+        // target != null because player is on map and therefore connected
+        client.interactions().push(new FightInvitation(client, player.getClient(), client.service().fightFactory())).begin();
     }
 
     private void parseDeclineFightInvitationMessage() throws InteractionException {

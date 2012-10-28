@@ -1,5 +1,6 @@
 package org.shivas.server.core.fights;
 
+import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.interactions.InteractionType;
@@ -15,8 +16,11 @@ import org.shivas.server.services.game.handlers.FightHandler;
  * Time: 12:02
  */
 public class FightInvitation extends Invitation {
-    public FightInvitation(GameClient source, GameClient target) {
+    private final FightFactory fightFactory;
+
+    public FightInvitation(GameClient source, GameClient target, FightFactory fightFactory) {
         super(source, target);
+        this.fightFactory = fightFactory;
     }
 
     protected void unsubscribeMap(GameClient client) {
@@ -27,12 +31,8 @@ public class FightInvitation extends Invitation {
     }
 
     protected void startFight() throws InteractionException {
-        Fight fight = new DuelFight(
-                source.service().config(),
-                source.player().getLocation().getMap(),
-                source.player(),
-                target.player()
-        );
+        GameMap map = source.player().getLocation().getMap();
+        Fight fight = fightFactory.build(FightTypeEnum.DUEL, map, source.player(), target.player());
 
         try {
             source.newHandler(new FightHandler(source));

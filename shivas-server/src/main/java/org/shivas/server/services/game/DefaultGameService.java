@@ -1,8 +1,5 @@
 package org.shivas.server.services.game;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.protocol.client.enums.WorldStateEnum;
@@ -10,6 +7,7 @@ import org.shivas.protocol.client.types.GameServerType;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.channels.ChannelContainer;
 import org.shivas.server.core.commands.CommandEngine;
+import org.shivas.server.core.fights.FightFactory;
 import org.shivas.server.core.services.NetworkStatisticsCenter;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.AbstractService;
@@ -17,6 +15,9 @@ import org.shivas.server.services.game.handlers.AuthenticationHandler;
 import org.shivas.server.services.login.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class DefaultGameService extends AbstractService<GameClient> implements GameService {
@@ -31,14 +32,16 @@ public class DefaultGameService extends AbstractService<GameClient> implements G
 	private final ChannelContainer channels;
 	private final CommandEngine cmdEngine;
 	private final NetworkStatisticsCenter statistics;
+    private final FightFactory fightFactory;
 
 	@Inject
-	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login, ChannelContainer channels, CommandEngine cmdengine, NetworkStatisticsCenter statistics) {
+	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login, ChannelContainer channels, CommandEngine cmdengine, NetworkStatisticsCenter statistics, FightFactory fightFactory) {
 		super(repositories, config.gamePort(), log);
 		
 		this.config = config;
 		this.login = login;
-		this.informations = new GameServerType(
+        this.fightFactory = fightFactory;
+        this.informations = new GameServerType(
 				config.gameId(),
 				config.gameAddress(),
 				config.gamePort(),
@@ -74,6 +77,10 @@ public class DefaultGameService extends AbstractService<GameClient> implements G
 	public NetworkStatisticsCenter statistics() {
 		return statistics;
 	}
+
+    public FightFactory fightFactory() {
+        return fightFactory;
+    }
 
 	public void sessionCreated(IoSession session) throws Exception {
 		session.setAttribute(CLIENT_TOKEN, new DefaultGameClient(session, this));
@@ -144,5 +151,4 @@ public class DefaultGameService extends AbstractService<GameClient> implements G
 				message
 		));
 	}
-
 }

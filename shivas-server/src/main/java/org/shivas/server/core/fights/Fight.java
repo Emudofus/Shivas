@@ -46,8 +46,8 @@ public abstract class Fight extends AbstractInteraction {
     private static final Logger log = LoggerFactory.getLogger(Fight.class);
 
     protected final Config config;
+    protected final Timer<Fight> timer;
     protected final ExecutorService worker = Executors.newSingleThreadExecutor();
-    protected final Timer<Fight> timer = new Timer<Fight>("fight");
     protected final EventDispatcher event = new ThreadedEventDispatcher(worker);
     protected final Map<FightTeamEnum, FightTeam> teams = Maps.newIdentityHashMap();
     protected final GameMap map;
@@ -57,11 +57,15 @@ public abstract class Fight extends AbstractInteraction {
     protected FightTurnList turns;
     protected Frame currentFrame;
 
-    protected Fight(Config config, GameMap map) {
+    protected Fight(Config config, Timer<Fight> timer, GameMap map, Fighter challenger, Fighter defender) {
         this.config = config;
+        this.timer = timer;
         this.map = map;
         this.state = FightStateEnum.INIT;
         this.cells = generateCells();
+
+        this.teams.put(FightTeamEnum.CHALLENGERS, new FightTeam(FightTeamEnum.CHALLENGERS, toSide(FightTeamEnum.CHALLENGERS), this, challenger));
+        this.teams.put(FightTeamEnum.DEFENDERS, new FightTeam(FightTeamEnum.DEFENDERS, toSide(FightTeamEnum.DEFENDERS), this, defender));
     }
 
     public Config getConfig() {
