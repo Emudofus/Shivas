@@ -116,7 +116,7 @@ public final class Cells {
 
             case NORTH_WEST:
             case SOUTH_WEST:
-                time += ( Math.abs(current.cell() - next.cell()) / (mapWidth - 1) ) * (steps >= 4 ? 250 : 62);
+                time += ( Math.abs(current.cell() - next.cell()) / (mapWidth - 1) ) * (steps >= 4 ? 250 : 625);
                 break;
             }
         }

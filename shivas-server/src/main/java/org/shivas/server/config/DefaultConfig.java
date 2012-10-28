@@ -219,7 +219,7 @@ public class DefaultConfig implements Config {
 
     @Override
     public Duration turnDuration(FightTypeEnum fightType) {
-        return Duration.millis(30 * 1000);
+        return Duration.standardSeconds(30);
     }
 
 }

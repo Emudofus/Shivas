@@ -5,8 +5,6 @@ import org.joda.time.Duration;
 import org.shivas.server.core.fights.events.FightTurnEvent;
 import org.shivas.server.core.fights.frames.Frame;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Blackrush
@@ -65,50 +63,40 @@ public class FightTurn {
         }
     }
 
-    private class DoEndCallback implements Runnable {
-        public void run() {
-            try {
-                doEnd();
-            } catch (FightException e) {
-                fight.exceptionThrowed(e);
-            }
-        }
-    }
+    public void begin() {
+        if (current) return;
 
-    public void begin() throws FightException {
-        if (current) throw new FightException("you can not begin a running turn");
-
-        Duration turnDuration = fight.getConfig().turnDuration(fight.getFightType());
-
-        end = DateTime.now().plus(turnDuration);
-        fight.getTimer().schedule(new DoEndCallback(), turnDuration.getMillis(), TimeUnit.MILLISECONDS);
+        end = DateTime.now().plus(fight.getConfig().turnDuration(fight.getFightType()));
 
         fight.getEvent().publish(new FightTurnEvent(FightTurnEvent.Type.START, fight, this));
 
         current = true;
     }
 
-    protected void doEnd() throws FightException {
-        if (!current) throw new FightException("you have to begin the turn before end it");
+    protected void doEnd() {
+        if (!current) return;
 
         ++past;
-
         fighter.getStats().resetContext();
 
-        fight.eraseCurrentFrame();
         fight.getEvent().publish(new FightTurnEvent(FightTurnEvent.Type.STOP, fight, this));
-        fight.getTurns().next().begin();
 
         current = false;
+
+        fight.getTurns().beginNextTurn();
     }
 
-    public void end() throws FightException {
+    public void end() {
         Frame frame = fight.getCurrentFrame();
         if (frame == null) {
             doEnd();
         } else {
             frame.blockNext();
-            frame.getEndFuture().addListener(new DoEndCallback(), fight.getWorker());
+            frame.getEndFuture().addListener(new Runnable() {
+                public void run() {
+                    doEnd();
+                }
+            }, fight.getWorker());
         }
     }
 }

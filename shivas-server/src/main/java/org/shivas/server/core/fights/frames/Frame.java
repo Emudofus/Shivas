@@ -2,12 +2,11 @@ package org.shivas.server.core.fights.frames;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
+import org.joda.time.Duration;
 import org.shivas.server.core.fights.Fight;
 import org.shivas.server.core.fights.FightException;
 import org.shivas.server.core.fights.FightTurn;
 import org.shivas.server.core.fights.Fighter;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -67,11 +66,11 @@ public abstract class Frame {
         }
     }
 
-    protected void scheduleEnd(long millis) {
-        fight.getTimer().schedule(new Runnable() {
+    protected void scheduleEnd(Duration duration) {
+        fight.schedule(duration, new Runnable() {
             public void run() {
                 end();
             }
-        }, millis, TimeUnit.MILLISECONDS);
+        });
     }
 }

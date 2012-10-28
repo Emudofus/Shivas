@@ -59,10 +59,5 @@ public interface Config {
 	String warnName();
 	String warnColor();
 
-    /**
-     * seconds
-     * @param fightType fight type
-     * @return duration
-     */
     Duration turnDuration(FightTypeEnum fightType);
 }

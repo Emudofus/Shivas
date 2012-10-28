@@ -1,6 +1,8 @@
 package org.shivas.server.core.fights;
 
 import com.google.common.collect.Maps;
+import org.joda.time.Duration;
+import org.shivas.common.threads.Timer;
 import org.shivas.data.entity.GameCell;
 import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightStateEnum;
@@ -30,7 +32,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import static org.shivas.common.collections.CollectionQuery.from;
 
@@ -46,7 +47,7 @@ public abstract class Fight extends AbstractInteraction {
 
     protected final Config config;
     protected final ExecutorService worker = Executors.newSingleThreadExecutor();
-    protected final ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);
+    protected final Timer<Fight> timer = new Timer<Fight>("fight");
     protected final EventDispatcher event = new ThreadedEventDispatcher(worker);
     protected final Map<FightTeamEnum, FightTeam> teams = Maps.newIdentityHashMap();
     protected final GameMap map;
@@ -69,10 +70,6 @@ public abstract class Fight extends AbstractInteraction {
 
     public ExecutorService getWorker() {
         return worker;
-    }
-
-    public ScheduledExecutorService getTimer() {
-        return timer;
     }
 
     public EventDispatcher getEvent() {
@@ -131,6 +128,14 @@ public abstract class Fight extends AbstractInteraction {
         this.currentFrame = null;
     }
 
+    public void schedule(Duration duration, Runnable action) {
+        timer.schedule(this, duration, action);
+    }
+
+    public void purgeScheduledTasks() {
+        timer.purge(this);
+    }
+
     @Override
     public InteractionType getInteractionType() {
         return InteractionType.FIGHT;
@@ -163,8 +168,9 @@ public abstract class Fight extends AbstractInteraction {
 
         turns = new FightTurnList(this);
         event.publish(new StateUpdateEvent(this, FightStateEnum.ACTIVE));
+        timer.start();
 
-        turns.getCurrent().begin();
+        turns.beginNextTurn();
         state = FightStateEnum.ACTIVE;
 
         afterBegin();
@@ -179,6 +185,7 @@ public abstract class Fight extends AbstractInteraction {
         beforeCancel();
 
         state = FightStateEnum.FINISHED;
+        timer.stop();
 
         afterCancel();
     }
@@ -192,6 +199,7 @@ public abstract class Fight extends AbstractInteraction {
         beforeEnd();
 
         state = FightStateEnum.FINISHED;
+        timer.stop();
 
         afterEnd();
     }

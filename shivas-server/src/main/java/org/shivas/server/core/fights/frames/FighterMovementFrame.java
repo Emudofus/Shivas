@@ -1,5 +1,6 @@
 package org.shivas.server.core.fights.frames;
 
+import org.joda.time.Duration;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.server.core.fights.FightException;
 import org.shivas.server.core.fights.Fighter;
@@ -28,7 +29,7 @@ public class FighterMovementFrame extends Frame {
 
         fight.getEvent().publish(new FighterMovementEvent(fighter, path));
 
-        scheduleEnd(path.estimateTimeOn(fight.getMap()));
+        scheduleEnd(Duration.millis(path.estimateTimeOn(fight.getMap())));
     }
 
     @Override

@@ -38,6 +38,19 @@ public class FightTurnList implements Iterable<FightTurn> {
         current = turns.get(0);
     }
 
+    public void beginNextTurn() {
+        fight.purgeScheduledTasks();
+        fight.eraseCurrentFrame();
+
+        next().begin();
+
+        fight.schedule(current.getRemaining(), new Runnable() {
+            public void run() {
+                current.end();
+            }
+        });
+    }
+
     public FightTurn getCurrent() {
         return current;
     }
@@ -46,9 +59,7 @@ public class FightTurnList implements Iterable<FightTurn> {
         turns.remove(0);
         turns.add(current);
 
-        current = turns.get(0);
-
-        return current;
+        return (current = turns.get(0));
     }
 
     @Override
