@@ -82,8 +82,18 @@ public class SimpleBag implements Bag {
 		}
 		return null;
 	}
-	
-	public void add(GameItem item) {
+
+    @Override
+    public boolean has(ItemPositionEnum position) {
+        for (GameItem item : this) {
+            if (item.getPosition() == position) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void add(GameItem item) {
 		items.put(item.getId(), item);
 	}
 	

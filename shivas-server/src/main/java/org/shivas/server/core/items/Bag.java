@@ -11,6 +11,7 @@ public interface Bag extends Iterable<GameItem> {
 	GameItem get(long itemId);
 	GameItem get(ItemPositionEnum position);
 	GameItem get(ItemTemplate template);
+    boolean has(ItemPositionEnum position);
 	
 	void add(GameItem item);
 	GameItem remove(long itemId);
