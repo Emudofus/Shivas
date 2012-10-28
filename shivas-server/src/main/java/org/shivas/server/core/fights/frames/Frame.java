@@ -63,6 +63,8 @@ public abstract class Frame {
             } catch (FightException e) {
                 fight.exceptionThrowed(e);
             }
+        } else {
+            fight.eraseCurrentFrame();
         }
     }
 
