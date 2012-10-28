@@ -84,7 +84,8 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         case CAST_SPELL: // TODO
             break;
 
-        case MELEE_ATACK: // TODO
+        case MELEE_ATTACK:
+            parseMeleeAttackMessage(Short.parseShort(data));
             break;
 
         default:
@@ -99,6 +100,10 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
 
         Pathfinder finder = new FightPathfinder(fighter, path.last().cell());
         fight.move(fighter, finder.find());
+    }
+
+    private void parseMeleeAttackMessage(short itemId) {
+
     }
 
     private void parseChangePlaceMessage(short cellId) throws InteractionException {
