@@ -1,5 +1,6 @@
 package org.shivas.server.core.fights;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.joda.time.Duration;
 import org.shivas.common.threads.Timer;
@@ -30,7 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -49,10 +52,11 @@ public abstract class Fight extends AbstractInteraction {
     protected final Config config;
     protected final Timer<Fight> timer;
     protected final ExecutorService worker = Executors.newSingleThreadExecutor();
+    protected final Random random = new Random(System.nanoTime());
     protected final EventDispatcher event = new ThreadedEventDispatcher(worker);
     protected final Map<FightTeamEnum, FightTeam> teams = Maps.newIdentityHashMap();
     protected final GameMap map;
-    protected final FightCell[] cells;
+    protected final List<FightCell> cells;
 
     protected FightStateEnum state;
     protected FightTurnList turns;
@@ -75,6 +79,10 @@ public abstract class Fight extends AbstractInteraction {
 
     public ExecutorService getWorker() {
         return worker;
+    }
+
+    public Random getRandom() {
+        return random;
     }
 
     public EventDispatcher getEvent() {
@@ -101,8 +109,12 @@ public abstract class Fight extends AbstractInteraction {
         return map;
     }
 
+    public Collection<FightCell> getCells() {
+        return cells;
+    }
+
     public FightCell getCell(short cellId) {
-        return cells.length <= cellId ? null : cells[cellId];
+        return cells.size() <= cellId ? null : cells.get(cellId);
     }
 
     public FightStateEnum getState() {
@@ -227,7 +239,7 @@ public abstract class Fight extends AbstractInteraction {
             return;
         }
 
-        FightCell cell = cells[targetCellId];
+        FightCell cell = getCell(targetCellId);
 
         if (!cell.isAvailable()) {
             return;
@@ -267,11 +279,11 @@ public abstract class Fight extends AbstractInteraction {
         throw new RuntimeException("there is not anymore available places");
     }
 
-    protected FightCell[] generateCells() {
-        FightCell[] cells = new FightCell[map.getCells().length()];
+    protected List<FightCell> generateCells() {
+        List<FightCell> cells = Lists.newArrayListWithCapacity(map.getCells().length());
 
         for (GameCell cell : map.getCells()) {
-            cells[cell.getId()] = new FightCell(cell, toTeam(cell.getStartFightSide()));
+            cells.add(new FightCell(cell, toTeam(cell.getStartFightSide())));
         }
 
         return cells;

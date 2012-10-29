@@ -51,6 +51,11 @@ public class WeaponItemEffectAdapter extends WeaponItemEffect implements EffectI
     public void setNbTurns(int nbTurns) { }
 
     @Override
+    public Zone getZone() {
+        return null;
+    }
+
+    @Override
     public void setZone(Zone zone) { }
 
     @Override

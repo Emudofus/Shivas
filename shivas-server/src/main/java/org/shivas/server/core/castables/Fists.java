@@ -1,5 +1,6 @@
 package org.shivas.server.core.castables;
 
+import org.shivas.common.maths.Range;
 import org.shivas.common.random.Dofus1Dice;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 import org.shivas.server.core.castables.effects.DamageEffect;
@@ -22,15 +23,32 @@ public final class Fists implements Castable {
         setDice(new Dofus1Dice(1, 5)); // 1d5
     }};
 
+    public static final Range RANGE = new Range(1, 1);
+
     private static final Collection<EffectInterface> EFFECTS = Collections.singleton(EFFECT);
 
     @Override
-    public Collection<EffectInterface> getEffects() {
-        return EFFECTS;
+    public short getCost() {
+        return 5;
     }
 
     @Override
-    public Collection<EffectInterface> getCriticalEffects() {
-        return null;
+    public short getCriticalRate() {
+        return -1;
+    }
+
+    @Override
+    public short getFailureRate() {
+        return -1;
+    }
+
+    @Override
+    public Range getRange() {
+        return RANGE;
+    }
+
+    @Override
+    public Collection<EffectInterface> getEffects(boolean critical) {
+        return EFFECTS;
     }
 }

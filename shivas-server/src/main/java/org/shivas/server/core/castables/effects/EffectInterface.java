@@ -26,6 +26,7 @@ public interface EffectInterface {
     Dice getDice();
     void setDice(Dice dice);
     void setNbTurns(int nbTurns);
+    Zone getZone();
     void setZone(Zone zone);
 
     void apply(Fight fight, Fighter caster, FightCell target) throws FightException;

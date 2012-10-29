@@ -2,9 +2,11 @@ package org.shivas.server.core.castables;
 
 import com.google.common.base.Function;
 import org.shivas.common.collections.CollectionQuery;
+import org.shivas.common.maths.Range;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.WeaponTemplate;
 import org.shivas.server.core.castables.effects.EffectInterface;
+import org.shivas.server.core.castables.zones.Zone;
 import org.shivas.server.database.models.GameItem;
 
 import java.util.Collection;
@@ -31,22 +33,41 @@ public class Weapon extends GameItem implements Castable {
     private List<EffectInterface> effects, criticalEffects;
 
     @Override
+    public WeaponTemplate getTemplate() {
+        return (WeaponTemplate) super.getTemplate();
+    }
+
+    @Override
     public void setItemEffects(Collection<ItemEffect> itemEffects) {
         super.setItemEffects(itemEffects);
 
-        WeaponTemplate tpl = (WeaponTemplate) getTemplate();
-
         effects = CollectionQuery.from(getItemEffects()).ofType(EffectInterface.class).computeList();
-        criticalEffects = toCritical(effects, tpl.getCriticalBonus());
+        criticalEffects = toCritical(effects, getTemplate().getCriticalBonus());
     }
 
     @Override
-    public Collection<EffectInterface> getEffects() {
-        return effects;
+    public short getCost() {
+        return getTemplate().getCost();
     }
 
     @Override
-    public Collection<EffectInterface> getCriticalEffects() {
-        return criticalEffects;
+    public short getCriticalRate() {
+        return getTemplate().getCriticalRate();
+    }
+
+    @Override
+    public short getFailureRate() {
+        return getTemplate().getFailureRate();
+    }
+
+    @Override
+    public Range getRange() {
+        WeaponTemplate tpl = getTemplate();
+        return new Range(tpl.getMinRange(), tpl.getMaxRange());
+    }
+
+    @Override
+    public Collection<EffectInterface> getEffects(boolean critical) {
+        return critical ? effects : criticalEffects;
     }
 }

@@ -14,4 +14,5 @@ public enum FightEventType {
     TURN,
     FIGHTER_ACTION,
     FIGHTER_MOVEMENT_END,
+    FIGHTER_CAST_END,
 }

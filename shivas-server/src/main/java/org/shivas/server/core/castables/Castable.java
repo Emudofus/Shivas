@@ -1,5 +1,6 @@
 package org.shivas.server.core.castables;
 
+import org.shivas.common.maths.Range;
 import org.shivas.server.core.castables.effects.EffectInterface;
 
 import java.util.Collection;
@@ -11,6 +12,11 @@ import java.util.Collection;
  * Time: 19:43
  */
 public interface Castable {
-    Collection<EffectInterface> getEffects();
-    Collection<EffectInterface> getCriticalEffects();
+    short getCost();
+    short getCriticalRate();
+    short getFailureRate();
+
+    Range getRange();
+
+    Collection<EffectInterface> getEffects(boolean critical);
 }

@@ -70,6 +70,11 @@ public class SpellEffectAdapter extends SpellEffect implements EffectInterface {
     }
 
     @Override
+    public Zone getZone() {
+        return effect.getZone();
+    }
+
+    @Override
     public void setZone(Zone zone) {
         effect.setZone(zone);
     }

@@ -51,6 +51,10 @@ public final class Cells {
         return position(node.cell(), map);
     }
 
+    public static Point position(GameCell cell, MapTemplate map) {
+        return position(cell.getId(), map);
+    }
+
     public static int distanceBetween(Point a, Point b) {
         return Math.abs(a.abscissa() - b.abscissa()) +
                 Math.abs(a.ordinate() - b.ordinate());
@@ -62,6 +66,10 @@ public final class Cells {
 
     public static int distanceBetween(Node a, short b, MapTemplate map) {
         return distanceBetween(position(a.cell(), map), position(b, map));
+    }
+
+    public static int distanceBetween(GameCell a, GameCell b, MapTemplate map) {
+        return distanceBetween(position(a, map), position(b, map));
     }
 
     public static short getCellIdByOrientation(short cellId, OrientationEnum orientation, int mapWidth) {

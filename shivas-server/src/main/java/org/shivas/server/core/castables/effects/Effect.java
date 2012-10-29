@@ -42,6 +42,11 @@ public abstract class Effect implements EffectInterface {
     }
 
     @Override
+    public Zone getZone() {
+        return zone;
+    }
+
+    @Override
     public void setZone(Zone zone) {
         this.zone = zone;
     }
