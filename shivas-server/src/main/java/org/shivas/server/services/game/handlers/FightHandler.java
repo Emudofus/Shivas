@@ -3,7 +3,10 @@ package org.shivas.server.services.game.handlers;
 import org.shivas.protocol.client.enums.ActionTypeEnum;
 import org.shivas.protocol.client.enums.EndActionTypeEnum;
 import org.shivas.protocol.client.enums.FightTypeEnum;
+import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.formatters.FightGameMessageFormatter;
+import org.shivas.server.core.castables.Fists;
+import org.shivas.server.core.castables.Weapon;
 import org.shivas.server.core.events.Event;
 import org.shivas.server.core.events.EventListener;
 import org.shivas.server.core.fights.*;
@@ -12,6 +15,7 @@ import org.shivas.server.core.interactions.InteractionException;
 import org.shivas.server.core.paths.Path;
 import org.shivas.server.core.paths.PathNotFoundException;
 import org.shivas.server.core.paths.Pathfinder;
+import org.shivas.server.database.models.GameItem;
 import org.shivas.server.services.AbstractBaseHandler;
 import org.shivas.server.services.CriticalException;
 import org.shivas.server.services.game.GameClient;
@@ -102,8 +106,11 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         fight.move(fighter, finder.find());
     }
 
-    private void parseMeleeAttackMessage(short itemId) {
+    private void parseMeleeAttackMessage(short targetCell) throws CriticalException, InteractionException {
+        assertTrue(fighter.getTurn().isCurrent(), "it is not your turn");
 
+        GameItem item = client.player().getBag().get(ItemPositionEnum.Weapon);
+        fight.cast(fighter, item == null ? Fists.INSTANCE : (Weapon) item, targetCell);
     }
 
     private void parseChangePlaceMessage(short cellId) throws InteractionException {

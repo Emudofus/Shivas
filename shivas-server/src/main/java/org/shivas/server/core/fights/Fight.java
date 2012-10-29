@@ -240,8 +240,8 @@ public abstract class Fight extends AbstractInteraction {
         event.publish(new FighterEvent(FightEventType.FIGHTER_PLACEMENT, fighter));
     }
 
-    public void cast(Fighter caster, Castable castable, FightCell targetCell) throws InteractionException {
-        setCurrentFrame(new FighterCastFrame(caster, castable, targetCell));
+    public void cast(Fighter caster, Castable castable, short targetCell) throws InteractionException {
+        setCurrentFrame(new FighterCastFrame(caster, castable, getCell(targetCell)));
     }
 
     public void move(Fighter fighter, Path path) throws InteractionException {
