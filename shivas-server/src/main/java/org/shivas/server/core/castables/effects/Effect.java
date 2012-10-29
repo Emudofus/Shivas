@@ -21,7 +21,7 @@ public abstract class Effect implements EffectInterface {
     protected Zone zone;
 
     protected Effect(SpellLevel spellLevel, SpellEffectTypeEnum spellEffect) {
-        this.spell = spellLevel.getSpell();
+        this.spell = spellLevel != null ? spellLevel.getSpell() : null;
         this.spellLevel = spellLevel;
         this.spellEffect = spellEffect;
     }

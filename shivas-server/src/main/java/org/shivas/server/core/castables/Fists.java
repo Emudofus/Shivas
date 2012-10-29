@@ -5,6 +5,7 @@ import org.shivas.common.random.Dofus1Dice;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 import org.shivas.server.core.castables.effects.DamageEffect;
 import org.shivas.server.core.castables.effects.EffectInterface;
+import org.shivas.server.core.castables.zones.SingleCellZone;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -21,6 +22,7 @@ public final class Fists implements Castable {
 
     public static final EffectInterface EFFECT = new DamageEffect(null, SpellEffectTypeEnum.DamageNeutral) {{
         setDice(new Dofus1Dice(1, 5)); // 1d5
+        setZone(SingleCellZone.INSTANCE);
     }};
 
     public static final Range RANGE = new Range(1, 1);
