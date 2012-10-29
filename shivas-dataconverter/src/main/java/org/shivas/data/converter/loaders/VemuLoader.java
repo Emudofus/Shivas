@@ -227,7 +227,7 @@ public class VemuLoader extends JDBCLoader {
             if (args.length <= 1) continue;
 
             SpellEffect effect = new SpellEffect();
-            effect.setType(SpellEffectsEnum.valueOf(Integer.parseInt(args[0])));
+            effect.setType(SpellEffectTypeEnum.valueOf(Integer.parseInt(args[0])));
             effect.setFirst(Short.parseShort(args[1]));
             effect.setSecond(Short.parseShort(args[2]));
             effect.setThird(Short.parseShort(args[3]));

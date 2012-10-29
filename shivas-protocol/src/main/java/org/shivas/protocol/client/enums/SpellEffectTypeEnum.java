@@ -9,7 +9,7 @@ package org.shivas.protocol.client.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum SpellEffectsEnum {
+public enum SpellEffectTypeEnum {
     None(-1),
 
 	Teleport(4),
@@ -177,7 +177,7 @@ public enum SpellEffectsEnum {
 
     private int value;
 
-    private SpellEffectsEnum(int value) {
+    private SpellEffectTypeEnum(int value) {
         this.value = value;
     }
 
@@ -185,19 +185,19 @@ public enum SpellEffectsEnum {
         return value;
     }
 
-    private static final Map<Integer, SpellEffectsEnum> values = new HashMap<Integer, SpellEffectsEnum>();
+    private static final Map<Integer, SpellEffectTypeEnum> values = new HashMap<Integer, SpellEffectTypeEnum>();
 
     static {
-        for (SpellEffectsEnum e : values()) {
+        for (SpellEffectTypeEnum e : values()) {
             values.put(e.value(), e);
         }
     }
 
-    public static SpellEffectsEnum valueOf(int value) {
+    public static SpellEffectTypeEnum valueOf(int value) {
         return values.get(value);
     }
 
-    public static SpellEffectsEnum fromItemEffect(ItemEffectEnum effect){
+    public static SpellEffectTypeEnum fromItemEffect(ItemEffectEnum effect){
         switch (effect) {
             case StolenWater:
             case InflictDamageWater:

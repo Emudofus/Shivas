@@ -277,7 +277,7 @@ public class FightGameMessageFormatter {
         return "GV";
     }
 
-    public static String fighterBuffMessage(long fighterId, SpellEffectsEnum effectId, int value1, int value2, int value3, int chance, int remainingTurn, Integer spellId) {
+    public static String fighterBuffMessage(long fighterId, SpellEffectTypeEnum effectId, int value1, int value2, int value3, int chance, int remainingTurn, Integer spellId) {
         return "GIE" + effectId.ordinal() + ";" +
                        fighterId          + ";" +
                        value1             + ";" +

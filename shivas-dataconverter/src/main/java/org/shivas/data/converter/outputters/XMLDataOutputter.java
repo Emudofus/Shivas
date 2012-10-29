@@ -287,7 +287,7 @@ public class XMLDataOutputter implements DataOutputter {
 				}
 				for (SpellEffect effect : level.getCriticalEffects()) {
 					Element effect_elem = toElement(effect);
-					effect_elem.setAttribute("critical", "");
+					effect_elem.setAttribute("critical", "true");
 					
 					level_elem.addContent(effect_elem);
 				}
