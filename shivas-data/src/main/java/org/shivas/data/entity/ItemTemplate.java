@@ -143,7 +143,7 @@ public class ItemTemplate implements Serializable {
 	}
 	
 	public Item generate() {
-		Item item = factory.newItem();
+		Item item = factory.newItem(this);
 		
 		item.setTemplate(this);
 		

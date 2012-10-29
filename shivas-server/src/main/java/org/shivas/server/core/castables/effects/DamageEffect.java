@@ -16,7 +16,6 @@ import org.shivas.server.core.fights.Fighter;
  * TODO
  */
 public class DamageEffect extends Effect {
-
     public static EffectProvider provider(final SpellEffectTypeEnum type) {
         return new EffectProvider() {
             public EffectInterface provide(SpellLevel level) {
@@ -44,6 +43,11 @@ public class DamageEffect extends Effect {
     public void setChance(int chance) { }
 
     @Override
+    public Dice getDice() {
+        return dice;
+    }
+
+    @Override
     public void setDice(Dice dice) {
         this.dice = dice;
     }
@@ -57,5 +61,10 @@ public class DamageEffect extends Effect {
         int damage = dice.roll();
 
         fighter.getStats().life().minus(damage);
+    }
+
+    @Override
+    public DamageEffect copy() {
+        return new DamageEffect(spellLevel, spellEffect);
     }
 }

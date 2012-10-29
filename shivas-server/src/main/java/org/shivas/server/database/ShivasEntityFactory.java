@@ -7,6 +7,7 @@ import org.shivas.data.entity.factory.ActionFactory;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 import org.shivas.server.config.Config;
 import org.shivas.server.core.actions.ShivasActionFactory;
+import org.shivas.server.core.castables.Weapon;
 import org.shivas.server.core.castables.effects.EffectFactory;
 import org.shivas.server.core.castables.effects.EffectInterface;
 import org.shivas.server.core.castables.effects.SpellEffectAdapter;
@@ -33,8 +34,11 @@ public class ShivasEntityFactory extends AbstractEntityFactory {
 	}
 
 	@Override
-	public Item newItem() {
-		return new GameItem();
+	public Item newItem(ItemTemplate template) {
+		if (template instanceof WeaponTemplate) {
+            return new Weapon();
+        }
+        return new GameItem();
 	}
 
     @Override

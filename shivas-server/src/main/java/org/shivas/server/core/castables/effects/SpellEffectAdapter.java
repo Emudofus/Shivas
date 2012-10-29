@@ -80,6 +80,11 @@ public class SpellEffectAdapter extends SpellEffect implements EffectInterface {
     }
 
     @Override
+    public EffectInterface copy() {
+        return new SpellEffectAdapter(effect.copy());
+    }
+
+    @Override
     public void setValue1(int value1) { }
 
     @Override

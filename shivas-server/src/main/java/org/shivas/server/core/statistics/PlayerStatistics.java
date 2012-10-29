@@ -257,7 +257,7 @@ public class PlayerStatistics implements Statistics {
 				multiset.add(item.getTemplate().getItemSet());
 			}
 			
-			for (ItemEffect effect : item.getEffects()) {
+			for (ItemEffect effect : item.getItemEffects()) {
 				if (effect instanceof ConstantItemEffect)
 					apply((ConstantItemEffect) effect);
 			}

@@ -5,6 +5,10 @@ public interface Dice {
 	int max();
 	
 	int roll();
+
+    Dice copy();
+
+    void upgrade(int upgrade);
 	
 	String toString(int radix);
 }

@@ -80,12 +80,12 @@ public class GameItem implements Item, PersistableEntity<Long> {
 		this.owner = owner;
 	}
 	@Override
-	public Collection<ItemEffect> getEffects() {
+	public Collection<ItemEffect> getItemEffects() {
 		return effects.values();
 	}
 
 	@Override
-	public void setEffects(Collection<ItemEffect> effects) {
+	public void setItemEffects(Collection<ItemEffect> effects) {
 		this.effects = Maps2.toMap(effects, Converters.ITEMEFFECT_TO_ENUM);
 	}
 
@@ -174,7 +174,7 @@ public class GameItem implements Item, PersistableEntity<Long> {
 	
 	private static int sum(Item item) {
 		int i = 0;
-		for (ItemEffect effect : item.getEffects()) {
+		for (ItemEffect effect : item.getItemEffects()) {
 			if (effect instanceof ConstantItemEffect) {
 				i += ((ConstantItemEffect) effect).getBonus();
 			}

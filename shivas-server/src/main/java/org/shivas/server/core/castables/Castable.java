@@ -1,7 +1,8 @@
 package org.shivas.server.core.castables;
 
-import org.shivas.server.core.fights.FightException;
-import org.shivas.server.core.fights.Fighter;
+import org.shivas.server.core.castables.effects.EffectInterface;
+
+import java.util.Collection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,5 +11,6 @@ import org.shivas.server.core.fights.Fighter;
  * Time: 19:43
  */
 public interface Castable {
-    void cast(Fighter caster) throws FightException;
+    Collection<EffectInterface> getEffects();
+    Collection<EffectInterface> getCriticalEffects();
 }

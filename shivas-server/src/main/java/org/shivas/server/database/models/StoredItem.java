@@ -68,7 +68,7 @@ public class StoredItem implements PersistableEntity<Long> {
                 item.getTemplate().getId(),
                 quantity,
                 item.getPosition(),
-                Collections2.transform(item.getEffects(), Converters.ITEMEFFECT_TO_BASEITEMEFFECTTYPE),
+                Collections2.transform(item.getItemEffects(), Converters.ITEMEFFECT_TO_BASEITEMEFFECTTYPE),
                 price
         );
     }

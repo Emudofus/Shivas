@@ -54,8 +54,8 @@ public class WeaponItemEffectAdapter extends WeaponItemEffect implements EffectI
     public void setZone(Zone zone) { }
 
     @Override
-    public WeaponItemEffect copy() {
-        return new WeaponItemEffectAdapter(getType(), getDice(), effect);
+    public WeaponItemEffectAdapter copy() {
+        return new WeaponItemEffectAdapter(getType(), getDice(), effect.copy());
     }
 
     @Override

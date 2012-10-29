@@ -23,9 +23,12 @@ public interface EffectInterface {
     void setValue2(int value2);
     void setValue3(int value3);
     void setChance(int chance);
+    Dice getDice();
     void setDice(Dice dice);
     void setNbTurns(int nbTurns);
     void setZone(Zone zone);
 
     void apply(Fight fight, Fighter caster, FightCell target) throws FightException;
+
+    EffectInterface copy();
 }

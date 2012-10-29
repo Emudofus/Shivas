@@ -54,8 +54,18 @@ public class Dofus1Dice implements Dice {
 		if (round <= 0 || num <= 0) return add;
 		return rand.get().nextInt(round * num) + add;
 	}
-	
-	public String toString() {
+
+    @Override
+    public Dice copy() {
+        return new Dofus1Dice(round, num, add);
+    }
+
+    @Override
+    public void upgrade(int upgrade) {
+        add += upgrade;
+    }
+
+    public String toString() {
 		return toString(10);
 	}
 

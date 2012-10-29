@@ -20,7 +20,7 @@ public interface EntityFactory {
 	UsableItemTemplate newUsableItemTemplate();
 	ItemEffectTemplate newItemEffectTemplate();
 
-	Item newItem();
+	Item newItem(ItemTemplate template);
 	ItemEffect newItemEffect(ItemEffectTemplate template);
     ConstantItemEffect newConstantItemEffect();
 	ConstantItemEffect newConstantItemEffect(ItemEffectTemplate template);
