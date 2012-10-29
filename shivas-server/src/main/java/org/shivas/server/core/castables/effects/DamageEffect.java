@@ -16,7 +16,6 @@ import org.shivas.server.core.fights.events.FighterLifeUpdateEvent;
  * User: Blackrush
  * Date: 29/10/12
  * Time: 09:23
- * TODO
  */
 public class DamageEffect extends Effect {
     public static int computeDamage(Dice dice, Statistics statistics, SpellEffectTypeEnum effect){

@@ -36,7 +36,7 @@ public class DefaultEffectFactory implements EffectFactory {
         }
 
         for (SpellEffectTypeEnum type : asList(StealNeutral, StealEarth, StealFire, StealWind, StealWater)) {
-            // TODO steal effects
+            providers.put(type, StealEffect.provider(type));
         }
     }
 }
