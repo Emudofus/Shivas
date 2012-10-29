@@ -1,16 +1,16 @@
 package org.shivas.data.entity;
 
-import java.io.Serializable;
-
 import org.shivas.common.random.Dice;
-import org.shivas.protocol.client.enums.SpellEffectsEnum;
+import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
+
+import java.io.Serializable;
 
 public class SpellEffect implements Serializable {
 
 	private static final long serialVersionUID = -4195973992790568371L;
 	
 	private SpellLevel level;
-	private SpellEffectsEnum type;
+	private SpellEffectTypeEnum type;
 	private short first, second, third;
 	private short turns, chance;
 	private Dice dice;
@@ -31,13 +31,13 @@ public class SpellEffect implements Serializable {
 	/**
 	 * @return the type
 	 */
-	public SpellEffectsEnum getType() {
+	public SpellEffectTypeEnum getType() {
 		return type;
 	}
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(SpellEffectsEnum type) {
+	public void setType(SpellEffectTypeEnum type) {
 		this.type = type;
 	}
 	/**

@@ -1,4 +1,7 @@
-package org.shivas.server.core.fights;
+package org.shivas.server.core.castables;
+
+import org.shivas.server.core.fights.FightException;
+import org.shivas.server.core.fights.Fighter;
 
 /**
  * Created with IntelliJ IDEA.

@@ -5,11 +5,11 @@ package org.shivas.protocol.client.enums; /**
  * IDE : IntelliJ IDEA
  */
 
+import org.shivas.common.statistics.CharacteristicType;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-
-import org.shivas.common.statistics.CharacteristicType;
 
 public enum ItemEffectEnum {
     NONE(0),
@@ -273,5 +273,33 @@ public enum ItemEffectEnum {
     		
 		default: return null;
     	}
+    }
+
+    public SpellEffectTypeEnum toDamageSpellEffectType() {
+        switch (this) {
+        case StolenWater:
+            return SpellEffectTypeEnum.StealWater;
+        case StolenEarth:
+            return SpellEffectTypeEnum.StealEarth;
+        case StolenWind:
+            return SpellEffectTypeEnum.StealWind;
+        case StolenFire:
+            return SpellEffectTypeEnum.StealFire;
+        case StolenNeutral:
+            return SpellEffectTypeEnum.StealNeutral;
+        case InflictDamageWater:
+            return SpellEffectTypeEnum.DamageWater;
+        case InflictDamageEarth:
+            return SpellEffectTypeEnum.DamageEarth;
+        case InflictDamageWind:
+            return SpellEffectTypeEnum.DamageWind;
+        case InflictDamageFire:
+            return SpellEffectTypeEnum.DamageFire;
+        case InflictDamageNeutral:
+            return SpellEffectTypeEnum.DamageNeutral;
+
+        default:
+            return null;
+        }
     }
 }

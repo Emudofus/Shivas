@@ -2,7 +2,7 @@ package org.shivas.data.entity.factory;
 
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.*;
-import org.shivas.protocol.client.enums.ItemEffectEnum;
+import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
 public abstract class AbstractEntityFactory implements EntityFactory {
 
@@ -48,24 +48,29 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 
 	@Override
 	public ItemEffectTemplate newItemEffectTemplate() {
-		return new ItemEffectTemplate();
+		return new ItemEffectTemplate(this);
 	}
 
 	@Override
-	public ItemEffect newItemEffect(ItemEffectEnum type) {
-		return type.isWeaponEffect() ?
-				newWeaponItemEffect() :
-				newConstantItemEffect();
+	public ItemEffect newItemEffect(ItemEffectTemplate template) {
+		return template.getEffect().isWeaponEffect() ?
+				newWeaponItemEffect(template) :
+				newConstantItemEffect(template);
 	}
 
 	@Override
-	public WeaponItemEffect newWeaponItemEffect() {
-		return new WeaponItemEffect();
+	public WeaponItemEffect newWeaponItemEffect(ItemEffectTemplate template) {
+		return new WeaponItemEffect(template.getEffect(), template.getBonus());
 	}
 
+    @Override
+    public ConstantItemEffect newConstantItemEffect() {
+        return new ConstantItemEffect();
+    }
+
 	@Override
-	public ConstantItemEffect newConstantItemEffect() {
-		return new ConstantItemEffect();
+	public ConstantItemEffect newConstantItemEffect(ItemEffectTemplate template) {
+		return new ConstantItemEffect(template.getEffect(), (short) template.getBonus().roll());
 	}
 
 	@Override
@@ -89,7 +94,7 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 	}
 	
 	@Override
-	public SpellEffect newSpellEffect() {
+	public SpellEffect newSpellEffect(SpellLevel level, SpellEffectTypeEnum type) {
 		return new SpellEffect();
 	}
 

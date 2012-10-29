@@ -10,6 +10,7 @@ import org.shivas.protocol.client.enums.FightTeamEnum;
 import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.server.config.Config;
+import org.shivas.server.core.castables.Castable;
 import org.shivas.server.core.events.EventDispatcher;
 import org.shivas.server.core.events.ThreadedEventDispatcher;
 import org.shivas.server.core.fights.events.FightEventType;

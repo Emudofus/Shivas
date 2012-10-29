@@ -1,6 +1,6 @@
 package org.shivas.server.core.fights.frames;
 
-import org.shivas.server.core.fights.Castable;
+import org.shivas.server.core.castables.Castable;
 import org.shivas.server.core.fights.FightCell;
 import org.shivas.server.core.fights.FightException;
 import org.shivas.server.core.fights.Fighter;

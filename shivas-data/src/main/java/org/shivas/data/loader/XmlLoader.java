@@ -413,9 +413,11 @@ public class XmlLoader extends AbstractLoader {
 				
 				List<SpellEffect> effects = Lists.newArrayList(), criticalEffects = Lists.newArrayList();
 				for (Element effect_elem : level_elem.getChildren("effect")) {
-					SpellEffect effect = factory.newSpellEffect();
+                    SpellEffectTypeEnum type = SpellEffectTypeEnum.valueOf(effect_elem.getAttribute("type").getIntValue());
+
+					SpellEffect effect = factory.newSpellEffect(level, type);
 					effect.setLevel(level);
-					effect.setType(SpellEffectsEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
+					effect.setType(type);
 					effect.setFirst((short) effect_elem.getAttribute("first").getIntValue());
 					effect.setSecond((short) effect_elem.getAttribute("second").getIntValue());
 					effect.setThird((short) effect_elem.getAttribute("third").getIntValue());

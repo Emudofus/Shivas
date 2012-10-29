@@ -222,7 +222,7 @@ public class AncestraLoader extends JDBCLoader {
                 if (effectString.isEmpty()) continue;
                 String[] args = effectString.split("#");
 
-                ItemEffectTemplate effect = new ItemEffectTemplate();
+                ItemEffectTemplate effect = new ItemEffectTemplate(factory);
                 effect.setEffect(ItemEffectEnum.valueOf(Integer.parseInt(args[0], 16)));
                 try {
                     effect.setBonus(Dofus1Dice.parseDice(args[4]));
