@@ -188,9 +188,9 @@ public class PlayerStore implements Iterable<StoredItem>, GameActorWithoutId {
                 owner.getLook().colors().second(),
                 owner.getLook().colors().third(),
                 owner.getBag().accessoriesTemplateId(),
-                false, // TODO guilds
-                null,
-                null
+                owner.hasGuild(),
+                owner.hasGuild() ? owner.getGuild().getName() : null,
+                owner.hasGuild() ? owner.getGuild().getEmblem() : null
         );
     }
 

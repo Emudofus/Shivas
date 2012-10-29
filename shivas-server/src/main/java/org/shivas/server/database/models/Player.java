@@ -388,9 +388,9 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 			    look.accessories(),
 				location.getCell(),
 				location.getOrientation(),
-				false, // TODO guilds
-				null,
-				null
+				hasGuild(),
+				hasGuild() ? getGuild().getName() : null,
+				hasGuild() ? getGuild().getEmblem() : null
 		);
 	}
 }
