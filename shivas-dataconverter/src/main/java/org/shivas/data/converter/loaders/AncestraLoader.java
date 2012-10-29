@@ -198,8 +198,14 @@ public class AncestraLoader extends JDBCLoader {
                 if (infos.length < 7) continue;
 
                 WeaponTemplate weaponTemplate = new WeaponTemplate(null);
-                weaponTemplate.setEthereal(false);
+                weaponTemplate.setCost(Short.parseShort(infos[0]));
+                weaponTemplate.setMinRange(Short.parseShort(infos[1]));
+                weaponTemplate.setMaxRange(Short.parseShort(infos[2]));
+                weaponTemplate.setCriticalRate(Short.parseShort(infos[3]));
+                weaponTemplate.setFailureRate(Short.parseShort(infos[4]));
+                weaponTemplate.setCriticalBonus(Short.parseShort(infos[5]));
                 weaponTemplate.setTwoHands(infos[6].equals("1"));
+                weaponTemplate.setEthereal(false);
 
                 itemTemplate = weaponTemplate;
             } else if (type.isUsable()) {
@@ -222,7 +228,7 @@ public class AncestraLoader extends JDBCLoader {
                 if (effectString.isEmpty()) continue;
                 String[] args = effectString.split("#");
 
-                ItemEffectTemplate effect = new ItemEffectTemplate(factory);
+                ItemEffectTemplate effect = new ItemEffectTemplate(null);
                 effect.setEffect(ItemEffectEnum.valueOf(Integer.parseInt(args[0], 16)));
                 try {
                     effect.setBonus(Dofus1Dice.parseDice(args[4]));

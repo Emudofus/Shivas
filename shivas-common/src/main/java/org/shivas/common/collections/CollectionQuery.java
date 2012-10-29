@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.*;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class CollectionQuery<T> implements Iterable<T> {
@@ -61,6 +62,18 @@ public class CollectionQuery<T> implements Iterable<T> {
         }
 
         return this;
+    }
+
+    public <E> CollectionQuery<E> ofType(final Class<E> clazz) {
+        return filter(new Predicate<T>() {
+            public boolean apply(@Nullable T input) {
+                return input != null && clazz.isInstance(input);
+            }
+        }).transform(new Function<T, E>() {
+            public E apply(@Nullable T input) {
+                return clazz.cast(input);
+            }
+        });
     }
 	
 	public T first() {

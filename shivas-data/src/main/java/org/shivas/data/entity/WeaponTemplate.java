@@ -5,13 +5,57 @@ import org.shivas.data.EntityFactory;
 public class WeaponTemplate extends ItemTemplate {
 
 	private static final long serialVersionUID = -520474825772002553L;
-	
-	private boolean twoHands;
-	private boolean ethereal;
+
+    private short cost;
+    private short minRange, maxRange;
+    private short criticalRate, failureRate;
+    private short criticalBonus;
+    private boolean twoHands;
+    private boolean ethereal;
 
 	public WeaponTemplate(EntityFactory factory) {
 		super(factory);
 	}
+
+    public short getCost() {
+        return cost;
+    }
+
+    public void setCost(short cost) {
+        this.cost = cost;
+    }
+
+    public short getMinRange() {
+        return minRange;
+    }
+
+    public void setMinRange(short minRange) {
+        this.minRange = minRange;
+    }
+
+    public short getMaxRange() {
+        return maxRange;
+    }
+
+    public void setMaxRange(short maxRange) {
+        this.maxRange = maxRange;
+    }
+
+    public short getCriticalRate() {
+        return criticalRate;
+    }
+
+    public void setCriticalRate(short criticalRate) {
+        this.criticalRate = criticalRate;
+    }
+
+    public short getFailureRate() {
+        return failureRate;
+    }
+
+    public void setFailureRate(short failureRate) {
+        this.failureRate = failureRate;
+    }
 
 	/**
 	 * @return the twoHands
@@ -41,4 +85,11 @@ public class WeaponTemplate extends ItemTemplate {
 		this.ethereal = ethereal;
 	}
 
+    public short getCriticalBonus() {
+        return criticalBonus;
+    }
+
+    public void setCriticalBonus(short criticalBonus) {
+        this.criticalBonus = criticalBonus;
+    }
 }

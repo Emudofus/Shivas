@@ -212,6 +212,12 @@ public class XMLDataOutputter implements DataOutputter {
 
 			if (item.getType().isWeapon()) {
 				WeaponTemplate weapon = (WeaponTemplate) item;
+                item_elem.setAttribute("cost", String.valueOf(weapon.getCost()));
+                item_elem.setAttribute("minRange", String.valueOf(weapon.getMinRange()));
+                item_elem.setAttribute("maxRange", String.valueOf(weapon.getMaxRange()));
+                item_elem.setAttribute("criticalRate", String.valueOf(weapon.getCriticalRate()));
+                item_elem.setAttribute("failureRate", String.valueOf(weapon.getFailureRate()));
+                item_elem.setAttribute("criticalBonus", String.valueOf(weapon.getCriticalBonus()));
 				item_elem.setAttribute("twoHands", String.valueOf(weapon.isTwoHands()));
 				item_elem.setAttribute("ethereal", String.valueOf(weapon.isEthereal()));
 			} else if (item.getType().isUsable()) {

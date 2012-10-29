@@ -175,7 +175,16 @@ public class VemuLoader extends JDBCLoader {
 
             ItemTypeEnum type = ItemTypeEnum.valueOf(rset.getInt("Type"));
             if (type.isWeapon()) {
+                String[] infos = rset.getString("WeaponInfos").split(",");
+
                 WeaponTemplate weaponTemplate = new WeaponTemplate(null);
+
+                weaponTemplate.setCriticalBonus(Short.parseShort(infos[0]));
+                weaponTemplate.setCost(Short.parseShort(infos[1]));
+                weaponTemplate.setMinRange(Short.parseShort(infos[2]));
+                weaponTemplate.setMaxRange(Short.parseShort(infos[3]));
+                weaponTemplate.setCriticalRate(Short.parseShort(infos[4]));
+                weaponTemplate.setFailureRate(Short.parseShort(infos[5]));
                 weaponTemplate.setTwoHands(rset.getBoolean("TwoHands"));
                 weaponTemplate.setEthereal(rset.getBoolean("IsEthereal"));
 
@@ -199,7 +208,7 @@ public class VemuLoader extends JDBCLoader {
                 if (effectString.isEmpty()) continue;
                 String[] args = effectString.split("#");
 
-                ItemEffectTemplate effect = new ItemEffectTemplate(factory);
+                ItemEffectTemplate effect = new ItemEffectTemplate(null);
                 effect.setEffect(ItemEffectEnum.valueOf(Integer.parseInt(args[0], 16)));
                 try {
                     effect.setBonus(Dofus1Dice.parseDice(args[4].trim()));

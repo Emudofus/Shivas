@@ -8,6 +8,6 @@ public interface Item extends Serializable, Comparable<Item> {
 	ItemTemplate getTemplate();
 	void setTemplate(ItemTemplate template);
 
-	Collection<ItemEffect> getEffects();
-	void setEffects(Collection<ItemEffect> effects);
+	Collection<ItemEffect> getItemEffects();
+	void setItemEffects(Collection<ItemEffect> effects);
 }

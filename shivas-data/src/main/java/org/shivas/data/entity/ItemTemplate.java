@@ -12,8 +12,6 @@ import com.google.common.base.Function;
 import org.shivas.protocol.client.types.BaseItemTemplateEffectType;
 import org.shivas.protocol.client.types.BaseItemTemplateType;
 
-import javax.annotation.Nullable;
-
 public class ItemTemplate implements Serializable {
 
 	private static final long serialVersionUID = -4455899142517688060L;
@@ -149,11 +147,11 @@ public class ItemTemplate implements Serializable {
 		
 		item.setTemplate(this);
 		
-		item.setEffects(Collections3.transform(effects, new Function<ItemEffectTemplate, ItemEffect>() {
-			public ItemEffect apply(ItemEffectTemplate arg0) {
-				return arg0.generate();
-			}
-		}));
+		item.setItemEffects(Collections3.transform(effects, new Function<ItemEffectTemplate, ItemEffect>() {
+            public ItemEffect apply(ItemEffectTemplate arg0) {
+                return arg0.generate();
+            }
+        }));
 		
 		return item;
 	}

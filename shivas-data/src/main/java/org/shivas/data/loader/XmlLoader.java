@@ -304,9 +304,15 @@ public class XmlLoader extends AbstractLoader {
 	private ItemTemplate makeItemTemplate(Element elem, ItemTypeEnum type) throws Exception {
 		if (type.isWeapon()) {
 			WeaponTemplate weapon = factory.newWeaponTemplate();
-			
-			weapon.setTwoHands(elem.getAttribute("twoHands").getBooleanValue());
-			weapon.setEthereal(elem.getAttribute("ethereal").getBooleanValue());
+
+            weapon.setCost((short) elem.getAttribute("cost").getIntValue());
+            weapon.setMinRange((short) elem.getAttribute("minRange").getIntValue());
+            weapon.setMaxRange((short) elem.getAttribute("maxRange").getIntValue());
+            weapon.setCriticalRate((short) elem.getAttribute("criticalRate").getIntValue());
+            weapon.setFailureRate((short) elem.getAttribute("failureRate").getIntValue());
+            weapon.setCriticalBonus((short) elem.getAttribute("criticalBonus").getIntValue());
+            weapon.setTwoHands(elem.getAttribute("twoHands").getBooleanValue());
+            weapon.setEthereal(elem.getAttribute("ethereal").getBooleanValue());
 			
 			return weapon;
 		} else if (type.isUsable()) {
