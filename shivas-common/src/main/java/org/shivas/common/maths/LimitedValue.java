@@ -3,8 +3,21 @@ package org.shivas.common.maths;
 public interface LimitedValue {
 	int current();
 	void setCurrent(int current);
-	void plus(int p);
-	void minus(int m);
+
+    /**
+     * add to current
+     * @param p to add
+     * @return effectively added
+     */
+	int plus(int p);
+
+    /**
+     * remove from current
+     * @param m to remove
+     * @return effectively removed
+     */
+	int minus(int m);
+
 	void percent(int percent);
 	
 	int min();
@@ -14,6 +27,6 @@ public interface LimitedValue {
 	void minusMax(int p);
 	void resetMax();
 	
-	void setMin();
-	void setMax();
+	int setMin();
+	int setMax();
 }

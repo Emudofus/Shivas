@@ -31,7 +31,7 @@ public final class Fists implements Castable {
 
     @Override
     public short getCost() {
-        return 5;
+        return 4;
     }
 
     @Override

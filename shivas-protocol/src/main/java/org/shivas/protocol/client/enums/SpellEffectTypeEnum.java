@@ -6,6 +6,8 @@ package org.shivas.protocol.client.enums;
  * IDE : IntelliJ IDEA
  */
 
+import org.shivas.common.statistics.CharacteristicType;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -183,6 +185,58 @@ public enum SpellEffectTypeEnum {
 
     public int value() {
         return value;
+    }
+
+    public CharacteristicType toCharacteristicType() {
+        switch (this) {
+        case DamageNeutral:
+        case StealNeutral:
+        case DamageEarth:
+        case StealEarth:
+            return CharacteristicType.Strength;
+
+        case DamageFire:
+        case StealFire:
+            return CharacteristicType.Intelligence;
+
+        case DamageWind:
+        case StealWind:
+            return CharacteristicType.Agility;
+
+        case DamageWater:
+        case StealWater:
+            return CharacteristicType.Chance;
+
+        default:
+            return null;
+        }
+    }
+
+    public CharacteristicType toResistanceCharacteristicType() {
+        switch (this){
+        case DamageNeutral:
+        case StealNeutral:
+            return CharacteristicType.ResistanceNeutral;
+
+        case DamageEarth:
+        case StealEarth:
+            return CharacteristicType.ResistanceEarth;
+
+        case DamageFire:
+        case StealFire:
+            return CharacteristicType.ResistanceFire;
+
+        case DamageWind:
+        case StealWind:
+            return CharacteristicType.ResistanceWind;
+
+        case DamageWater:
+        case StealWater:
+            return CharacteristicType.ResistanceWater;
+
+        default:
+            return null;
+        }
     }
 
     private static final Map<Integer, SpellEffectTypeEnum> values = new HashMap<Integer, SpellEffectTypeEnum>();

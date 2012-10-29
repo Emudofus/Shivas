@@ -28,6 +28,8 @@ public class FighterCastFrame extends Frame {
     }
 
     private boolean computeFailure() {
+        if (castable.getFailureRate() <= 0) return false;
+
         int criticalFailureRate = castable.getFailureRate() + fighter.getStats().get(CriticalFailure).total();
         if (criticalFailureRate < 2){
             criticalFailureRate = 2;
@@ -36,6 +38,8 @@ public class FighterCastFrame extends Frame {
     }
 
     private boolean computeCritical() {
+        if (castable.getCriticalRate() <= 0) return false;
+
         short agility = fighter.getStats().get(Agility).safeTotal();
         int criticalRate = castable.getCriticalRate() + fighter.getStats().get(CriticalHit).safeTotal();
         criticalRate = (short)((criticalRate * 2.9901) / Math.log(agility + 12));

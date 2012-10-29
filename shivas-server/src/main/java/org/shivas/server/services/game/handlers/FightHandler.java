@@ -252,6 +252,10 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         case MELEE_ATTACK:
             listenFighterCast((FighterCastEvent) event);
             break;
+
+        case LIFE_CHANGEMENT:
+            listenFighterLifeUpdate((FighterLifeUpdateEvent) event);
+            break;
         }
     }
 
@@ -278,6 +282,15 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         }
     }
 
+    private void listenFighterLifeUpdate(FighterLifeUpdateEvent event) {
+        client.write(FightGameMessageFormatter.actionMessage(
+                ActionTypeEnum.LIFE_CHANGEMENT,
+                event.getFighter().getId(),
+                event.getTarget().getId(),
+                event.getDelta()
+        ));
+    }
+
     private void listenFighterMovement(FighterMovementEvent event) {
         client.write(FightGameMessageFormatter.fighterMovementMessage(
                 event.getFighter().getId(),
@@ -286,17 +299,15 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
     }
 
     private void listenFightEndMovement(FighterMovementEndEvent event) {
-        Fighter fighter = event.getFighter();
-
         client.write(FightGameMessageFormatter.actionMessage(
                 ActionTypeEnum.MP_CHANGEMENT,
-                fighter.getId(),
-                fighter.getId(),
+                event.getFighter().getId(),
+                event.getFighter().getId(),
                 event.getUsedMovementPoints() * -1
         ));
 
-        if (fighter instanceof PlayerFighter) {
-            client.write(FightGameMessageFormatter.endFightActionMessage(EndActionTypeEnum.MOVEMENT, fighter.getId()));
+        if (event.getFighter() instanceof PlayerFighter) {
+            client.write(FightGameMessageFormatter.endFightActionMessage(EndActionTypeEnum.MOVEMENT, event.getFighter().getId()));
         }
     }
 
@@ -307,5 +318,7 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
                 event.getFighter().getId(),
                 -event.getCastable().getCost()
         ));
+
+        client.write(FightGameMessageFormatter.endFightActionMessage(EndActionTypeEnum.SPELL, event.getFighter().getId()));
     }
 }

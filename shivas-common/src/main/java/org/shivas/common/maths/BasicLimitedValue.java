@@ -25,37 +25,35 @@ public class BasicLimitedValue implements LimitedValue {
 		this.maxReset = max;
 	}
 
+    private void check() {
+        if (current < min) {
+            current = min;
+        } else if (current > max) {
+            current = max;
+        }
+    }
+
 	public int current() {
 		return current;
 	}
 
 	public void setCurrent(int current) {
-		if (current < min) {
-			current = min;
-		} else if (current > max) {
-			current = max;
-		}
 		this.current = current;
+        check();
 	}
 
-	public void plus(int p) {
-		this.current += p;
-		
-		if (current < min) {
-			current = min;
-		} else if (current > max) {
-			current = max;
-		}
+	public int plus(int p) {
+        int old = current;
+		current += p;
+        check();
+        return current - old;
 	}
 
-	public void minus(int m) {
-		this.current -= m;
-
-		if (current < min) {
-			current = min;
-		} else if (current > max) {
-			current = max;
-		}
+	public int minus(int m) {
+        int old = current;
+		current -= m;
+        check();
+        return old - current;
 	}
 
 	public void percent(int percent) {
@@ -91,12 +89,16 @@ public class BasicLimitedValue implements LimitedValue {
 		max = maxReset;
 	}
 
-	public void setMin() {
-		this.current = min;
+	public int setMin() {
+        int old = current;
+		current = min;
+        return old - current;
 	}
 
-	public void setMax() {
-		this.current = max;
+	public int setMax() {
+        int old = current;
+		current = max;
+        return current - old;
 	}
 
 }

@@ -35,15 +35,19 @@ public abstract class LifeValue implements LimitedValue {
 	}
 
 	@Override
-	public void plus(int p) {
-		this.current += p;
+	public int plus(int p) {
+        int old = current;
+		current += p;
 		check();
+        return current - old;
 	}
 
 	@Override
-	public void minus(int m) {
-		this.current -= m;
+	public int minus(int m) {
+        int old = current;
+		current -= m;
 		check();
+        return old - current;
 	}
 
 	@Override
@@ -65,13 +69,17 @@ public abstract class LifeValue implements LimitedValue {
 	}
 
 	@Override
-	public void setMin() {
+	public int setMin() {
+        int old = current;
 		current = 0;
+        return old;
 	}
 
 	@Override
-	public void setMax() {
+	public int setMax() {
+        int old = current;
 		current = max();
+        return current - old;
 	}
 	
 }

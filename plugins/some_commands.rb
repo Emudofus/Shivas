@@ -10,7 +10,8 @@ class SomeCommandsPlugin < Plugin
 		ArrayList.new [
 			HelloWorldCommand.new,
 			MemoryUsageCommand.new,
-			GarbageCollectorCommand.new
+			GarbageCollectorCommand.new,
+      RestoreLifeCommand.new
 		]
 	end
 end
@@ -79,6 +80,33 @@ class GarbageCollectorCommand
 			log.info "garbage collecting has no effect here"
 		end
 	end
+end
+
+class RestoreLifeCommand
+  include Command
+
+  def name
+    "life"
+  end
+  def conditions
+    Conditions.new
+  end
+  def help
+    "Restore your life"
+  end
+
+  def canUse(client)
+    true
+  end
+
+  def use(client, log, params)
+    stats = client.player().stats
+
+    delta = stats.life().setMax()
+
+    client.write(stats.packet())
+    log.info("You recovered %d life point", delta)
+  end
 end
 
 SomeCommandsPlugin.new
