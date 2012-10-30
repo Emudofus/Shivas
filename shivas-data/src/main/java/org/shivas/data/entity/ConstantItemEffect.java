@@ -11,7 +11,8 @@ public class ConstantItemEffect extends ItemEffect implements Serializable {
 
 	private short bonus;
 	
-	public ConstantItemEffect() {
+	public ConstantItemEffect(ItemEffectEnum type) {
+        super(type);
 	}
 	
 	public ConstantItemEffect(ItemEffectEnum type, short bonus) {
@@ -45,6 +46,14 @@ public class ConstantItemEffect extends ItemEffect implements Serializable {
     public String toString(int radix) {
         return Integer.toString(type.value(), radix) + "," +
                Integer.toString(bonus, radix);
+    }
+
+    @Override
+    public void fromString(String string, int radix) {
+        String[] args = string.split(",");
+
+        type = ItemEffectEnum.valueOf(Integer.parseInt(args[0], radix));
+        bonus = Short.parseShort(args[1], radix);
     }
 
     @Override

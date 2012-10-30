@@ -1,10 +1,5 @@
 package org.shivas.core.database;
 
-import org.shivas.data.Container;
-import org.shivas.data.entity.*;
-import org.shivas.data.entity.factory.AbstractEntityFactory;
-import org.shivas.data.entity.factory.ActionFactory;
-import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 import org.shivas.core.config.Config;
 import org.shivas.core.core.actions.ShivasActionFactory;
 import org.shivas.core.core.castables.Weapon;
@@ -15,6 +10,12 @@ import org.shivas.core.core.castables.effects.WeaponItemEffectAdapter;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.core.npcs.GameNpc;
 import org.shivas.core.database.models.GameItem;
+import org.shivas.data.Container;
+import org.shivas.data.entity.*;
+import org.shivas.data.entity.factory.AbstractEntityFactory;
+import org.shivas.data.entity.factory.ActionFactory;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
+import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -52,18 +53,18 @@ public class ShivasEntityFactory extends AbstractEntityFactory {
 	}
 
     @Override
-    public WeaponItemEffect newWeaponItemEffect(ItemEffectTemplate template) {
-        EffectInterface effect = effectFactory.create(null, template.getEffect().toDamageSpellEffectType());
-        return effect == null ?
-                new WeaponItemEffect(template.getEffect(), template.getBonus()) :
-                new WeaponItemEffectAdapter(template.getEffect(), template.getBonus(), effect);
-    }
-
-    @Override
     public SpellEffect newSpellEffect(SpellLevel level, SpellEffectTypeEnum type) {
         EffectInterface effect = effectFactory.create(level, type);
         return effect == null ?
-                new SpellEffect() :
+                super.newSpellEffect(level, type) :
                 new SpellEffectAdapter(effect);
+    }
+
+    @Override
+    public WeaponItemEffect newWeaponItemEffect(ItemEffectEnum type) {
+        EffectInterface effect = effectFactory.create(null, type.toDamageSpellEffectType());
+        return effect == null ?
+                super.newWeaponItemEffect(type) :
+                new WeaponItemEffectAdapter(type, effect);
     }
 }

@@ -271,8 +271,7 @@ public class XmlLoader extends AbstractLoader {
 				int level = effects_elem.getAttribute("level").getIntValue();
 				
 				for (Element effect_elem : effects_elem.getChildren("effect")) {					
-					ConstantItemEffect effect = factory.newConstantItemEffect();
-					effect.setType(ItemEffectEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
+					ConstantItemEffect effect = factory.newConstantItemEffect(ItemEffectEnum.valueOf(effect_elem.getAttribute("type").getIntValue()));
 					effect.setBonus((short) effect_elem.getAttribute("bonus").getIntValue());
 					
 					effects.put(level, effect);

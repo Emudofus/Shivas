@@ -2,6 +2,7 @@ package org.shivas.data;
 
 import org.shivas.data.entity.*;
 import org.shivas.data.entity.factory.ActionFactory;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
 public interface EntityFactory {
@@ -21,8 +22,12 @@ public interface EntityFactory {
 	ItemEffectTemplate newItemEffectTemplate();
 
 	Item newItem(ItemTemplate template);
-	ItemEffect newItemEffect(ItemEffectTemplate template);
-    ConstantItemEffect newConstantItemEffect();
+
+    ItemEffect newItemEffect(ItemEffectEnum type);
+    ConstantItemEffect newConstantItemEffect(ItemEffectEnum type);
+    WeaponItemEffect newWeaponItemEffect(ItemEffectEnum type);
+
+    ItemEffect newItemEffect(ItemEffectTemplate template);
 	ConstantItemEffect newConstantItemEffect(ItemEffectTemplate template);
 	WeaponItemEffect newWeaponItemEffect(ItemEffectTemplate template);
 	

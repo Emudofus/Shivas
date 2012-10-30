@@ -20,6 +20,11 @@ import org.shivas.core.core.fights.Fighter;
 public class WeaponItemEffectAdapter extends WeaponItemEffect implements EffectInterface {
     private final EffectInterface effect;
 
+    public WeaponItemEffectAdapter(ItemEffectEnum type, EffectInterface effect) {
+        super(type);
+        this.effect = effect;
+    }
+
     public WeaponItemEffectAdapter(ItemEffectEnum type, Dice dice, EffectInterface effect) {
         super(type, dice);
         this.effect = effect;

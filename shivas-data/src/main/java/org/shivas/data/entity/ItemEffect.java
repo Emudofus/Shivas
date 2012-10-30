@@ -25,8 +25,6 @@ public abstract class ItemEffect {
 
     protected ItemEffectEnum type;
 
-    protected ItemEffect() { }
-
     protected ItemEffect(ItemEffectEnum type) {
         this.type = type;
     }
@@ -43,4 +41,9 @@ public abstract class ItemEffect {
 
     public abstract BaseItemEffectType toBaseItemEffectType();
     public abstract String toString(int radix);
+    public abstract void fromString(String string, int radix);
+
+    public void fromString(String string) {
+        fromString(string, 10);
+    }
 }

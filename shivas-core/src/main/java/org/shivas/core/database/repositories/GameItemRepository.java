@@ -1,5 +1,6 @@
 package org.shivas.core.database.repositories;
 
+import com.google.common.collect.Lists;
 import org.atomium.EntityManager;
 import org.atomium.repository.BaseEntityRepository;
 import org.atomium.repository.impl.AbstractEntityRepository;
@@ -7,34 +8,26 @@ import org.atomium.util.pk.LongPrimaryKeyGenerator;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.QueryBuilder;
-import org.shivas.common.collections.Collections3;
-import org.shivas.data.Container;
-import org.shivas.data.entity.ItemEffect;
-import org.shivas.data.entity.ItemTemplate;
-import org.shivas.data.entity.WeaponTemplate;
-import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.core.core.castables.Weapon;
 import org.shivas.core.database.models.GameItem;
 import org.shivas.core.database.models.Player;
-import org.shivas.core.utils.Converters;
+import org.shivas.data.Container;
+import org.shivas.data.EntityFactory;
+import org.shivas.data.entity.ItemEffect;
+import org.shivas.data.entity.ItemTemplate;
+import org.shivas.data.entity.WeaponTemplate;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
+import org.shivas.protocol.client.enums.ItemPositionEnum;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class GameItemRepository extends AbstractEntityRepository<Long, GameItem> {
-	
-	
-	public static String effectsToString(Collection<ItemEffect> effects) {		
-		return Collections3.toString(effects, ";", Converters.ITEMEFFECT_TO_STRING);
-	}
-	
-	public static Collection<ItemEffect> stringToEffects(String string) {
-		return Collections3.fromString(string, ";", Converters.STRING_TO_ITEMEFFECT);
-	}
 	
 	private final QueryBuilder delete, persist, save;
 	private final Query load;
@@ -42,14 +35,17 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 	private final Container ctner;
 	private final BaseEntityRepository<Integer, Player> players;
 
+    private final EntityFactory entityFactory;
+
 	@Inject
-	public GameItemRepository(EntityManager em, Container ctner,BaseEntityRepository<Integer, Player> players) {
+	public GameItemRepository(EntityManager em, Container ctner, BaseEntityRepository<Integer, Player> players, EntityFactory entityFactory) {
 		super(em, new LongPrimaryKeyGenerator());
 		
 		this.ctner = ctner;
 		this.players = players;
-		
-		delete = em.builder().delete("items").where("id", Op.EQ);
+        this.entityFactory = entityFactory;
+
+        delete = em.builder().delete("items").where("id", Op.EQ);
 		
 		persist = em.builder()
 				.insert("items")
@@ -91,7 +87,7 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 		return query;
 	}
 
-	@Override
+    @Override
 	protected Query buildSaveQuery(GameItem entity) {
 		Query query = save.toQuery();
 		query.setParameter("id", entity.getId());
@@ -129,7 +125,34 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 		return item;
 	}
 
-	@Override
+    private String effectsToString(Collection<ItemEffect> itemEffects) {
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        for (ItemEffect itemEffect : itemEffects) {
+            if (first) first = false;
+            else sb.append(";");
+            sb.append(itemEffect.toString(16));
+        }
+        return sb.toString();
+    }
+
+    private Collection<ItemEffect> stringToEffects(String string) {
+        List<ItemEffect> itemEffects = Lists.newArrayList();
+        for (String str : string.split(";")) {
+            if (str.isEmpty()) continue;
+
+            ItemEffectEnum type = ItemEffectEnum.valueOf(Integer.parseInt(str.substring(0, str.indexOf(',')), 16));
+
+            ItemEffect effect = entityFactory.newItemEffect(type);
+            if (effect == null) continue;
+
+            effect.fromString(str, 16);
+            itemEffects.add(effect);
+        }
+        return itemEffects;
+    }
+
+    @Override
 	protected void unhandledException(Exception e) {
 	}
 

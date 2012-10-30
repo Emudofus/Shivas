@@ -2,6 +2,7 @@ package org.shivas.data.entity.factory;
 
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.*;
+import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
 public abstract class AbstractEntityFactory implements EntityFactory {
@@ -51,29 +52,47 @@ public abstract class AbstractEntityFactory implements EntityFactory {
 		return new ItemEffectTemplate(this);
 	}
 
-	@Override
-	public ItemEffect newItemEffect(ItemEffectTemplate template) {
-		return template.getEffect().isWeaponEffect() ?
-				newWeaponItemEffect(template) :
-				newConstantItemEffect(template);
-	}
-
-	@Override
-	public WeaponItemEffect newWeaponItemEffect(ItemEffectTemplate template) {
-		return new WeaponItemEffect(template.getEffect(), template.getBonus());
-	}
-
     @Override
-    public ConstantItemEffect newConstantItemEffect() {
-        return new ConstantItemEffect();
+    public ItemEffect newItemEffect(ItemEffectEnum type) {
+        return type.isWeaponEffect() ?
+                newWeaponItemEffect(type) :
+                newConstantItemEffect(type);
     }
 
-	@Override
-	public ConstantItemEffect newConstantItemEffect(ItemEffectTemplate template) {
-		return new ConstantItemEffect(template.getEffect(), (short) template.getBonus().roll());
-	}
+    @Override
+    public ConstantItemEffect newConstantItemEffect(ItemEffectEnum type) {
+        return new ConstantItemEffect(type);
+    }
 
-	@Override
+    @Override
+    public WeaponItemEffect newWeaponItemEffect(ItemEffectEnum type) {
+        return new WeaponItemEffect(type);
+    }
+
+    @Override
+    public ItemEffect newItemEffect(ItemEffectTemplate template) {
+        return template.getEffect().isWeaponEffect() ?
+                newWeaponItemEffect(template) :
+                newConstantItemEffect(template);
+    }
+
+    @Override
+    public ConstantItemEffect newConstantItemEffect(ItemEffectTemplate template) {
+        ConstantItemEffect effect = newConstantItemEffect(template.getEffect());
+        effect.setBonus((short) template.getBonus().roll());
+
+        return effect;
+    }
+
+    @Override
+    public WeaponItemEffect newWeaponItemEffect(ItemEffectTemplate template) {
+        WeaponItemEffect effect = newWeaponItemEffect(template.getEffect());
+        effect.setDice(template.getBonus());
+
+        return effect;
+    }
+
+    @Override
 	public WeaponTemplate newWeaponTemplate() {
 		return new WeaponTemplate(this);
 	}
