@@ -1,7 +1,8 @@
-package org.shivas.server.core.commands;
+package org.shivas.server.modules;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
+import org.shivas.server.core.commands.*;
 
 import javax.inject.Singleton;
 
@@ -11,7 +12,7 @@ import javax.inject.Singleton;
  * Date: 30/10/12
  * Time: 10:54
  */
-public class CommandModule extends AbstractModule {
+public class ShivasCommandModule extends AbstractModule {
     @Override
     protected void configure() {
         Multibinder<Command> b = Multibinder.newSetBinder(binder(), Command.class);

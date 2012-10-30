@@ -3,6 +3,7 @@ package org.shivas.server;
 import org.atomium.EntityManager;
 import org.shivas.server.core.plugins.PluginsManager;
 import org.shivas.server.database.RepositoryContainer;
+import org.shivas.server.modules.ShivasModule;
 import org.shivas.server.services.game.GameService;
 import org.shivas.server.services.login.LoginService;
 import org.shivas.server.utils.ContainerProvider;
