@@ -13,32 +13,29 @@ import org.shivas.server.database.models.GameItem;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.game.GameClient;
 
-public class GiveItemCommand implements Command {
-	
-	private final RepositoryContainer repo;
+import javax.inject.Inject;
 
-	public GiveItemCommand(RepositoryContainer repo) {
-		this.repo = repo;
-	}
+public class GiveItemCommand implements Command {
+
+    @Inject
+	private RepositoryContainer repo;
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "give_item";
 	}
 
 	@Override
-	public Conditions conditions() {
-		Conditions conditions = new Conditions();
-		
-		conditions.add("target", new PlayerType(repo.players()), "The target to give item");
-		conditions.add("item", ItemTemplateType.INSTANCE, "The item to give");
-		conditions.add("quantity", Types.INTEGER, "The quantity of item to give", true);
-		
-		return conditions;
+	public Conditions getConditions() {
+		return new Conditions() {{
+            add("target", new PlayerType(repo.players()), "The target to give item");
+            add("item", ItemTemplateType.INSTANCE, "The item to give");
+            add("quantity", Types.INTEGER, "The quantity of item to give", true);
+        }};
 	}
 
 	@Override
-	public String help() {
+	public String getHelp() {
 		return "Give an item";
 	}
 

@@ -1,8 +1,8 @@
 package org.shivas.common.params;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 public class Parameters {
 
@@ -19,5 +19,14 @@ public class Parameters {
 	public Object get(String name) {
 		return values.get(name);
 	}
+
+    public boolean has(String name) {
+        return values.containsKey(name);
+    }
+
+    public boolean has(String name, Class<?> clazz) {
+        Object value = values.get(name);
+        return value != null && clazz.isInstance(value);
+    }
 	
 }

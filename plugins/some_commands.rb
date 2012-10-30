@@ -19,9 +19,9 @@ end
 class HelloWorldCommand
 	include Command
 
-	def name; "hello"; end
-	def conditions; Conditions.new; end
-	def help; "Hello world"; end
+	def getName; "hello"; end
+	def getConditions; Conditions.new; end
+	def getHelp; "Hello world"; end
 
 	def canUse(client); true; end
 
@@ -34,9 +34,9 @@ end
 class MemoryUsageCommand
 	include Command
 
-	def name; "memory"; end
-	def conditions; Conditions.new; end
-	def help; "Show the used memory"; end
+	def getName; "memory"; end
+	def getConditions; Conditions.new; end
+	def getHelp; "Show the used memory"; end
 
 	def canUse(client)
 		client.account().hasRights()
@@ -55,9 +55,15 @@ end
 class GarbageCollectorCommand
 	include Command
 
-	def name; "gc"; end
-	def conditions; Conditions.new; end
-	def help; "Cleans memory"; end
+	def getName
+    "gc"
+  end
+	def getConditions
+    Conditions.new
+  end
+	def getHelp
+    "Cleans memory"
+  end
 
 	def canUse(client)
 		client.account().hasRights()
@@ -85,13 +91,13 @@ end
 class RestoreLifeCommand
   include Command
 
-  def name
+  def getName
     "life"
   end
-  def conditions
+  def getConditions
     Conditions.new
   end
-  def help
+  def getHelp
     "Restore your life"
   end
 

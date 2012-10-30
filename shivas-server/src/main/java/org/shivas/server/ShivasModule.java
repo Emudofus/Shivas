@@ -7,6 +7,7 @@ import org.shivas.server.core.actions.ShivasActionFactory;
 import org.shivas.server.core.castables.effects.DefaultEffectFactory;
 import org.shivas.server.core.castables.effects.EffectFactory;
 import org.shivas.server.core.commands.CommandEngine;
+import org.shivas.server.core.commands.CommandModule;
 import org.shivas.server.database.*;
 import org.shivas.server.services.game.*;
 import org.shivas.server.services.login.*;
@@ -30,6 +31,7 @@ public class ShivasModule extends AbstractModule {
 		bind(CommandEngine.class).asEagerSingleton();
 		
 		install(new ShivasDatabaseModule());
+        install(new CommandModule());
 	}
 
 }

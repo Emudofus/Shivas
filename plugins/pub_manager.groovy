@@ -20,7 +20,7 @@ class PubManagerPlugin extends Plugin {
 	]
 
 	final Collection<Command> commands = [
-		new SetMessageCommand(pubManager),
+		new PubControllerCommand(pubManager),
 		new SendPubCommand(pubManager)
 	]
 }
@@ -31,6 +31,7 @@ class PubManagerService implements Startable {
 	private def timer
 
 	String message = "default message"
+    boolean started
 
 	public PubManagerService() {
 		timer = new Timer(
@@ -44,40 +45,60 @@ class PubManagerService implements Startable {
 	}
 
 	void start() {
+        if (started) return
+
 		timer.start()
+        started = true
 	}
 
 	void stop() {
+        if (!started) return
+
 		timer.stop()
+        started = false
 	}
 }
 
-class SetMessageCommand implements Command {
+class PubControllerCommand implements Command {
 	private def pubManager
-	public SetMessageCommand(pubManager) {
+	public PubControllerCommand(pubManager) {
 		this.pubManager = pubManager
 	}
 
-	String name() { return "pub" }
-	String help() { return "Set the pub message" }
-
-	Conditions conditions() {
-		Conditions conds = new Conditions()
-		conds.add("msg", Types.STRING, "The message that PubManagerService will sent")
-
-		return conds
-	}
+    String name = "pub"
+    String help = "Control the pub manager"
+    Conditions conditions = new Conditions() {{
+        add("msg", Types.STRING, "The message that PubManagerService will sent", true)
+        add("enable", Types.BOOLEAN, "Enable the PubManagerService or not", true)
+    }}
 
 	boolean canUse(GameClient client) {
 		return client.account().hasRights()
 	}
 
 	void use(GameClient client, DofusLogger log, Parameters params) {
-		String msg = params.get("msg", String).replace("&gt;", ">").replace("&lt;", "<")
+        def msg = params.get("msg", String)
+        if (msg != null && msg.length() > 0) {
+            pubManager.message = msg.replace("&gt;", ">").replace("&lt;", "<")
 
-		pubManager.message = msg
+            log.info("The message has been setted.")
+        }
 
-		log.info("The message has been setted.")
+        if (params.has("enable", Boolean)) {
+            if (params.get("enable", Boolean)) {
+                if (pubManager.started) {
+                    log.error("PubManagerService is already running")
+                } else {
+                    pubManager.start()
+                }
+            } else {
+                if (!pubManager.started) {
+                    log.error("PubManagerService is already stopped")
+                } else {
+                    pubManager.stop()
+                }
+            }
+        }
 	}
 }
 
@@ -87,9 +108,9 @@ class SendPubCommand implements Command {
 		this.pubManager = pubManager
 	}
 
-	String name() { return "send_pub" }
-	Conditions conditions() { return Conditions.EMPTY }
-	String help() { return "Send the pub message" }
+    String name = "send_pub"
+    Conditions conditions = Conditions.EMPTY
+    String help = "Send the pub message"
 
 	boolean canUse(GameClient client) {
 		return client.account().hasRights()

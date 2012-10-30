@@ -7,9 +7,9 @@ import org.shivas.server.services.game.GameClient;
 
 public interface Command {
 
-	String name();
-	Conditions conditions();
-	String help();
+	String getName();
+	Conditions getConditions();
+	String getHelp();
 	
 	boolean canUse(GameClient client);
 	void use(GameClient client, DofusLogger log, Parameters params);

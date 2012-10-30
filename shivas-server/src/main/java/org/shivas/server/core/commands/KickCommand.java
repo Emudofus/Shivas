@@ -10,33 +10,31 @@ import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.database.models.Player;
 import org.shivas.server.services.game.GameClient;
 
-public class KickCommand implements Command {
-	
-	private final RepositoryContainer repo;
-	private final ChannelContainer channels;
+import javax.inject.Inject;
 
-	public KickCommand(RepositoryContainer repo, ChannelContainer channels) {
-		this.repo = repo;
-		this.channels = channels;
-	}
+public class KickCommand implements Command {
+
+    @Inject
+	private RepositoryContainer repo;
+
+    @Inject
+	private ChannelContainer channels;
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "kick";
 	}
 
 	@Override
-	public Conditions conditions() {
-		Conditions conds = new Conditions();
-		
-		conds.add("target", new PlayerType(repo.players()), "The target");
-		conds.add("msg", Types.STRING, "The message", true);
-		
-		return conds;
+	public Conditions getConditions() {
+		return new Conditions() {{
+            add("target", new PlayerType(repo.players()), "The target");
+            add("msg", Types.STRING, "The message", true);
+        }};
 	}
 
 	@Override
-	public String help() {
+	public String getHelp() {
 		return "Kick a player.";
 	}
 

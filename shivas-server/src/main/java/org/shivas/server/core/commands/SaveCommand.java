@@ -6,26 +6,25 @@ import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.database.RepositoryContainer;
 import org.shivas.server.services.game.GameClient;
 
-public class SaveCommand implements Command {
-	
-	private final RepositoryContainer repo;
+import javax.inject.Inject;
 
-	public SaveCommand(RepositoryContainer repo) {
-		this.repo = repo;
-	}
+public class SaveCommand implements Command {
+
+    @Inject
+	private RepositoryContainer repo;
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "save";
 	}
 
 	@Override
-	public Conditions conditions() {
+	public Conditions getConditions() {
 		return Conditions.EMPTY;
 	}
 
 	@Override
-	public String help() {
+	public String getHelp() {
 		return "Save all users' data";
 	}
 

@@ -15,17 +15,17 @@ import org.shivas.server.services.game.GameClient;
  */
 public class CreateGuildCommand implements Command {
     @Override
-    public String name() {
+    public String getName() {
         return "create_guild";
     }
 
     @Override
-    public Conditions conditions() {
+    public Conditions getConditions() {
         return Conditions.EMPTY;
     }
 
     @Override
-    public String help() {
+    public String getHelp() {
         return "Open the creation guild panel";
     }
 

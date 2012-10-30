@@ -7,29 +7,27 @@ import org.shivas.server.core.logging.DofusLogger;
 import org.shivas.server.core.services.NetworkStatisticsCenter;
 import org.shivas.server.services.game.GameClient;
 
-public class AverageHandleCommand implements Command {
-	
-	private final NetworkStatisticsCenter stats;
+import javax.inject.Inject;
 
-	public AverageHandleCommand(NetworkStatisticsCenter stats) {
-		this.stats = stats;
-	}
+public class AverageHandleCommand implements Command {
+
+    @Inject
+	private NetworkStatisticsCenter stats;
 
 	@Override
-	public String name() {
+	public String getName() {
 		return "avg";
 	}
 
 	@Override
-	public Conditions conditions() {
-		Conditions conds = new Conditions();
-		conds.add("h", Types.STRING, "Packet's header");
-		
-		return conds;
+	public Conditions getConditions() {
+		return new Conditions() {{
+            add("h", Types.STRING, "Packet's header");
+        }};
 	}
 
 	@Override
-	public String help() {
+	public String getHelp() {
 		return "Returns the average of handle duration";
 	}
 
