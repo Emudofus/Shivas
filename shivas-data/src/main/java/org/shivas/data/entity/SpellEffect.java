@@ -14,7 +14,8 @@ public class SpellEffect implements Serializable {
 	private short first, second, third;
 	private short turns, chance;
 	private Dice dice;
-	private String target;
+	private int target;
+    private String zone;
 	
 	/**
 	 * @return the level
@@ -115,14 +116,21 @@ public class SpellEffect implements Serializable {
 	/**
 	 * @return the target
 	 */
-	public String getTarget() {
+	public int getTargetRaw() {
 		return target;
 	}
 	/**
 	 * @param target the target to set
 	 */
-	public void setTarget(String target) {
+	public void setTargetRaw(int target) {
 		this.target = target;
 	}
 
+    public String getZoneRaw() {
+        return zone;
+    }
+
+    public void setZoneRaw(String zone) {
+        this.zone = zone;
+    }
 }

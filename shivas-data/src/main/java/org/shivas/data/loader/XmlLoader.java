@@ -414,7 +414,6 @@ public class XmlLoader extends AbstractLoader {
 				level.setMaxPerTurn((byte) level_elem.getAttribute("maxPerTurn").getIntValue());
 				level.setMaxPerPlayer((byte) level_elem.getAttribute("maxPerPlayer").getIntValue());
 				level.setTurns((byte) level_elem.getAttribute("turns").getIntValue());
-				level.setRangeType(level_elem.getAttributeValue("rangeType"));
 				
 				List<SpellEffect> effects = Lists.newArrayList(), criticalEffects = Lists.newArrayList();
 				for (Element effect_elem : level_elem.getChildren("effect")) {
@@ -439,7 +438,9 @@ public class XmlLoader extends AbstractLoader {
 						effect.setDice(Dofus1Dice.ZERO);
 					
 					if (effect_elem.getAttribute("target") != null)
-						effect.setTarget(effect_elem.getAttributeValue("target"));
+						effect.setTargetRaw(effect_elem.getAttribute("target").getIntValue());
+
+                    effect.setZoneRaw(effect_elem.getAttributeValue("zone"));
 					
 					if (effect_elem.getAttribute("critical") != null) {
 						criticalEffects.add(effect);

@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Arrays.asList;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Blackrush
@@ -243,11 +245,24 @@ public class VemuLoader extends JDBCLoader {
             if (args.length > 4) effect.setTurns(Short.parseShort(args[4]));
             if (args.length > 5) effect.setChance(Short.parseShort(args[5]));
             if (args.length > 6) effect.setDice(Dofus1Dice.parseDice(args[6]));
-            if (args.length > 7) effect.setTarget(args[7]);
+            if (args.length > 7 && !args[7].isEmpty()) effect.setTargetRaw(Integer.parseInt(args[7]));
 
             effects.add(effect);
         }
         return effects;
+    }
+
+    private void loadZonesRaw(List<SpellEffect> effects, List<SpellEffect> criticalEffects, String zones) {
+        int i = 0;
+        for (List<SpellEffect> current : asList(effects, criticalEffects)) {
+            for (SpellEffect effect : current) {
+                String zone = zones.substring(i, i + 2);
+                effect.setZoneRaw(zone);
+
+                i += 2;
+                if (i >= zones.length()) i = 0;
+            }
+        }
     }
 
     @Override
@@ -281,11 +296,12 @@ public class VemuLoader extends JDBCLoader {
                 level.setMaxPerTurn(Byte.parseByte(args[12].trim()));
                 level.setMaxPerPlayer(Byte.parseByte(args[13].trim()));
                 level.setTurns(Byte.parseByte(args[14].trim()));
-                level.setRangeType(args[15].trim());
                 level.setEndsTurnOnFailure(args[19].trim().equalsIgnoreCase("true"));
 
-                level.setEffects(loadEffects(args[0]));
-                level.setCriticalEffects(loadEffects(args[1]));
+                List<SpellEffect> effects = loadEffects(args[0]), criticalEffects = loadEffects(args[1]);
+                loadZonesRaw(effects, criticalEffects, args[15].trim());
+                level.setEffects(effects);
+                level.setCriticalEffects(criticalEffects);
 
                 levels[i - 1] = level;
             }

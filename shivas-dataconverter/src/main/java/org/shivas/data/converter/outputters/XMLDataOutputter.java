@@ -243,14 +243,15 @@ public class XMLDataOutputter implements DataOutputter {
 	
 	private Element toElement(SpellEffect effect) {
 		Element effect_elem = new Element("effect");
-		effect_elem.setAttribute("type", String.valueOf(effect.getType()));
+		effect_elem.setAttribute("type", String.valueOf(effect.getType().value()));
 		effect_elem.setAttribute("first", String.valueOf(effect.getFirst()));
 		effect_elem.setAttribute("second", String.valueOf(effect.getSecond()));
 		effect_elem.setAttribute("third", String.valueOf(effect.getThird()));
 		if (effect.getTurns() >= 0) effect_elem.setAttribute("turns", String.valueOf(effect.getTurns()));
 		if (effect.getChance() >= 0) effect_elem.setAttribute("chance", String.valueOf(effect.getChance()));
 		if (effect.getDice() != null && !effect.getDice().equals(Dofus1Dice.ZERO)) effect_elem.setAttribute("dice", String.valueOf(effect.getDice().toString()));
-		if (effect.getTarget() != null && !effect.getTarget().isEmpty()) effect_elem.setAttribute("target", String.valueOf(effect.getTarget()));
+		if (effect.getTargetRaw() != -1) effect_elem.setAttribute("target", String.valueOf(effect.getTargetRaw()));
+        effect_elem.setAttribute("zone", effect.getZoneRaw());
 		
 		return effect_elem;
 	}
@@ -286,7 +287,6 @@ public class XMLDataOutputter implements DataOutputter {
 				level_elem.setAttribute("maxPerTurn", String.valueOf(level.getMaxPerTurn()));
 				level_elem.setAttribute("maxPerPlayer", String.valueOf(level.getMaxPerPlayer()));
 				level_elem.setAttribute("turns", String.valueOf(level.getTurns()));
-				level_elem.setAttribute("rangeType", String.valueOf(level.getRangeType()));
 				
 				for (SpellEffect effect : level.getEffects()) {
 					level_elem.addContent(toElement(effect));

@@ -14,7 +14,6 @@ public class SpellLevel implements Serializable {
 	private short criticalRate, failureRate;
 	private boolean inline, los, emptyCell, adjustableRange, endsTurnOnFailure;
 	private byte maxPerTurn, maxPerPlayer, turns;
-	private String rangeType;
 	private Collection<SpellEffect> effects;
 	private Collection<SpellEffect> criticalEffects;
 	
@@ -197,18 +196,6 @@ public class SpellLevel implements Serializable {
 	 */
 	public void setTurns(byte turns) {
 		this.turns = turns;
-	}
-	/**
-	 * @return the rangeType
-	 */
-	public String getRangeType() {
-		return rangeType;
-	}
-	/**
-	 * @param rangeType the rangeType to set
-	 */
-	public void setRangeType(String rangeType) {
-		this.rangeType = rangeType;
 	}
 	/**
 	 * @return the effects
