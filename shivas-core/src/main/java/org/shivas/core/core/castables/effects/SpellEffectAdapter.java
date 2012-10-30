@@ -1,14 +1,15 @@
 package org.shivas.core.core.castables.effects;
 
 import org.shivas.common.random.Dice;
-import org.shivas.data.entity.SpellEffect;
-import org.shivas.data.entity.SpellLevel;
-import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 import org.shivas.core.core.castables.zones.Zone;
+import org.shivas.core.core.castables.zones.Zones;
 import org.shivas.core.core.fights.Fight;
 import org.shivas.core.core.fights.FightCell;
 import org.shivas.core.core.fights.FightException;
 import org.shivas.core.core.fights.Fighter;
+import org.shivas.data.entity.SpellEffect;
+import org.shivas.data.entity.SpellLevel;
+import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
 /**
  * Created with IntelliJ IDEA.
@@ -77,6 +78,11 @@ public class SpellEffectAdapter extends SpellEffect implements EffectInterface {
     @Override
     public void setZone(Zone zone) {
         effect.setZone(zone);
+    }
+
+    @Override
+    public void setZoneRaw(String zone) {
+        setZone(Zones.parseZone(zone));
     }
 
     @Override

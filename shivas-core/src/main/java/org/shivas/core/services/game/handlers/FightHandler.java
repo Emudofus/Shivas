@@ -290,7 +290,24 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
                     client.write(FightGameMessageFormatter.actionMessage(ActionTypeEnum.SPELL_CRITICAL, event.getFighter().getId()));
                 }
             } else {
-                // TODO fight cast spells
+                Spell spell = (Spell) event.getCastable();
+
+                client.write(FightGameMessageFormatter.castSpellActionMessage(
+                        event.getFighter().getId(),
+                        spell.getTemplate().getId(),
+                        spell.getTemplate().getSprite(),
+                        spell.getTemplate().getSpriteInfos(),
+                        spell.getLevel().getId(),
+                        event.getTarget().getId()
+                ));
+
+                if (event.isCritical()) {
+                    client.write(FightGameMessageFormatter.actionMessage(
+                            ActionTypeEnum.SPELL_CRITICAL,
+                            event.getFighter().getId(),
+                            spell.getTemplate().getId()
+                    ));
+                }
             }
         }
     }

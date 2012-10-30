@@ -18,6 +18,6 @@ public enum ZoneTypeEnum {
 
     public static ZoneTypeEnum valueOf(char value) {
         for (ZoneTypeEnum val : values()) if (val.value == value) return val;
-        return null;
+        return SINGLE_CELL;
     }
 }

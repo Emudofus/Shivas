@@ -23,6 +23,18 @@ public final class Zones {
         case SINGLE_CELL:
             zone = SingleCellZone.INSTANCE;
             break;
+
+        case CROSS:
+            zone = new CrossZone();
+            break;
+
+        case LINE:
+            zone = new LineZone();
+            break;
+
+        case CIRCLE:
+            zone = new CircleZone();
+            break;
         }
 
         if (zone == null) {
