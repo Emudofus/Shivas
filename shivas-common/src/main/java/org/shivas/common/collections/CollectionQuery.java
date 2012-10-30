@@ -2,9 +2,11 @@ package org.shivas.common.collections;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.*;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class CollectionQuery<T> implements Iterable<T> {
@@ -66,11 +68,11 @@ public class CollectionQuery<T> implements Iterable<T> {
 
     public <E> CollectionQuery<E> ofType(final Class<E> clazz) {
         return filter(new Predicate<T>() {
-            public boolean apply(@Nullable T input) {
+            public boolean apply(T input) {
                 return input != null && clazz.isInstance(input);
             }
         }).transform(new Function<T, E>() {
-            public E apply(@Nullable T input) {
+            public E apply(T input) {
                 return clazz.cast(input);
             }
         });

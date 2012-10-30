@@ -4,52 +4,64 @@
 
   <groupId>org.shivas</groupId>
   <artifactId>shivas-dataconverter</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>shivas-dataconverter</name>
   <url>http://maven.apache.org</url>
 
+  <parent>
+      <relativePath>../</relativePath>
+      <groupId>org.shivas</groupId>
+      <artifactId>shivas</artifactId>
+      <version>1.0-SNAPSHOT</version>
+  </parent>
+
   <properties>
+    <atomium.version>1</atomium.version>
+    <mysqlconnector.version>5.1.2</mysqlconnector.version>
+    <jdom.version>2.0.0</jdom.version>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.mainClass>org.shivas.data.converter.App</project.build.mainClass>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>org.atomium</groupId>
     	<artifactId>atomium-util</artifactId>
-    	<version>1</version>
+    	<version>${atomium.version}</version>
     </dependency>
     <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
-    	<version>5.1.2</version>
+    	<version>${mysqlconnector.version}</version>
     </dependency>
     <dependency>
     	<groupId>org.jdom</groupId>
     	<artifactId>jdom</artifactId>
-    	<version>2.0.0</version>
+    	<version>${jdom.version}</version>
     </dependency>
     <dependency>
     	<groupId>org.shivas</groupId>
     	<artifactId>shivas-common</artifactId>
-    	<version>1</version>
+    	<version>${project.version}</version>
     </dependency>
     <dependency>
     	<groupId>org.shivas</groupId>
     	<artifactId>shivas-protocol</artifactId>
-    	<version>1</version>
+    	<version>${project.version}</version>
     </dependency>
     <dependency>
         <groupId>org.shivas</groupId>
         <artifactId>shivas-data</artifactId>
-        <version>1</version>
+        <version>${project.version}</version>
     </dependency>
   </dependencies>
   
@@ -60,7 +72,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>org.shivas.data.converter.App</mainClass>
+							<mainClass>${project.build.mainClass}</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
