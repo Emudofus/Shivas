@@ -1,9 +1,9 @@
-import org.shivas.server.services.ServiceListener
-import org.shivas.server.services.game.GameClient
-import org.shivas.server.core.events.EventListener
-import org.shivas.server.core.events.Event
-import org.shivas.server.core.events.EventType
-import org.shivas.server.core.plugins.Plugin
+import org.shivas.core.services.ServiceListener
+import org.shivas.core.services.game.GameClient
+import org.shivas.core.core.events.EventListener
+import org.shivas.core.core.events.Event
+import org.shivas.core.core.events.EventType
+import org.shivas.core.core.plugins.Plugin
 
 import org.slf4j.LoggerFactory
 

@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.shivas</groupId>
+  <artifactId>shivas</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>shivas</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <junit.version>3.8.1</junit.version>
+    <guava.version>13.0.1</guava.version>
+    <guice.version>3.0</guice.version>
+    <mina.version>2.0.4</mina.version>
+    <slf4j.version>1.6.4</slf4j.version>
+    <logback.version>1.0.6</logback.version>
+    <jodatime.version>2.1</jodatime.version>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <modules>
+      <module>shivas-common</module>
+      <module>shivas-data</module>
+      <module>shivas-protocol</module>
+      <module>shivas-dataconverter</module>
+      <module>shivas-core</module>
+  </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

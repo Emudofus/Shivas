@@ -1,8 +1,8 @@
-import org.shivas.server.core.plugins.Plugin
-import org.shivas.server.core.plugins.Startable
-import org.shivas.server.core.commands.Command
-import org.shivas.server.core.logging.DofusLogger
-import org.shivas.server.services.game.GameClient
+import org.shivas.core.core.plugins.Plugin
+import org.shivas.core.core.plugins.Startable
+import org.shivas.core.core.commands.Command
+import org.shivas.core.core.logging.DofusLogger
+import org.shivas.core.services.game.GameClient
 import org.shivas.common.params.Types
 import org.shivas.common.params.Conditions
 import org.shivas.common.params.Parameters

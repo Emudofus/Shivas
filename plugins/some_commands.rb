@@ -1,5 +1,5 @@
-import org.shivas.server.core.plugins.Plugin
-import org.shivas.server.core.commands.Command
+import org.shivas.core.core.plugins.Plugin
+import org.shivas.core.core.commands.Command
 import org.shivas.common.params.Conditions
 import java.lang.Runtime
 import java.lang.System

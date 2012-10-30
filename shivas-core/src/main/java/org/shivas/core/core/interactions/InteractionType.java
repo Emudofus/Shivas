@@ -1,0 +1,17 @@
+package org.shivas.core.core.interactions;
+
+public enum InteractionType {
+	MOVEMENT,
+	PARTY_INVITATION,
+	WAYPOINT_PANEL,
+	PLAYER_EXCHANGE_INVITATION,
+	PLAYER_EXCHANGE,
+    STORE_MANAGEMENT,
+    STORE,
+    GUILD_CREATION,
+    GUILD_INVITATION,
+    NPC_DIALOG,
+    NPC_EXCHANGE,
+    FIGHT_INVITATION,
+    FIGHT,
+}
