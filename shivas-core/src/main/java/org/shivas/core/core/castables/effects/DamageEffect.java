@@ -51,18 +51,6 @@ public class DamageEffect extends Effect {
     }
 
     @Override
-    public void setValue1(int value1) { }
-
-    @Override
-    public void setValue2(int value2) { }
-
-    @Override
-    public void setValue3(int value3) { }
-
-    @Override
-    public void setChance(int chance) { }
-
-    @Override
     public Dice getDice() {
         return dice;
     }

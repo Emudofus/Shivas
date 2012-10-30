@@ -1,5 +1,6 @@
 package org.shivas.core.core.castables.effects;
 
+import org.shivas.common.random.Dice;
 import org.shivas.data.entity.SpellLevel;
 import org.shivas.data.entity.SpellTemplate;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
@@ -50,4 +51,24 @@ public abstract class Effect implements EffectInterface {
     public void setZone(Zone zone) {
         this.zone = zone;
     }
+
+    @Override
+    public void setValue1(int value1) { }
+
+    @Override
+    public void setValue2(int value2) { }
+
+    @Override
+    public void setValue3(int value3) { }
+
+    @Override
+    public void setChance(int chance) { }
+
+    @Override
+    public Dice getDice() {
+        return null;
+    }
+
+    @Override
+    public void setDice(Dice dice) { }
 }

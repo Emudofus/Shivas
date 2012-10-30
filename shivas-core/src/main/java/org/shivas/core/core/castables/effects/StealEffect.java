@@ -26,21 +26,9 @@ public class StealEffect extends Effect {
 
     private Dice dice;
 
-    protected StealEffect(SpellLevel spellLevel, SpellEffectTypeEnum spellEffect) {
+    public StealEffect(SpellLevel spellLevel, SpellEffectTypeEnum spellEffect) {
         super(spellLevel, spellEffect);
     }
-
-    @Override
-    public void setValue1(int value1) { }
-
-    @Override
-    public void setValue2(int value2) { }
-
-    @Override
-    public void setValue3(int value3) { }
-
-    @Override
-    public void setChance(int chance) { }
 
     @Override
     public Dice getDice() {
