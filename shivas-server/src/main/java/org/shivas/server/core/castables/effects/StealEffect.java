@@ -65,7 +65,7 @@ public class StealEffect extends Effect {
         int delta2 = caster.getStats().life().plus(delta1 / 2);
 
         fight.getEvent().publish(new FighterLifeUpdateEvent(caster, target, -delta1));
-        fight.getEvent().publish(new FighterLifeUpdateEvent(caster, caster, delta2));
+        if (delta2 > 0) fight.getEvent().publish(new FighterLifeUpdateEvent(caster, caster, delta2));
     }
 
     @Override
