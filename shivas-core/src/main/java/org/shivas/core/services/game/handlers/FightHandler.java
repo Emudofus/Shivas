@@ -1,10 +1,5 @@
 package org.shivas.core.services.game.handlers;
 
-import org.shivas.protocol.client.enums.ActionTypeEnum;
-import org.shivas.protocol.client.enums.EndActionTypeEnum;
-import org.shivas.protocol.client.enums.FightTypeEnum;
-import org.shivas.protocol.client.enums.ItemPositionEnum;
-import org.shivas.protocol.client.formatters.FightGameMessageFormatter;
 import org.shivas.core.core.castables.Fists;
 import org.shivas.core.core.castables.Weapon;
 import org.shivas.core.core.events.Event;
@@ -16,9 +11,15 @@ import org.shivas.core.core.paths.Path;
 import org.shivas.core.core.paths.PathNotFoundException;
 import org.shivas.core.core.paths.Pathfinder;
 import org.shivas.core.database.models.GameItem;
+import org.shivas.core.database.models.Spell;
 import org.shivas.core.services.AbstractBaseHandler;
 import org.shivas.core.services.CriticalException;
 import org.shivas.core.services.game.GameClient;
+import org.shivas.protocol.client.enums.ActionTypeEnum;
+import org.shivas.protocol.client.enums.EndActionTypeEnum;
+import org.shivas.protocol.client.enums.FightTypeEnum;
+import org.shivas.protocol.client.enums.ItemPositionEnum;
+import org.shivas.protocol.client.formatters.FightGameMessageFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,12 +81,15 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
     }
 
     private void parseGameActionMessage(ActionTypeEnum actionType, String data) throws Exception {
+        String[] args;
         switch (actionType) {
         case MOVEMENT:
             parseMovementMessage(Path.parsePath(data));
             break;
 
-        case CAST_SPELL: // TODO
+        case CAST_SPELL:
+            args = data.split(";");
+            parseCastSpellMessage(Short.parseShort(args[0]), Short.parseShort(args[1]));
             break;
 
         case MELEE_ATTACK:
@@ -111,6 +115,15 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
 
         GameItem item = client.player().getBag().get(ItemPositionEnum.Weapon);
         fight.cast(fighter, item == null ? Fists.INSTANCE : (Weapon) item, targetCell);
+    }
+
+    private void parseCastSpellMessage(short spellId, short cellId) throws CriticalException, InteractionException {
+        assertTrue(fighter.getTurn().isCurrent(), "it is not your turn");
+
+        Spell spell = client.player().getSpells().get(spellId);
+        assertTrue(spell != null, "unknown spell %d", spellId);
+
+        fight.cast(fighter, spell, cellId);
     }
 
     private void parseChangePlaceMessage(short cellId) throws InteractionException {

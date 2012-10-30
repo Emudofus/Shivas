@@ -1,14 +1,20 @@
 package org.shivas.core.database.models;
 
-import java.io.Serializable;
-
 import org.atomium.PersistableEntity;
 import org.shivas.common.StringUtils;
+import org.shivas.common.maths.Range;
+import org.shivas.core.core.castables.Castable;
+import org.shivas.core.core.castables.effects.EffectInterface;
 import org.shivas.data.entity.SpellLevel;
 import org.shivas.data.entity.SpellTemplate;
 import org.shivas.protocol.client.types.BaseSpellType;
 
-public class Spell implements Serializable, PersistableEntity<Long> {
+import java.io.Serializable;
+import java.util.Collection;
+
+import static org.shivas.common.collections.CollectionQuery.from;
+
+public class Spell implements Serializable, PersistableEntity<Long>, Castable {
 
 	private static final long serialVersionUID = 4763070969120891187L;
 	
@@ -17,6 +23,7 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 	private SpellTemplate template;
 	private SpellLevel level;
 	private byte position;
+    private Collection<EffectInterface> effects, criticalEffects;
 	
 	public Spell() { }
 
@@ -26,6 +33,7 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 		this.template = template;
 		this.level = level;
 		this.position = position;
+        initEffects();
 	}
 
 	public Spell(Player player, SpellTemplate template, byte position) {
@@ -33,6 +41,7 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 		this.template = template;
 		this.level = template.getLevels()[0]; // first level
 		this.position = position;
+        initEffects();
 	}
 
 	@Override
@@ -79,17 +88,12 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 	public SpellLevel getLevel() {
 		return level;
 	}
-
-	/**
-	 * @param level the level to set
-	 */
-	public void setLevel(SpellLevel level) {
-		this.level = level;
-	}
 	
 	public void incrementLevel() {
 		if (level.getId() >= SpellTemplate.MAX_LEVELS) return;
 		level = template.getLevels()[level.getId()];
+
+        initEffects();
 	}
 
 	/**
@@ -105,6 +109,38 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 	public void setPosition(byte position) {
 		this.position = position;
 	}
+
+    @Override
+    public short getCost() {
+        return level.getCostAP();
+    }
+
+    @Override
+    public short getCriticalRate() {
+        return level.getCriticalRate();
+    }
+
+    @Override
+    public short getFailureRate() {
+        return level.getFailureRate();
+    }
+
+    @Override
+    public Range getRange() {
+        return new Range(level.getMinRange(), level.getMaxRange());
+    }
+
+    private void initEffects() {
+        effects = from(level.getEffects()).ofType(EffectInterface.class).computeList();
+        criticalEffects = from(level.getCriticalEffects()).ofType(EffectInterface.class).computeList();
+    }
+
+    @Override
+    public Collection<EffectInterface> getEffects(boolean critical) {
+        return critical ?
+                effects :
+                criticalEffects;
+    }
 	
 	public BaseSpellType toBaseSpellType() {
 		return new BaseSpellType(
@@ -115,5 +151,4 @@ public class Spell implements Serializable, PersistableEntity<Long> {
 						""
 		);
 	}
-
 }
