@@ -273,6 +273,10 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
     }
 
     private void listenFighterCast(FighterCastEvent event) {
+        if (event.getFighter() == fighter) {
+            client.write(fighter.getStats().packet());
+        }
+
         client.write(FightGameMessageFormatter.startActionMessage(event.getFighter().getId()));
 
         if (event.isFailure()) {

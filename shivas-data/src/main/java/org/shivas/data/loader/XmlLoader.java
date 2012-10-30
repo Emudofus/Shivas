@@ -402,6 +402,7 @@ public class XmlLoader extends AbstractLoader {
 				SpellLevel level = factory.newSpellLevel();
 				level.setId((byte) level_elem.getAttribute("id").getIntValue());
 				level.setSpell(spell);
+                level.setCostAP((byte) level_elem.getAttribute("costAP").getIntValue());
 				level.setMinRange((byte) level_elem.getAttribute("minRange").getIntValue());
 				level.setMaxRange((byte) level_elem.getAttribute("maxRange").getIntValue());
 				level.setCriticalRate((short) level_elem.getAttribute("criticalRate").getIntValue());
