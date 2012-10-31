@@ -26,5 +26,5 @@ public interface Characteristic {
 	short total();
 	short safeTotal();
 	
-	Characteristic copy();
+	Characteristic copy(Statistics copiedStats);
 }

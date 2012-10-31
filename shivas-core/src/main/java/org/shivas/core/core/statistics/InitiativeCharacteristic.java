@@ -38,8 +38,8 @@ public class InitiativeCharacteristic extends BaseCharacteristic {
 	}
 
 	@Override
-	public Characteristic copy() {
-		return new InitiativeCharacteristic(stats, base(), equipment(), gift(), context());
+	public Characteristic copy(Statistics copiedStats) {
+		return new InitiativeCharacteristic(copiedStats, base(), equipment(), gift(), context());
 	}
 	
 }

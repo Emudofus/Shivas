@@ -1,5 +1,6 @@
 package org.shivas.core.core.statistics;
 
+import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
 
@@ -92,5 +93,10 @@ public class VitalityCharacteristic extends BaseCharacteristic {
 		super.minusContext(context);
 		addCurrent((short) -context);
 	}
+
+    @Override
+    public Characteristic copy(Statistics copiedStats) {
+        return new VitalityCharacteristic(copiedStats, type(), base());
+    }
 
 }

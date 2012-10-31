@@ -101,4 +101,9 @@ public class BasicLimitedValue implements LimitedValue {
         return current - old;
 	}
 
+    @Override
+    public LimitedValue copy() {
+        return new BasicLimitedValue(current, min, max);
+    }
+
 }

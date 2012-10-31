@@ -2,6 +2,7 @@ package org.shivas.core.core.statistics;
 
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.common.statistics.Statistics;
 
 public class BaseCharacteristic implements Characteristic {
 	
@@ -123,7 +124,7 @@ public class BaseCharacteristic implements Characteristic {
 	}
 
 	@Override
-	public Characteristic copy() {
+	public Characteristic copy(Statistics copiedStats) {
 		return new BaseCharacteristic(type, base, equipment, gift, context);
 	}
 

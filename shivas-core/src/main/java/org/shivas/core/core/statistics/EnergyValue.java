@@ -15,4 +15,8 @@ public class EnergyValue extends BasicLimitedValue {
 		super(current, MIN_ENERGY, MAX_ENERGY);
 	}
 
+    @Override
+    public EnergyValue copy() {
+        return new EnergyValue(current());
+    }
 }

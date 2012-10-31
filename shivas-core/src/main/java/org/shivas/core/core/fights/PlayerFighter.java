@@ -14,11 +14,13 @@ import org.shivas.core.database.models.Player;
  */
 public class PlayerFighter extends Fighter {
     private final Player player;
+    private final PlayerStatistics stats;
 
     private boolean ready;
 
     public PlayerFighter(Player player) {
         this.player = player;
+        this.stats = player.getStats().copy();
     }
 
     @Override
@@ -33,7 +35,7 @@ public class PlayerFighter extends Fighter {
 
     @Override
     public PlayerStatistics getStats() {
-        return player.getStats();
+        return stats;
     }
 
     public void setReady() throws InteractionException {
@@ -53,7 +55,7 @@ public class PlayerFighter extends Fighter {
                 currentCell.getId(),
                 currentOrientation,
                 dead,
-                player.getStats(),
+                stats,
                 player.getGender(),
                 (short) 0, (short) 0, false, // TODO alignment
                 player.getLook().colors().first(),

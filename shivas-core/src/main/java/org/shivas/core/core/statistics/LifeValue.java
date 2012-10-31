@@ -81,5 +81,7 @@ public abstract class LifeValue implements LimitedValue {
 		current = max();
         return current - old;
 	}
-	
+
+    public abstract LifeValue copy();
+
 }

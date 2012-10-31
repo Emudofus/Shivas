@@ -2,6 +2,7 @@ package org.shivas.core.core.statistics;
 
 import org.shivas.common.statistics.Characteristic;
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.common.statistics.Statistics;
 
 public class ProspectionCharacteristic extends BaseCharacteristic {
 	
@@ -37,8 +38,8 @@ public class ProspectionCharacteristic extends BaseCharacteristic {
 	}
 
 	@Override
-	public Characteristic copy() {
-		return new ProspectionCharacteristic(stats, equipment(), gift(), context());
+	public Characteristic copy(Statistics copiedStats) {
+		return new ProspectionCharacteristic((PlayerStatistics) copiedStats, equipment(), gift(), context());
 	}
 	
 }

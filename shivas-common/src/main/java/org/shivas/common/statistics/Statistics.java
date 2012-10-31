@@ -13,4 +13,6 @@ public interface Statistics {
     void resetEquipment();
     void resetGift();
     void resetContext();
+
+    Statistics copy();
 }

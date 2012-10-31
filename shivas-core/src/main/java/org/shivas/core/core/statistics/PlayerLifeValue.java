@@ -20,6 +20,10 @@ public class PlayerLifeValue extends LifeValue {
 		check();
 	}
 
+    public void setStats(PlayerStatistics stats) {
+        this.stats = stats;
+    }
+
 	@Override
 	public int max() {
 		return max + stats.get(CharacteristicType.Vitality).safeTotal();
@@ -43,5 +47,10 @@ public class PlayerLifeValue extends LifeValue {
 		max = stats.owner().getBreed().getStartLife();
 		current += diff;
 	}
+
+    @Override
+    public PlayerLifeValue copy() {
+        return new PlayerLifeValue(current, stats);
+    }
 
 }

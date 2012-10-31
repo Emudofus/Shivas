@@ -22,9 +22,9 @@ public class PlayerStatistics implements Statistics {
 	
 	private Player owner;
 	
-	private LifeValue life;
-	private LimitedValue energy;
-	private PodsValue pods = new PlayerPodsValue(this);
+	private PlayerLifeValue life;
+	private EnergyValue energy;
+	private PlayerPodsValue pods = new PlayerPodsValue(this);
 	
 	private short statPoints, spellPoints;
 	private Map<CharacteristicType, Characteristic> characs = Maps.newHashMap();
@@ -102,6 +102,20 @@ public class PlayerStatistics implements Statistics {
 		this.energy = energy < 0 ? new EnergyValue() : new EnergyValue(energy);
 		this.life = life < 0 ? new PlayerLifeValue(this) : new PlayerLifeValue(life, this);
 	}
+
+    private PlayerStatistics(PlayerStatistics other) {
+        this.owner = other.owner;
+        this.statPoints = other.statPoints;
+        this.spellPoints = other.spellPoints;
+
+        for (Map.Entry<CharacteristicType, Characteristic> entry : other.characs.entrySet()) {
+            this.characs.put(entry.getKey(), entry.getValue().copy(this));
+        }
+
+        this.energy = other.energy;
+        this.life = other.life.copy();
+        this.life.setStats(this);
+    }
 
 	public Player owner() {
 		return owner;
@@ -186,6 +200,11 @@ public class PlayerStatistics implements Statistics {
         for (Characteristic charac : characs.values()) {
             charac.context((short) 0);
         }
+    }
+
+    @Override
+    public PlayerStatistics copy() {
+        return new PlayerStatistics(this);
     }
 
     public String packet() {

@@ -29,4 +29,6 @@ public interface LimitedValue {
 	
 	int setMin();
 	int setMax();
+
+    LimitedValue copy();
 }

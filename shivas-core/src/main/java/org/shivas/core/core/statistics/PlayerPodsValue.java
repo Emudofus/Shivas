@@ -42,4 +42,9 @@ public class PlayerPodsValue extends PodsValue {
 		max = 1000;
 	}
 
+    @Override
+    public PlayerPodsValue copy() {
+        return new PlayerPodsValue(stats);
+    }
+
 }
