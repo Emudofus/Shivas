@@ -38,5 +38,7 @@ public class DefaultEffectFactory implements EffectFactory {
         for (SpellEffectTypeEnum type : asList(StealNeutral, StealEarth, StealFire, StealWind, StealWater)) {
             providers.put(type, StealEffect.provider(type));
         }
+
+        providers.put(Heal, HealEffect.provider());
     }
 }

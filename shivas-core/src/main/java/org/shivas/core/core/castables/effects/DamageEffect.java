@@ -3,13 +3,13 @@ package org.shivas.core.core.castables.effects;
 import org.shivas.common.random.Dice;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
-import org.shivas.data.entity.SpellLevel;
-import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 import org.shivas.core.core.fights.Fight;
 import org.shivas.core.core.fights.FightCell;
 import org.shivas.core.core.fights.FightException;
 import org.shivas.core.core.fights.Fighter;
 import org.shivas.core.core.fights.events.FighterLifeUpdateEvent;
+import org.shivas.data.entity.SpellLevel;
+import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
 /**
  * Created with IntelliJ IDEA.
@@ -69,9 +69,9 @@ public class DamageEffect extends Effect {
         int damage = computeDamage(dice, caster.getStats(), spellEffect);
         int resistance = computeResistance(target.getStats(), spellEffect);
 
-        damage = target.getStats().life().minus(damage - resistance);
+        int delta = target.getStats().life().minus(damage - resistance);
 
-        fight.getEvent().publish(new FighterLifeUpdateEvent(caster, target, -damage));
+        fight.getEvent().publish(new FighterLifeUpdateEvent(caster, target, -delta));
     }
 
     @Override
