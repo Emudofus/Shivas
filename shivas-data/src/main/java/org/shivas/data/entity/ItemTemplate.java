@@ -1,22 +1,21 @@
 package org.shivas.data.entity;
 
+import com.google.common.base.Function;
+import org.shivas.data.EntityFactory;
+import org.shivas.protocol.client.enums.ItemTypeEnum;
+import org.shivas.protocol.client.types.BaseItemTemplateEffectType;
+import org.shivas.protocol.client.types.BaseItemTemplateType;
+
 import java.io.Serializable;
 import java.util.Collection;
 
-import com.google.common.collect.Collections2;
-import org.shivas.common.collections.Collections3;
-import org.shivas.data.EntityFactory;
-import org.shivas.protocol.client.enums.ItemTypeEnum;
-
-import com.google.common.base.Function;
-import org.shivas.protocol.client.types.BaseItemTemplateEffectType;
-import org.shivas.protocol.client.types.BaseItemTemplateType;
+import static org.shivas.common.collections.CollectionQuery.from;
 
 public class ItemTemplate implements Serializable {
 
 	private static final long serialVersionUID = -4455899142517688060L;
-	
-	private short id;
+
+    private short id;
 	private ItemSet itemSet;
 	private ItemTypeEnum type;
 	private short level;
@@ -51,7 +50,7 @@ public class ItemTemplate implements Serializable {
 		return itemSet;
 	}
 	/**
-	 * @param set the item set to set
+	 * @param itemSet the itemSet to set
 	 */
 	public void setItemSet(ItemSet itemSet) {
 		this.itemSet = itemSet;
@@ -144,23 +143,25 @@ public class ItemTemplate implements Serializable {
 	
 	public Item generate() {
 		Item item = factory.newItem(this);
-		
 		item.setTemplate(this);
-		
-		item.setItemEffects(Collections3.transform(effects, new Function<ItemEffectTemplate, ItemEffect>() {
-            public ItemEffect apply(ItemEffectTemplate arg0) {
-                return arg0.generate();
-            }
-        }));
+        item.setItemEffects(from(effects).transform(GENERATE_EFFECT).computeList());
 		
 		return item;
 	}
 
     public BaseItemTemplateType toBaseItemTemplateType() {
-        return new BaseItemTemplateType(id, Collections2.transform(effects, new Function<ItemEffectTemplate, BaseItemTemplateEffectType>() {
-            public BaseItemTemplateEffectType apply(ItemEffectTemplate input) {
-                return input.toBaseItemTemplateEffectType();
-            }
-        }));
+        return new BaseItemTemplateType(id, from(effects).transform(CONVERTER).lazyCollection());
     }
+
+    private static final Function<ItemEffectTemplate, ItemEffect> GENERATE_EFFECT = new Function<ItemEffectTemplate, ItemEffect>() {
+        public ItemEffect apply(ItemEffectTemplate input) {
+            return input.generate();
+        }
+    };
+
+    private static final Function<ItemEffectTemplate,BaseItemTemplateEffectType> CONVERTER = new Function<ItemEffectTemplate, BaseItemTemplateEffectType>() {
+        public BaseItemTemplateEffectType apply(ItemEffectTemplate input) {
+            return input.toBaseItemTemplateEffectType();
+        }
+    };
 }

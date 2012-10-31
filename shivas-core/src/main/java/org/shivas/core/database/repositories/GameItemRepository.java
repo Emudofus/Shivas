@@ -8,14 +8,12 @@ import org.atomium.util.pk.LongPrimaryKeyGenerator;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.QueryBuilder;
-import org.shivas.core.core.castables.Weapon;
 import org.shivas.core.database.models.GameItem;
 import org.shivas.core.database.models.Player;
 import org.shivas.data.Container;
 import org.shivas.data.EntityFactory;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
-import org.shivas.data.entity.WeaponTemplate;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
 
@@ -109,7 +107,7 @@ public class GameItemRepository extends AbstractEntityRepository<Long, GameItem>
 	protected GameItem load(ResultSet result) throws SQLException {
         ItemTemplate tpl = ctner.get(ItemTemplate.class).byId(result.getInt("template"));
 
-        GameItem item = tpl instanceof WeaponTemplate ? new Weapon() : new GameItem();
+        GameItem item = (GameItem) entityFactory.newItem(tpl);
 
         item.setId(result.getLong("id"));
         item.setTemplate(tpl);

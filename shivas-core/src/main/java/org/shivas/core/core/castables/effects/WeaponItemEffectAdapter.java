@@ -56,6 +56,17 @@ public class WeaponItemEffectAdapter extends WeaponItemEffect implements EffectI
     public void setNbTurns(int nbTurns) { }
 
     @Override
+    public Dice getDice() {
+        return effect.getDice();
+    }
+
+    @Override
+    public void setDice(Dice dice) {
+        super.setDice(dice);
+        effect.setDice(dice);
+    }
+
+    @Override
     public Zone getZone() {
         return effect.getZone();
     }
@@ -67,7 +78,13 @@ public class WeaponItemEffectAdapter extends WeaponItemEffect implements EffectI
 
     @Override
     public WeaponItemEffectAdapter copy() {
-        return new WeaponItemEffectAdapter(getType(), getDice().copy(), effect.copy());
+        return new WeaponItemEffectAdapter(getType(), effect.copy());
+    }
+
+    @Override
+    public void fromString(String string, int radix) {
+        super.fromString(string, radix);
+        effect.setDice(super.getDice());
     }
 
     @Override

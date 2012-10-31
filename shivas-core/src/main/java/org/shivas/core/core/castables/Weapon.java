@@ -22,7 +22,9 @@ public class Weapon extends GameItem implements Castable {
         return CollectionQuery.from(effects).transform(new Function<EffectInterface, EffectInterface>() {
             public EffectInterface apply(EffectInterface input) {
                 EffectInterface effect = input.copy();
-                effect.getDice().upgrade(criticalBonus);
+                if (effect.getDice() != null) {
+                    effect.getDice().upgrade(criticalBonus);
+                } // effect.getDice()?.upgrade(criticalBonus);
 
                 return effect;
             }
