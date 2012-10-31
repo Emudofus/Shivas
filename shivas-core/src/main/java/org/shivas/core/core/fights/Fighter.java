@@ -71,6 +71,18 @@ public abstract class Fighter {
         currentCell.setCurrentFighter(this);
     }
 
+    public void takePlaceOf(Fighter other) {
+        if (other == null) throw new IllegalArgumentException("other mustn't be null");
+
+        FightCell old = this.currentCell;
+
+        this.currentCell = other.currentCell;
+        this.currentCell.setCurrentFighter(this);
+
+        other.currentCell = old;
+        other.currentCell.setCurrentFighter(other);
+    }
+
     public OrientationEnum getCurrentOrientation() {
         return currentOrientation;
     }

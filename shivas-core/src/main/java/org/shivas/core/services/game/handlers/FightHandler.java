@@ -271,7 +271,11 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
             break;
 
         case CELL_CHANGEMENT:
-            listenFighterTeleport((FighterTeleportEvent) event);
+            if (event instanceof FighterTeleportEvent) {
+                listenFighterTeleport((FighterTeleportEvent) event);
+            } else if (event instanceof FighterTransposeEvent) {
+                listenFighterTranspose((FighterTransposeEvent) event);
+            }
             break;
         }
     }
@@ -333,7 +337,24 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         client.write(FightGameMessageFormatter.fightActionMessage(
                 ActionTypeEnum.CELL_CHANGEMENT,
                 event.getFighter().getId(),
+                event.getFighter().getId(),
                 event.getTarget().getId()
+        ));
+    }
+
+    private void listenFighterTranspose(FighterTransposeEvent event) {
+        client.write(FightGameMessageFormatter.fightActionMessage(
+                ActionTypeEnum.CELL_CHANGEMENT,
+                event.getFighter().getId(),
+                event.getFighter().getId(),
+                event.getFighter().getCurrentCell().getId()
+        ));
+
+        client.write(FightGameMessageFormatter.fightActionMessage(
+                ActionTypeEnum.CELL_CHANGEMENT,
+                event.getFighter().getId(),
+                event.getTarget().getId(),
+                event.getTarget().getCurrentCell().getId()
         ));
     }
 
