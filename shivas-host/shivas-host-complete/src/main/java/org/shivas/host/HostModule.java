@@ -1,8 +1,10 @@
 package org.shivas.host;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.multibindings.Multibinder;
 import org.shivas.core.config.Config;
 import org.shivas.core.config.DefaultConfig;
+import org.shivas.core.core.commands.Command;
 import org.shivas.core.modules.ShivasServiceModule;
 
 /**
@@ -17,5 +19,8 @@ public class HostModule extends AbstractModule {
         bind(Config.class).to(DefaultConfig.class);
 
         install(new ShivasServiceModule());
+
+        Multibinder<Command> b = Multibinder.newSetBinder(binder(), Command.class);
+        b.addBinding().to(SayHelloCommand.class);
     }
 }
