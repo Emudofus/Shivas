@@ -21,7 +21,7 @@ public class HealEffect extends Effect {
     public static EffectProvider provider() {
         return new EffectProvider() {
             public EffectInterface provide(SpellLevel level) {
-                return new HealEffect(level, SpellEffectTypeEnum.Heal);
+                return new HealEffect(level);
             }
         };
     }
@@ -34,8 +34,8 @@ public class HealEffect extends Effect {
 
     private Dice dice;
 
-    public HealEffect(SpellLevel spellLevel, SpellEffectTypeEnum spellEffect) {
-        super(spellLevel, spellEffect);
+    public HealEffect(SpellLevel spellLevel) {
+        super(spellLevel, SpellEffectTypeEnum.Heal);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class HealEffect extends Effect {
 
     @Override
     protected HealEffect emptyCopy() {
-        return new HealEffect(spellLevel, spellEffect);
+        return new HealEffect(spellLevel);
     }
 
     @Override

@@ -269,6 +269,10 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         case LIFE_CHANGEMENT:
             listenFighterLifeUpdate((FighterLifeUpdateEvent) event);
             break;
+
+        case CELL_CHANGEMENT:
+            listenFighterTeleport((FighterTeleportEvent) event);
+            break;
         }
     }
 
@@ -322,6 +326,14 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
                 event.getFighter().getId(),
                 event.getTarget().getId(),
                 event.getDelta()
+        ));
+    }
+
+    private void listenFighterTeleport(FighterTeleportEvent event) {
+        client.write(FightGameMessageFormatter.fightActionMessage(
+                ActionTypeEnum.CELL_CHANGEMENT,
+                event.getFighter().getId(),
+                event.getTarget().getId()
         ));
     }
 

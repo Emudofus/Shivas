@@ -40,5 +40,6 @@ public class DefaultEffectFactory implements EffectFactory {
         }
 
         providers.put(Heal, HealEffect.provider());
+        providers.put(Teleport, TeleportEffect.provider());
     }
 }
