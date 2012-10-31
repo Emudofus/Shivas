@@ -59,7 +59,7 @@ class PubManagerService implements Startable {
 	}
 }
 
-class PubControllerCommand implements Command {
+class PubControllerCommand extends Command {
 	private def pubManager
 	public PubControllerCommand(pubManager) {
 		this.pubManager = pubManager
@@ -102,7 +102,7 @@ class PubControllerCommand implements Command {
 	}
 }
 
-class SendPubCommand implements Command {
+class SendPubCommand extends Command {
 	private def pubManager
 	public SendPubCommand(pubManager) {
 		this.pubManager = pubManager

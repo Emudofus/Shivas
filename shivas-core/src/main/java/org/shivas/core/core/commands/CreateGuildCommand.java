@@ -1,6 +1,5 @@
 package org.shivas.core.core.commands;
 
-import org.shivas.common.params.Conditions;
 import org.shivas.common.params.Parameters;
 import org.shivas.core.core.guilds.GuildCreationInteraction;
 import org.shivas.core.core.interactions.InteractionException;
@@ -13,15 +12,10 @@ import org.shivas.core.services.game.GameClient;
  * Date: 23/09/12
  * Time: 11:09
  */
-public class CreateGuildCommand implements Command {
+public class CreateGuildCommand extends Command {
     @Override
     public String getName() {
         return "create_guild";
-    }
-
-    @Override
-    public Conditions getConditions() {
-        return Conditions.EMPTY;
     }
 
     @Override

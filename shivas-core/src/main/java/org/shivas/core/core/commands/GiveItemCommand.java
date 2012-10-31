@@ -15,7 +15,7 @@ import org.shivas.core.services.game.GameClient;
 
 import javax.inject.Inject;
 
-public class GiveItemCommand implements Command {
+public class GiveItemCommand extends Command {
 
     @Inject
 	private RepositoryContainer repo;
@@ -26,18 +26,18 @@ public class GiveItemCommand implements Command {
 	}
 
 	@Override
-	public Conditions getConditions() {
-		return new Conditions() {{
+	public String getHelp() {
+		return "Give an item";
+	}
+
+    @Override
+    public Conditions getConditions() {
+        return new Conditions() {{
             add("target", new PlayerType(repo.players()), "The target to give item");
             add("item", ItemTemplateType.INSTANCE, "The item to give");
             add("quantity", Types.INTEGER, "The quantity of item to give", true);
         }};
-	}
-
-	@Override
-	public String getHelp() {
-		return "Give an item";
-	}
+    }
 
 	@Override
 	public boolean canUse(GameClient client) {

@@ -5,13 +5,17 @@ import org.shivas.common.params.Parameters;
 import org.shivas.core.core.logging.DofusLogger;
 import org.shivas.core.services.game.GameClient;
 
-public interface Command {
+public abstract class Command {
+	public abstract String getName();
+    public abstract String getHelp();
 
-	String getName();
-	Conditions getConditions();
-	String getHelp();
-	
-	boolean canUse(GameClient client);
-	void use(GameClient client, DofusLogger log, Parameters params);
-	
+	public abstract void use(GameClient client, DofusLogger log, Parameters params);
+
+    public Conditions getConditions() {
+        return Conditions.EMPTY;
+    }
+
+    public boolean canUse(GameClient client) {
+        return true;
+    }
 }

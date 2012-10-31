@@ -12,7 +12,7 @@ import org.shivas.core.services.game.GameClient;
 
 import javax.inject.Inject;
 
-public class KickCommand implements Command {
+public class KickCommand extends Command {
 
     @Inject
 	private RepositoryContainer repo;
@@ -26,17 +26,17 @@ public class KickCommand implements Command {
 	}
 
 	@Override
-	public Conditions getConditions() {
-		return new Conditions() {{
-            add("target", new PlayerType(repo.players()), "The target");
-            add("msg", Types.STRING, "The message", true);
-        }};
-	}
-
-	@Override
 	public String getHelp() {
 		return "Kick a player.";
 	}
+
+    @Override
+    public Conditions getConditions() {
+        return new Conditions() {{
+            add("target", new PlayerType(repo.players()), "The target");
+            add("msg", Types.STRING, "The message", true);
+        }};
+    }
 
 	@Override
 	public boolean canUse(GameClient client) {
@@ -51,7 +51,7 @@ public class KickCommand implements Command {
 		if (target.getClient() == null) {
 			log.info("%s isn't connected", target.getName());
 		} else {
-			if (!message.isEmpty()) target.getClient().kick(message);
+			if (message != null && !message.isEmpty()) target.getClient().kick(message);
 			else					target.getClient().kick();
 			
 			log.info("%s has been kicked", target.getName());

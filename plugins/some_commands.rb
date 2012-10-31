@@ -16,14 +16,14 @@ class SomeCommandsPlugin < Plugin
 	end
 end
 
-class HelloWorldCommand
-	include Command
+class HelloWorldCommand < Command
 
-	def getName; "hello"; end
-	def getConditions; Conditions.new; end
-	def getHelp; "Hello world"; end
-
-	def canUse(client); true; end
+	def getName
+    "hello"
+  end
+	def getHelp
+    "Hello world"
+  end
 
 	def use(client, log, params)
 		log.info "hello world"
@@ -31,12 +31,14 @@ class HelloWorldCommand
 	end
 end
 
-class MemoryUsageCommand
-	include Command
+class MemoryUsageCommand < Command
 
-	def getName; "memory"; end
-	def getConditions; Conditions.new; end
-	def getHelp; "Show the used memory"; end
+	def getName
+    "memory"
+  end
+	def getHelp
+    "Show the used memory"
+  end
 
 	def canUse(client)
 		client.account().hasRights()
@@ -52,14 +54,10 @@ class MemoryUsageCommand
 	end
 end
 
-class GarbageCollectorCommand
-	include Command
+class GarbageCollectorCommand < Command
 
 	def getName
     "gc"
-  end
-	def getConditions
-    Conditions.new
   end
 	def getHelp
     "Cleans memory"
@@ -88,21 +86,13 @@ class GarbageCollectorCommand
 	end
 end
 
-class RestoreLifeCommand
-  include Command
+class RestoreLifeCommand < Command
 
   def getName
     "life"
   end
-  def getConditions
-    Conditions.new
-  end
   def getHelp
     "Restore your life"
-  end
-
-  def canUse(client)
-    true
   end
 
   def use(client, log, params)
