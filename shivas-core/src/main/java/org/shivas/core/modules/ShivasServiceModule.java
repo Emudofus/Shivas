@@ -30,6 +30,7 @@ public class ShivasServiceModule extends AbstractModule {
 		
 		install(new ShivasDatabaseModule());
         install(new ShivasCommandModule());
+        install(new ShivasModInstallerModule("./mods/"));
 	}
 
 }

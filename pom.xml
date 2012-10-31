@@ -29,6 +29,7 @@
       <module>shivas-dataconverter</module>
       <module>shivas-core</module>
     <module>shivas-host</module>
+    <module>shivas-mods</module>
   </modules>
 
   <dependencies>
