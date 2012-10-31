@@ -78,7 +78,9 @@ public class WeaponItemEffectAdapter extends WeaponItemEffect implements EffectI
 
     @Override
     public WeaponItemEffectAdapter copy() {
-        return new WeaponItemEffectAdapter(getType(), effect.copy());
+        return new WeaponItemEffectAdapter(getType(), effect.copy()) {{
+            setZone(effect.getZone());
+        }};
     }
 
     @Override

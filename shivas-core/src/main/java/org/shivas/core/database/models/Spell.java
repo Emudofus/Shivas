@@ -137,7 +137,7 @@ public class Spell implements Serializable, PersistableEntity<Long>, Castable {
 
     @Override
     public Collection<EffectInterface> getEffects(boolean critical) {
-        return critical ?
+        return !critical ?
                 effects :
                 criticalEffects;
     }

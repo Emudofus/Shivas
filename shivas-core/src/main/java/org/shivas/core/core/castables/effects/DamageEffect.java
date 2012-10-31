@@ -75,7 +75,7 @@ public class DamageEffect extends Effect {
     }
 
     @Override
-    public DamageEffect copy() {
+    protected DamageEffect emptyCopy() {
         return new DamageEffect(spellLevel, spellEffect);
     }
 }

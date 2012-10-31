@@ -57,9 +57,7 @@ public class StealEffect extends Effect {
     }
 
     @Override
-    public EffectInterface copy() {
-        return new StealEffect(spellLevel, spellEffect) {{
-            setDice(dice != null ? dice.copy() : null); // dice?.copy()
-        }};
+    protected StealEffect emptyCopy() {
+        return new StealEffect(spellLevel, spellEffect);
     }
 }

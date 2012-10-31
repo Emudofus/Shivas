@@ -71,4 +71,18 @@ public abstract class Effect implements EffectInterface {
 
     @Override
     public void setDice(Dice dice) { }
+
+    protected abstract Effect emptyCopy();
+
+    @Override
+    public Effect copy() {
+        Effect copy = emptyCopy();
+        copy.setNbTurns(nbTurns);
+        copy.setZone(zone);
+        if (getDice() != null) {
+            copy.setDice(getDice().copy());
+        }
+
+        return copy;
+    }
 }

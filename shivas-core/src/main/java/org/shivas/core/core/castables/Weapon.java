@@ -69,6 +69,6 @@ public class Weapon extends GameItem implements Castable {
 
     @Override
     public Collection<EffectInterface> getEffects(boolean critical) {
-        return critical ? effects : criticalEffects;
+        return !critical ? effects : criticalEffects;
     }
 }
