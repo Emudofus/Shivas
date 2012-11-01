@@ -15,5 +15,7 @@ public class ExampleModule extends AbstractModule {
     protected void configure() {
         Multibinder<Command> multibinder = Multibinder.newSetBinder(binder(), Command.class);
         multibinder.addBinding().to(MyExampleCommand.class);
+        multibinder.addBinding().to(ReportCommand.class);
+        multibinder.addBinding().to(StaffCommand.class);
     }
 }
