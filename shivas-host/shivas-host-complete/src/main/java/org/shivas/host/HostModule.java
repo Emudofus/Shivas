@@ -2,7 +2,7 @@ package org.shivas.host;
 
 import com.google.inject.AbstractModule;
 import org.shivas.core.config.Config;
-import org.shivas.core.config.DefaultConfig;
+import org.shivas.core.config.YamlConfig;
 import org.shivas.core.modules.ShivasCommandModule;
 import org.shivas.core.modules.ShivasDatabaseModule;
 import org.shivas.core.modules.ShivasModInstallerModule;
@@ -17,12 +17,16 @@ import org.shivas.core.modules.ShivasServiceModule;
 public class HostModule extends AbstractModule {
     @Override
     protected void configure() {
-        Config config = new DefaultConfig();
-        bind(Config.class).toInstance(config);
+        try {
+            Config config = new YamlConfig();
+            bind(Config.class).toInstance(config);
 
-        install(new ShivasServiceModule());
-        install(new ShivasDatabaseModule());
-        install(new ShivasCommandModule());
-        install(new ShivasModInstallerModule(config.modPath()));
+            install(new ShivasServiceModule());
+            install(new ShivasDatabaseModule());
+            install(new ShivasCommandModule());
+            install(new ShivasModInstallerModule(config.modPath()));
+        } catch (Throwable cause) {
+            addError(cause);
+        }
     }
 }

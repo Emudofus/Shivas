@@ -32,7 +32,6 @@ public class YamlConfig extends AbstractConfig {
         database((Map<String, Object>) params.get("database"));
         data((Map<String, Object>) params.get("data"));
         mods((Map<String, Object>) params.get("mods"));
-        plugins((Map<String, Object>) params.get("plugins"));
         login((Map<String, Object>) params.get("login"));
         game((Map<String, Object>) params.get("game"));
         commands((Map<String, Object>) params.get("commands"));
@@ -58,13 +57,6 @@ public class YamlConfig extends AbstractConfig {
 
     private void mods(Map<String, Object> params) {
         modPath = (String) params.get("path");
-    }
-
-    private void plugins(Map<String, Object> params) {
-        pluginPath = (String) params.get("path");
-
-        List<Object> extensions = (List<Object>) params.get("extensions");
-        pluginExtensions = extensions.toArray(new String[extensions.size()]);
     }
 
     private void login(Map<String, Object> params) {

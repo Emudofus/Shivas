@@ -13,10 +13,6 @@ data:
 mods:
   path: "D:/Workspace/Shivas/mods/"
 
-plugins:
-  path: "D:/Workspace/Shivas/plugins/"
-  extensions: ["groovy", "rb"]
-
 login:
   port: 5555
 

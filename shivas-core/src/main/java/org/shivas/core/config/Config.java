@@ -15,9 +15,6 @@ public interface Config {
 	
 	String dataPath();
 	String dataExtension();
-	
-	String pluginPath();
-	String[] pluginExtensions();
 
     String modPath();
 	

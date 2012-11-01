@@ -45,17 +45,6 @@ public class DefaultConfig implements Config {
 	public String dataExtension() {
 		return "xml";
 	}
-	
-	public String pluginPath() {
-        return BASE_PATH + "/plugins/";
-	}
-	
-	public String[] pluginExtensions() {
-		return new String[] {
-				"groovy",
-				"rb"
-		};
-	}
 
     @Override
     public String modPath() {

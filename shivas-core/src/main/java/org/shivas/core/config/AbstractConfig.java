@@ -24,9 +24,6 @@ public abstract class AbstractConfig implements Config {
     protected String dataPath;
     protected String dataExtension;
 
-    protected String pluginPath;
-    protected String[] pluginExtensions;
-
     protected String modPath;
 
     protected int loginPort;
@@ -81,9 +78,6 @@ public abstract class AbstractConfig implements Config {
 
     @Override public String dataPath() { return dataPath; }
     @Override public String dataExtension() { return dataExtension; }
-
-    @Override public String pluginPath() { return pluginPath; }
-    @Override public String[] pluginExtensions() { return pluginExtensions; }
 
     @Override public String modPath() { return modPath; }
 

@@ -4,7 +4,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import org.atomium.EntityManager;
-import org.shivas.core.core.plugins.PluginsManager;
 import org.shivas.core.database.RepositoryContainer;
 import org.shivas.core.services.game.GameService;
 import org.shivas.core.services.login.LoginService;
@@ -20,7 +19,6 @@ public class App {
     private RepositoryContainer repos;
     private GameService gs;
     private LoginService ls;
-    private PluginsManager pm;
     private ContainerProvider cp;
 
     public App(Module... modules) {
@@ -29,12 +27,10 @@ public class App {
         repos = inject.getInstance(RepositoryContainer.class);
         gs = inject.getInstance(GameService.class);
         ls = inject.getInstance(LoginService.class);
-        pm = inject.getInstance(PluginsManager.class);
         cp = inject.getInstance(ContainerProvider.class);
     }
 
     public void start() {
-        pm.load(); // load plugins
         cp.load(); // load static data
 
         em.start(); // start entity manager
@@ -43,8 +39,6 @@ public class App {
         gs.start(); // start game server
         ls.start(); // start login server
 
-        pm.start(); // start plugins
-
         System.runFinalization();
         System.gc();
 
@@ -52,8 +46,6 @@ public class App {
     }
 
     public void stop() {
-        pm.stop(); // stop plugins
-
         ls.stop(); // stop login server
         gs.stop(); // stop game server
 
