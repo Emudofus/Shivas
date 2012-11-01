@@ -10,6 +10,8 @@ import javax.inject.Singleton;
 @Singleton
 public class DefaultConfig implements Config {
 
+    private static final String BASE_PATH = "D:\\Workspace\\Shivas";
+
 	public String databaseConnection() {
 		String hostname = "localhost", database = "shivas";
 		return "jdbc:mysql://" + hostname + ":3306/" + database + "?zeroDateTimeBehavior=convertToNull";
@@ -37,12 +39,7 @@ public class DefaultConfig implements Config {
 	}
 
 	public String dataPath() {
-		boolean linux = false; // juste pour me faciliter la vie
-		if (linux) {
-			return "/home/blackrush/Workspace/Shivas/data/";
-		} else {
-			return "D:\\Workspace\\Shivas\\data\\";
-		}
+        return BASE_PATH + "/data/";
 	}
 
 	public String dataExtension() {
@@ -50,7 +47,7 @@ public class DefaultConfig implements Config {
 	}
 	
 	public String pluginPath() {
-		return "D:\\Workspace\\Shivas\\plugins\\";
+        return BASE_PATH + "/plugins/";
 	}
 	
 	public String[] pluginExtensions() {
@@ -60,7 +57,12 @@ public class DefaultConfig implements Config {
 		};
 	}
 
-	public int loginPort() {
+    @Override
+    public String modPath() {
+        return BASE_PATH + "/mods/";
+    }
+
+    public int loginPort() {
 		return 5555;
 	}
 

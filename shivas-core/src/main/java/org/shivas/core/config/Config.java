@@ -18,6 +18,8 @@ public interface Config {
 	
 	String pluginPath();
 	String[] pluginExtensions();
+
+    String modPath();
 	
 	int loginPort();
 

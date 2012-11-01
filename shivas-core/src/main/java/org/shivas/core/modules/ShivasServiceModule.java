@@ -27,10 +27,6 @@ public class ShivasServiceModule extends AbstractModule {
 		bind(LoginService.class).to(DefaultLoginService.class);
 		bind(GameService.class).to(DefaultGameService.class);
 		bind(CommandEngine.class).asEagerSingleton();
-		
-		install(new ShivasDatabaseModule());
-        install(new ShivasCommandModule());
-        install(new ShivasModInstallerModule("./mods/"));
 	}
 
 }
