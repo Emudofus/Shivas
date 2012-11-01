@@ -1,16 +1,17 @@
 package org.shivas.core.core.fights;
 
 import org.shivas.common.threads.Timer;
-import org.shivas.protocol.client.enums.FightTypeEnum;
-import org.shivas.core.Hook;
 import org.shivas.core.config.Config;
 import org.shivas.core.core.GameActor;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.database.models.Player;
+import org.shivas.protocol.client.enums.FightTypeEnum;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,12 +22,14 @@ import javax.inject.Singleton;
 @Singleton
 public class FightFactory {
     private Config config;
+    private ExecutorService worker;
 
     private final Timer<Fight> timer = new Timer<Fight>("fight");
 
     @Inject
-    public void init(Hook hook) {
-        this.config = hook.getConfig();
+    public void init(Config config) {
+        this.config = config;
+        this.worker = Executors.newSingleThreadExecutor(); // TODO bug: event dispatcher with thread pool (n>1)
     }
 
     protected DuelFight newDuel(GameMap map, Player source, Player target) {
@@ -37,7 +40,7 @@ public class FightFactory {
         target.setFighter(defender);
 
         return new DuelFight(
-                config, timer,
+                config, timer, worker,
                 map,
                 challenger,
                 defender

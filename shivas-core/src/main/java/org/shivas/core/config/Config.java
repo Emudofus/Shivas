@@ -61,5 +61,6 @@ public interface Config {
 	String warnName();
 	String warnColor();
 
+    int fightWorkersNum();
     Duration turnDuration(FightTypeEnum fightType);
 }

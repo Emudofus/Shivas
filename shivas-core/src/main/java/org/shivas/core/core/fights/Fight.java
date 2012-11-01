@@ -4,17 +4,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.joda.time.Duration;
 import org.shivas.common.threads.Timer;
-import org.shivas.core.core.fights.events.*;
-import org.shivas.data.entity.GameCell;
-import org.shivas.protocol.client.enums.FightSideEnum;
-import org.shivas.protocol.client.enums.FightStateEnum;
-import org.shivas.protocol.client.enums.FightTeamEnum;
-import org.shivas.protocol.client.enums.FightTypeEnum;
-import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.core.config.Config;
 import org.shivas.core.core.castables.Castable;
 import org.shivas.core.core.events.EventDispatcher;
 import org.shivas.core.core.events.ThreadedEventDispatcher;
+import org.shivas.core.core.fights.events.*;
 import org.shivas.core.core.fights.frames.FighterCastFrame;
 import org.shivas.core.core.fights.frames.FighterMovementFrame;
 import org.shivas.core.core.fights.frames.Frame;
@@ -24,6 +18,12 @@ import org.shivas.core.core.interactions.InteractionType;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.core.paths.Path;
 import org.shivas.core.utils.Converters;
+import org.shivas.data.entity.GameCell;
+import org.shivas.protocol.client.enums.FightSideEnum;
+import org.shivas.protocol.client.enums.FightStateEnum;
+import org.shivas.protocol.client.enums.FightTeamEnum;
+import org.shivas.protocol.client.enums.FightTypeEnum;
+import org.shivas.protocol.client.types.BaseFighterType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static org.shivas.common.collections.CollectionQuery.from;
 
@@ -48,9 +47,9 @@ public abstract class Fight extends AbstractInteraction {
 
     protected final Config config;
     protected final Timer<Fight> timer;
-    protected final ExecutorService worker = Executors.newSingleThreadExecutor();
+    protected final ExecutorService worker;
     protected final Random random = new Random(System.nanoTime());
-    protected final EventDispatcher event = new ThreadedEventDispatcher(worker);
+    protected final EventDispatcher event;
     protected final Map<FightTeamEnum, FightTeam> teams = Maps.newIdentityHashMap();
     protected final GameMap map;
     protected final List<FightCell> cells;
@@ -59,9 +58,11 @@ public abstract class Fight extends AbstractInteraction {
     protected FightTurnList turns;
     protected Frame currentFrame;
 
-    protected Fight(Config config, Timer<Fight> timer, GameMap map, Fighter challenger, Fighter defender) {
+    protected Fight(Config config, Timer<Fight> timer, ExecutorService worker, GameMap map, Fighter challenger, Fighter defender) {
         this.config = config;
         this.timer = timer;
+        this.worker = worker;
+        this.event = new ThreadedEventDispatcher(worker);
         this.map = map;
         this.state = FightStateEnum.INIT;
         this.cells = generateCells();

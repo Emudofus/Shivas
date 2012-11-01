@@ -220,6 +220,11 @@ public class DefaultConfig implements Config {
 	}
 
     @Override
+    public int fightWorkersNum() {
+        return 2;
+    }
+
+    @Override
     public Duration turnDuration(FightTypeEnum fightType) {
         return Duration.standardSeconds(30);
     }
