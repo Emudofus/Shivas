@@ -68,6 +68,14 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
                 parseChangePlaceMessage(Short.parseShort(message.substring(2)));
                 break;
 
+            case 'Q':
+                if (message.length() > 2) {
+                    parseKickMessage(Integer.parseInt(message.substring(2)));
+                } else {
+                    parseQuitMessage();
+                }
+                break;
+
             case 'R':
                 parseSetReadyMessage();
                 break;
@@ -130,6 +138,22 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         fight.changePlace(fighter, cellId);
     }
 
+    private void parseQuitMessage() throws InteractionException {
+        fight.quit(fighter);
+    }
+
+    private void parseKickMessage(int fighterId) throws CriticalException, InteractionException {
+        Fighter target = fight.find(fighterId);
+        assertFalse(target == null, "unknown fighter %d", fighterId);
+
+        if (fighter != target) {
+            assertTrue(target.getTeam() == fighter.getTeam(), "you must be in the same team");
+            assertTrue(fighter.isLeader(), "you must be the leader");
+        }
+
+        fight.quit(target);
+    }
+
     private void parseSetReadyMessage() throws InteractionException {
         fighter.setReady();
     }
@@ -181,13 +205,17 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         case FIGHTER_CAST_END:
             listenFighterCastEnd((FighterCastEndEvent) event);
             break;
+
+        case FIGHTER_QUIT:
+            listenFighterQuit((FighterQuitEvent) event);
+            break;
         }
     }
 
     private void listenFightInitialization() {
         client.write(FightGameMessageFormatter.newFightMessage(
                 fight.getState(),
-                fight.canCancel(),
+                fighter.canQuit(),
                 fight.getFightType() == FightTypeEnum.DUEL,
                 false, // TODO fight spectators
                 fight.getRemainingPreparation(),
@@ -224,6 +252,10 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         case ACTIVE:
             listenFightBeginning();
             break;
+
+        case FINISHED:
+            listenFightEnd();
+            break;
         }
     }
 
@@ -232,6 +264,19 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         client.write(FightGameMessageFormatter.fightStartMessage());
         client.write(FightGameMessageFormatter.turnListMessage(fight.getTurns().toInt()));
         client.write(FightGameMessageFormatter.fighterInformationsMessage(fight.toBaseFighterType()));
+    }
+
+    private void listenFightEnd() {
+        fight.getEvent().unsubscribe(this);
+        client.player().setFighter(null);
+
+        client.write(FightGameMessageFormatter.fighterLeftMessage());
+
+        try {
+            client.newHandler(new RolePlayHandler(client));
+        } catch (Exception e) {
+            log.error("can't set the roleplay handler", e);
+        }
     }
 
     private void listenTurn(FightTurnEvent event) {
@@ -383,5 +428,13 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         ));
 
         client.write(FightGameMessageFormatter.endFightActionMessage(EndActionTypeEnum.SPELL, event.getFighter().getId()));
+    }
+
+    private void listenFighterQuit(FighterQuitEvent event) {
+        if (event.getFighter() == fighter) {
+            listenFightEnd();
+        } else {
+            client.write(FightGameMessageFormatter.fighterQuitMessage(event.getFighter().getId()));
+        }
     }
 }

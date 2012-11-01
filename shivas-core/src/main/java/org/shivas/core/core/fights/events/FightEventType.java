@@ -15,4 +15,5 @@ public enum FightEventType {
     FIGHTER_ACTION,
     FIGHTER_MOVEMENT_END,
     FIGHTER_CAST_END,
+    FIGHTER_QUIT,
 }

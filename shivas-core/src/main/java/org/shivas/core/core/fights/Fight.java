@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.joda.time.Duration;
 import org.shivas.common.threads.Timer;
+import org.shivas.core.core.fights.events.*;
 import org.shivas.data.entity.GameCell;
 import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightStateEnum;
@@ -14,10 +15,6 @@ import org.shivas.core.config.Config;
 import org.shivas.core.core.castables.Castable;
 import org.shivas.core.core.events.EventDispatcher;
 import org.shivas.core.core.events.ThreadedEventDispatcher;
-import org.shivas.core.core.fights.events.FightEventType;
-import org.shivas.core.core.fights.events.FightInitializationEvent;
-import org.shivas.core.core.fights.events.FighterEvent;
-import org.shivas.core.core.fights.events.StateUpdateEvent;
 import org.shivas.core.core.fights.frames.FighterCastFrame;
 import org.shivas.core.core.fights.frames.FighterMovementFrame;
 import org.shivas.core.core.fights.frames.Frame;
@@ -160,7 +157,7 @@ public abstract class Fight extends AbstractInteraction {
 
     public abstract FightTypeEnum getFightType();
     public abstract int getRemainingPreparation();
-    public abstract boolean canCancel();
+    public abstract boolean canQuit(Fighter fighter);
 
     protected void beforeInit() throws InteractionException {}
     public void init() throws InteractionException {
@@ -201,6 +198,7 @@ public abstract class Fight extends AbstractInteraction {
 
         beforeCancel();
 
+        event.publish(new StateUpdateEvent(this, FightStateEnum.FINISHED));
         state = FightStateEnum.FINISHED;
         timer.stop();
 
@@ -215,6 +213,7 @@ public abstract class Fight extends AbstractInteraction {
 
         beforeEnd();
 
+        event.publish(new StateUpdateEvent(this, FightStateEnum.FINISHED));
         state = FightStateEnum.FINISHED;
         timer.stop();
 
@@ -260,6 +259,22 @@ public abstract class Fight extends AbstractInteraction {
         setCurrentFrame(new FighterMovementFrame(fighter, path));
     }
 
+    public void quit(Fighter fighter) throws InteractionException {
+        if (fighter == null) throw new IllegalArgumentException("fighter must not be null");
+        if (!canQuit(fighter)) throw new FightException("you can not quit this fight");
+
+        if (fighter.isLeader()) {
+            cancel();
+        } else {
+            FightTeam team = fighter.getTeam();
+            if (team.remove(fighter)) {
+                event.publish(new FighterQuitEvent(fighter));
+            } else {
+                throw new FightException(String.format("fighter %d can not be removed from his team", fighter.getId()));
+            }
+        }
+    }
+
     public FightSideEnum toSide(FightTeamEnum team) {
         return team == FightTeamEnum.CHALLENGERS ? FightSideEnum.RED :
                team == FightTeamEnum.DEFENDERS   ? FightSideEnum.BLUE : null;
@@ -277,6 +292,14 @@ public abstract class Fight extends AbstractInteraction {
             }
         }
         throw new RuntimeException("there is not anymore available places");
+    }
+
+    public Fighter find(int fighterId) {
+        Fighter fighter = getChallengers().get(fighterId);
+        if (fighter == null) {
+            fighter = getDefenders().get(fighterId);
+        }
+        return fighter;
     }
 
     protected List<FightCell> generateCells() {

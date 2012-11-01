@@ -17,7 +17,7 @@ public class DuelFight extends Fight {
     }
 
     @Override
-    public boolean canCancel() {
+    public boolean canQuit(Fighter fighter) {
         return true;
     }
 

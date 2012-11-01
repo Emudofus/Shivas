@@ -59,6 +59,14 @@ public abstract class Fighter {
         this.team = team;
     }
 
+    public boolean isLeader() {
+        return team.getLeader() == this;
+    }
+
+    public boolean canQuit() {
+        return fight.canQuit(this);
+    }
+
     public FightCell getCurrentCell() {
         return currentCell;
     }
