@@ -49,17 +49,29 @@ public class Vector {
     }
 
     public boolean isCollinearWith(Vector that) {
-        if (that == null) throw new IllegalArgumentException("must not be null");
+        if (that == null) throw new NullPointerException("that");
         return this == NIL || that == NIL || (this.x * that.y) == (this.y * that.x);
     }
 
     public Double getCoefficient(Vector that) {
+        if (this == NIL || that == NIL) return 0.0;
         if (!isCollinearWith(that)) return null;
-        return (double)this.x / (double)that.x;
+
+        if (this.x != 0 && that.x != 0) {
+            return (double)that.x / (double)this.x;
+        }
+        if (this.y != 0 && that.y != 0) {
+            return (double)that.y / (double)this.y;
+        }
+
+        // (0,1) et (0,-1)
+
+        throw new RuntimeException(); // must not happen
     }
 
     public boolean hasSameDirectionOf(Vector that) {
-        return this.getCoefficient(that) > 0.0;
+        Double coef = this.getCoefficient(that);
+        return coef != null && coef > 0.0;
     }
 
     @Override

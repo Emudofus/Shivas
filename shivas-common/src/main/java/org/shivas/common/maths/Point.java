@@ -32,5 +32,28 @@ public class Point implements Serializable {
 	public void setOrdinate(int ordinate) {
 		this.ordinate = ordinate;
 	}
-	
+
+    @Override
+    public int hashCode() {
+        return abscissa + ordinate;
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        return this == that ||
+               that != null &&
+               this.getClass() == that.getClass() &&
+               this.equals((Point) that);
+    }
+
+    public boolean equals(Point that) {
+        return that == this ||
+               that != null &&
+               this.abscissa == that.abscissa && this.ordinate == that.ordinate;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%d;%d)", abscissa, ordinate);
+    }
 }
