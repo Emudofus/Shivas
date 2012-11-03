@@ -87,6 +87,7 @@ public class InteractionList {
 	}
 	
 	public Interaction remove() {
+        if (interactions.isEmpty()) return null;
 		Interaction interaction = interactions.remove(interactions.size() - 1);
 		onRemoved(interaction);
 		

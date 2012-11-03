@@ -184,7 +184,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 
 	private void parseGameActionEndMessage(boolean success, String args) throws Exception {
 		Interaction action = client.interactions().remove();
-		assertFalse(action == null, "you can't do this");
+        if (action == null) return;
 
 		switch (action.getInteractionType()) {
 		case MOVEMENT:
