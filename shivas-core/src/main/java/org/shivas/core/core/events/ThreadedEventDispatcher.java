@@ -1,5 +1,6 @@
 package org.shivas.core.core.events;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -31,7 +32,25 @@ public class ThreadedEventDispatcher implements EventDispatcher {
 		});
 	}
 
-	@Override
+    @Override
+    public void publish(final Iterable<? extends Event> events) {
+        worker.execute(new Runnable() {
+            public void run() {
+                for (Event event : events) {
+                    for (EventListener listener : listeners) {
+                        listener.listen(event);
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void publish(Event... events) {
+        publish(ImmutableSet.copyOf(events));
+    }
+
+    @Override
 	public void subscribe(final EventListener listener) {
 		worker.execute(new Runnable() {
 			public void run() {

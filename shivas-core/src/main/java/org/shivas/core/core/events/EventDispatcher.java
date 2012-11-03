@@ -5,6 +5,8 @@ public interface EventDispatcher {
 	void unsubscribe(EventListener listener);
 	
 	void publish(Event event);
+    void publish(Iterable<? extends Event> events);
+    void publish(Event... events);
 	
 	void clear();
 }
