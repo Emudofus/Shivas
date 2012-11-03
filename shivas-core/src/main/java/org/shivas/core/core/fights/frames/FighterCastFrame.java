@@ -1,5 +1,6 @@
 package org.shivas.core.core.fights.frames;
 
+import org.joda.time.Duration;
 import org.shivas.core.core.castables.Castable;
 import org.shivas.core.core.castables.effects.EffectInterface;
 import org.shivas.core.core.fights.FightCell;
@@ -7,6 +8,7 @@ import org.shivas.core.core.fights.FightException;
 import org.shivas.core.core.fights.Fighter;
 import org.shivas.core.core.fights.events.FighterCastEndEvent;
 import org.shivas.core.core.fights.events.FighterCastEvent;
+import org.shivas.core.core.interactions.InteractionException;
 import org.shivas.core.utils.Cells;
 
 import static org.shivas.common.statistics.CharacteristicType.*;
@@ -78,11 +80,19 @@ public class FighterCastFrame extends Frame {
 
         fighter.getStats().get(ActionPoints).minusContext(castable.getCost());
 
-        end();
+        scheduleEnd(Duration.millis(1250)); // FIXME
     }
 
     @Override
     protected void doEnd() {
         fight.getEvent().publish(new FighterCastEndEvent(fighter, castable));
+
+        if (!fight.getChallengers().areAlive() || !fight.getDefenders().areAlive()) {
+            try {
+                fight.end();
+            } catch (InteractionException e) {
+                fight.exceptionThrowed(e);
+            }
+        }
     }
 }
