@@ -1,6 +1,7 @@
 package org.shivas.core.core.castables.effects;
 
 import org.shivas.common.random.Dice;
+import org.shivas.core.core.castables.effects.filters.EffectFilter;
 import org.shivas.data.entity.SpellLevel;
 import org.shivas.data.entity.WeaponItemEffect;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
@@ -74,6 +75,16 @@ public class WeaponItemEffectAdapter extends WeaponItemEffect implements EffectI
     @Override
     public void setZone(Zone zone) {
         effect.setZone(zone);
+    }
+
+    @Override
+    public EffectFilter getEffectFilter() {
+        return effect.getEffectFilter();
+    }
+
+    @Override
+    public void setEffectFilter(EffectFilter effectFilter) {
+        effect.setEffectFilter(effectFilter);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.shivas.core.core.castables.effects;
 
 import org.shivas.common.random.Dice;
+import org.shivas.core.core.castables.effects.filters.EffectFilter;
 import org.shivas.data.entity.SpellLevel;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 import org.shivas.core.core.castables.zones.Zone;
@@ -28,6 +29,8 @@ public interface EffectInterface {
     void setNbTurns(int nbTurns);
     Zone getZone();
     void setZone(Zone zone);
+    EffectFilter getEffectFilter();
+    void setEffectFilter(EffectFilter effectFilter);
 
     void apply(Fight fight, Fighter caster, FightCell target) throws FightException;
 

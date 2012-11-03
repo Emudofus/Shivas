@@ -7,6 +7,7 @@ import org.shivas.core.core.castables.effects.EffectFactory;
 import org.shivas.core.core.castables.effects.EffectInterface;
 import org.shivas.core.core.castables.effects.SpellEffectAdapter;
 import org.shivas.core.core.castables.effects.WeaponItemEffectAdapter;
+import org.shivas.core.core.castables.effects.filters.DefaultEffectFilter;
 import org.shivas.core.core.castables.zones.SingleCellZone;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.core.npcs.GameNpc;
@@ -68,6 +69,7 @@ public class ShivasEntityFactory extends AbstractEntityFactory {
                 super.newWeaponItemEffect(type) :
                 new WeaponItemEffectAdapter(type, effect) {{
                     setZone(SingleCellZone.INSTANCE); // TODO weapon's zone
+                    setEffectFilter(new DefaultEffectFilter());
                 }};
     }
 }

@@ -1,6 +1,8 @@
 package org.shivas.core.core.castables.effects;
 
 import org.shivas.common.random.Dice;
+import org.shivas.core.core.castables.effects.filters.DefaultEffectFilter;
+import org.shivas.core.core.castables.effects.filters.EffectFilter;
 import org.shivas.data.entity.SpellLevel;
 import org.shivas.data.entity.SpellTemplate;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
@@ -20,6 +22,7 @@ public abstract class Effect implements EffectInterface {
 
     protected int nbTurns;
     protected Zone zone;
+    protected EffectFilter effectFilter = new DefaultEffectFilter();
 
     protected Effect(SpellLevel spellLevel, SpellEffectTypeEnum spellEffect) {
         this.spell = spellLevel != null ? spellLevel.getSpell() : null;
@@ -71,6 +74,16 @@ public abstract class Effect implements EffectInterface {
 
     @Override
     public void setDice(Dice dice) { }
+
+    @Override
+    public EffectFilter getEffectFilter() {
+        return effectFilter;
+    }
+
+    @Override
+    public void setEffectFilter(EffectFilter effectFilter) {
+        this.effectFilter = effectFilter;
+    }
 
     protected abstract Effect emptyCopy();
 

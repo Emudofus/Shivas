@@ -1,6 +1,8 @@
 package org.shivas.core.core.castables.effects;
 
 import org.shivas.common.random.Dice;
+import org.shivas.core.core.castables.effects.filters.DefaultEffectFilter;
+import org.shivas.core.core.castables.effects.filters.EffectFilter;
 import org.shivas.core.core.castables.zones.Zone;
 import org.shivas.core.core.castables.zones.Zones;
 import org.shivas.core.core.fights.Fight;
@@ -81,8 +83,25 @@ public class SpellEffectAdapter extends SpellEffect implements EffectInterface {
     }
 
     @Override
+    public EffectFilter getEffectFilter() {
+        return effect.getEffectFilter();
+    }
+
+    @Override
+    public void setEffectFilter(EffectFilter effectFilter) {
+        effect.setEffectFilter(effectFilter);
+    }
+
+    @Override
     public void setZoneRaw(String zone) {
+        super.setZoneRaw(zone);
         setZone(Zones.parseZone(zone));
+    }
+
+    @Override
+    public void setTargetRaw(int target) {
+        super.setTargetRaw(target);
+        setEffectFilter(DefaultEffectFilter.fromFlags(target));
     }
 
     @Override
