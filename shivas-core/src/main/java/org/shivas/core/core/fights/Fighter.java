@@ -100,7 +100,7 @@ public abstract class Fighter {
     }
 
     public boolean isAlive() {
-        return !turn.isLeft() && getStats().life().current() > 0;
+        return turn == null ? getStats().life().current() > 0 : !turn.isLeft() && getStats().life().current() > 0;
     }
 
     public abstract BaseFighterType toBaseFighterType();

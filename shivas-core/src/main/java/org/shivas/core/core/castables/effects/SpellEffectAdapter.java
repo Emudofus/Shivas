@@ -101,7 +101,7 @@ public class SpellEffectAdapter extends SpellEffect implements EffectInterface {
     @Override
     public void setTargetRaw(int target) {
         super.setTargetRaw(target);
-        setEffectFilter(DefaultEffectFilter.fromFlags(target));
+        setEffectFilter(target != -1 ? DefaultEffectFilter.fromFlags(target) : new DefaultEffectFilter());
     }
 
     @Override

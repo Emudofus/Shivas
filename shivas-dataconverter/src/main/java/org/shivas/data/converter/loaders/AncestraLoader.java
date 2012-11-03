@@ -266,6 +266,7 @@ public class AncestraLoader extends JDBCLoader {
             if (args.length > 5) effect.setChance(Short.parseShort(args[5]));
             if (args.length > 6) effect.setDice(Dofus1Dice.parseDice(args[6]));
             if (args.length > 7 && !args[7].isEmpty()) effect.setTargetRaw(Integer.parseInt(args[7]));
+            else effect.setTargetRaw(-1);
 
             effects.add(effect);
         }
