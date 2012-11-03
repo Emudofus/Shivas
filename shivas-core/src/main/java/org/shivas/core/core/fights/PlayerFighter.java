@@ -59,7 +59,7 @@ public class PlayerFighter extends Fighter {
                 player.getExperience().level(),
                 currentCell.getId(),
                 currentOrientation,
-                dead,
+                !isAlive(),
                 stats,
                 player.getGender(),
                 (short) 0, (short) 0, false, // TODO alignment

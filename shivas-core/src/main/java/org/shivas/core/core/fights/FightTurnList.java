@@ -2,6 +2,7 @@ package org.shivas.core.core.fights;
 
 import com.google.common.base.Function;
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.core.core.interactions.InteractionException;
 import org.shivas.core.utils.Converters;
 
 import java.util.Collection;
@@ -39,16 +40,24 @@ public class FightTurnList implements Iterable<FightTurn> {
     }
 
     public void beginNextTurn() {
-        fight.purgeScheduledTasks();
-        fight.eraseCurrentFrame();
-
-        next().begin();
-
-        fight.schedule(current.getRemaining(), new Runnable() {
-            public void run() {
-                current.end();
+        if (!fight.getChallengers().areAlive() || !fight.getDefenders().areAlive()) {
+            try {
+                fight.end();
+            } catch (InteractionException e) {
+                fight.exceptionThrowed(e);
             }
-        });
+        } else {
+            fight.purgeScheduledTasks();
+            fight.eraseCurrentFrame();
+
+            next().begin();
+
+            fight.schedule(current.getRemaining(), new Runnable() {
+                public void run() {
+                    current.end();
+                }
+            });
+        }
     }
 
     public FightTurn getCurrent() {

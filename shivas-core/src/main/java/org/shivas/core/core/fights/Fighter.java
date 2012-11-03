@@ -29,7 +29,6 @@ public abstract class Fighter {
     protected FightTeam team;
     protected FightCell currentCell;
     protected OrientationEnum currentOrientation;
-    protected boolean dead;
 
     public abstract Integer getId();
     public abstract boolean isReady();
@@ -100,12 +99,8 @@ public abstract class Fighter {
         this.currentOrientation = currentOrientation;
     }
 
-    public boolean isDead() {
-        return dead;
-    }
-
-    public void setDead(boolean dead) {
-        this.dead = dead;
+    public boolean isAlive() {
+        return !turn.isLeft() && getStats().life().current() > 0;
     }
 
     public abstract BaseFighterType toBaseFighterType();

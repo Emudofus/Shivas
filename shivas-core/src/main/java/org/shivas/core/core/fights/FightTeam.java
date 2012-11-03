@@ -68,6 +68,15 @@ public class FightTeam implements Iterable<Fighter> {
         return true;
     }
 
+    public boolean areAlive() {
+        for (Fighter fighter : fighters.values()) {
+            if (!fighter.isAlive()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public String getEncodedStartCells() {
         return fight.getMap().getCells().getEncodedStartCells(side);
     }
