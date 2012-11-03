@@ -2,14 +2,29 @@ package org.shivas.core.utils;
 
 import org.shivas.common.StringUtils;
 import org.shivas.common.maths.Point;
+import org.shivas.common.maths.Vector;
+import org.shivas.core.core.paths.Node;
+import org.shivas.core.core.paths.Path;
 import org.shivas.data.entity.GameCell;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.protocol.client.enums.OrientationEnum;
-import org.shivas.core.core.paths.Node;
-import org.shivas.core.core.paths.Path;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Cells {
 	private Cells() {}
+
+    public static final Map<OrientationEnum, Vector> VECTORS = new HashMap<OrientationEnum, Vector>() {{
+        put(OrientationEnum.EAST, Vector.create(1, -1));
+        put(OrientationEnum.SOUTH_EAST, Vector.create(1, 0));
+        put(OrientationEnum.SOUTH, Vector.create(1, 1));
+        put(OrientationEnum.SOUTH_WEST, Vector.create(0, 1));
+        put(OrientationEnum.WEST, Vector.create(-1, 1));
+        put(OrientationEnum.NORTH_WEST, Vector.create(-1, 0));
+        put(OrientationEnum.NORTH, Vector.create(-1, -1));
+        put(OrientationEnum.NORTH_EAST, Vector.create(0, -1));
+    }};
 	
 	public static String encode(short cellid) {
         return Character.toString(StringUtils.EXTENDED_ALPHABET.charAt(cellid / 64)) +
@@ -96,8 +111,12 @@ public final class Cells {
         }
     }
 
+    public static short getCellIdByOrientation(short cellId, OrientationEnum orientation, MapTemplate map) {
+        return getCellIdByOrientation(cellId, orientation, map.getWidth());
+    }
+
     public static short getCellIdByOrientation(Node node, OrientationEnum orientation, MapTemplate map) {
-        return getCellIdByOrientation(node.cell(), orientation, map.getWidth());
+        return getCellIdByOrientation(node.cell(), orientation, map);
     }
 
     public static long estimateTime(Path path, int mapWidth){
@@ -134,5 +153,31 @@ public final class Cells {
 
     public static long estimateTime(Path path, MapTemplate map) {
         return estimateTime(path, map.getWidth());
+    }
+
+    public static OrientationEnum getOrientationByPoints(Point a, Point b) {
+        Vector vector = Vector.fromPoints(a, b);
+        for (Map.Entry<OrientationEnum, Vector> entry : VECTORS.entrySet()) {
+            if (entry.getValue().hasSameDirectionOf(vector)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public static OrientationEnum getOrientationByCells(short firstCellId, short secondCellId, int mapWidth) {
+        return getOrientationByPoints(position(firstCellId, mapWidth), position(secondCellId, mapWidth));
+    }
+
+    public static OrientationEnum getOrientationByCells(short firstCellId, short secondCellId, MapTemplate map) {
+        return getOrientationByCells(firstCellId, secondCellId, map.getWidth());
+    }
+
+    public static OrientationEnum getOrientationByCells(GameCell firstCell, GameCell secondCell, MapTemplate map) {
+        return getOrientationByCells(firstCell.getId(), secondCell.getId(), map);
+    }
+
+    public static OrientationEnum getOrientationByNodes(Node first, Node second, MapTemplate map) {
+        return getOrientationByCells(first.cell(), second.cell(), map);
     }
 }

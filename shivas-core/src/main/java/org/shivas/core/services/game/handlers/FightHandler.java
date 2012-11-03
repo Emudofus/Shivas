@@ -322,6 +322,10 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
                 listenFighterTranspose((FighterTransposeEvent) event);
             }
             break;
+
+        case CELL_SLIDE:
+            listenFighterSlide((FighterSlideEvent) event);
+            break;
         }
     }
 
@@ -396,6 +400,15 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
                 event.getFighter().getId(),
                 event.getTarget().getId(),
                 event.getTarget().getCurrentCell().getId()
+        ));
+    }
+
+    private void listenFighterSlide(FighterSlideEvent event) {
+        client.write(FightGameMessageFormatter.fightActionMessage(
+                ActionTypeEnum.CELL_SLIDE,
+                event.getFighter().getId(),
+                event.getTarget().getId(),
+                event.getNewCell().getId()
         ));
     }
 

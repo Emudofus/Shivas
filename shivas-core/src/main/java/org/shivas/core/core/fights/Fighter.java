@@ -34,6 +34,7 @@ public abstract class Fighter {
     public abstract Integer getId();
     public abstract boolean isReady();
     public abstract Statistics getStats();
+    public abstract short getLevel();
 
     public Fight getFight() {
         return fight;

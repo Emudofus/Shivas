@@ -38,6 +38,11 @@ public class PlayerFighter extends Fighter {
         return stats;
     }
 
+    @Override
+    public short getLevel() {
+        return player.getExperience().level();
+    }
+
     public void setReady() throws InteractionException {
         ready = !ready;
         fight.notifyReady(this);
