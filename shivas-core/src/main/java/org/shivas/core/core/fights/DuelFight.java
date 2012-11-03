@@ -1,9 +1,9 @@
 package org.shivas.core.core.fights;
 
 import org.shivas.common.threads.Timer;
-import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.core.config.Config;
 import org.shivas.core.core.maps.GameMap;
+import org.shivas.protocol.client.enums.FightTypeEnum;
 
 import java.util.concurrent.ExecutorService;
 
@@ -14,8 +14,8 @@ import java.util.concurrent.ExecutorService;
  * Time: 20:13
  */
 public class DuelFight extends Fight {
-    public DuelFight(Config config, Timer<Fight> timer, ExecutorService worker, GameMap map, PlayerFighter challenger, PlayerFighter defender) {
-        super(config, timer, worker, map, challenger, defender);
+    public DuelFight(int id, Config config, Timer<Fight> timer, ExecutorService worker, GameMap map, PlayerFighter challenger, PlayerFighter defender) {
+        super(id, config, timer, worker, map, challenger, defender);
     }
 
     @Override

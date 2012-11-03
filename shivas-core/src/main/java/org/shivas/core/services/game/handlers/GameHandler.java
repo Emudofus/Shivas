@@ -1,12 +1,6 @@
 package org.shivas.core.services.game.handlers;
 
 import com.google.common.collect.Collections2;
-import org.shivas.data.entity.Waypoint;
-import org.shivas.protocol.client.enums.ActionTypeEnum;
-import org.shivas.protocol.client.enums.InteractiveObjectTypeEnum;
-import org.shivas.protocol.client.enums.OrientationEnum;
-import org.shivas.protocol.client.formatters.GameMessageFormatter;
-import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.shivas.core.core.GameActor;
 import org.shivas.core.core.Location;
 import org.shivas.core.core.events.events.ChangeMapEvent;
@@ -22,6 +16,12 @@ import org.shivas.core.services.AbstractBaseHandler;
 import org.shivas.core.services.CriticalException;
 import org.shivas.core.services.game.GameClient;
 import org.shivas.core.utils.Converters;
+import org.shivas.data.entity.Waypoint;
+import org.shivas.protocol.client.enums.ActionTypeEnum;
+import org.shivas.protocol.client.enums.InteractiveObjectTypeEnum;
+import org.shivas.protocol.client.enums.OrientationEnum;
+import org.shivas.protocol.client.formatters.GameMessageFormatter;
+import org.shivas.protocol.client.formatters.InfoGameMessageFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,7 +84,7 @@ public class GameHandler extends AbstractBaseHandler<GameClient> {
 		
 		client.write(GameMessageFormatter.showActorsMessage(Collections2.transform(map.actors(), Converters.GAMEACTOR_TO_BASEROLEPLAYACTORTYPE)));
 		client.write(GameMessageFormatter.mapLoadedMessage());
-		client.write(GameMessageFormatter.fightCountMessage(0)); // TODO fights
+		client.write(GameMessageFormatter.fightCountMessage(map.countFights()));
 		
 		map.event().subscribe(client.eventListener());
 		

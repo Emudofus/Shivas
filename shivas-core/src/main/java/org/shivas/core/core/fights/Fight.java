@@ -45,6 +45,7 @@ public abstract class Fight extends AbstractInteraction {
 
     private static final Logger log = LoggerFactory.getLogger(Fight.class);
 
+    protected final int id;
     protected final Config config;
     protected final Timer<Fight> timer;
     protected final ExecutorService worker;
@@ -58,7 +59,8 @@ public abstract class Fight extends AbstractInteraction {
     protected FightTurnList turns;
     protected Frame currentFrame;
 
-    protected Fight(Config config, Timer<Fight> timer, ExecutorService worker, GameMap map, Fighter challenger, Fighter defender) {
+    protected Fight(int id, Config config, Timer<Fight> timer, ExecutorService worker, GameMap map, Fighter challenger, Fighter defender) {
+        this.id = id;
         this.config = config;
         this.timer = timer;
         this.worker = worker;
@@ -67,8 +69,14 @@ public abstract class Fight extends AbstractInteraction {
         this.state = FightStateEnum.INIT;
         this.cells = generateCells();
 
+        this.map.add(this);
+
         this.teams.put(FightTeamEnum.CHALLENGERS, new FightTeam(FightTeamEnum.CHALLENGERS, toSide(FightTeamEnum.CHALLENGERS), this, challenger));
         this.teams.put(FightTeamEnum.DEFENDERS, new FightTeam(FightTeamEnum.DEFENDERS, toSide(FightTeamEnum.DEFENDERS), this, defender));
+    }
+
+    public int getId() {
+        return id;
     }
 
     public Config getConfig() {
@@ -160,6 +168,10 @@ public abstract class Fight extends AbstractInteraction {
     public abstract int getRemainingPreparation();
     public abstract boolean canQuit(Fighter fighter);
 
+    protected void onStopped() {
+        map.remove(this);
+    }
+
     protected void beforeInit() throws InteractionException {}
     public void init() throws InteractionException {
         if (state != FightStateEnum.INIT) throw new FightException("you can't init a fight already initialized");
@@ -204,6 +216,7 @@ public abstract class Fight extends AbstractInteraction {
         timer.stop();
 
         afterCancel();
+        onStopped();
     }
     protected void afterCancel() throws InteractionException {}
 
@@ -219,6 +232,7 @@ public abstract class Fight extends AbstractInteraction {
         timer.stop();
 
         afterEnd();
+        onStopped();
     }
     protected void afterEnd() throws InteractionException {}
 

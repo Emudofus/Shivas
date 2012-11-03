@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,6 +26,7 @@ public class FightFactory {
     private ExecutorService worker;
 
     private final Timer<Fight> timer = new Timer<Fight>("fight");
+    private final AtomicInteger id = new AtomicInteger();
 
     @Inject
     public void init(Config config) {
@@ -40,6 +42,7 @@ public class FightFactory {
         target.setFighter(defender);
 
         return new DuelFight(
+                id.incrementAndGet(),
                 config, timer, worker,
                 map,
                 challenger,
