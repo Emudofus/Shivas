@@ -15,15 +15,16 @@ import javax.inject.Singleton;
 public class ShivasCommandModule extends AbstractModule {
     @Override
     protected void configure() {
-        Multibinder<Command> b = Multibinder.newSetBinder(binder(), Command.class);
+        Multibinder<Command> commands = Multibinder.newSetBinder(binder(), Command.class);
 
-        b.addBinding().to(AverageHandleCommand.class).in(Singleton.class);
-        b.addBinding().to(CreateGuildCommand.class).in(Singleton.class);
-        b.addBinding().to(GiveItemCommand.class).in(Singleton.class);
-        b.addBinding().to(KickCommand.class).in(Singleton.class);
-        b.addBinding().to(SaveCommand.class).in(Singleton.class);
-        b.addBinding().to(PrintCommand.class).in(Singleton.class);
-        b.addBinding().to(AllCommand.class).in(Singleton.class);
-        b.addBinding().to(TeleportCommand.class).in(Singleton.class);
+        commands.addBinding().to(AverageHandleCommand.class).in(Singleton.class);
+        commands.addBinding().to(CreateGuildCommand.class).in(Singleton.class);
+        commands.addBinding().to(GiveItemCommand.class).in(Singleton.class);
+        commands.addBinding().to(KickCommand.class).in(Singleton.class);
+        commands.addBinding().to(SaveCommand.class).in(Singleton.class);
+        commands.addBinding().to(PrintCommand.class).in(Singleton.class);
+        commands.addBinding().to(AllCommand.class).in(Singleton.class);
+        commands.addBinding().to(TeleportCommand.class).in(Singleton.class);
+        commands.addBinding().to(HelpCommand.class).in(Singleton.class);
     }
 }

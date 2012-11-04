@@ -11,6 +11,7 @@ import org.shivas.core.services.game.GameClient;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +39,14 @@ public class CommandEngine {
     public boolean canHandle(String input) {
         return config.cmdEnabled() &&
                input.startsWith(config.cmdPrefix());
+    }
+
+    public ParametersParser getParser() {
+        return parser;
+    }
+
+    public Collection<Command> getCommands() {
+        return commands.values();
     }
 	
 	public void use(GameClient client, DofusLogger log, String command) {

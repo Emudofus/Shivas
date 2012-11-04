@@ -42,7 +42,11 @@ public class GnuParser implements ParametersParser {
 		StringBuilder sb = new StringBuilder();
 		
 		for (Condition cond : conditions) {
-			sb.append("    * --").append(cond.getName()).append(" => ").append(cond.getHelp()).append('\n');
+			sb.append("    --").append(cond.getName());
+            sb.append(" (").append(cond.getType().getJavaClass().getSimpleName()).append(")");
+            sb.append(" => ").append(cond.getHelp());
+            if (cond.isOptional()) sb.append(" (optional)");
+            sb.append('\n');
 		}
 		
 		return sb.toString();
