@@ -41,7 +41,7 @@ public class CommandEngine {
     }
 	
 	public void use(GameClient client, DofusLogger log, String command) {
-        command = command.substring(config.cmdPrefix().length());
+        if (command.startsWith(config.cmdPrefix())) command = command.substring(config.cmdPrefix().length());
 
 		int index = command.indexOf(" ");
 		String name;

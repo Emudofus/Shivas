@@ -19,11 +19,11 @@ public class StringType implements Type {
 
 	@Override
 	public Object parse(String string) throws ParsingException {
-		String[] args = string.split("\"");
-		if (args.length < 2) {
-			throw new ParsingException("a String must be surrounded by quote");
-		}
-		return args[1];
+        try {
+            return string.substring(string.indexOf('\'') + 1, string.lastIndexOf('\''));
+        } catch (IndexOutOfBoundsException e) {
+            throw new ParsingException("malformed string", e);
+        }
 	}
 
 }

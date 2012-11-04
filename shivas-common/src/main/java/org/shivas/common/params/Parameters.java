@@ -15,6 +15,12 @@ public class Parameters {
 	public <T> T get(String name, Class<T> clazz) {
 		return clazz.cast(values.get(name));
 	}
+
+    public <T> T get(String name, T defaultz) {
+        Object value = get(name);
+        if (value == null) return defaultz;
+        else return (T) value;
+    }
 	
 	public Object get(String name) {
 		return values.get(name);

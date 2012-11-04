@@ -1,8 +1,8 @@
 package org.shivas.common.params;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 public class GnuParser implements ParametersParser {
 
@@ -13,7 +13,7 @@ public class GnuParser implements ParametersParser {
 		Map<String, Condition> conditions = conds.asMap();
 		
 		for (String arg : string.split(" --")) if (!arg.isEmpty()) {
-			String[] args = arg.split("=");
+			String[] args = arg.split("=", 2);
 			
 			String name = args[0], valueStr = args[1];
 			
