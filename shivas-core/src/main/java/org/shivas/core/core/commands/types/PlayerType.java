@@ -4,6 +4,7 @@ import org.atomium.repository.BaseEntityRepository;
 import org.atomium.util.Filter;
 import org.shivas.common.params.ParsingException;
 import org.shivas.common.params.Type;
+import org.shivas.common.params.Types;
 import org.shivas.core.database.models.Player;
 
 public class PlayerType implements Type {
@@ -28,23 +29,23 @@ public class PlayerType implements Type {
 
 	@Override
 	public Object parse(final String string) throws ParsingException {
-		Player player;
-		try {
-			int playerId = Integer.parseInt(string);
-			player = players.find(playerId);
-		} catch (NumberFormatException e) {
-			player = players.find(new Filter<Player>() {
-				public Boolean invoke(Player arg1) throws Exception {
-					return arg1.getName().equals(string);
-				}
-			});
-		}
-		
-		if (player == null) {
-			throw new ParsingException("unknown player " + string);
-		} else {
-			return player;
-		}
+        Player player;
+        try {
+            final String playerName = (String) Types.STRING.parse(string);
+
+            player = players.find(new Filter<Player>() {
+                public Boolean invoke(Player player) throws Exception {
+                    return player.getName().equalsIgnoreCase(playerName);
+                }
+            });
+        } catch (ParsingException e) {
+            final Integer playerId = (Integer) Types.INTEGER.parse(string);
+
+            player = players.find(playerId);
+        }
+
+        if (player == null) throw new ParsingException("unknown player " + string);
+        return player;
 	}
 
 }

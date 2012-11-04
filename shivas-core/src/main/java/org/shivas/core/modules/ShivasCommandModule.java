@@ -23,5 +23,7 @@ public class ShivasCommandModule extends AbstractModule {
         b.addBinding().to(KickCommand.class).in(Singleton.class);
         b.addBinding().to(SaveCommand.class).in(Singleton.class);
         b.addBinding().to(PrintCommand.class).in(Singleton.class);
+        b.addBinding().to(AllCommand.class).in(Singleton.class);
+        b.addBinding().to(TeleportCommand.class).in(Singleton.class);
     }
 }
