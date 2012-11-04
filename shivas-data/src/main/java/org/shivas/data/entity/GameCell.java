@@ -74,4 +74,16 @@ public class GameCell implements Serializable {
         this.startFightSide = startFightSide;
     }
 
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null) return false;
+        if (obj.getClass() != this.getClass()) return false;
+        return id == ((GameCell) obj).id;
+    }
 }

@@ -1,11 +1,11 @@
 package org.shivas.core.core.castables.zones;
 
 import com.google.common.collect.Sets;
+import org.shivas.data.entity.CellProvider;
 import org.shivas.data.entity.GameCell;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.protocol.client.enums.ZoneTypeEnum;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -32,7 +32,7 @@ public class SingleCellZone extends Zone {
     }
 
     @Override
-    public <C extends GameCell> Set<C> filter(C start, C target, Collection<C> cells, MapTemplate map) {
+    public <C extends GameCell> Set<C> filter(C start, C target, CellProvider<C> cells, MapTemplate map) {
         return Sets.newHashSet(target);
     }
 }

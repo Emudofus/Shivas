@@ -1,10 +1,10 @@
 package org.shivas.core.core.castables.zones;
 
+import org.shivas.data.entity.CellProvider;
 import org.shivas.data.entity.GameCell;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.protocol.client.enums.ZoneTypeEnum;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -26,5 +26,5 @@ public abstract class Zone {
 
     public abstract ZoneTypeEnum getZoneType();
 
-    public abstract <C extends GameCell> Set<C> filter(C start, C target, Collection<C> cells, MapTemplate map);
+    public abstract <C extends GameCell> Set<C> filter(C start, C target, CellProvider<C> cells, MapTemplate map);
 }

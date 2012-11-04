@@ -18,6 +18,7 @@ import org.shivas.core.core.interactions.InteractionType;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.core.paths.Path;
 import org.shivas.core.utils.Converters;
+import org.shivas.data.entity.CellProvider;
 import org.shivas.data.entity.GameCell;
 import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightStateEnum;
@@ -27,10 +28,7 @@ import org.shivas.protocol.client.types.BaseFighterType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 import static org.shivas.common.collections.CollectionQuery.from;
@@ -41,7 +39,7 @@ import static org.shivas.common.collections.CollectionQuery.from;
  * Date: 06/10/12
  * Time: 19:28
  */
-public abstract class Fight extends AbstractInteraction {
+public abstract class Fight extends AbstractInteraction implements CellProvider<FightCell> {
 
     private static final Logger log = LoggerFactory.getLogger(Fight.class);
 
@@ -336,5 +334,9 @@ public abstract class Fight extends AbstractInteraction {
               .with(getDefenders())
               .transform(Converters.FIGHTER_TO_BASEFIGHTERTYPE)
               .lazyCollection();
+    }
+
+    public Iterator<FightCell> iterator() {
+        return cells.iterator();
     }
 }

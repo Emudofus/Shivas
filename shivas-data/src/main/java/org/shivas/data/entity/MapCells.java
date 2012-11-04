@@ -11,7 +11,7 @@ import java.util.Iterator;
  * Date: 17/10/12
  * Time: 18:32
  */
-public class MapCells implements Iterable<GameCell> {
+public class MapCells implements CellProvider<GameCell> {
     private final MapTemplate map;
 
     private GameCell[] cells;
@@ -35,6 +35,10 @@ public class MapCells implements Iterable<GameCell> {
 
     public GameCell get(short id) {
         return cells.length <= id ? null : cells[id];
+    }
+
+    public GameCell getCell(short id) {
+        return get(id);
     }
 
     public void set(GameCell[] cells) {

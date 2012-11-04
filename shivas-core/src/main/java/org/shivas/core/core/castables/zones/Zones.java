@@ -17,32 +17,20 @@ public final class Zones {
             throw new IllegalArgumentException("string must have a length of 2");
         }
 
-        Zone zone = null;
+        int length = StringUtils.EXTENDED_ALPHABET.indexOf(string.charAt(1));
 
         switch (ZoneTypeEnum.valueOf(string.charAt(0))) {
-        case SINGLE_CELL:
-            zone = SingleCellZone.INSTANCE;
-            break;
-
         case CROSS:
-            zone = new CrossZone();
-            break;
+            return new CrossZone(length);
 
         case LINE:
-            zone = new LineZone();
-            break;
+            return new LineZone(length);
 
         case CIRCLE:
-            zone = new CircleZone();
-            break;
+            return new CircleZone(length);
+
+        default:
+            return SingleCellZone.INSTANCE;
         }
-
-        if (zone == null) {
-            throw new IllegalArgumentException("invalid zone type \"" + string.charAt(0) + "\"");
-        }
-
-        zone.setLength(StringUtils.EXTENDED_ALPHABET.indexOf(string.charAt(1)));
-
-        return zone;
     }
 }

@@ -70,7 +70,7 @@ public class FighterCastFrame extends Frame {
 
         if (!failure) {
             for (EffectInterface effect : castable.getEffects(critical)) {
-                for (FightCell cell : effect.getZone().filter(fighter.getCurrentCell(), targetCell, fight.getCells(), fight.getMap())) {
+                for (FightCell cell : effect.getZone().filter(fighter.getCurrentCell(), targetCell, fight, fight.getMap())) {
                     if (effect.getEffectFilter().apply(fighter, cell)) {
                         effect.apply(fight, fighter, cell);
                     }
