@@ -1,14 +1,16 @@
 package org.shivas.core.services.game.handlers;
 
 import org.shivas.common.StringUtils;
-import org.shivas.protocol.client.enums.Gender;
-import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
-import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
+import org.shivas.core.core.players.SecuredDeleteException;
+import org.shivas.core.core.players.SecuredPersistException;
 import org.shivas.core.database.models.Gift;
 import org.shivas.core.database.models.Player;
 import org.shivas.core.services.AbstractBaseHandler;
 import org.shivas.core.services.CriticalException;
 import org.shivas.core.services.game.GameClient;
+import org.shivas.protocol.client.enums.Gender;
+import org.shivas.protocol.client.formatters.ApproachGameMessageFormatter;
+import org.shivas.protocol.client.formatters.ItemGameMessageFormatter;
 
 public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 
@@ -101,44 +103,35 @@ public class PlayerSelectionHandler extends AbstractBaseHandler<GameClient> {
 	}
 
 	private void parsePlayerCreationMessage(String name, int breed, Gender gender, int color1, int color2, int color3) {
-		if (client.account().getPlayers().count() >= client.service().config().maxPlayersPerAccount()) {
-			client.write(ApproachGameMessageFormatter.accountFullMessage());
-		} else if (client.service().repositories().players().nameExists(name)) {
-			client.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
-		} else {
-			Player player = client.service().repositories().players().createDefault(
-					name,
-					breed,
-					gender,
-					color1,
-					color2,
-					color3
-			);
-			client.account().getPlayers().persist(player);
-			
-			client.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
-			parsePlayersListMessage();
-		}
+        try {
+            client.account().getPlayers().persist(name, breed, gender, color1, color2, color3);
+
+            client.write(ApproachGameMessageFormatter.characterCreationSuccessMessage());
+            parsePlayersListMessage();
+        } catch (SecuredPersistException e) {
+            switch (e.getReason()) {
+            case FULL_ACCOUNT:
+                client.write(ApproachGameMessageFormatter.accountFullMessage());
+                break;
+
+            case NAME_ALREADY_EXISTS:
+                client.write(ApproachGameMessageFormatter.characterNameAlreadyExistsMessage());
+                break;
+            }
+        }
 	}
 
 	private void parsePlayerDeleteMessage(int playerId, String secretAnswer) throws CriticalException {
 		Player player = client.account().getPlayers().get(playerId);
 		assertFalse(player == null, "unknown player %d !", playerId);
-		assertFalse(
-				secretAnswer.isEmpty() && player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded(),
-				"the secret answer is required"
-		);
-		
-		if (player.getExperience().level() > client.service().config().deleteAnswerLevelNeeded() &&
-				   !client.account().getSecretAnswer().equals(secretAnswer))
-		{
-			client.write(ApproachGameMessageFormatter.characterDeletionFailureMessage());
-		} else {
-			client.account().getPlayers().remove(playerId);
-			client.service().repositories().players().delete(player);
-			
-			parsePlayersListMessage();
-		}
+
+        try {
+            client.account().getPlayers().delete(player, secretAnswer);
+
+            parsePlayersListMessage();
+        } catch (SecuredDeleteException e) {
+            client.write(ApproachGameMessageFormatter.characterDeletionFailureMessage());
+        }
 	}
 
 	private void parsePlayerSelectionMessage(int playerId) throws Exception {

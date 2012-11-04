@@ -1,28 +1,31 @@
 package org.shivas.core.core.players;
 
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Maps;
+import org.shivas.core.config.Config;
+import org.shivas.core.database.models.Account;
+import org.shivas.core.database.models.Player;
+import org.shivas.core.database.repositories.PlayerRepository;
+import org.shivas.core.utils.Converters;
+import org.shivas.protocol.client.enums.Gender;
+import org.shivas.protocol.client.types.BaseCharacterType;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.atomium.repository.EntityRepository;
-import org.shivas.protocol.client.types.BaseCharacterType;
-import org.shivas.core.database.models.Account;
-import org.shivas.core.database.models.Player;
-import org.shivas.core.utils.Converters;
-
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Maps;
-
 public class PlayerList implements Iterable<Player> {
 
 	private final Account owner;
-	private final EntityRepository<Integer, Player> repo;
+	private final PlayerRepository repo;
+    private final Config config;
 	private final Map<Integer, Player> players = Maps.newHashMap();
 	
-	public PlayerList(Account owner, EntityRepository<Integer, Player> repo) {
+	public PlayerList(Account owner, PlayerRepository repo, Config config) {
 		this.owner = owner;
 		this.repo = repo;
-	}
+        this.config = config;
+    }
 
 	/**
 	 * returns list's owner
@@ -48,17 +51,34 @@ public class PlayerList implements Iterable<Player> {
 	public void add(Player player) {
 		players.put(player.getId(), player);
 	}
-	
-	/**
-	 * persist player in database and add it in the list (this will set player's owner)
-	 * @param player
-	 */
-	public void persist(Player player) {
-		player.setOwner(owner);
-		
-		repo.persistLater(player);
-		add(player);
-	}
+
+    /**
+     * create and persist the player in the database
+     * @param name player's name
+     * @param breed player's breed
+     * @param gender player's gender
+     * @param color1 player's first color
+     * @param color2 player's second color
+     * @param color3 player's third color
+     * @return created player
+     * @throws SecuredPersistException
+     */
+    public Player persist(String name, int breed, Gender gender, int color1, int color2, int color3) throws SecuredPersistException {
+        if (players.size() >= config.maxPlayersPerAccount()) {
+            throw new SecuredPersistException(SecuredPersistException.Reason.FULL_ACCOUNT);
+        }
+        if (repo.nameExists(name)) {
+            throw new SecuredPersistException(SecuredPersistException.Reason.NAME_ALREADY_EXISTS);
+        }
+
+        Player player = repo.createDefault(name, breed, gender, color1, color2, color3);
+        player.setOwner(owner);
+
+        repo.persistLater(player);
+        add(player);
+
+        return player;
+    }
 	
 	/**
 	 * only remove the player from the list
@@ -81,7 +101,14 @@ public class PlayerList implements Iterable<Player> {
 	 * delete player from the database and remove it from the list
 	 * @param player
 	 */
-	public void delete(Player player) {
+	public void delete(Player player, String secretAnswer) throws SecuredDeleteException {
+        if (player.getExperience().level() < config.deleteAnswerLevelNeeded()) {
+            throw new SecuredDeleteException(SecuredDeleteException.Reason.TOO_LOW_PLAYER_LEVEL);
+        }
+        if (!owner.getSecretAnswer().equalsIgnoreCase(secretAnswer)) {
+            throw new SecuredDeleteException(SecuredDeleteException.Reason.BAD_SECRET_ANSWER);
+        }
+
 		repo.deleteLater(player);
 		remove(player);
 	}

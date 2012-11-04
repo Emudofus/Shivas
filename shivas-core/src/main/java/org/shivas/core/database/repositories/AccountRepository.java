@@ -1,11 +1,5 @@
 package org.shivas.core.database.repositories;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import org.atomium.EntityManager;
 import org.atomium.exception.LoadingException;
 import org.atomium.repository.impl.AbstractRefreshableEntityRepository;
@@ -15,7 +9,6 @@ import org.atomium.util.query.Query;
 import org.atomium.util.query.UpdateQueryBuilder;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1SaltCipher;
-import org.shivas.protocol.client.enums.ChannelEnum;
 import org.shivas.core.config.Config;
 import org.shivas.core.core.channels.ChannelList;
 import org.shivas.core.core.contacts.ContactList;
@@ -23,6 +16,12 @@ import org.shivas.core.core.gifts.GiftList;
 import org.shivas.core.core.players.PlayerList;
 import org.shivas.core.database.RepositoryContainer;
 import org.shivas.core.database.models.Account;
+import org.shivas.protocol.client.enums.ChannelEnum;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Singleton
 public class AccountRepository extends AbstractRefreshableEntityRepository<Integer, Account> {
@@ -33,12 +32,14 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	private final Query loadQuery, refreshQuery, setRefreshedQuery;
 	
 	private final RepositoryContainer repositories;
+    private final Config config;
 
 	@Inject
 	public AccountRepository(EntityManager em, Config config, RepositoryContainer repositories) {
 		super(em, config.databaseRefreshRate());
-		
-		this.repositories = repositories;
+        this.config = config;
+
+        this.repositories = repositories;
 		
 		this.saveQuery = em.builder()
 				.update(TABLE_NAME)
@@ -128,7 +129,7 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 				result.getInt("nb_connections")
 		);
 		
-		account.setPlayers(new PlayerList(account, repositories.players()));
+		account.setPlayers(new PlayerList(account, repositories.players(), config));
 		account.setContacts(new ContactList(account, repositories.contacts()));
 		account.getContacts().setNotificationListener(result.getBoolean("friend_notification_listener"));
 		account.setGifts(new GiftList(account, repositories.gifts()));

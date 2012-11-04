@@ -5,6 +5,7 @@ import org.shivas.common.params.GnuParser;
 import org.shivas.common.params.Parameters;
 import org.shivas.common.params.ParametersParser;
 import org.shivas.common.params.ParsingException;
+import org.shivas.core.config.Config;
 import org.shivas.core.core.logging.DofusLogger;
 import org.shivas.core.services.game.GameClient;
 
@@ -19,8 +20,12 @@ public class CommandEngine {
 	private final Map<String, Command> commands = Maps.newHashMap();
 	private final ParametersParser parser = new GnuParser();
 
+    private Config config;
+
     @Inject
-    public void init(Set<Command> commands) {
+    public void init(Config config, Set<Command> commands) {
+        this.config = config;
+
         for (Command command : commands) {
             add(command);
         }
@@ -29,8 +34,15 @@ public class CommandEngine {
     public void add(Command command) {
         commands.put(command.getName(), command);
     }
+
+    public boolean canHandle(String input) {
+        return config.cmdEnabled() &&
+               input.startsWith(config.cmdPrefix());
+    }
 	
 	public void use(GameClient client, DofusLogger log, String command) {
+        command = command.substring(config.cmdPrefix().length());
+
 		int index = command.indexOf(" ");
 		String name;
 		if (index >= 0) {

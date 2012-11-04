@@ -1,13 +1,13 @@
 package org.shivas.core.services.game.handlers;
 
 import org.joda.time.DateTime;
-import org.shivas.protocol.client.enums.ChannelEnum;
-import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 import org.shivas.core.core.channels.Channel;
 import org.shivas.core.database.models.Player;
 import org.shivas.core.services.AbstractBaseHandler;
 import org.shivas.core.services.CriticalException;
 import org.shivas.core.services.game.GameClient;
+import org.shivas.protocol.client.enums.ChannelEnum;
+import org.shivas.protocol.client.formatters.BasicGameMessageFormatter;
 
 public class BasicHandler extends AbstractBaseHandler<GameClient> {
 
@@ -41,10 +41,9 @@ public class BasicHandler extends AbstractBaseHandler<GameClient> {
 							msg
 					);
 				} else {
-					if (client.service().config().cmdEnabled() &&
-					    msg.startsWith(client.service().config().cmdPrefix()))
+					if (client.service().cmdEngine().canHandle(msg))
 					{
-						parseClientCommandMessage(msg.substring(client.service().config().cmdPrefix().length()));
+						parseClientCommandMessage(msg);
 					}
 					else {
 						parseSendClientMultiMessage(
