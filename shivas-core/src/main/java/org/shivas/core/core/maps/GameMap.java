@@ -13,6 +13,7 @@ import org.shivas.data.entity.MapTemplate;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameMap extends MapTemplate {
 
@@ -24,7 +25,7 @@ public class GameMap extends MapTemplate {
 	
 	private final Map<Integer, GameActor> actors = Maps.newConcurrentMap();
     private final Map<Integer, Fight> fights = Maps.newConcurrentMap();
-	private int actorId;
+	private AtomicInteger actorIdGenerator = new AtomicInteger();
 
     public GameActor get(int actorId) {
         return actors.get(actorId);
@@ -56,7 +57,7 @@ public class GameMap extends MapTemplate {
 
 	public void enter(GameActor actor) {
 		if (actor instanceof GameActorWithoutId) {
-			((GameActorWithoutId) actor).setId(--actorId);
+			((GameActorWithoutId) actor).setId(actorIdGenerator.decrementAndGet());
 		}
 		actors.put(actor.getPublicId(), actor);
 		

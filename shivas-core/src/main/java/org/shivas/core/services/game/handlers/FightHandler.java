@@ -12,7 +12,6 @@ import org.shivas.core.core.paths.PathNotFoundException;
 import org.shivas.core.core.paths.Pathfinder;
 import org.shivas.core.database.models.GameItem;
 import org.shivas.core.database.models.Spell;
-import org.shivas.core.services.AbstractBaseHandler;
 import org.shivas.core.services.CriticalException;
 import org.shivas.core.services.game.GameClient;
 import org.shivas.protocol.client.enums.ActionTypeEnum;
@@ -29,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * Date: 06/10/12
  * Time: 22:31
  */
-public class FightHandler extends AbstractBaseHandler<GameClient> implements EventListener {
+public class FightHandler extends RolePlayHandler implements EventListener {
     private static final Logger log = LoggerFactory.getLogger(FightHandler.class);
 
     protected Fight fight;
@@ -47,6 +46,9 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
         fighter = client.player().getFighter();
 
         fight.getEvent().subscribe(this);
+        fight.getEvent().subscribe(client.eventListener());
+
+        super.configure();
     }
 
     @Override
@@ -58,6 +60,18 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
     public void handle(String message) throws Exception {
         String[] args;
         switch (message.charAt(0)) {
+        case 'B':
+            switch (message.charAt(1)) {
+            case 'M':
+                parseSendMessage(message.substring(2));
+                break;
+
+            default:
+                super.handle(message);
+                break;
+            }
+            break;
+
         case 'G':
             switch (message.charAt(1)) {
             case 'A':
@@ -85,6 +99,18 @@ public class FightHandler extends AbstractBaseHandler<GameClient> implements Eve
                 break;
             }
             break;
+
+        default:
+            super.handle(message);
+        }
+    }
+
+    private void parseSendMessage(String message) throws Exception {
+        String[] args = message.split("\\|", 2);
+        if (args[0].equals("*")) {
+            fight.speak(fighter, args[1]);
+        } else {
+            super.handle(message);
         }
     }
 

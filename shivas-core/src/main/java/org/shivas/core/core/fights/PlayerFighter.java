@@ -1,10 +1,12 @@
 package org.shivas.core.core.fights;
 
-import org.shivas.protocol.client.types.BaseFighterType;
-import org.shivas.protocol.client.types.CharacterFighterType;
+import org.shivas.core.core.Look;
 import org.shivas.core.core.interactions.InteractionException;
 import org.shivas.core.core.statistics.PlayerStatistics;
 import org.shivas.core.database.models.Player;
+import org.shivas.protocol.client.types.BaseFighterType;
+import org.shivas.protocol.client.types.BaseRolePlayActorType;
+import org.shivas.protocol.client.types.CharacterFighterType;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,6 +28,16 @@ public class PlayerFighter extends Fighter {
     @Override
     public Integer getId() {
         return player.getId();
+    }
+
+    @Override
+    public String getName() {
+        return player.getName();
+    }
+
+    @Override
+    public Look getLook() {
+        return player.getLook();
     }
 
     @Override
@@ -69,5 +81,10 @@ public class PlayerFighter extends Fighter {
                 player.getLook().accessories(),
                 team.getType()
         );
+    }
+
+    @Override
+    public BaseRolePlayActorType toBaseRolePlayActorType() {
+        return player.toBaseRolePlayActorType();
     }
 }

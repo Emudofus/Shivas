@@ -6,6 +6,7 @@ import org.joda.time.Duration;
 import org.shivas.common.threads.Timer;
 import org.shivas.core.config.Config;
 import org.shivas.core.core.castables.Castable;
+import org.shivas.core.core.channels.ChannelEvent;
 import org.shivas.core.core.events.EventDispatcher;
 import org.shivas.core.core.events.ThreadedEventDispatcher;
 import org.shivas.core.core.fights.events.*;
@@ -20,10 +21,7 @@ import org.shivas.core.core.paths.Path;
 import org.shivas.core.utils.Converters;
 import org.shivas.data.entity.CellProvider;
 import org.shivas.data.entity.GameCell;
-import org.shivas.protocol.client.enums.FightSideEnum;
-import org.shivas.protocol.client.enums.FightStateEnum;
-import org.shivas.protocol.client.enums.FightTeamEnum;
-import org.shivas.protocol.client.enums.FightTypeEnum;
+import org.shivas.protocol.client.enums.*;
 import org.shivas.protocol.client.types.BaseFighterType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -286,6 +284,10 @@ public abstract class Fight extends AbstractInteraction implements CellProvider<
                 throw new FightException(String.format("fighter %d can not be removed from his team", fighter.getId()));
             }
         }
+    }
+
+    public void speak(Fighter fighter, String message) throws InteractionException {
+        event.publish(new ChannelEvent(ChannelEnum.General, fighter, message));
     }
 
     public FightSideEnum toSide(FightTeamEnum team) {

@@ -2,6 +2,9 @@ package org.shivas.core.core.fights;
 
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
+import org.shivas.core.core.GameActor;
+import org.shivas.core.core.Location;
+import org.shivas.core.core.maps.GameMap;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.types.BaseFighterType;
 
@@ -13,7 +16,7 @@ import java.util.Comparator;
  * Date: 06/10/12
  * Time: 19:43
  */
-public abstract class Fighter {
+public abstract class Fighter implements GameActor {
     public static Comparator<Fighter> compareBy(final CharacteristicType charac) {
         return new Comparator<Fighter>() {
             public int compare(Fighter o1, Fighter o2) {
@@ -101,6 +104,25 @@ public abstract class Fighter {
 
     public boolean isAlive() {
         return turn == null ? getStats().life().current() > 0 : !turn.isLeft() && getStats().life().current() > 0;
+    }
+
+    @Override
+    public int getPublicId() {
+        return getId();
+    }
+
+    @Override
+    public Location getLocation() {
+        return new Location(
+                fight.getMap(),
+                currentCell.getId(),
+                currentOrientation
+        );
+    }
+
+    @Override
+    public final void teleport(GameMap map, short cell) {
+        throw new UnsupportedOperationException();
     }
 
     public abstract BaseFighterType toBaseFighterType();

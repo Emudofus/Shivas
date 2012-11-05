@@ -1,13 +1,13 @@
 package org.shivas.core.core.npcs;
 
+import org.shivas.core.core.GameActorWithoutId;
+import org.shivas.core.core.Location;
+import org.shivas.core.core.Look;
+import org.shivas.core.core.maps.GameMap;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.data.entity.Npc;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
 import org.shivas.protocol.client.types.RolePlayNpcType;
-import org.shivas.core.core.GameActor;
-import org.shivas.core.core.Location;
-import org.shivas.core.core.Look;
-import org.shivas.core.core.maps.GameMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,9 +15,10 @@ import org.shivas.core.core.maps.GameMap;
  * Date: 29/09/12
  * Time: 20:16
  */
-public class GameNpc extends Npc implements GameActor {
+public class GameNpc extends Npc implements GameActorWithoutId {
     private static final long serialVersionUID = -7033230674589870070L;
 
+    private int publicId;
     private Location location;
     private Look look;
 
@@ -32,7 +33,12 @@ public class GameNpc extends Npc implements GameActor {
 
     @Override
     public int getPublicId() {
-        return getId();
+        return publicId;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.publicId = id;
     }
 
     @Override
@@ -67,7 +73,7 @@ public class GameNpc extends Npc implements GameActor {
 
     public RolePlayNpcType toRolePlayNpcType() {
         return new RolePlayNpcType(
-                getId(),
+                publicId,
                 getTemplate().getId(),
                 look.size(),
                 look.size(),

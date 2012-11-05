@@ -14,6 +14,7 @@ public class GnuParser implements ParametersParser {
 		
 		for (String arg : string.split(" --")) if (!arg.isEmpty()) {
 			String[] args = arg.split("=", 2);
+            if (args.length != 2) throw new ParsingException("syntax error: --arg=value");
 			
 			String name = args[0], valueStr = args[1];
 			
