@@ -298,16 +298,27 @@ public class FightGameMessageFormatter {
         sb.append(leaderWinner.getId()).append('|');
         sb.append(aggression ? '1' : '0').append('|');
 
-        formatFightEndMessage(sb, winners, aggression, true);
-        formatFightEndMessage(sb, losers, aggression, false);
+        if (aggression) {
+            formatFightNormalEndMessage(sb, winners, true);
+            formatFightNormalEndMessage(sb, losers, false);
+        } else {
+            formatFightAggressionEndMessage(sb, winners, true);
+            formatFightAggressionEndMessage(sb, losers, false);
+        }
 
         return sb.toString();
     }
 
-    private static void formatFightEndMessage(StringBuilder sb, Collection<BaseEndFighterType> team, boolean aggression, boolean winner){
-        for (BaseEndFighterType fighter : team){
-            if (aggression) formatFightAggressionEndMessage(sb, fighter, winner);
-            else formatFightNormalEndMessage(sb, fighter, winner);
+    private static void formatFightNormalEndMessage(StringBuilder sb, Collection<BaseEndFighterType> team, boolean winner) {
+        for (BaseEndFighterType fighter : team) {
+            formatFightNormalEndMessage(sb, fighter, winner);
+            sb.append('|');
+        }
+    }
+
+    private static void formatFightAggressionEndMessage(StringBuilder sb, Collection<BaseEndFighterType> team, boolean winner) {
+        for (BaseEndFighterType fighter : team) {
+            formatFightAggressionEndMessage(sb, fighter, winner);
             sb.append('|');
         }
     }

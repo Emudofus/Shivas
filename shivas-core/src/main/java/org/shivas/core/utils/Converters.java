@@ -1,16 +1,16 @@
 package org.shivas.core.utils;
 
 import com.google.common.base.Function;
+import org.shivas.core.core.GameActor;
+import org.shivas.core.core.fights.FightTurn;
+import org.shivas.core.core.fights.Fighter;
+import org.shivas.core.database.models.*;
 import org.shivas.data.entity.ItemEffect;
 import org.shivas.data.entity.ItemTemplate;
 import org.shivas.data.entity.NpcAnswer;
 import org.shivas.data.entity.NpcSale;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.types.*;
-import org.shivas.core.core.GameActor;
-import org.shivas.core.core.fights.FightTurn;
-import org.shivas.core.core.fights.Fighter;
-import org.shivas.core.database.models.*;
 
 public class Converters {
     public static final Function<NpcAnswer,Integer> NPCANSWER_TO_ID = new Function<NpcAnswer, Integer>() {
@@ -33,6 +33,11 @@ public class Converters {
         @Override
         public Integer apply(FightTurn input) {
             return input.getFighter().getId();
+        }
+    };
+    public static final Function<Fighter,BaseEndFighterType> FIGHTER_TO_BASEENDFIGHTERTYPE = new Function<Fighter, BaseEndFighterType>() {
+        public BaseEndFighterType apply(Fighter fighter) {
+            return fighter.toBaseEndFighterType();
         }
     };
 

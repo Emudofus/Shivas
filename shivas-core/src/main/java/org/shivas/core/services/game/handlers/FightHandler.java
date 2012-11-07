@@ -280,7 +280,7 @@ public class FightHandler extends RolePlayHandler implements EventListener {
             break;
 
         case FINISHED:
-            listenFightEnd();
+            listenFightEnd((FightEndEvent) event);
             break;
         }
     }
@@ -292,7 +292,26 @@ public class FightHandler extends RolePlayHandler implements EventListener {
         client.write(FightGameMessageFormatter.fighterInformationsMessage(fight.toBaseFighterType()));
     }
 
-    private void listenFightEnd() {
+    private void listenFightEnd(FightEndEvent event) {
+        fight.getEvent().unsubscribe(this);
+        client.player().setFighter(null);
+
+        client.write(FightGameMessageFormatter.fightEndMessage(
+                fight.getDuration().getMillis(),
+                fight.getFightType() == FightTypeEnum.AGRESSION,
+                event.getWinners().getLeader().toBaseEndFighterType(),
+                event.getWinners().toBaseEndFighterType(),
+                event.getLosers().toBaseEndFighterType()
+        ));
+
+        try {
+            client.newHandler(new RolePlayHandler(client));
+        } catch (Exception e) {
+            log.error("can't set the roleplay handler", e);
+        }
+    }
+
+    private void listenFightQuit() {
         fight.getEvent().unsubscribe(this);
         client.player().setFighter(null);
 
@@ -471,7 +490,7 @@ public class FightHandler extends RolePlayHandler implements EventListener {
 
     private void listenFighterQuit(FighterQuitEvent event) {
         if (event.getFighter() == fighter) {
-            listenFightEnd();
+            listenFightQuit();
         } else {
             client.write(FightGameMessageFormatter.fighterQuitMessage(event.getFighter().getId()));
         }

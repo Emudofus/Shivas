@@ -6,6 +6,7 @@ import org.shivas.core.core.GameActor;
 import org.shivas.core.core.Location;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.protocol.client.enums.OrientationEnum;
+import org.shivas.protocol.client.types.BaseEndFighterType;
 import org.shivas.protocol.client.types.BaseFighterType;
 
 import java.util.Comparator;
@@ -126,4 +127,5 @@ public abstract class Fighter implements GameActor {
     }
 
     public abstract BaseFighterType toBaseFighterType();
+    public abstract BaseEndFighterType toBaseEndFighterType();
 }

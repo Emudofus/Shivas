@@ -3,6 +3,7 @@ package org.shivas.core.core.fights;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.joda.time.Duration;
+import org.joda.time.Instant;
 import org.shivas.common.threads.Timer;
 import org.shivas.core.config.Config;
 import org.shivas.core.core.castables.Castable;
@@ -54,6 +55,7 @@ public abstract class Fight extends AbstractInteraction implements CellProvider<
     protected FightStateEnum state;
     protected FightTurnList turns;
     protected Frame currentFrame;
+    protected Instant beginning, end;
 
     protected Fight(int id, Config config, Timer<Fight> timer, ExecutorService worker, GameMap map, Fighter challenger, Fighter defender) {
         this.id = id;
@@ -155,6 +157,15 @@ public abstract class Fight extends AbstractInteraction implements CellProvider<
         timer.purge(this);
     }
 
+    /**
+     * @return null duration if fight has not started yet
+     */
+    public Duration getDuration() {
+        return beginning != null ?
+                new Duration(beginning, end) : // does not matter if end is null, it will be converted to Instant.now()
+                null;
+    }
+
     @Override
     public InteractionType getInteractionType() {
         return InteractionType.FIGHT;
@@ -186,6 +197,8 @@ public abstract class Fight extends AbstractInteraction implements CellProvider<
     @Override
     public void begin() throws InteractionException {
         if (state != FightStateEnum.PLACE) throw new FightException("you can't begin a fight already begun");
+
+        beginning = Instant.now();
 
         beforeBegin();
 
@@ -221,9 +234,20 @@ public abstract class Fight extends AbstractInteraction implements CellProvider<
     protected void internalEnd() throws InteractionException {
         if (state != FightStateEnum.PLACE && state != FightStateEnum.ACTIVE) throw new FightException("you can't cancel this fight");
 
+        end = Instant.now();
+
         beforeEnd();
 
-        event.publish(new StateUpdateEvent(this, FightStateEnum.FINISHED));
+        FightTeam winners, losers;
+        if (getChallengers().areAlive()) {
+            winners = getChallengers();
+            losers = getDefenders();
+        } else {
+            winners = getDefenders();
+            losers = getChallengers();
+        }
+
+        event.publish(new FightEndEvent(this, winners, losers));
         state = FightStateEnum.FINISHED;
         timer.stop();
 

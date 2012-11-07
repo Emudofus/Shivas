@@ -2,11 +2,12 @@ package org.shivas.core.core.fights;
 
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
+import org.shivas.core.utils.Converters;
 import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightTeamEnum;
 import org.shivas.protocol.client.enums.OrientationEnum;
+import org.shivas.protocol.client.types.BaseEndFighterType;
 import org.shivas.protocol.client.types.BaseFighterType;
-import org.shivas.core.utils.Converters;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -121,5 +122,9 @@ public class FightTeam implements Iterable<Fighter> {
 
     public Collection<BaseFighterType> toBaseFighterType() {
         return Collections2.transform(fighters.values(), Converters.FIGHTER_TO_BASEFIGHTERTYPE);
+    }
+
+    public Collection<BaseEndFighterType> toBaseEndFighterType() {
+        return Collections2.transform(fighters.values(), Converters.FIGHTER_TO_BASEENDFIGHTERTYPE);
     }
 }

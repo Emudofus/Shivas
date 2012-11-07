@@ -4,6 +4,7 @@ import org.shivas.core.core.Look;
 import org.shivas.core.core.interactions.InteractionException;
 import org.shivas.core.core.statistics.PlayerStatistics;
 import org.shivas.core.database.models.Player;
+import org.shivas.protocol.client.types.BaseEndFighterType;
 import org.shivas.protocol.client.types.BaseFighterType;
 import org.shivas.protocol.client.types.BaseRolePlayActorType;
 import org.shivas.protocol.client.types.CharacterFighterType;
@@ -80,6 +81,18 @@ public class PlayerFighter extends Fighter {
                 player.getLook().colors().third(),
                 player.getLook().accessories(),
                 team.getType()
+        );
+    }
+
+    @Override
+    public BaseEndFighterType toBaseEndFighterType() {
+        return new BaseEndFighterType(
+                player.getId(),
+                player.getName(),
+                player.getExperience().level(),
+                stats.life().current(),
+                isAlive(),
+                0, 0, 0, 0, 0, 0, 0 // TODO
         );
     }
 
