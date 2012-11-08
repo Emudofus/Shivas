@@ -66,7 +66,7 @@ public class FightTurn {
     public void begin() {
         if (current) return;
 
-        end = DateTime.now().plus(fight.getConfig().turnDuration(fight.getFightType()));
+        end = DateTime.now().plus(fight.getTurns().getTurnDuration());
 
         fight.getEvent().publish(new FightTurnEvent(FightTurnEvent.Type.START, fight, this));
 

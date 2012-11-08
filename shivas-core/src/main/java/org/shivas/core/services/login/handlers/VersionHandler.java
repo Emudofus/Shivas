@@ -18,7 +18,7 @@ public class VersionHandler extends AbstractBaseHandler<LoginClient> {
 	}
 
 	public void handle(String message) throws Exception {
-		String requiredVersion = client.service().config().clientVersion();
+		String requiredVersion = client.service().config().getString("world.client_version");
 		
 		if (requiredVersion.equals(message)) {
 			client.newHandler(new AuthenticationHandler(client));

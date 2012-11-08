@@ -2,7 +2,7 @@ package org.shivas.core.core.players;
 
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
-import org.shivas.core.config.Config;
+import org.shivas.core.config.ConfigProvider;
 import org.shivas.core.database.models.Account;
 import org.shivas.core.database.models.Player;
 import org.shivas.core.database.repositories.PlayerRepository;
@@ -18,10 +18,10 @@ public class PlayerList implements Iterable<Player> {
 
 	private final Account owner;
 	private final PlayerRepository repo;
-    private final Config config;
+    private final ConfigProvider config;
 	private final Map<Integer, Player> players = Maps.newHashMap();
 	
-	public PlayerList(Account owner, PlayerRepository repo, Config config) {
+	public PlayerList(Account owner, PlayerRepository repo, ConfigProvider config) {
 		this.owner = owner;
 		this.repo = repo;
         this.config = config;
@@ -64,7 +64,7 @@ public class PlayerList implements Iterable<Player> {
      * @throws SecuredPersistException
      */
     public Player persist(String name, int breed, Gender gender, int color1, int color2, int color3) throws SecuredPersistException {
-        if (players.size() >= config.maxPlayersPerAccount()) {
+        if (players.size() >= config.getInt("world.max_players_per_account")) {
             throw new SecuredPersistException(SecuredPersistException.Reason.FULL_ACCOUNT);
         }
         if (repo.nameExists(name)) {
@@ -102,7 +102,7 @@ public class PlayerList implements Iterable<Player> {
 	 * @param player
 	 */
 	public void delete(Player player, String secretAnswer) throws SecuredDeleteException {
-        if (player.getExperience().level() < config.deleteAnswerLevelNeeded()) {
+        if (player.getExperience().level() < config.getShort("world.delete_answer_level_needed")) {
             throw new SecuredDeleteException(SecuredDeleteException.Reason.TOO_LOW_PLAYER_LEVEL);
         }
         if (!owner.getSecretAnswer().equalsIgnoreCase(secretAnswer)) {

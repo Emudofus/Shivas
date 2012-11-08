@@ -102,7 +102,7 @@ public class NpcExchangeInteraction extends AbstractInteraction implements Purch
             throw new InteractionException("not enough quantity");
         }
 
-        long price = item.getTemplate().getPrice() * quantity / client.service().config().npcBuyCoefficient();
+        long price = item.getTemplate().getPrice() * quantity / client.service().config().getInt("world.npc_buy_coefficient");
         bag.plusKamas(price);
 
         item.minusQuantity(quantity);

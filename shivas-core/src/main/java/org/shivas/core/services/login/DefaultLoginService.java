@@ -1,16 +1,12 @@
 package org.shivas.core.services.login;
 
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import com.google.common.collect.Maps;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Ciphers;
 import org.shivas.common.crypto.Dofus1DecrypterCipher;
-import org.shivas.core.config.Config;
+import org.shivas.core.config.ConfigProvider;
 import org.shivas.core.database.RepositoryContainer;
 import org.shivas.core.database.models.Account;
 import org.shivas.core.services.AbstractService;
@@ -19,7 +15,9 @@ import org.shivas.core.services.login.handlers.VersionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Maps;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Map;
 
 @Singleton
 public class DefaultLoginService extends AbstractService<LoginClient> implements LoginService {
@@ -27,20 +25,20 @@ public class DefaultLoginService extends AbstractService<LoginClient> implements
 	private static final Logger log = LoggerFactory.getLogger(DefaultLoginService.class);
 	private static final String CLIENT_TOKEN = "shivas.login.handler";
 	
-	private final Config config;
+	private final ConfigProvider config;
 	private final GameService game;
 	
 	private Map<String, Account> accountByTicket = Maps.newHashMap();
 
 	@Inject
-	public DefaultLoginService(RepositoryContainer repositories, Config config, GameService game) {
-		super(repositories, config.loginPort(), log);
+	public DefaultLoginService(RepositoryContainer repositories, ConfigProvider config, GameService game) {
+		super(repositories, config.getShort("login.port"), log);
 		
 		this.config = config;
 		this.game = game;
 	}
 	
-	public Config config() {
+	public ConfigProvider config() {
 		return config;
 	}
 	

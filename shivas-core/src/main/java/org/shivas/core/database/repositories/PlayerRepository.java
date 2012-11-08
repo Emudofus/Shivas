@@ -5,13 +5,13 @@ import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
 import org.atomium.util.query.*;
 import org.shivas.common.statistics.CharacteristicType;
+import org.shivas.core.config.ConfigProvider;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Breed;
 import org.shivas.data.entity.Experience;
 import org.shivas.data.entity.Waypoint;
 import org.shivas.protocol.client.enums.Gender;
 import org.shivas.protocol.client.enums.OrientationEnum;
-import org.shivas.core.config.Config;
 import org.shivas.core.core.Colors;
 import org.shivas.core.core.Location;
 import org.shivas.core.core.PlayerLook;
@@ -36,7 +36,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	
 	public static final String TABLE_NAME = "players";
 	
-	private final Config config;
+	private final ConfigProvider config;
 	private final Container ctner;
 	private final RepositoryContainer repositories;
 	
@@ -46,7 +46,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	private SelectQueryBuilder loadQuery;
 
 	@Inject
-	public PlayerRepository(EntityManager em, Config config, Container ctner, RepositoryContainer repositories) {
+	public PlayerRepository(EntityManager em, ConfigProvider config, Container ctner, RepositoryContainer repositories) {
 		super(em, new IntegerPrimaryKeyGenerator());
 		this.config = config;
 		this.ctner = ctner;
@@ -79,7 +79,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	}
 	
 	private Location newDefaultLocation() {
-		return new Location(config.startMap(), config.startCell(), OrientationEnum.SOUTH_EAST);
+		return new Location(config.getData("world.start.map", GameMap.class), config.getShort("world.start.cell"), OrientationEnum.SOUTH_EAST);
 	}
 
 	public Player createDefault(String name, int breed, Gender gender, int color1, int color2, int color3) {
@@ -87,7 +87,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				name,
 				ctner.get(Breed.class).byId(breed),
 				gender,
-				new PlayerExperience(ctner.get(Experience.class).byId(config.startLevel())),
+				new PlayerExperience(config.getData("world.start.level", Experience.class)),
 				newDefaultLocation(),
 				newDefaultLocation()
 		);
@@ -95,23 +95,23 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		player.setLook(new PlayerLook(
 				player,
 				player.getBreed().getDefaultSkin(gender),
-				config.startSize(),
+				config.getShort("world.start.size"),
 				new Colors(color1, color2, color3)
 		));
 		
 		player.setStats(new PlayerStatistics(
 				player,
-				config.startActionPoints() != null ? config.startActionPoints() : player.getBreed().getStartActionPoints(),
-				config.startMovementPoints() != null ? config.startMovementPoints() : player.getBreed().getStartMovementPoints(),
-				config.startVitality(),
-				config.startWisdom(),
-				config.startStrength(),
-				config.startIntelligence(),
-				config.startChance(),
-				config.startAgility()
+                config.getShort("world.start.action_points", player.getBreed().getStartActionPoints()),
+                config.getShort("world.start.movement_points", player.getBreed().getStartMovementPoints()),
+                config.getShort("world.start.vitality", 0),
+                config.getShort("world.start.wisdom", 0),
+                config.getShort("world.start.strength", 0),
+                config.getShort("world.start.intelligence", 0),
+                config.getShort("world.start.chance", 0),
+                config.getShort("world.start.agility", 0)
 		));
 		
-		player.setBag(new PlayerBag(player, repositories.items(), this, config.startKamas()));
+		player.setBag(new PlayerBag(player, repositories.items(), this, config.getLong("world.start.kamas")));
 		
 		player.setSpells(new SpellList(player, repositories.spells()).fill());
 		
@@ -119,7 +119,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 
         player.setStore(new PlayerStore(player, repositories.storedItems()));
 		
-		if (config.addAllWaypoints()) {
+		if (config.getBool("world.add_all_waypoints")) {
 			for (Waypoint waypoint : ctner.get(Waypoint.class).all()) {
 				player.getWaypoints().add(waypoint);
 			}

@@ -1,6 +1,6 @@
 package org.shivas.core.database;
 
-import org.shivas.core.config.Config;
+import org.shivas.core.config.ConfigProvider;
 import org.shivas.core.core.actions.ShivasActionFactory;
 import org.shivas.core.core.castables.Weapon;
 import org.shivas.core.core.castables.effects.EffectFactory;
@@ -26,7 +26,7 @@ import javax.inject.Singleton;
 public class ShivasEntityFactory extends AbstractEntityFactory {
 
 	@Inject
-	private Config config;
+	private ConfigProvider config;
 
     @Inject
     private EffectFactory effectFactory;

@@ -9,7 +9,7 @@ import org.atomium.util.query.Query;
 import org.atomium.util.query.UpdateQueryBuilder;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1SaltCipher;
-import org.shivas.core.config.Config;
+import org.shivas.core.config.ConfigProvider;
 import org.shivas.core.core.channels.ChannelList;
 import org.shivas.core.core.contacts.ContactList;
 import org.shivas.core.core.gifts.GiftList;
@@ -32,11 +32,11 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	private final Query loadQuery, refreshQuery, setRefreshedQuery;
 	
 	private final RepositoryContainer repositories;
-    private final Config config;
+    private final ConfigProvider config;
 
 	@Inject
-	public AccountRepository(EntityManager em, Config config, RepositoryContainer repositories) {
-		super(em, config.databaseRefreshRate());
+	public AccountRepository(EntityManager em, ConfigProvider config, RepositoryContainer repositories) {
+		super(em, (int) config.getDuration("database.options.refresh_rate").getStandardSeconds());
         this.config = config;
 
         this.repositories = repositories;

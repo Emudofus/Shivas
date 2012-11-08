@@ -1,10 +1,10 @@
 package org.shivas.core.core.actions;
 
 import com.google.common.collect.Maps;
+import org.shivas.core.config.ConfigProvider;
 import org.shivas.data.Container;
 import org.shivas.data.entity.Action;
 import org.shivas.data.entity.factory.ActionFactory;
-import org.shivas.core.config.Config;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -16,7 +16,7 @@ public class ShivasActionFactory implements ActionFactory {
 	private final Map<String, ActionMaker> makers = Maps.newHashMap();
 
 	@Inject
-	public ShivasActionFactory(final Container ctner, final Config config) {
+	public ShivasActionFactory(final Container ctner, final ConfigProvider config) {
 		add(TeleportAction.NAME, new ActionMaker() {
 			public Action make(Map<String, String> parameters) {
 				return TeleportAction.make(parameters, ctner, config);

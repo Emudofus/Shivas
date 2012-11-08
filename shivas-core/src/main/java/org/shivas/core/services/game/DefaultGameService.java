@@ -2,9 +2,9 @@ package org.shivas.core.services.game;
 
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
+import org.shivas.core.config.ConfigProvider;
 import org.shivas.protocol.client.enums.WorldStateEnum;
 import org.shivas.protocol.client.types.GameServerType;
-import org.shivas.core.config.Config;
 import org.shivas.core.core.channels.ChannelContainer;
 import org.shivas.core.core.commands.CommandEngine;
 import org.shivas.core.core.fights.FightFactory;
@@ -26,7 +26,7 @@ public class DefaultGameService extends AbstractService<GameClient> implements G
 	
 	private static final String CLIENT_TOKEN = "shivas.game.client";
 	
-	private final Config config;
+	private final ConfigProvider config;
 	private final LoginService login;
 	private final GameServerType informations;
 	private final ChannelContainer channels;
@@ -35,16 +35,16 @@ public class DefaultGameService extends AbstractService<GameClient> implements G
     private final FightFactory fightFactory;
 
 	@Inject
-	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login, ChannelContainer channels, CommandEngine cmdengine, NetworkStatisticsCenter statistics, FightFactory fightFactory) {
-		super(repositories, config.gamePort(), log);
+	public DefaultGameService(RepositoryContainer repositories, ConfigProvider config, LoginService login, ChannelContainer channels, CommandEngine cmdengine, NetworkStatisticsCenter statistics, FightFactory fightFactory) {
+		super(repositories, config.getShort("game.port"), log);
 		
 		this.config = config;
 		this.login = login;
         this.fightFactory = fightFactory;
         this.informations = new GameServerType(
-				config.gameId(),
-				config.gameAddress(),
-				config.gamePort(),
+				config.getInt("game.id"),
+				config.getString("game.address"),
+				config.getShort("game.port"),
 				WorldStateEnum.ONLINE,
 				0,
 				true
@@ -54,7 +54,7 @@ public class DefaultGameService extends AbstractService<GameClient> implements G
 		this.statistics = statistics;
 	}
 
-	public Config config() {
+	public ConfigProvider config() {
 		return config;
 	}
 

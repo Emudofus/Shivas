@@ -1,6 +1,7 @@
 package org.shivas.core.core.fights;
 
 import com.google.common.base.Function;
+import org.joda.time.Duration;
 import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.core.core.interactions.InteractionException;
 import org.shivas.core.utils.Converters;
@@ -20,11 +21,13 @@ import static org.shivas.common.collections.CollectionQuery.from;
 public class FightTurnList implements Iterable<FightTurn> {
     private final List<FightTurn> turns;
     private final Fight fight;
+    private final Duration turnDuration;
 
     private FightTurn current;
 
     public FightTurnList(Fight fight) {
         this.fight = fight;
+        this.turnDuration = fight.getConfig().getValue("world.fights.turn_duration", Duration.class, fight.getFightType());
 
         turns = from(fight.getChallengers())
                .with(fight.getDefenders())
@@ -37,6 +40,10 @@ public class FightTurnList implements Iterable<FightTurn> {
                .computeList();
 
         current = turns.get(0);
+    }
+
+    public Duration getTurnDuration() {
+        return turnDuration;
     }
 
     public void beginNextTurn() {

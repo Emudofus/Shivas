@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.shivas.common.threads.Timer;
-import org.shivas.core.config.Config;
+import org.shivas.core.config.ConfigProvider;
 import org.shivas.core.core.castables.Castable;
 import org.shivas.core.core.channels.ChannelEvent;
 import org.shivas.core.core.events.EventDispatcher;
@@ -43,7 +43,7 @@ public abstract class Fight extends AbstractInteraction implements CellProvider<
     private static final Logger log = LoggerFactory.getLogger(Fight.class);
 
     protected final int id;
-    protected final Config config;
+    protected final ConfigProvider config;
     protected final Timer<Fight> timer;
     protected final ExecutorService worker;
     protected final Random random = new Random(System.nanoTime());
@@ -57,7 +57,7 @@ public abstract class Fight extends AbstractInteraction implements CellProvider<
     protected Frame currentFrame;
     protected Instant beginning, end;
 
-    protected Fight(int id, Config config, Timer<Fight> timer, ExecutorService worker, GameMap map, Fighter challenger, Fighter defender) {
+    protected Fight(int id, ConfigProvider config, Timer<Fight> timer, ExecutorService worker, GameMap map, Fighter challenger, Fighter defender) {
         this.id = id;
         this.config = config;
         this.timer = timer;
@@ -77,7 +77,7 @@ public abstract class Fight extends AbstractInteraction implements CellProvider<
         return id;
     }
 
-    public Config getConfig() {
+    public ConfigProvider getConfig() {
         return config;
     }
 

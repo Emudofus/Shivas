@@ -5,7 +5,7 @@ import org.shivas.common.params.GnuParser;
 import org.shivas.common.params.Parameters;
 import org.shivas.common.params.ParametersParser;
 import org.shivas.common.params.ParsingException;
-import org.shivas.core.config.Config;
+import org.shivas.core.config.InjectConfig;
 import org.shivas.core.core.logging.DofusLogger;
 import org.shivas.core.services.game.GameClient;
 
@@ -21,12 +21,14 @@ public class CommandEngine {
 	private final Map<String, Command> commands = Maps.newHashMap();
 	private final ParametersParser parser = new GnuParser();
 
-    private Config config;
+    @InjectConfig(key="commands.enabled")
+    private boolean enabled;
+
+    @InjectConfig(key="commands.prefix")
+    private String prefix;
 
     @Inject
-    public void init(Config config, Set<Command> commands) {
-        this.config = config;
-
+    public void init(Set<Command> commands) {
         for (Command command : commands) {
             add(command);
         }
@@ -37,8 +39,7 @@ public class CommandEngine {
     }
 
     public boolean canHandle(String input) {
-        return config.cmdEnabled() &&
-               input.startsWith(config.cmdPrefix());
+        return enabled && input.startsWith(prefix);
     }
 
     public ParametersParser getParser() {
@@ -50,7 +51,9 @@ public class CommandEngine {
     }
 	
 	public void use(GameClient client, DofusLogger log, String command) {
-        if (command.startsWith(config.cmdPrefix())) command = command.substring(config.cmdPrefix().length());
+        if (!enabled) return;
+
+        if (command.startsWith(prefix)) command = command.substring(prefix.length());
 
 		int index = command.indexOf(" ");
 		String name;

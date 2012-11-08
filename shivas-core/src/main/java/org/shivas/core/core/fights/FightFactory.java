@@ -1,7 +1,7 @@
 package org.shivas.core.core.fights;
 
 import org.shivas.common.threads.Timer;
-import org.shivas.core.config.Config;
+import org.shivas.core.config.ConfigProvider;
 import org.shivas.core.core.GameActor;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.database.models.Player;
@@ -22,14 +22,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Singleton
 public class FightFactory {
-    private Config config;
+    private ConfigProvider config;
     private ExecutorService worker;
 
     private final Timer<Fight> timer = new Timer<Fight>("fight");
     private final AtomicInteger id = new AtomicInteger();
 
     @Inject
-    public void init(Config config) {
+    public void init(ConfigProvider config) {
         this.config = config;
         this.worker = Executors.newSingleThreadExecutor(); // TODO bug: event dispatcher with thread pool (n>1)
     }
