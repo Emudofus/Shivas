@@ -19,6 +19,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <scala.version>2.10.0</scala.version>
   </properties>
 
   <dependencies>
@@ -37,6 +39,11 @@
     	<groupId>joda-time</groupId>
     	<artifactId>joda-time</artifactId>
     	<version>${jodatime.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.scala-lang</groupId>
+        <artifactId>scala-library</artifactId>
+        <version>${scala.version}</version>
     </dependency>
   </dependencies>
 </project>
