@@ -18,6 +18,8 @@
     <slf4j.version>1.6.4</slf4j.version>
     <logback.version>1.0.6</logback.version>
     <jodatime.version>2.1</jodatime.version>
+    <scala.version>2.10</scala.version>
+    <scala-library.version>${scala.version}.0</scala-library.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

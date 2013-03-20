@@ -6,22 +6,20 @@ h3. Contributeurs
 
 h3. Description
 
-Shivas est un émulateur Dofus 1.29 développé en Java. Aucune version stable n'est prévue pour le moment.
+Shivas est un Ã©mulateur Dofus 1.29 dÃ©veloppÃ© en Java. Aucune version stable n'est prÃ©vue pour le moment.
 
 h3. Comment compiler Shivas ?
 
-Shivas utilise Maven, le célèbre gestionnaire de dépendances externes (et bien plus) créé par Apache. Vous devez l'avoir installé et prêt à l'usage.
+Shivas utilise Maven, le cÃ©lÃ¨bre gestionnaire de dÃ©pendances externes (et bien plus) crÃ©Ã© par Apache. Vous devez l'avoir installÃ© et pret Ã  l'usage.
 
 <pre>
 $ git clone git://github.com/Emudofus/Shivas.git Shivas
 $ cd ./Shivas
-$ cd shivas-common/ && mvn install
-$ cd ../shivas-protocol/ && mvn install
-$ cd ../shivas-data/ && mvn install
-$ cd ../shivas-server/ && mvn assembly:single
-$ cp ./target/shivas-server-*-jar-with-dependencies.jar ../shivas-server.jar & cd ..
-$ ls | grep shivas-server.jar
+$ mvn clean install
+$ cd ./shivas-server/ && mvn assembly:single
+$ cp ./target/shivas-server-*-jar-with-dependencies.jar ../shivas-server.jar
+$ cd ..
 </pre>
 
-Ce script shell va d'abord cloner les sources du dépôt GitHub pour ensuite compiler les dépendances et ensuite créer un .jar exécutable.
-Vous pouvez ensuite lancer l'émulateur à l'aide cette commande : @$ java -jar shivas-server.jar@
+Ce script shell va d'abord cloner les sources du dÃ©pot GitHub pour ensuite compiler les dÃ©pendances et ensuite crÃ©er un .jar exÃ©cutable.
+Vous pouvez ensuite lancer l'Ã©mulateur Ã  l'aide cette commande : @$ java -jar shivas-server.jar@
