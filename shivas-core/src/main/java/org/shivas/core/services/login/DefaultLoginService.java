@@ -1,12 +1,12 @@
 package org.shivas.core.services.login;
 
 import com.google.common.collect.Maps;
+import com.typesafe.config.Config;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Ciphers;
 import org.shivas.common.crypto.Dofus1DecrypterCipher;
-import org.shivas.core.config.ConfigProvider;
 import org.shivas.core.database.RepositoryContainer;
 import org.shivas.core.database.models.Account;
 import org.shivas.core.services.AbstractService;
@@ -25,20 +25,20 @@ public class DefaultLoginService extends AbstractService<LoginClient> implements
 	private static final Logger log = LoggerFactory.getLogger(DefaultLoginService.class);
 	private static final String CLIENT_TOKEN = "shivas.login.handler";
 	
-	private final ConfigProvider config;
+	private final Config config;
 	private final GameService game;
 	
 	private Map<String, Account> accountByTicket = Maps.newHashMap();
 
 	@Inject
-	public DefaultLoginService(RepositoryContainer repositories, ConfigProvider config, GameService game) {
-		super(repositories, config.getShort("login.port"), log);
+	public DefaultLoginService(RepositoryContainer repositories, Config config, GameService game) {
+		super(repositories, config.getNumber("shivas.services.login.port").shortValue(), log);
 		
 		this.config = config;
 		this.game = game;
 	}
 	
-	public ConfigProvider config() {
+	public Config config() {
 		return config;
 	}
 	

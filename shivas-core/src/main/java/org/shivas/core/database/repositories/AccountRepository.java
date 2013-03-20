@@ -1,5 +1,6 @@
 package org.shivas.core.database.repositories;
 
+import com.typesafe.config.Config;
 import org.atomium.EntityManager;
 import org.atomium.exception.LoadingException;
 import org.atomium.repository.impl.AbstractRefreshableEntityRepository;
@@ -9,7 +10,6 @@ import org.atomium.util.query.Query;
 import org.atomium.util.query.UpdateQueryBuilder;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1SaltCipher;
-import org.shivas.core.config.ConfigProvider;
 import org.shivas.core.core.channels.ChannelList;
 import org.shivas.core.core.contacts.ContactList;
 import org.shivas.core.core.gifts.GiftList;
@@ -32,11 +32,11 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 	private final Query loadQuery, refreshQuery, setRefreshedQuery;
 	
 	private final RepositoryContainer repositories;
-    private final ConfigProvider config;
+    private final Config config;
 
 	@Inject
-	public AccountRepository(EntityManager em, ConfigProvider config, RepositoryContainer repositories) {
-		super(em, (int) config.getDuration("database.options.refresh_rate").getStandardSeconds());
+	public AccountRepository(EntityManager em, Config config, RepositoryContainer repositories) {
+		super(em, config.getMilliseconds("shivas.database.options.refresh_rate").intValue());
         this.config = config;
 
         this.repositories = repositories;

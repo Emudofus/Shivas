@@ -1,18 +1,18 @@
 package org.shivas.core;
 
-import org.shivas.core.config.ConfigProvider;
 import org.shivas.data.Container;
 import org.shivas.core.core.actions.ShivasActionFactory;
 import org.shivas.core.core.fights.FightFactory;
 import org.shivas.core.database.RepositoryContainer;
 import org.shivas.core.services.game.GameService;
 import org.shivas.core.services.login.LoginService;
+import com.typesafe.config.Config;
 
 import javax.inject.Inject;
 
 public class Hook {
     @Inject
-	private ConfigProvider config;
+	private Config config;
 
     @Inject
 	private Container ctner;
@@ -32,7 +32,7 @@ public class Hook {
     @Inject
     private FightFactory fightFactory;
 
-	public ConfigProvider getConfig() {
+	public Config getConfig() {
 		return config;
 	}
 

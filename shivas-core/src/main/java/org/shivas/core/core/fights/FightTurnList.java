@@ -27,7 +27,11 @@ public class FightTurnList implements Iterable<FightTurn> {
 
     public FightTurnList(Fight fight) {
         this.fight = fight;
-        this.turnDuration = fight.getConfig().getValue("world.fights.turn_duration", Duration.class, fight.getFightType());
+        this.turnDuration = Duration.millis(
+                fight.getConfig()
+                .getConfig("world.fights.turn_duration")
+                .getMilliseconds(fight.getFightType().name())
+        );
 
         turns = from(fight.getChallengers())
                .with(fight.getDefenders())

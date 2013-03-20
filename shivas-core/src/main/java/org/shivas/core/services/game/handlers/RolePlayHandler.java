@@ -26,6 +26,7 @@ public class RolePlayHandler extends AbstractBaseHandlerContainer<GameClient> {
 		client.write(ItemGameMessageFormatter.inventoryStatsMessage(client.player().getStats().pods()));
 		client.write(FriendGameMessageFormatter.notifyFriendOnConnectMessage(client.account().getContacts().isNotificationListener()));
 		client.write(InfoGameMessageFormatter.welcomeMessage());
+        tchat().info(client.service().config().getString("shivas.services.motd"));
 		if (!client.account().firstConnection()) {
 			client.write(InfoGameMessageFormatter.lastConnectionInformationMessage(
 					client.account().getLastConnection(),

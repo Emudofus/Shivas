@@ -1,7 +1,7 @@
 package org.shivas.core.core.logging;
 
+import com.typesafe.config.Config;
 import org.apache.mina.core.session.IoSession;
-import org.shivas.core.config.ConfigProvider;
 import org.shivas.protocol.client.formatters.ChannelGameMessageFormatter;
 
 public class TchatLogger implements DofusLogger {
@@ -9,9 +9,9 @@ public class TchatLogger implements DofusLogger {
 	private static final String LOG_LEVEL_PATTERN = "<font color=\"%s\">(%s) %s</font>";
 	
 	private final IoSession session;
-	private final ConfigProvider config;
+	private final Config config;
 
-	public TchatLogger(IoSession session, ConfigProvider config) {
+	public TchatLogger(IoSession session, Config config) {
 		this.session = session;
 		this.config = config;
 	}
@@ -26,24 +26,24 @@ public class TchatLogger implements DofusLogger {
 
 	public void info(String pattern, Object... args) {
 		logLevel(
-                config.getString("loggers.info.color", DEFAULT_INFO_COLOR),
-                config.getString("loggers.info.name", DEFAULT_INFO_NAME),
+                config.getString("shivas.loggers.info.color"),
+                config.getString("shivas.loggers.info.name"),
                 pattern, args
         );
 	}
 
 	public void error(String pattern, Object... args) {
         logLevel(
-                config.getString("loggers.error.color", DEFAULT_ERROR_COLOR),
-                config.getString("loggers.error.name", DEFAULT_ERROR_NAME),
+                config.getString("shivas.loggers.error.color"),
+                config.getString("shivas.loggers.error.name"),
                 pattern, args
         );
 	}
 
 	public void warn(String pattern, Object... args) {
         logLevel(
-                config.getString("loggers.warn.color", DEFAULT_WARN_COLOR),
-                config.getString("loggers.warn.name", DEFAULT_WARN_NAME),
+                config.getString("shivas.loggers.warn.color"),
+                config.getString("shivas.loggers.warn.name"),
                 pattern, args
         );
 	}

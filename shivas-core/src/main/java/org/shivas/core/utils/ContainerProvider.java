@@ -1,7 +1,7 @@
 package org.shivas.core.utils;
 
 import com.google.inject.Provider;
-import org.shivas.core.config.InjectConfig;
+import org.shivas.core.InjectConfig;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.core.npcs.GameNpc;
 import org.shivas.data.Container;
@@ -21,10 +21,10 @@ public class ContainerProvider implements Provider<Container> {
 	
 	private static final Logger log = LoggerFactory.getLogger(ContainerProvider.class);
 
-    @InjectConfig(key="data.extension")
+    @InjectConfig(key="shivas.data.extension")
     private String extension;
     
-    @InjectConfig(key="data.path")
+    @InjectConfig(key="shivas.data.path")
     private String path;
 	
 	@Inject

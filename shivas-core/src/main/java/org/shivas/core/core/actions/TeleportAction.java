@@ -1,10 +1,10 @@
 package org.shivas.core.core.actions;
 
-import org.shivas.core.config.ConfigProvider;
-import org.shivas.data.Container;
-import org.shivas.data.entity.Action;
+import com.typesafe.config.Config;
 import org.shivas.core.core.GameActor;
 import org.shivas.core.core.maps.GameMap;
+import org.shivas.data.Container;
+import org.shivas.data.entity.Action;
 
 import java.util.Map;
 
@@ -14,18 +14,18 @@ public class TeleportAction implements Action {
 	
 	private static final String START_PLACEHOLDER = "%start%";
 	
-	public static TeleportAction make(Map<String, String> parameters, Container ctner, ConfigProvider config) {
+	public static TeleportAction make(Map<String, String> parameters, Container ctner, Config config) {
 		String mapRaw  = parameters.get("map"),
 			   cellRaw = parameters.get("cell");
 
 		int mapId = mapRaw.equalsIgnoreCase(START_PLACEHOLDER) ?
-				config.getInt("world.start.map") :
+				config.getInt("shivas.world.start.map") :
 				Integer.parseInt(mapRaw);
 		
 		GameMap map = ctner.get(GameMap.class).byId(mapId);
 		
 		short cell = mapRaw.equalsIgnoreCase(START_PLACEHOLDER) ? 
-				config.getShort("world.start.cell") :
+				config.getNumber("shivas.world.start.cell").shortValue() :
 				Short.parseShort(cellRaw);
 		
 		return new TeleportAction(map, cell);

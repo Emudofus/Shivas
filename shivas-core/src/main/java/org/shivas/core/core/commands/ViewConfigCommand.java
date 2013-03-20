@@ -1,10 +1,10 @@
 package org.shivas.core.core.commands;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
 import org.shivas.common.params.Conditions;
 import org.shivas.common.params.Parameters;
 import org.shivas.common.params.Types;
-import org.shivas.core.config.ConfigProvider;
-import org.shivas.core.config.UnknownKeyException;
 import org.shivas.core.core.logging.DofusLogger;
 import org.shivas.core.services.game.GameClient;
 
@@ -17,7 +17,7 @@ import javax.inject.Inject;
  * Time: 22:55
  */
 public class ViewConfigCommand extends Command {
-    @Inject ConfigProvider config;
+    @Inject Config config;
 
     @Override
     public String getName() {
@@ -45,9 +45,9 @@ public class ViewConfigCommand extends Command {
     public void use(GameClient client, DofusLogger log, Parameters params) {
         String key = params.get("key", String.class);
         try {
-            Object value = config.get(key);
-            log.log("%s => %s", key, value.toString());
-        } catch (UnknownKeyException e) {
+            String value = config.getValue(key).render();
+            log.log("%s => %s", key, value);
+        } catch (ConfigException.Missing e) {
             log.error("unknown key %s", key);
         }
     }

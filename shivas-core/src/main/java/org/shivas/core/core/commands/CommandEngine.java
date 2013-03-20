@@ -5,7 +5,7 @@ import org.shivas.common.params.GnuParser;
 import org.shivas.common.params.Parameters;
 import org.shivas.common.params.ParametersParser;
 import org.shivas.common.params.ParsingException;
-import org.shivas.core.config.InjectConfig;
+import org.shivas.core.InjectConfig;
 import org.shivas.core.core.logging.DofusLogger;
 import org.shivas.core.services.game.GameClient;
 
@@ -21,10 +21,10 @@ public class CommandEngine {
 	private final Map<String, Command> commands = Maps.newHashMap();
 	private final ParametersParser parser = new GnuParser();
 
-    @InjectConfig(key="commands.enabled")
+    @InjectConfig(key="shivas.commands.enabled")
     private boolean enabled;
 
-    @InjectConfig(key="commands.prefix")
+    @InjectConfig(key="shivas.commands.prefix")
     private String prefix;
 
     @Inject

@@ -1,10 +1,10 @@
 package org.shivas.core.database;
 
+import com.typesafe.config.Config;
 import org.atomium.cfg.Configuration;
 import org.atomium.impl.AbstractEntityManager;
 import org.atomium.util.query.QueryBuilderFactory;
 import org.atomium.util.query.mysql.MySqlQueryBuilderFactory;
-import org.shivas.core.config.ConfigProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,18 +19,18 @@ public class ShivasEntityManager extends AbstractEntityManager {
 	private QueryBuilderFactory builder;
 
 	@Inject
-	public ShivasEntityManager(final ConfigProvider config) throws ClassNotFoundException {
+	public ShivasEntityManager(final Config config) throws ClassNotFoundException {
 		super(new Configuration() {
 			public String user() {
-				return config.getString("database.user");
+				return config.getString("shivas.database.user");
 			}
 			
 			public String password() {
-				return config.getString("database.password");
+				return config.getString("shivas.database.password");
 			}
 			
 			public int flushDelay() {
-				return config.getInt("database.options.flush_delay");
+				return config.getInt("shivas.database.options.flush_delay");
 			}
 			
 			public String driver() {
@@ -38,7 +38,7 @@ public class ShivasEntityManager extends AbstractEntityManager {
 			}
 			
 			public String connection() {
-				return config.getString("database.datasource");
+				return config.getString("shivas.database.datasource");
 			}
 		});
 		

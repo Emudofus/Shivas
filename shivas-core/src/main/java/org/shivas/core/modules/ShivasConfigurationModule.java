@@ -7,8 +7,8 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
-import org.shivas.core.config.ConfigProvider;
-import org.shivas.core.config.InjectConfig;
+import com.typesafe.config.Config;
+import org.shivas.core.InjectConfig;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -34,9 +34,9 @@ public class ShivasConfigurationModule extends AbstractModule {
         }
     }
 
-    private final ConfigProvider config;
+    private final Config config;
 
-    public ShivasConfigurationModule(ConfigProvider config) {
+    public ShivasConfigurationModule(Config config) {
         this.config = config;
     }
 
@@ -57,7 +57,7 @@ public class ShivasConfigurationModule extends AbstractModule {
                 encounter.register(new MembersInjector<I>() {
                     public void injectMembers(I instance) {
                         for (Pair<Field, String> field : fields) {
-                            Object value = config.get(field.second);
+                            Object value = config.getAnyRef(field.second);
                             try {
                                 field.first.set(instance, value);
                             } catch (IllegalAccessException e) {

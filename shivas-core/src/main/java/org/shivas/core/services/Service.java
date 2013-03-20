@@ -1,6 +1,6 @@
 package org.shivas.core.services;
 
-import org.shivas.core.config.ConfigProvider;
+import com.typesafe.config.Config;
 import org.shivas.core.database.RepositoryContainer;
 
 public interface Service<C extends Client<?>> {
@@ -10,7 +10,7 @@ public interface Service<C extends Client<?>> {
 	
 	void addListener(ServiceListener<C> listener);	
 	
-	ConfigProvider config();
+	Config config();
 	RepositoryContainer repositories();
 	
 }

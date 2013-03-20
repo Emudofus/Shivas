@@ -1,17 +1,11 @@
 package org.shivas.core.database.repositories;
 
+import com.typesafe.config.Config;
 import org.atomium.EntityManager;
 import org.atomium.repository.impl.AbstractEntityRepository;
 import org.atomium.util.pk.IntegerPrimaryKeyGenerator;
 import org.atomium.util.query.*;
 import org.shivas.common.statistics.CharacteristicType;
-import org.shivas.core.config.ConfigProvider;
-import org.shivas.data.Container;
-import org.shivas.data.entity.Breed;
-import org.shivas.data.entity.Experience;
-import org.shivas.data.entity.Waypoint;
-import org.shivas.protocol.client.enums.Gender;
-import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.core.core.Colors;
 import org.shivas.core.core.Location;
 import org.shivas.core.core.PlayerLook;
@@ -25,6 +19,12 @@ import org.shivas.core.core.waypoints.WaypointList;
 import org.shivas.core.database.RepositoryContainer;
 import org.shivas.core.database.models.Player;
 import org.shivas.core.database.models.Spell;
+import org.shivas.data.Container;
+import org.shivas.data.entity.Breed;
+import org.shivas.data.entity.Experience;
+import org.shivas.data.entity.Waypoint;
+import org.shivas.protocol.client.enums.Gender;
+import org.shivas.protocol.client.enums.OrientationEnum;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -36,7 +36,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	
 	public static final String TABLE_NAME = "players";
 	
-	private final ConfigProvider config;
+	private final Config config;
 	private final Container ctner;
 	private final RepositoryContainer repositories;
 	
@@ -46,7 +46,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	private SelectQueryBuilder loadQuery;
 
 	@Inject
-	public PlayerRepository(EntityManager em, ConfigProvider config, Container ctner, RepositoryContainer repositories) {
+	public PlayerRepository(EntityManager em, Config config, Container ctner, RepositoryContainer repositories) {
 		super(em, new IntegerPrimaryKeyGenerator());
 		this.config = config;
 		this.ctner = ctner;
@@ -79,7 +79,11 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 	}
 	
 	private Location newDefaultLocation() {
-		return new Location(config.getData("world.start.map", GameMap.class), config.getShort("world.start.cell"), OrientationEnum.SOUTH_EAST);
+		return new Location(
+                ctner.get(GameMap.class).byId(config.getInt("shivas.world.start.map")),
+                config.getNumber("shivas.world.start.cell").shortValue(),
+                OrientationEnum.SOUTH_EAST
+        );
 	}
 
 	public Player createDefault(String name, int breed, Gender gender, int color1, int color2, int color3) {
@@ -87,7 +91,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 				name,
 				ctner.get(Breed.class).byId(breed),
 				gender,
-				new PlayerExperience(config.getData("world.start.level", Experience.class)),
+				new PlayerExperience(ctner.get(Experience.class).byId(config.getInt("shivas.world.start.level"))),
 				newDefaultLocation(),
 				newDefaultLocation()
 		);
@@ -95,23 +99,23 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 		player.setLook(new PlayerLook(
 				player,
 				player.getBreed().getDefaultSkin(gender),
-				config.getShort("world.start.size"),
+				config.getNumber("shivas.world.start.size").shortValue(),
 				new Colors(color1, color2, color3)
 		));
 		
 		player.setStats(new PlayerStatistics(
 				player,
-                config.getShort("world.start.action_points", player.getBreed().getStartActionPoints()),
-                config.getShort("world.start.movement_points", player.getBreed().getStartMovementPoints()),
-                config.getShort("world.start.vitality", 0),
-                config.getShort("world.start.wisdom", 0),
-                config.getShort("world.start.strength", 0),
-                config.getShort("world.start.intelligence", 0),
-                config.getShort("world.start.chance", 0),
-                config.getShort("world.start.agility", 0)
+                config.getNumber("shivas.world.start.action_points").shortValue(),
+                config.getNumber("shivas.world.start.movement_points").shortValue(),
+                config.getNumber("shivas.world.start.vitality").shortValue(),
+                config.getNumber("shivas.world.start.wisdom").shortValue(),
+                config.getNumber("shivas.world.start.strength").shortValue(),
+                config.getNumber("shivas.world.start.intelligence").shortValue(),
+                config.getNumber("shivas.world.start.chance").shortValue(),
+                config.getNumber("shivas.world.start.agility").shortValue()
 		));
 		
-		player.setBag(new PlayerBag(player, repositories.items(), this, config.getLong("world.start.kamas")));
+		player.setBag(new PlayerBag(player, repositories.items(), this, config.getLong("shivas.world.start.kamas")));
 		
 		player.setSpells(new SpellList(player, repositories.spells()).fill());
 		
@@ -119,7 +123,7 @@ public class PlayerRepository extends AbstractEntityRepository<Integer, Player> 
 
         player.setStore(new PlayerStore(player, repositories.storedItems()));
 		
-		if (config.getBool("world.add_all_waypoints")) {
+		if (config.getBoolean("shivas.world.add_all_waypoints")) {
 			for (Waypoint waypoint : ctner.get(Waypoint.class).all()) {
 				player.getWaypoints().add(waypoint);
 			}

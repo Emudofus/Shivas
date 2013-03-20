@@ -2,7 +2,7 @@ package org.shivas.core.database;
 
 import org.atomium.exception.LoadingException;
 import org.joda.time.Duration;
-import org.shivas.core.config.InjectConfig;
+import org.shivas.core.InjectConfig;
 import org.shivas.core.database.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ public class DefaultRepositoryContainer implements RepositoryContainer {
 	
 	private static final Logger log = LoggerFactory.getLogger(DefaultRepositoryContainer.class);
 	
-	@InjectConfig(key="database.options.save_delay")
+	@InjectConfig(key="shivas.database.options.save_delay")
     private Duration saveDelay;
 	
 	@Inject

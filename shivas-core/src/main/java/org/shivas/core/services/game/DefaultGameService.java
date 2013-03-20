@@ -1,10 +1,8 @@
 package org.shivas.core.services.game;
 
+import com.typesafe.config.Config;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
-import org.shivas.core.config.ConfigProvider;
-import org.shivas.protocol.client.enums.WorldStateEnum;
-import org.shivas.protocol.client.types.GameServerType;
 import org.shivas.core.core.channels.ChannelContainer;
 import org.shivas.core.core.commands.CommandEngine;
 import org.shivas.core.core.fights.FightFactory;
@@ -13,6 +11,8 @@ import org.shivas.core.database.RepositoryContainer;
 import org.shivas.core.services.AbstractService;
 import org.shivas.core.services.game.handlers.AuthenticationHandler;
 import org.shivas.core.services.login.LoginService;
+import org.shivas.protocol.client.enums.WorldStateEnum;
+import org.shivas.protocol.client.types.GameServerType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class DefaultGameService extends AbstractService<GameClient> implements G
 	
 	private static final String CLIENT_TOKEN = "shivas.game.client";
 	
-	private final ConfigProvider config;
+	private final Config config;
 	private final LoginService login;
 	private final GameServerType informations;
 	private final ChannelContainer channels;
@@ -35,16 +35,16 @@ public class DefaultGameService extends AbstractService<GameClient> implements G
     private final FightFactory fightFactory;
 
 	@Inject
-	public DefaultGameService(RepositoryContainer repositories, ConfigProvider config, LoginService login, ChannelContainer channels, CommandEngine cmdengine, NetworkStatisticsCenter statistics, FightFactory fightFactory) {
-		super(repositories, config.getShort("game.port"), log);
+	public DefaultGameService(RepositoryContainer repositories, Config config, LoginService login, ChannelContainer channels, CommandEngine cmdengine, NetworkStatisticsCenter statistics, FightFactory fightFactory) {
+		super(repositories, config.getNumber("shivas.game.port").shortValue(), log);
 		
 		this.config = config;
 		this.login = login;
         this.fightFactory = fightFactory;
         this.informations = new GameServerType(
-				config.getInt("game.id"),
-				config.getString("game.address"),
-				config.getShort("game.port"),
+				config.getInt("shivas.services.game.id"),
+				config.getString("shivas.services.game.address"),
+				config.getNumber("shivas.services.game.port").shortValue(),
 				WorldStateEnum.ONLINE,
 				0,
 				true
@@ -54,7 +54,7 @@ public class DefaultGameService extends AbstractService<GameClient> implements G
 		this.statistics = statistics;
 	}
 
-	public ConfigProvider config() {
+	public Config config() {
 		return config;
 	}
 
