@@ -1,9 +1,9 @@
 package org.shivas.core.core.paths;
 
-import org.shivas.common.collections.SortedArrayList;
+import org.shivas.common.collections.SortedList;
+import org.shivas.core.core.Location;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.protocol.client.enums.OrientationEnum;
-import org.shivas.core.core.Location;
 
 import static org.shivas.core.utils.Cells.distanceBetween;
 import static org.shivas.core.utils.Cells.getCellIdByOrientation;
@@ -20,7 +20,7 @@ public class Pathfinder {
     protected final short target;
     protected final boolean allDirections;
 
-    protected final SortedArrayList<ScoredNode> open = new SortedArrayList<ScoredNode>();
+    protected final SortedList<ScoredNode> open = SortedList.create();
     protected final Path path = new Path();
 
     protected boolean found;

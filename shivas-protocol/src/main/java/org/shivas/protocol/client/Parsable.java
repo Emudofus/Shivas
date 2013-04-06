@@ -4,5 +4,6 @@ package org.shivas.protocol.client;
  * @author Blackrush
  */
 public interface Parsable {
-    void parse(String input);
+    String getHeader();
+    Object parse(String input);
 }
