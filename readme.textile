@@ -10,7 +10,7 @@ Shivas est un émulateur Dofus 1.29 développé en Java. Aucune version stable n
 
 h3. Comment compiler Shivas ?
 
-Shivas utilise Maven, le célèbre gestionnaire de dépendances externes (et bien plus) créé par Apache. Vous devez l'avoir installé et pret à l'usage.
+Shivas utilise Maven, le célèbre gestionnaire de dépendances externes (et bien plus) créé par Apache. Vous devez l'avoir installé et pret à l'usage. "Atomium":https://github.com/Blackrush/Atomium/tree/master2 doit également être installé.
 
 <pre>
 $ git clone git://github.com/Emudofus/Shivas.git Shivas
