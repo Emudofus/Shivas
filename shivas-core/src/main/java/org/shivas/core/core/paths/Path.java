@@ -51,7 +51,7 @@ public class Path extends ArrayList<Node> {
 	public String toString() {
 		StringBuilder sb = new StringBuilder(size() * 3);
         for (Node node : this) {
-            sb.append(node.toString());
+            sb.append(node.encode());
         }
 		return sb.toString();
 	}

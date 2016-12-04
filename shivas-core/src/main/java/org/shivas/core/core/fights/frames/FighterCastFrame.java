@@ -58,7 +58,7 @@ public class FighterCastFrame extends Frame {
             throw new FightException("you have not enough action points");
         }
 
-        int distance = Cells.distanceBetween(fighter.getCurrentCell(), targetCell, fight.getMap());
+        int distance = Cells.manhattanDistanceBetween(fighter.getCurrentCell(), targetCell, fight.getMap());
         if (!castable.getRange().contains(distance)) {
             throw new FightException("the target is too far or too");
         }

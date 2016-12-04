@@ -9,34 +9,34 @@ import org.shivas.protocol.client.enums.OrientationEnum;
  * Time: 12:07
  */
 public class ScoredNode extends Node implements Comparable<ScoredNode> {
-    private int distanceToStart, distanceToEnd;
+    private double distanceToStart, distanceToEnd;
 
     public ScoredNode(OrientationEnum orientation, short cell) {
         super(orientation, cell);
     }
 
-    public int distanceToStart() {
+    public double distanceToStart() {
         return distanceToStart;
     }
 
-    public void setDistanceToStart(int distanceToStart) {
+    public void setDistanceToStart(double distanceToStart) {
         this.distanceToStart = distanceToStart;
     }
 
-    public int distanceToEnd() {
+    public double distanceToEnd() {
         return distanceToEnd;
     }
 
-    public void setDistanceToEnd(int distanceToEnd) {
+    public void setDistanceToEnd(double distanceToEnd) {
         this.distanceToEnd = distanceToEnd;
     }
 
-    public int sum() {
+    public double sum() {
         return distanceToStart + distanceToEnd;
     }
 
     @Override
     public int compareTo(ScoredNode o) {
-        return this.distanceToEnd - o.distanceToEnd;
+        return Double.compare(this.distanceToEnd, o.distanceToEnd);
     }
 }

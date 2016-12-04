@@ -70,20 +70,32 @@ public final class Cells {
         return position(cell.getId(), map);
     }
 
-    public static int distanceBetween(Point a, Point b) {
-        return Math.abs(a.abscissa() - b.abscissa()) +
-                Math.abs(a.ordinate() - b.ordinate());
+    public static int manhattanDistanceBetween(Point a, Point b) {
+        return Math.abs(a.abscissa() - b.ordinate()) + Math.abs(a.ordinate() - b.ordinate());
     }
 
-    public static int distanceBetween(Node a, Node b, MapTemplate map) {
+    public static int manhattanDistanceBetween(GameCell a, GameCell b, MapTemplate m) {
+        return manhattanDistanceBetween(position(a, m), position(b, m));
+    }
+
+    public static double distanceBetween(Point a, Point b) {
+        // Manhanttan
+        // return Math.abs(a.abscissa() - b.abscissa()) +
+        //        Math.abs(a.ordinate() - b.ordinate());
+
+        // Euclidean
+        return (int) Math.ceil(Math.sqrt(Math.pow(a.abscissa() - b.abscissa(), 2) + Math.pow(a.ordinate() - b.ordinate(), 2)));
+    }
+
+    public static double distanceBetween(Node a, Node b, MapTemplate map) {
         return distanceBetween(position(a, map), position(b, map));
     }
 
-    public static int distanceBetween(Node a, short b, MapTemplate map) {
+    public static double distanceBetween(Node a, short b, MapTemplate map) {
         return distanceBetween(position(a.cell(), map), position(b, map));
     }
 
-    public static int distanceBetween(GameCell a, GameCell b, MapTemplate map) {
+    public static double distanceBetween(GameCell a, GameCell b, MapTemplate map) {
         return distanceBetween(position(a, map), position(b, map));
     }
 

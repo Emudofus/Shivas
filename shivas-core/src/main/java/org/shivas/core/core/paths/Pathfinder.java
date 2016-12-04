@@ -20,7 +20,7 @@ public class Pathfinder {
     protected final short target;
     protected final boolean allDirections;
 
-    protected final SortedArrayList<ScoredNode> open = new SortedArrayList<ScoredNode>();
+    protected final SortedArrayList<ScoredNode> open = new SortedArrayList<>();
     protected final Path path = new Path();
 
     protected boolean found;

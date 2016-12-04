@@ -24,32 +24,46 @@ public class Node {
     private OrientationEnum orientation;
     private short cell;
 
-    public Node() {
-    }
-
     public Node(OrientationEnum orientation, short cell) {
         this.orientation = orientation;
         this.cell = cell;
+    }
+
+    public static Node of(int cell, OrientationEnum orientation) {
+        return new Node(orientation, (short) cell);
     }
 
     public OrientationEnum orientation() {
         return orientation;
     }
 
-    public void setOrientation(OrientationEnum orientation) {
-        this.orientation = orientation;
-    }
-
     public short cell() {
         return cell;
     }
 
-    public void setCell(short cell) {
-        this.cell = cell;
+    public String encode() {
+        return Cells.encode(orientation) + Cells.encode(cell);
     }
 
+    @Override
     public String toString() {
-        return Cells.encode(orientation) +
-                Cells.encode(cell);
+        return "Node(" + cell + " " + orientation.name() + ')';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof ScoredNode)) return false;
+
+        Node node = (Node) o;
+
+        return cell == node.cell && orientation == node.orientation;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = orientation != null ? orientation.hashCode() : 0;
+        result = 31 * result + (int) cell;
+        return result;
     }
 }
