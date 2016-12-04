@@ -3,7 +3,6 @@ package org.shivas.core.database.repositories;
 import org.atomium.EntityManager;
 import org.atomium.exception.LoadingException;
 import org.atomium.repository.impl.AbstractRefreshableEntityRepository;
-import org.atomium.util.Filter;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.UpdateQueryBuilder;

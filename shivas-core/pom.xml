@@ -21,7 +21,6 @@
     <mysqlconnector.version>5.1.19</mysqlconnector.version>
     <jruby.version>1.7.0.preview2</jruby.version>
     <groovy.version>2.0.1</groovy.version>
-    <atomium.version>1</atomium.version>
     <snakeyaml.version>1.11</snakeyaml.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -92,9 +91,9 @@
     	<version>${project.version}</version>
     </dependency>
     <dependency>
-    	<groupId>org.atomium</groupId>
+    	<groupId>org.shivas</groupId>
     	<artifactId>atomium-core</artifactId>
-    	<version>${atomium.version}</version>
+    	<version>${project.version}</version>
     </dependency>
     <dependency>
     	<groupId>org.jruby</groupId>
