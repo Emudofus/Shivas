@@ -5,6 +5,7 @@ import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
+import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.shivas.core.database.RepositoryContainer;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public abstract class AbstractService<C extends Client<?>> extends ServiceListen
 	private static final String DECODING_DELIMITER = "\n" + ENCODING_DELIMITER;
 	
 	protected final RepositoryContainer repositories;
-	protected final IoAcceptor acceptor;
+	protected final SocketAcceptor acceptor;
 	
 	private final Logger log;
 
@@ -40,6 +41,7 @@ public abstract class AbstractService<C extends Client<?>> extends ServiceListen
 		)));
 		this.acceptor.setHandler(this);
 		this.acceptor.setDefaultLocalAddress(new InetSocketAddress(port));
+		this.acceptor.setReuseAddress(true);
 		
 		this.log = log;
 	}
