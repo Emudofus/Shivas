@@ -14,7 +14,7 @@ public enum EndActionTypeEnum {
 
     private int value;
 
-    private EndActionTypeEnum(int value) {
+    EndActionTypeEnum(int value) {
         this.value = value;
     }
 

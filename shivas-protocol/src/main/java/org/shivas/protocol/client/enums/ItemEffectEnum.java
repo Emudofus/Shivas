@@ -124,7 +124,7 @@ public enum ItemEffectEnum {
     PetLife(800);
 
     private int value;
-    private ItemEffectEnum(int value) {
+    ItemEffectEnum(int value) {
         this.value = value;
     }
     public int value() {

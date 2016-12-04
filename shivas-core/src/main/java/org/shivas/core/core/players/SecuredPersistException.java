@@ -7,7 +7,7 @@ package org.shivas.core.core.players;
  * Time: 14:13
  */
 public class SecuredPersistException extends Exception {
-    public static enum Reason {
+    public enum Reason {
         FULL_ACCOUNT,
         NAME_ALREADY_EXISTS
     }

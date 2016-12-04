@@ -7,11 +7,11 @@ database:
   refresh_rate: 60 # seconds
 
 data:
-  path: "D:/Workspace/Shivas/data/"
+  path: "/Users/antoine/Workspace/Shivas/data/"
   extension: "xml"
 
 mods:
-  path: "D:/Workspace/Shivas/mods/"
+  path: "/Users/antoine/Workspace/Shivas/mods/"
 
 login:
   port: 5555

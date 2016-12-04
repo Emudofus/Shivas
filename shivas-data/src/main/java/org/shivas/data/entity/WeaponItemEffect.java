@@ -68,9 +68,7 @@ public class WeaponItemEffect extends ItemEffect implements Serializable {
 				return false;
 		} else if (!dice.equals(other.dice))
 			return false;
-		if (type != other.type)
-			return false;
-		return true;
-	}
+        return type == other.type;
+    }
 
 }

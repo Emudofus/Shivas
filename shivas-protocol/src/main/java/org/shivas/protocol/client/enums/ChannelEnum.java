@@ -23,7 +23,7 @@ public enum ChannelEnum {
     UNKNOWN2((char) 207);
 
     private char value;
-    private ChannelEnum(char value) {
+    ChannelEnum(char value) {
         this.value = value;
     }
     public char value() {

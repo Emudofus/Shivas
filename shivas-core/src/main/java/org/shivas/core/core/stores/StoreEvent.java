@@ -10,7 +10,7 @@ import org.shivas.core.core.events.EventType;
  * Time: 19:26
  */
 public abstract class StoreEvent implements Event {
-    public static enum Type {
+    public enum Type {
         CLOSE,
         REFRESH
     }

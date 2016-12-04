@@ -37,11 +37,7 @@ public class GameItem implements Item, PersistableEntity<Long> {
 		this.id = id;
 		this.template = template;
 		this.owner = owner;
-		this.effects = Maps2.toMap(effects, new Function<ItemEffect, ItemEffectEnum>() {
-			public ItemEffectEnum apply(ItemEffect input) {
-				return input.getType();
-			}
-		});
+		this.effects = Maps2.toMap(effects, ItemEffect::getType);
 		this.position = position;
 		this.quantity = quantity;
 	}

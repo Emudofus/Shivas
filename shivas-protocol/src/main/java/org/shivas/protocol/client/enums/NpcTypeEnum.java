@@ -21,7 +21,7 @@ public enum NpcTypeEnum {
 
     private int value;
 
-    private NpcTypeEnum(int value) {
+    NpcTypeEnum(int value) {
         this.value = value;
     }
 

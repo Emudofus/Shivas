@@ -11,7 +11,7 @@ import org.shivas.core.core.fights.FightTurn;
  */
 public class FightTurnEvent extends FightEvent {
 
-    public static enum Type { START, STOP }
+    public enum Type { START, STOP }
 
     private final Type fightTurnEventType;
     private final Fight fight;

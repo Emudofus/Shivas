@@ -80,7 +80,7 @@ public class VemuLoader extends JDBCLoader {
 
             map.setSubscriber(rset.getBoolean("NeedRegister"));
 
-            map.setTrigger(Maps.<Short, MapTrigger>newHashMap());
+            map.setTrigger(Maps.newHashMap());
 
             maps.put(map.getId(), map);
         }
@@ -129,8 +129,8 @@ public class VemuLoader extends JDBCLoader {
             ItemSet itemSet = new ItemSet();
 
             itemSet.setId(rset.getShort("id"));
-            itemSet.setItems(Lists.<ItemTemplate>newArrayList());
-            itemSet.setEffects(HashMultimap.<Integer, ConstantItemEffect>create());
+            itemSet.setItems(Lists.newArrayList());
+            itemSet.setEffects(HashMultimap.create());
 
             for (String itemString : rset.getString("items").split(",")) {
                 ItemTemplate item = items.get(Short.parseShort(itemString));

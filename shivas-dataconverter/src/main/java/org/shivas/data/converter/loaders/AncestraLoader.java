@@ -104,7 +104,7 @@ public class AncestraLoader extends JDBCLoader {
                     Integer.parseInt(positions[1])
             ));
 
-            map.setTrigger(Maps.<Short, MapTrigger>newHashMap());
+            map.setTrigger(Maps.newHashMap());
 
             maps.put(map.getId(), map);
         }
@@ -154,8 +154,8 @@ public class AncestraLoader extends JDBCLoader {
             ItemSet itemSet = new ItemSet();
 
             itemSet.setId(rset.getShort("ID"));
-            itemSet.setItems(Lists.<ItemTemplate>newArrayList());
-            itemSet.setEffects(HashMultimap.<Integer, ConstantItemEffect>create());
+            itemSet.setItems(Lists.newArrayList());
+            itemSet.setEffects(HashMultimap.create());
 
             int level = 2;
             for (String bonus : rset.getString("bonus").split(";")) {

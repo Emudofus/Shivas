@@ -29,11 +29,11 @@ public class Dofus1DecrypterCipher implements Cipher {
 			somme1 = ANB + length;
 			somme2 = ANB2 + length;
 			
-			APass = somme1 - (int)PKey;
+			APass = somme1 - PKey;
 			if(APass < 0)APass += 64;
 			APass = APass << 4;
 			
-			AKey = somme2 - (int)PKey;
+			AKey = somme2 - PKey;
 			if(AKey < 0)AKey += 64;
 			
 			char PPass = (char)(APass + AKey);

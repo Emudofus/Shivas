@@ -6,7 +6,7 @@ import org.shivas.protocol.client.types.BaseContactType;
 
 public class Contact implements PersistableEntity<Long> {
 	
-	public static enum Type {
+	public enum Type {
 		FRIEND, ENNEMY;
 		public static Type valueOf(int integer) {
 			for (Type value : values()) if (value.ordinal() == integer) {
@@ -67,7 +67,7 @@ public class Contact implements PersistableEntity<Long> {
 					true, // is connected
 					isReciprocal(),
 					player.getName(),
-					(short) player.getExperience().level(),
+                    player.getExperience().level(),
 					(short) 0, // TODO alignment
 					(byte) player.getBreed().getId(),
 					player.getGender(),

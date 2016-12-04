@@ -234,7 +234,7 @@ public enum SpellEffectTypeEnum {
 
     private int value;
 
-    private SpellEffectTypeEnum(int value) {
+    SpellEffectTypeEnum(int value) {
         this.value = value;
     }
 

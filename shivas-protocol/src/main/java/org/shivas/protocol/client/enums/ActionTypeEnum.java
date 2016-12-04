@@ -36,7 +36,7 @@ public enum ActionTypeEnum {
 
     private int value;
 
-    private ActionTypeEnum(int value){
+    ActionTypeEnum(int value){
         this.value = value;
     }
 

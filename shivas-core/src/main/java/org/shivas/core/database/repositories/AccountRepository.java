@@ -155,20 +155,12 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 		return new Sha1SaltCipher(account.getSalt());
 	}
 	
-	public Account find(final String name) {
-		return super.find(new Filter<Account>() {
-			public Boolean invoke(Account arg1) throws Exception {
-				return arg1.getName().equals(name);
-			}
-		});
+	public Account find(String name) {
+		return super.find(account -> account.getName().equals(name));
 	}
 	
 	public Account findByNickname(final String nickname) {
-		return super.find(new Filter<Account>() {
-			public Boolean invoke(Account arg1) throws Exception {
-				return arg1.getNickname().equals(nickname);
-			}
-		});
+		return super.find(account -> account.getNickname().equals(nickname));
 	}
 
 	@Override

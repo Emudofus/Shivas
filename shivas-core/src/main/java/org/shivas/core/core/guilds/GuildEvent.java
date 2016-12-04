@@ -11,7 +11,7 @@ import org.shivas.core.database.models.Guild;
  * Time: 15:54
  */
 public abstract class GuildEvent implements Event {
-    public static enum Type {
+    public enum Type {
         ADD_MEMBER,
         REMOVE_MEMBER,
     }

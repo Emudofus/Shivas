@@ -43,7 +43,7 @@ public enum ItemPositionEnum {
 
     private int value;
 
-    private ItemPositionEnum(int value) {
+    ItemPositionEnum(int value) {
         this.value = value;
     }
 

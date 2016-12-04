@@ -336,10 +336,8 @@ public class Player implements Serializable, PersistableEntity<Integer>, GameAct
 		if (!(obj instanceof Player))
 			return false;
 		Player other = (Player) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
+        return id == other.id;
+    }
 
 	public BaseCharacterType toBaseCharacterType() {
 		return new BaseCharacterType(

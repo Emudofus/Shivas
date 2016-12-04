@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class GameCell implements Serializable {
 
-    public static enum MovementType {
+    public enum MovementType {
         Unwalkable,
         Door,
         Trigger,

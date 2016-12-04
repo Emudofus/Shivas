@@ -7,7 +7,7 @@ public enum ContactStateEnum {
 	
 	int value;
 	public int value() { return value; }
-	private ContactStateEnum(int value) {
+	ContactStateEnum(int value) {
 		this.value = value;
 	}
 	

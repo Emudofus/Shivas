@@ -7,7 +7,7 @@ package org.shivas.core.core.players;
  * Time: 13:58
  */
 public class SecuredDeleteException extends Exception {
-    public static enum Reason {
+    public enum Reason {
         BAD_SECRET_ANSWER,
         TOO_LOW_PLAYER_LEVEL,
     }

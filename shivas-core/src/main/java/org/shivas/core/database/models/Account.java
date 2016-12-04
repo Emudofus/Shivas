@@ -386,9 +386,7 @@ public class Account implements Serializable, Entity<Integer> {
 		if (!(obj instanceof Account))
 			return false;
 		Account other = (Account) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
+        return id == other.id;
+    }
 	
 }

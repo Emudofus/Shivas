@@ -45,7 +45,7 @@ public class SpellList implements Iterable<Spell> {
 				add(new Spell(
 						owner,
 						spellbreed.getTemplate(),
-						(byte) spellbreed.getPosition()
+                        spellbreed.getPosition()
 				));
 			}
 		}

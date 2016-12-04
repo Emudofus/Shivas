@@ -126,7 +126,7 @@ public enum ItemTypeEnum {
 
     private int value;
 
-    private ItemTypeEnum(int value) {
+    ItemTypeEnum(int value) {
         this.value = value;
     }
 
