@@ -1,5 +1,5 @@
 database:
-  connection: "jdbc:mysql://localhost/shivas"
+  connection: "jdbc:mariadb://localhost/shivas"
   user: "root"
   password: ""
   flush_delay: 30 # seconds
@@ -14,12 +14,12 @@ mods:
   path: "/Users/antoine/Workspace/Shivas/mods/"
 
 login:
-  port: 5555
+  port: 6789
 
 game:
   id: 1
   address: "127.0.0.1"
-  port: 5556
+  port: 9876
 
 client_version: "1.29.1"
 motd: "Shivas 1.0-SNAPSHOT"

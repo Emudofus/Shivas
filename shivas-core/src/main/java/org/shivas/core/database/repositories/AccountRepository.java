@@ -6,6 +6,7 @@ import org.atomium.repository.impl.AbstractRefreshableEntityRepository;
 import org.atomium.util.query.Op;
 import org.atomium.util.query.Query;
 import org.atomium.util.query.UpdateQueryBuilder;
+import org.joda.time.DateTime;
 import org.shivas.common.crypto.Cipher;
 import org.shivas.common.crypto.Sha1SaltCipher;
 import org.shivas.core.config.Config;
@@ -120,10 +121,10 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 				result.getBoolean("muted"),
 				result.getInt("community"),
 				result.getInt("points"),
-				em.builder().dateTimeFormatter().parseDateTime(result.getString("subscription_end")),
+				parseDateTime(result, "subscription_end"),
 				result.getBoolean("connected"),
 				ChannelList.parseChannelList(result.getString("channels")),
-				em.builder().dateTimeFormatter().parseDateTime(result.getString("last_connection")),
+				parseDateTime(result, "last_connection"),
 				result.getString("last_address"),
 				result.getInt("nb_connections")
 		);
@@ -140,6 +141,14 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 		return account;
 	}
 
+	private DateTime parseDateTime(ResultSet result, String columnName) throws SQLException {
+		String string = result.getString(columnName);
+		if (string == null) {
+			return null;
+		}
+		return em.builder().dateTimeFormatter().parseDateTime(string);
+	}
+
 	@Override
 	protected void refresh(Account entity, ResultSet rset) throws SQLException {		
 		entity.setPassword(rset.getString("password"));
@@ -147,7 +156,7 @@ public class AccountRepository extends AbstractRefreshableEntityRepository<Integ
 		entity.setBanned(rset.getBoolean("banned"));
 		entity.setMuted(rset.getBoolean("muted"));
 		entity.setPoints(rset.getInt("points"));
-		entity.setSubscriptionEnd(em.builder().dateTimeFormatter().parseDateTime(rset.getString("subscription_end")));
+		entity.setSubscriptionEnd(parseDateTime(rset, "subscription_end"));
 	}
 
 	public Cipher passwordCipher(Account account) {

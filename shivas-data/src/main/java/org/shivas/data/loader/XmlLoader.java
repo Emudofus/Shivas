@@ -35,67 +35,19 @@ public class XmlLoader extends AbstractLoader {
 	
 	public XmlLoader(EntityFactory factory) {
 		super(factory);
+
 		actionFactory = factory.newActionFactory(ctner);
 		
-		loaders.put(Breed.class, new FileLoader<Breed>() {
-			public int load(BaseRepository<Breed> repo, File file) throws Exception {
-				return loadBreed(repo, file);
-			}
-		});
-		
-		loaders.put(Experience.class, new FileLoader<Experience>() {
-			public int load(BaseRepository<Experience> repo, File file) throws Exception {
-				return loadExperience(repo, file);
-			}
-		});
-		
-		loaders.put(MapTemplate.class, new FileLoader<MapTemplate>() {
-			public int load(BaseRepository<MapTemplate> repo, File file) throws Exception {
-				return loadMap(repo, file);
-			}
-		});
-		
-		loaders.put(SpellTemplate.class, new FileLoader<SpellTemplate>() {
-			public int load(BaseRepository<SpellTemplate> repo, File file) throws Exception {
-				return loadSpellTemplate(repo, file);
-			}
-		});
-		
-		loaders.put(ItemSet.class, new FileLoader<ItemSet>() {
-			public int load(BaseRepository<ItemSet> repo, File file) throws Exception {
-				return loadItemSet(repo, file);
-			}
-		});
-		
-		loaders.put(ItemTemplate.class, new FileLoader<ItemTemplate>() {
-			public int load(BaseRepository<ItemTemplate> repo, File file) throws Exception {
-				return loadItemTemplate(repo, file);
-			}
-		});
-		
-		loaders.put(Action.class, new FileLoader<Action>() {
-			public int load(BaseRepository<Action> repo, File file) throws Exception {
-				return loadItemAction(repo, file);
-			}
-		});
-		
-		loaders.put(Waypoint.class, new FileLoader<Waypoint>() {
-			public int load(BaseRepository<Waypoint> repo, File file) throws Exception {
-				return loadZaap(repo, file);
-			}
-		});
-
-        loaders.put(NpcTemplate.class, new FileLoader<NpcTemplate>() {
-            public int load(BaseRepository<NpcTemplate> repo, File file) throws Exception {
-                return loadNpcTemplates(repo, file);
-            }
-        });
-
-        loaders.put(Npc.class, new FileLoader<Npc>() {
-            public int load(BaseRepository<Npc> repo, File file) throws Exception {
-                return loadNpcs(repo, file);
-            }
-        });
+		loaders.put(Breed.class,         this::loadBreed);
+		loaders.put(Experience.class,    this::loadExperience);
+		loaders.put(MapTemplate.class,   this::loadMap);
+		loaders.put(SpellTemplate.class, this::loadSpellTemplate);
+		loaders.put(ItemSet.class,       this::loadItemSet);
+		loaders.put(ItemTemplate.class,  this::loadItemTemplate);
+		loaders.put(Action.class,        this::loadItemAction);
+		loaders.put(Waypoint.class,      this::loadZaap);
+        loaders.put(NpcTemplate.class,   this::loadNpcTemplates);
+        loaders.put(Npc.class,           this::loadNpcs);
 	}
 
 	@Override

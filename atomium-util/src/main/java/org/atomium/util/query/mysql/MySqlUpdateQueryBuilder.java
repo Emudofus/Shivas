@@ -24,7 +24,7 @@ public class MySqlUpdateQueryBuilder implements UpdateQueryBuilder {
 		if (value) sb.append(", ");
 		else value = true;
 		
-		sb.append("`").append(field).append("` = '#").append(field).append("#'");
+		sb.append("`").append(field).append("` = #").append(field).append("#");
 		
 		return this;
 	}
@@ -33,7 +33,7 @@ public class MySqlUpdateQueryBuilder implements UpdateQueryBuilder {
 		if (this.value) sb.append(", ");
 		else this.value = true;
 		
-		sb.append("`").append(field).append("` = '").append(MySqlOp.toString(value)).append("'");
+		sb.append("`").append(field).append("` = ").append(MySqlOp.toString(value));
 		
 		return this;
 	}
@@ -41,7 +41,7 @@ public class MySqlUpdateQueryBuilder implements UpdateQueryBuilder {
 	public UpdateQueryBuilder where(String field, Op op) {
 		sb.append(" WHERE `").append(field).append("`");
 		print(op);
-		sb.append("'#").append(field).append("#'");
+		sb.append("#").append(field).append("#");
 		
 		return this;
 	}
@@ -49,7 +49,7 @@ public class MySqlUpdateQueryBuilder implements UpdateQueryBuilder {
 	public UpdateQueryBuilder where(String field, Op op, Object value) {
 		sb.append(" WHERE `").append(field).append("`");
 		print(op);
-		sb.append("'").append(MySqlOp.toString(value)).append("'");
+		sb.append(MySqlOp.toString(value));
 		
 		return this;
 	}
@@ -65,7 +65,7 @@ public class MySqlUpdateQueryBuilder implements UpdateQueryBuilder {
 	public UpdateQueryBuilder and(String field, Op op, Object value) {
 		sb.append(" AND `").append(field).append("`");
 		print(op);
-		sb.append("'").append(MySqlOp.toString(value)).append("'");
+		sb.append(MySqlOp.toString(value));
 		
 		return this;
 	}
@@ -81,7 +81,7 @@ public class MySqlUpdateQueryBuilder implements UpdateQueryBuilder {
 	public UpdateQueryBuilder or(String field, Op op, Object value) {
 		sb.append(" OR `").append(field).append("`");
 		print(op);
-		sb.append("'").append(MySqlOp.toString(value)).append("'");
+		sb.append(MySqlOp.toString(value));
 		
 		return this;
 	}

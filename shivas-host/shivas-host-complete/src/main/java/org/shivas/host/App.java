@@ -59,14 +59,10 @@ public class App {
      * @param args
      */
     public static void main(String[] args) {
+        log.info("Birth of a new World!");
         final App server = new App(new HostModule());
 
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            public void run() {
-                server.stop();
-            }
-        }));
-
+        Runtime.getRuntime().addShutdownHook(new Thread(server::stop));
         server.start();
     }
 

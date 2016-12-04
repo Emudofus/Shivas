@@ -7,12 +7,12 @@ import org.joda.time.ReadableInstant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-public class MySqlOp {
+class MySqlOp {
 	
-	public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss.S";
-	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern(DATE_TIME_PATTERN);
+	private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss.S";
+	static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern(DATE_TIME_PATTERN);
 
-	public static String print(Op op) {
+	static String print(Op op) {
 		switch (op) {
 		case DIF:
 			return " != ";
@@ -32,7 +32,7 @@ public class MySqlOp {
 		return null;
 	}
 	
-	public static String print(Order order) {
+	static String print(Order order) {
 		switch (order){
 		case ASC:
 			return "ASC";
@@ -42,9 +42,9 @@ public class MySqlOp {
 		return null;
 	}
 	
-	public static String toString(Object obj) {
+	static String toString(Object obj) {
 		if (obj == null) {
-			return "null";
+			return "NULL";
 		}
 		else if (obj instanceof Boolean) {
 			return ((Boolean)obj) ? "1" : "0";
@@ -53,12 +53,12 @@ public class MySqlOp {
 			return Integer.toString(((Enum<?>)obj).ordinal());
 		}
 		else if (obj instanceof Entity<?>) {
-			return ((Entity<?>)obj).getId().toString();
+			return "'" + ((Entity<?>)obj).getId().toString() + "'";
 		}
 		else if (obj instanceof ReadableInstant) {
-			return DATE_TIME_FORMATTER.print((ReadableInstant) obj);
+			return "'" + DATE_TIME_FORMATTER.print((ReadableInstant) obj) + "'";
 		}
-		return obj.toString();
+		return "'" + obj.toString() + "'";
 	}
 	
 }

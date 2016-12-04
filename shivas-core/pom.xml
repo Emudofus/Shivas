@@ -19,6 +19,7 @@
 
   <properties>
     <mysqlconnector.version>5.1.19</mysqlconnector.version>
+    <mariadb.version>1.5.5</mariadb.version>
     <jruby.version>1.7.0.preview2</jruby.version>
     <groovy.version>2.0.1</groovy.version>
     <snakeyaml.version>1.11</snakeyaml.version>
@@ -65,9 +66,9 @@
     	<scope>runtime</scope>
     </dependency>
     <dependency>
-    	<groupId>mysql</groupId>
-    	<artifactId>mysql-connector-java</artifactId>
-    	<version>${mysqlconnector.version}</version>
+    	<groupId>org.mariadb.jdbc</groupId>
+    	<artifactId>mariadb-java-client</artifactId>
+    	<version>${mariadb.version}</version>
     	<scope>runtime</scope>
     </dependency>
     <dependency>

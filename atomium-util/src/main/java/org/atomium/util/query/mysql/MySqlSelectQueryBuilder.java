@@ -28,7 +28,7 @@ public class MySqlSelectQueryBuilder implements SelectQueryBuilder {
 	public SelectQueryBuilder where(String field, Op op) {
 		sb.append("WHERE `").append(field).append("`");
 		print(op);
-		sb.append("'#").append(field).append("#'");
+		sb.append("#").append(field).append("#");
 		
 		return this;
 	}
@@ -36,7 +36,7 @@ public class MySqlSelectQueryBuilder implements SelectQueryBuilder {
 	public SelectQueryBuilder where(String field, Op op, Object value) {
 		sb.append("WHERE `").append(field).append("`");
 		print(op);
-		sb.append("'").append(MySqlOp.toString(value)).append("'");
+		sb.append(MySqlOp.toString(value));
 		
 		return this;
 	}
@@ -44,7 +44,7 @@ public class MySqlSelectQueryBuilder implements SelectQueryBuilder {
 	public SelectQueryBuilder and(String field, Op op) {
 		sb.append(" AND `").append(field).append("`");
 		print(op);
-		sb.append("'#").append(field).append("#'");
+		sb.append("#").append(field).append("#");
 		
 		return this;
 	}
@@ -52,7 +52,7 @@ public class MySqlSelectQueryBuilder implements SelectQueryBuilder {
 	public SelectQueryBuilder and(String field, Op op, Object value) {
 		sb.append(" AND `").append(field).append("`");
 		print(op);
-		sb.append("'").append(MySqlOp.toString(value)).append("'");
+		sb.append(MySqlOp.toString(value));
 		
 		return this;
 	}
@@ -60,7 +60,7 @@ public class MySqlSelectQueryBuilder implements SelectQueryBuilder {
 	public SelectQueryBuilder or(String field, Op op) {
 		sb.append(" OR `").append(field).append("`");
 		print(op);
-		sb.append("'#").append(field).append("#'");
+		sb.append("#").append(field).append("#");
 		
 		return this;
 	}
@@ -68,7 +68,7 @@ public class MySqlSelectQueryBuilder implements SelectQueryBuilder {
 	public SelectQueryBuilder or(String field, Op op, Object value) {
 		sb.append(" OR `").append(field).append("`");
 		print(op);
-		sb.append("'").append(MySqlOp.toString(value)).append("'");
+		sb.append(MySqlOp.toString(value));
 		
 		return this;
 	}

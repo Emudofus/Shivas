@@ -34,7 +34,7 @@ public class ShivasEntityManager extends AbstractEntityManager {
 			}
 			
 			public String driver() {
-				return "com.mysql.jdbc.Driver";
+				return "org.mariadb.jdbc.Driver";
 			}
 			
 			public String connection() {
@@ -52,11 +52,7 @@ public class ShivasEntityManager extends AbstractEntityManager {
 
 	@Override
 	protected void unhandledException(Exception e) {
-		log.error(String.format("unhandled %s %s : %s",
-				e.getClass().getSimpleName(),
-				e.getStackTrace()[0],
-				e.getMessage()
-		));
+		log.error("unhandled exception while performing SQL queries", e);
 	}
 
 }
