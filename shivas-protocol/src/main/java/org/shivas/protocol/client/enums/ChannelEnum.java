@@ -18,9 +18,11 @@ public enum ChannelEnum {
     Recruitment('?'),
     Admin('@'),
     Information('i'),
+    Newbies('^'),
     UNKNOWN0('p'),
     UNKNOWN1((char) 194),
-    UNKNOWN2((char) 207);
+    UNKNOWN2((char) 207),
+    ;
 
     private char value;
     ChannelEnum(char value) {
