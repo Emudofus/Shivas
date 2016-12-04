@@ -11,7 +11,7 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <junit.version>3.8.1</junit.version>
+    <junit.version>4.12</junit.version>
     <guava.version>20.0</guava.version>
     <guice.version>4.1.0</guice.version>
     <mina.version>2.0.16</mina.version>
