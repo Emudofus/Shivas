@@ -92,7 +92,14 @@ public class PlayerFighter extends Fighter {
                 player.getExperience().level(),
                 stats.life().current(),
                 isAlive(),
-                0, 0, 0, 0, 0, 0, 0 // TODO
+                // TODO
+                player.getExperience().min(),
+                player.getExperience().max(),
+                player.getExperience().current(),
+                0,
+                0,
+                0,
+                0
         );
     }
 

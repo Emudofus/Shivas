@@ -24,11 +24,6 @@ public class Converters {
             return input.getItem().toBaseItemTemplateType();
         }
     };
-    public static final Function<Fighter,BaseFighterType> FIGHTER_TO_BASEFIGHTERTYPE = new Function<Fighter, BaseFighterType>() {
-        public BaseFighterType apply(Fighter input) {
-            return input.toBaseFighterType();
-        }
-    };
     public static final Function<FightTurn,Integer> TURN_TO_FIGHTER_ID = new Function<FightTurn, Integer>() {
         @Override
         public Integer apply(FightTurn input) {

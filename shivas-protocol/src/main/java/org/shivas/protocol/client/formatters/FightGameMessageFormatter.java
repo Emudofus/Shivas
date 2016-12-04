@@ -289,21 +289,22 @@ public class FightGameMessageFormatter {
     }
 
     public static String fightEndMessage(long fightDuration, boolean aggression, BaseEndFighterType leaderWinner, Collection<BaseEndFighterType> winners, Collection<BaseEndFighterType> losers) {
-        StringBuilder sb = new StringBuilder(20 + 30 * winners.size() + 30 * losers.size()).append("GE");
+        StringBuilder sb = new StringBuilder(20 + 30 * winners.size() + 30 * losers.size());
 
         //GE4166|958|0|2;1424;Leo-mars;181;0;1317997000;1332575192;1355584000         ; ; ; ;; |0;958;Abcdefghijkl;1  ;0;0         ;0         ;110                ; ; ; ; |
         //GE3665|1  |0|2;1   ;sowen   ;200;0;7407232000;7407232000;9223372036854775807; ; ; ;; |0;2  ;Hymeduz     ;200;0;7407232000;7407232000;9223372036854775807; ; ; ;
 
+        sb.append("GE");
         sb.append(fightDuration).append('|');
         sb.append(leaderWinner.getId()).append('|');
         sb.append(aggression ? '1' : '0').append('|');
 
         if (aggression) {
-            formatFightNormalEndMessage(sb, winners, true);
-            formatFightNormalEndMessage(sb, losers, false);
-        } else {
             formatFightAggressionEndMessage(sb, winners, true);
             formatFightAggressionEndMessage(sb, losers, false);
+        } else {
+            formatFightNormalEndMessage(sb, winners, true);
+            formatFightNormalEndMessage(sb, losers, false);
         }
 
         return sb.toString();
@@ -324,6 +325,14 @@ public class FightGameMessageFormatter {
     }
 
     private static void formatFightNormalEndMessage(StringBuilder sb, BaseEndFighterType fighter, boolean winner){
+        //winner => 2;1;sowen  ;200;0;7407232000;7407232000;9223372036854775807; ; ; ; ;
+        //looser => 0;2;Hymeduz;200;0;7407232000;7407232000;9223372036854775807; ; ; ;
+
+        //looser=0
+        //winner=2
+        //collector=5
+        //eaFightDrop=6 ?????
+
         sb.append(winner ? '2' : '0').append(';');
         sb.append(fighter.getId()).append(';');
         sb.append(fighter.getName()).append(';');
@@ -337,15 +346,24 @@ public class FightGameMessageFormatter {
         sb.append(fighter.getEarnedExperience() > 0 ? fighter.getEarnedExperience() : "").append(';');
         sb.append(fighter.getEarnedGuildExperience() > 0 ? fighter.getEarnedGuildExperience() : "").append(';');
         sb.append(fighter.getEarnedMountExperience() > 0 ? fighter.getEarnedMountExperience() : "").append(';');
-
-        if (winner){
-            sb.append(';');//todo won items
-            sb.append(fighter.getEarnedKamas() > 0 ? fighter.getEarnedKamas() : "");
-        }
+        sb.append(';');//todo won items
+        sb.append(fighter.getEarnedKamas() > 0 ? fighter.getEarnedKamas() : "");
     }
 
     private static void formatFightAggressionEndMessage(StringBuilder sb, BaseEndFighterType fighter, boolean winner){
-        //todo
+        //minhonour
+        //honour
+        //maxhonour
+        //winhonour
+        //rank
+        //disgrace
+        //windisgrace
+        //items
+        //kama
+        //minxp
+        //xp
+        //maxxp
+        //winxp
     }
 
     public static String trapUsedMessage(long triggerId, int originalSpellId, short triggerCellId, long trapOwnerId) {

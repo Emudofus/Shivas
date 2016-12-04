@@ -280,7 +280,7 @@ public class FightHandler extends RolePlayHandler implements EventListener {
             break;
 
         case FINISHED:
-            listenFightEnd((FightEndEvent) event);
+            listenFightFinished(event);
             break;
         }
     }
@@ -292,17 +292,29 @@ public class FightHandler extends RolePlayHandler implements EventListener {
         client.write(FightGameMessageFormatter.fighterInformationsMessage(fight.toBaseFighterType()));
     }
 
-    private void listenFightEnd(FightEndEvent event) {
+    private void listenFightFinished(StateUpdateEvent event) {
         fight.getEvent().unsubscribe(this);
         client.player().setFighter(null);
 
-        client.write(FightGameMessageFormatter.fightEndMessage(
-                fight.getDuration().getMillis(),
-                fight.getFightType() == FightTypeEnum.AGRESSION,
-                event.getWinners().getLeader().toBaseEndFighterType(),
-                event.getWinners().toBaseEndFighterType(),
-                event.getLosers().toBaseEndFighterType()
-        ));
+        if (event instanceof FightEndEvent) {
+            FightEndEvent endEvent = (FightEndEvent) event;
+
+            client.write(FightGameMessageFormatter.fightEndMessage(
+                    fight.getDuration().getMillis(),
+                    fight.getFightType() == FightTypeEnum.AGRESSION,
+                    endEvent.getWinners().getLeader().toBaseEndFighterType(),
+                    endEvent.getWinners().toBaseEndFighterType(),
+                    endEvent.getLosers().toBaseEndFighterType()
+            ));
+        } else {
+            client.write(FightGameMessageFormatter.fightEndMessage(
+                    fight.getDuration().getMillis(),
+                    fight.getFightType() == FightTypeEnum.AGRESSION,
+                    fight.getChallengers().getLeader().toBaseEndFighterType(),
+                    fight.getChallengers().toBaseEndFighterType(),
+                    fight.getDefenders().toBaseEndFighterType()
+            ));
+        }
 
         try {
             client.newHandler(new RolePlayHandler(client));

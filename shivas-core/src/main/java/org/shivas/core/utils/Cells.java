@@ -71,7 +71,7 @@ public final class Cells {
     }
 
     public static int manhattanDistanceBetween(Point a, Point b) {
-        return Math.abs(a.abscissa() - b.ordinate()) + Math.abs(a.ordinate() - b.ordinate());
+        return Math.abs(a.abscissa() - b.abscissa()) + Math.abs(a.ordinate() - b.ordinate());
     }
 
     public static int manhattanDistanceBetween(GameCell a, GameCell b, MapTemplate m) {

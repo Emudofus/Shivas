@@ -19,7 +19,6 @@ import org.shivas.core.core.interactions.InteractionException;
 import org.shivas.core.core.interactions.InteractionType;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.core.paths.Path;
-import org.shivas.core.utils.Converters;
 import org.shivas.data.entity.CellProvider;
 import org.shivas.data.entity.GameCell;
 import org.shivas.protocol.client.enums.*;
@@ -358,7 +357,7 @@ public abstract class Fight extends AbstractInteraction implements CellProvider<
     public Collection<BaseFighterType> toBaseFighterType() {
         return from(getChallengers())
               .with(getDefenders())
-              .transform(Converters.FIGHTER_TO_BASEFIGHTERTYPE)
+              .transform(Fighter::toBaseFighterType)
               .lazyCollection();
     }
 
