@@ -17,6 +17,7 @@ import java.util.Map;
  * Date: 01/11/12
  * Time: 19:02
  */
+@SuppressWarnings("unchecked")
 public class YamlConfig extends AbstractConfig {
     public YamlConfig() throws FileNotFoundException {
         load(new File("./config.yaml"));

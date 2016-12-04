@@ -86,7 +86,7 @@ public class ShivasModInstallerModule extends AbstractModule {
     protected void configure() {
         File directory = new File(path);
         if (!directory.exists()) {
-            addError("unknown %s directory", path);
+            log.warn("Mods directory {} is specified but does not exist, no mods will be loaded", directory);
         } else {
             for (Module module : loadModules(directory)) {
                 install(module);

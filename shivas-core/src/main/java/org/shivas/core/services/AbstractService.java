@@ -64,7 +64,7 @@ public abstract class AbstractService<C extends Client<?>> extends ServiceListen
 	public void stop() {
 		acceptor.unbind();
 		for (IoSession session : acceptor.getManagedSessions().values()) {
-			session.close(true);
+			session.closeNow();
 		}
 		acceptor.dispose();
 		
@@ -79,8 +79,12 @@ public abstract class AbstractService<C extends Client<?>> extends ServiceListen
         cause.printStackTrace();
 		
 		if (cause instanceof CriticalException) {
-			session.close(false);
+			session.closeNow();
 		}
 	}
 
+	@Override
+	public void inputClosed(IoSession session) throws Exception {
+		// not used
+	}
 }

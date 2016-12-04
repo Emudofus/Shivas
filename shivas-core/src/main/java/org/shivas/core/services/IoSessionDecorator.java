@@ -24,6 +24,26 @@ public abstract class IoSessionDecorator implements IoSession {
 		this.session = session;
 	}
 
+	@Override
+	public boolean isSecured() {
+		return session.isSecured();
+	}
+
+	@Override
+	public CloseFuture closeNow() {
+		return session.closeNow();
+	}
+
+	@Override
+	public CloseFuture closeOnFlush() {
+		return session.closeOnFlush();
+	}
+
+	@Override
+	public boolean isActive() {
+		return session.isActive();
+	}
+
 	/**
 	 * @return
 	 * @deprecated
@@ -39,7 +59,7 @@ public abstract class IoSessionDecorator implements IoSession {
 	 * @see org.apache.mina.core.session.IoSession#close(boolean)
 	 */
 	public CloseFuture close(boolean arg0) {
-		return session.close(arg0);
+		return arg0 ? session.closeNow() : session.closeOnFlush();
 	}
 
 	/**

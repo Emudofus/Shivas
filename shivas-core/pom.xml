@@ -18,11 +18,8 @@
   </parent>
 
   <properties>
-    <mysqlconnector.version>5.1.19</mysqlconnector.version>
     <mariadb.version>1.5.5</mariadb.version>
-    <jruby.version>1.7.0.preview2</jruby.version>
-    <groovy.version>2.0.1</groovy.version>
-    <snakeyaml.version>1.11</snakeyaml.version>
+    <snakeyaml.version>1.17</snakeyaml.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -95,16 +92,6 @@
     	<groupId>org.shivas</groupId>
     	<artifactId>atomium-core</artifactId>
     	<version>${project.version}</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.jruby</groupId>
-    	<artifactId>jruby</artifactId>
-    	<version>${jruby.version}</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.codehaus.groovy</groupId>
-    	<artifactId>groovy</artifactId>
-    	<version>${groovy.version}</version>
     </dependency>
     <dependency>
         <groupId>org.yaml</groupId>
