@@ -1,5 +1,6 @@
 package org.shivas.core.utils;
 
+import com.google.common.collect.ImmutableMap;
 import org.shivas.common.StringUtils;
 import org.shivas.common.maths.Point;
 import org.shivas.common.maths.Vector;
@@ -9,24 +10,24 @@ import org.shivas.data.entity.GameCell;
 import org.shivas.data.entity.MapTemplate;
 import org.shivas.protocol.client.enums.OrientationEnum;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public final class Cells {
 	private Cells() {}
 
-    public static final Map<OrientationEnum, Vector> VECTORS = new HashMap<OrientationEnum, Vector>() {{
-        put(OrientationEnum.EAST, Vector.create(1, -1));
-        put(OrientationEnum.SOUTH_EAST, Vector.create(1, 0));
-        put(OrientationEnum.SOUTH, Vector.create(1, 1));
-        put(OrientationEnum.SOUTH_WEST, Vector.create(0, 1));
-        put(OrientationEnum.WEST, Vector.create(-1, 1));
-        put(OrientationEnum.NORTH_WEST, Vector.create(-1, 0));
-        put(OrientationEnum.NORTH, Vector.create(-1, -1));
-        put(OrientationEnum.NORTH_EAST, Vector.create(0, -1));
-    }};
-	
-	public static String encode(short cellid) {
+    public static final Map<OrientationEnum, Vector> VECTORS =
+            ImmutableMap.<OrientationEnum, Vector>builder()
+                .put(OrientationEnum.EAST,       Vector.create( 1, -1))
+                .put(OrientationEnum.SOUTH_EAST, Vector.create( 1,  0))
+                .put(OrientationEnum.SOUTH,      Vector.create( 1,  1))
+                .put(OrientationEnum.SOUTH_WEST, Vector.create( 0,  1))
+                .put(OrientationEnum.WEST,       Vector.create(-1,  1))
+                .put(OrientationEnum.NORTH_WEST, Vector.create(-1,  0))
+                .put(OrientationEnum.NORTH,      Vector.create(-1, -1))
+                .put(OrientationEnum.NORTH_EAST, Vector.create( 0, -1))
+            .build();
+
+    public static String encode(short cellid) {
         return Character.toString(StringUtils.EXTENDED_ALPHABET.charAt(cellid / 64)) +
                 Character.toString(StringUtils.EXTENDED_ALPHABET.charAt(cellid % 64));
 	}
@@ -79,10 +80,6 @@ public final class Cells {
     }
 
     public static double distanceBetween(Point a, Point b) {
-        // Manhanttan
-        // return Math.abs(a.abscissa() - b.abscissa()) +
-        //        Math.abs(a.ordinate() - b.ordinate());
-
         // Euclidean
         return (int) Math.ceil(Math.sqrt(Math.pow(a.abscissa() - b.abscissa(), 2) + Math.pow(a.ordinate() - b.ordinate(), 2)));
     }

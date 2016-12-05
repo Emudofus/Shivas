@@ -87,7 +87,7 @@ public class Timer<G> implements Runnable {
         while (running) {
             waitForTask();
 
-            TimerTask task;
+            TimerTask<?> task;
             synchronized (lock) {
                 task = tasks.remove(0);
             }

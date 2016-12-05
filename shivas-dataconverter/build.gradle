@@ -1,0 +1,15 @@
+dependencies {
+    compile project(':atomium-util')
+    compile project(':shivas-common')
+    compile project(':shivas-protocol')
+    compile project(':shivas-data')
+    compile "org.jdom:jdom:$jdomVersion"
+    
+    runtime "org.mariadb.jdbc:mariadb-java-client:$mariadbVersion"
+}
+
+apply plugin: 'application'
+mainClassName = 'org.shivas.data.converter.App'
+run {
+    workingDir rootProject.projectDir
+}

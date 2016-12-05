@@ -1,9 +1,9 @@
 package org.shivas.core.database.models;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import org.atomium.PersistableEntity;
 import org.shivas.common.collections.Maps2;
+import org.shivas.core.utils.Converters;
 import org.shivas.data.entity.ConstantItemEffect;
 import org.shivas.data.entity.Item;
 import org.shivas.data.entity.ItemEffect;
@@ -11,7 +11,6 @@ import org.shivas.data.entity.ItemTemplate;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.ItemPositionEnum;
 import org.shivas.protocol.client.types.BaseItemType;
-import org.shivas.core.utils.Converters;
 
 import java.util.Collection;
 import java.util.Map;
@@ -208,7 +207,16 @@ public class GameItem implements Item, PersistableEntity<Long> {
 		
 		return true;
 	}
-	
-	
 
+	@Override
+	public int hashCode() {
+		int result = (int) (id ^ (id >>> 32));
+		result = 31 * result + (template != null ? template.hashCode() : 0);
+		result = 31 * result + (owner != null ? owner.hashCode() : 0);
+		result = 31 * result + (effects != null ? effects.hashCode() : 0);
+		result = 31 * result + (position != null ? position.hashCode() : 0);
+		result = 31 * result + quantity;
+		result = 31 * result + (cloned ? 1 : 0);
+		return result;
+	}
 }

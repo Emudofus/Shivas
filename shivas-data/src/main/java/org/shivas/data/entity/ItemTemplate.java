@@ -164,4 +164,41 @@ public class ItemTemplate implements Serializable {
             return input.toBaseItemTemplateEffectType();
         }
     };
+
+	@SuppressWarnings("RedundantIfStatement")
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		ItemTemplate that = (ItemTemplate) o;
+
+		if (id != that.id) return false;
+		if (level != that.level) return false;
+		if (weight != that.weight) return false;
+		if (forgemageable != that.forgemageable) return false;
+		if (price != that.price) return false;
+		if (itemSet != null ? !itemSet.equals(that.itemSet) : that.itemSet != null) return false;
+		if (type != that.type) return false;
+		if (conditions != null ? !conditions.equals(that.conditions) : that.conditions != null) return false;
+		if (effects != null ? !effects.equals(that.effects) : that.effects != null) return false;
+		if (factory != null ? !factory.equals(that.factory) : that.factory != null) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = (int) id;
+		result = 31 * result + (itemSet != null ? itemSet.hashCode() : 0);
+		result = 31 * result + (type != null ? type.hashCode() : 0);
+		result = 31 * result + (int) level;
+		result = 31 * result + (int) weight;
+		result = 31 * result + (forgemageable ? 1 : 0);
+		result = 31 * result + (int) price;
+		result = 31 * result + (conditions != null ? conditions.hashCode() : 0);
+		result = 31 * result + (effects != null ? effects.hashCode() : 0);
+		result = 31 * result + (factory != null ? factory.hashCode() : 0);
+		return result;
+	}
 }

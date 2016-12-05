@@ -39,7 +39,7 @@ public final class DefaultLoginClient extends IoSessionDecorator implements Logi
 	}
 
 	public void kick() {
-		close(false);
+		closeOnFlush();
 	}
 	
 	public BaseHandler handler() {

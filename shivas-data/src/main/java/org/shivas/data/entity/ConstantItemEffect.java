@@ -56,18 +56,17 @@ public class ConstantItemEffect extends ItemEffect implements Serializable {
         bonus = Short.parseShort(args[1], radix);
     }
 
-    @Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ConstantItemEffect other = (ConstantItemEffect) obj;
-		if (bonus != other.bonus)
-			return false;
-        return type == other.type;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
+		ConstantItemEffect that = (ConstantItemEffect) o;
+		return bonus == that.bonus;
+	}
+
+	@Override
+	public int hashCode() {
+		return (int) bonus;
+	}
 }

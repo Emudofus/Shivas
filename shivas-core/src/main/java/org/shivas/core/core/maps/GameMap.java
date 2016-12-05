@@ -8,7 +8,7 @@ import org.shivas.core.core.events.EventDispatcher;
 import org.shivas.core.core.events.EventDispatchers;
 import org.shivas.core.core.fights.Fight;
 import org.shivas.core.core.interactions.RolePlayMovement;
-import org.shivas.core.utils.Filters;
+import org.shivas.core.core.stores.PlayerStore;
 import org.shivas.data.entity.MapTemplate;
 
 import java.util.Collection;
@@ -44,7 +44,7 @@ public class GameMap extends MapTemplate {
     }
 
     public boolean hasAvailableStorePlaces() {
-        return CollectionQuery.from(actors.values()).count(Filters.STOREACTOR_FILTER) < MAX_STORE_PER_MAP;
+        return CollectionQuery.from(actors.values()).count(input -> input instanceof PlayerStore) < MAX_STORE_PER_MAP;
     }
 	
 	public Collection<GameActor> actors() {

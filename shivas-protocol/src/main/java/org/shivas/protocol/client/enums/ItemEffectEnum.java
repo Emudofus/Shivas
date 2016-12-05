@@ -159,7 +159,8 @@ public enum ItemEffectEnum {
         ItemEffectEnum val = values.get(value);
         return val != null ? val : NONE;
     }
-    
+
+    @SuppressWarnings("fallthrough")
     public CharacteristicType toCharacteristicType(AtomicReference<Boolean> add) {
     	add.set(false);
     	

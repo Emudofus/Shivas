@@ -1,0 +1,6 @@
+dependencies {
+    compile project(':shivas-common')
+    compile project(':shivas-protocol')
+    compile "org.jdom:jdom:$jdomVersion"
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
+}

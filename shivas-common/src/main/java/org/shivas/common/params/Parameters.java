@@ -16,10 +16,13 @@ public class Parameters {
 		return clazz.cast(values.get(name));
 	}
 
+    @SuppressWarnings("unchecked")
     public <T> T get(String name, T defaultz) {
         Object value = get(name);
-        if (value == null) return defaultz;
-        else return (T) value;
+        if (value == null) {
+            return defaultz;
+        }
+        return (T) value;
     }
 	
 	public Object get(String name) {

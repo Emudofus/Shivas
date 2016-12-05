@@ -54,21 +54,18 @@ public class WeaponItemEffect extends ItemEffect implements Serializable {
         dice = Dofus1Dice.parseDice(args[1], radix);
     }
 
-    @Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		WeaponItemEffect other = (WeaponItemEffect) obj;
-		if (dice == null) {
-			if (other.dice != null)
-				return false;
-		} else if (!dice.equals(other.dice))
-			return false;
-        return type == other.type;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
+		WeaponItemEffect that = (WeaponItemEffect) o;
+
+		return dice != null ? dice.equals(that.dice) : that.dice == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return dice != null ? dice.hashCode() : 0;
+	}
 }

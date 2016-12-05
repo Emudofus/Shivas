@@ -1,0 +1,20 @@
+// Database Layer Utilities
+include 'atomium-core'
+include 'atomium-util'
+
+// Core Shivas Engine Code
+include 'shivas-common'
+include 'shivas-protocol'
+include 'shivas-data'
+include 'shivas-core'
+
+// Game Databases Migration (Ancestra to Shivas, Vemu to Shivas, ...)
+include 'shivas-dataconverter'
+
+// Standard Shivas Engine distribution
+include 'shivas-host'
+
+// Core Shivas Engine Mods
+include 'shivas-mods'
+    include 'shivas-mods:shivas-mod-example'
+

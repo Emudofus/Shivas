@@ -156,8 +156,7 @@ public class ItemHandler extends AbstractBaseHandler<GameClient> {
 		
 		Collection<GameItem> items = Collections2.filter(client.player().getBag().equiped(), new Predicate<GameItem>() {
 			public boolean apply(GameItem input) {
-				return input == null ? false :
-					input.getTemplate().getItemSet() == set;
+				return input != null && input.getTemplate().getItemSet() == set;
 			}
 		});
 		

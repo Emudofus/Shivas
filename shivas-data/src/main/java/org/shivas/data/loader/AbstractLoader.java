@@ -1,20 +1,15 @@
 package org.shivas.data.loader;
 
-import java.io.File;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.shivas.common.io.FileExtensions;
-import org.shivas.data.Container;
-import org.shivas.data.Containers;
-import org.shivas.data.EntityFactory;
-import org.shivas.data.Loader;
-import org.shivas.data.Repository;
+import org.shivas.data.*;
 import org.shivas.data.container.SimpleContainer;
 import org.shivas.data.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Maps;
+import java.io.File;
+import java.util.Map;
 
 public abstract class AbstractLoader implements Loader {
 	
@@ -22,21 +17,24 @@ public abstract class AbstractLoader implements Loader {
 	
 	protected final SimpleContainer ctner = new SimpleContainer();
 	protected final EntityFactory factory;
-	
-	@SuppressWarnings("rawtypes")
-	protected final Map<Class, FileLoader> loaders = Maps.newHashMap();
+
+	private final Map<Class<?>, FileLoader<?>> loaders = Maps.newHashMap();
 	
 	public AbstractLoader(EntityFactory factory) {
 		this.factory = factory;
 	}
 	
 	public abstract String getFileExtension();
+
+	protected <T> void registerLoader(Class<T> clazz, FileLoader<T> loader) {
+		loaders.put(clazz, loader);
+	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private <T> FileLoader<T> getLoader(Class<T> clazz) {
-		for (Map.Entry<Class, FileLoader> entry : loaders.entrySet()) {
+		for (Map.Entry<Class<?>, FileLoader<?>> entry : loaders.entrySet()) {
 			if (entry.getKey().isAssignableFrom(clazz)) {
-				return entry.getValue();
+				return (FileLoader<T>) entry.getValue();
 			}
 		}
 		return null;

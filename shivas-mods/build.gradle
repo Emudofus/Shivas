@@ -1,0 +1,10 @@
+subprojects {
+    dependencies {
+        compile project(':shivas-core')
+    }
+
+    jar {
+        dependsOn configurations.runtime
+    }
+}
+

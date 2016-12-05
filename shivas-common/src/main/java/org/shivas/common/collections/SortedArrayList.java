@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 public class SortedArrayList<E extends Comparable<E>> extends ArrayList<E> {
 
+    private static final long serialVersionUID = -455588978029519865L;
+
     @Override
     public boolean add(E e) {
         int left = 0, right = size() - 1, center;

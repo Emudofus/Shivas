@@ -1,0 +1,16 @@
+dependencies {
+    compile project(':shivas-protocol')
+    compile project(':shivas-common')
+    compile project(':shivas-data')
+    compile project(':atomium-core')
+
+    compile "com.google.guava:guava:$guavaVersion"
+    compile "com.google.inject:guice:$guiceVersion"
+    compile "com.google.inject.extensions:guice-multibindings:$guiceVersion"
+    compile "org.apache.mina:mina-core:$minaVersion"
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
+    compile "org.yaml:snakeyaml:$snakeyamlVersion"
+
+    runtime "ch.qos.logback:logback-classic:$logbackVersion"
+    runtime "org.mariadb.jdbc:mariadb-java-client:$mariadbVersion"
+}

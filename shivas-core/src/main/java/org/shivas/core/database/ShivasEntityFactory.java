@@ -65,11 +65,13 @@ public class ShivasEntityFactory extends AbstractEntityFactory {
     @Override
     public WeaponItemEffect newWeaponItemEffect(ItemEffectEnum type) {
         EffectInterface effect = effectFactory.create(null, type.toDamageSpellEffectType());
-        return effect == null ?
-                super.newWeaponItemEffect(type) :
-                new WeaponItemEffectAdapter(type, effect) {{
-                    setZone(SingleCellZone.INSTANCE); // TODO weapon's zone
-                    setEffectFilter(new DefaultEffectFilter());
-                }};
+        if (effect == null) {
+            return super.newWeaponItemEffect(type);
+        }
+
+        WeaponItemEffectAdapter adapter = new WeaponItemEffectAdapter(type, effect);
+        adapter.setZone(SingleCellZone.INSTANCE); // TODO weapon's zone
+        adapter.setEffectFilter(new DefaultEffectFilter());
+        return adapter;
     }
 }

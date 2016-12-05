@@ -6,7 +6,6 @@ import org.shivas.core.core.GameActor;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.database.models.Player;
 import org.shivas.protocol.client.enums.FightTypeEnum;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -59,6 +58,6 @@ public class FightFactory {
             }
         }
 
-        throw new NotImplementedException();
+        throw new RuntimeException("not implemented");
     }
 }

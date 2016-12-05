@@ -9,6 +9,8 @@ import org.shivas.core.core.interactions.InteractionException;
  * Time: 19:38
  */
 public class FightException extends InteractionException {
+    private static final long serialVersionUID = 4020249279384287560L;
+
     public FightException() {
     }
 

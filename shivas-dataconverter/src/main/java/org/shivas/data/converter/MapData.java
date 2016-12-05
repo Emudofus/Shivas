@@ -11,6 +11,8 @@ import java.util.List;
  * Time: 08:43
  */
 public class MapData extends MapTemplate {
+    private static final long serialVersionUID = -834203863899206216L;
+
     private String data;
     private List<String> startCells;
 

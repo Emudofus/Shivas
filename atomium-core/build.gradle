@@ -1,0 +1,5 @@
+dependencies {
+    compile project(':atomium-util')
+    compile "com.google.guava:guava:$guavaVersion"
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
+}

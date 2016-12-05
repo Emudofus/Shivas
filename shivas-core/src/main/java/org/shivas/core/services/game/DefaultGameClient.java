@@ -1,9 +1,6 @@
 package org.shivas.core.services.game;
 
-import org.apache.mina.core.future.IoFuture;
-import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.session.IoSession;
-import org.shivas.protocol.client.formatters.GameMessageFormatter;
 import org.shivas.core.core.events.EventListenerContainer;
 import org.shivas.core.core.interactions.InteractionList;
 import org.shivas.core.core.logging.DofusLogger;
@@ -12,6 +9,7 @@ import org.shivas.core.database.models.Account;
 import org.shivas.core.database.models.Player;
 import org.shivas.core.services.BaseHandler;
 import org.shivas.core.services.IoSessionDecorator;
+import org.shivas.protocol.client.formatters.GameMessageFormatter;
 
 public final class DefaultGameClient extends IoSessionDecorator implements GameClient {
 	
@@ -34,16 +32,12 @@ public final class DefaultGameClient extends IoSessionDecorator implements GameC
 	}
 
 	public void kick() {
-		close(false);
+		closeOnFlush();
 	}
 
 	public void kick(String message) {
 		write(GameMessageFormatter.kickMessage("un administrateur", message))
-			.addListener(new IoFutureListener<IoFuture>() {
-				public void operationComplete(IoFuture arg0) {
-					close(true);
-				}
-			});
+			.addListener(arg0 -> closeOnFlush());
 	}
 	
 	public BaseHandler handler() {

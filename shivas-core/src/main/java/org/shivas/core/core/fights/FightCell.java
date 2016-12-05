@@ -10,6 +10,8 @@ import org.shivas.protocol.client.enums.FightTeamEnum;
  * Time: 19:45
  */
 public class FightCell extends GameCell {
+    private static final long serialVersionUID = -5402560800514478590L;
+
     private final FightTeamEnum startCellTeam;
 
     private Fighter currentFighter;

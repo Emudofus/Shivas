@@ -38,16 +38,16 @@ public class XmlLoader extends AbstractLoader {
 
 		actionFactory = factory.newActionFactory(ctner);
 		
-		loaders.put(Breed.class,         this::loadBreed);
-		loaders.put(Experience.class,    this::loadExperience);
-		loaders.put(MapTemplate.class,   this::loadMap);
-		loaders.put(SpellTemplate.class, this::loadSpellTemplate);
-		loaders.put(ItemSet.class,       this::loadItemSet);
-		loaders.put(ItemTemplate.class,  this::loadItemTemplate);
-		loaders.put(Action.class,        this::loadItemAction);
-		loaders.put(Waypoint.class,      this::loadZaap);
-        loaders.put(NpcTemplate.class,   this::loadNpcTemplates);
-        loaders.put(Npc.class,           this::loadNpcs);
+		registerLoader(Breed.class,         this::loadBreed);
+		registerLoader(Experience.class,    this::loadExperience);
+		registerLoader(MapTemplate.class,   this::loadMap);
+		registerLoader(SpellTemplate.class, this::loadSpellTemplate);
+		registerLoader(ItemSet.class,       this::loadItemSet);
+		registerLoader(ItemTemplate.class,  this::loadItemTemplate);
+		registerLoader(Action.class,        this::loadItemAction);
+		registerLoader(Waypoint.class,      this::loadZaap);
+        registerLoader(NpcTemplate.class,   this::loadNpcTemplates);
+        registerLoader(Npc.class,           this::loadNpcs);
 	}
 
 	@Override

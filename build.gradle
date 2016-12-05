@@ -1,0 +1,38 @@
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    group = 'org.shivas'
+    version = '1.0-SNAPSHOT'
+
+    ext {
+        guavaVersion = '20.0'
+        guiceVersion = '3.0'
+        jdomVersion = '2.0.+'
+        jodatimeVersion = '2.9.+'
+        junitVersion = '4.12'
+        logbackVersion = '1.1.+'
+        mariadbVersion = '1.5.+'
+        minaVersion = '2.0.+'
+        slf4jVersion = '1.7.+'
+        snakeyamlVersion = '1.17'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testCompile "junit:junit:$junitVersion"
+    }
+
+    test {
+        workingDir rootProject.projectDir
+    }
+
+    compileJava {
+        options.compilerArgs << '-Xlint:all' << '-Xlint:-serial'
+        options.encoding = 'UTF-8'
+    }
+}

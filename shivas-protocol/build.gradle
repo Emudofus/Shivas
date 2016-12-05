@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':shivas-common')
+    compile "joda-time:joda-time:$jodatimeVersion"
+}

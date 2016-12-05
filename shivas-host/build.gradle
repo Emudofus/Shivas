@@ -1,0 +1,9 @@
+dependencies {
+    compile project(':shivas-core')
+}
+
+apply plugin: 'application'
+mainClassName = 'org.shivas.host.App'
+run {
+    workingDir rootProject.projectDir
+}

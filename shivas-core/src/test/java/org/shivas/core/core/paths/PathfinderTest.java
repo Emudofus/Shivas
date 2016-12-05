@@ -25,7 +25,7 @@ public class PathfinderTest {
     @BeforeClass
     public static void setUpClass() {
         XmlLoader loader = new XmlLoader(new ShivasEntityFactory());
-        loader.load(MapTemplate.class, String.join(File.separator, "..", "data", "maps"));
+        loader.load(MapTemplate.class, String.join(File.separator, "data", "maps"));
         Container container = loader.create();
         mapTemplates = container.get(MapTemplate.class);
     }
