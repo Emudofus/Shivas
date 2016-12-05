@@ -232,11 +232,17 @@ public class GameMessageFormatter {
         sb.append(player.getLevel() >= 100 ? (player.getLevel() == 200 ? '2' : '1') : '0');
 
         sb.append(';')
+          .append(';')
           .append(';');
 
         if (player.hasGuild()){
-            sb.append(player.getGuildName()).append(';')
-              .append(player.getGuildEmblem().toString());
+            sb.append(player.getGuildName()).append(';');
+            // cf https://github.com/Emudofus/Dofus/blob/1.29/dofus/managers/CharactersManager.as#L538
+            sb.append(Integer.toString(player.getGuildEmblem().getBackgroundId(), 36)).append(',');
+            sb.append(Integer.toString(player.getGuildEmblem().getBackgroundColor(), 36)).append(',');
+            sb.append(Integer.toString(player.getGuildEmblem().getForegroundId(), 36)).append(',');
+            sb.append(Integer.toString(player.getGuildEmblem().getForegroundColor(), 36));
+            sb.append(';');
         }
         else{
             sb.append(";;");
