@@ -4,7 +4,7 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     group = 'org.shivas'
-    version = '1.0.0'
+    version = '2.0-SNAPSHOT'
 
     ext {
         guavaVersion = '20.0'
