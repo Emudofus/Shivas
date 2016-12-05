@@ -7,3 +7,17 @@ mainClassName = 'org.shivas.host.App'
 run {
     workingDir rootProject.projectDir
 }
+
+distributions {
+    main {
+        contents {
+            from(rootProject.projectDir) {
+                include 'config.yaml'
+                include 'data/**/*'
+                include 'resources/config.xml'
+                include 'resources/shivas.sql'
+                include 'resources/shivas.php/**/*'
+            }
+        }
+    }
+}
