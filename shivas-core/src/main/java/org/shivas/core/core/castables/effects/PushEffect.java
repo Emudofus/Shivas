@@ -13,6 +13,8 @@ import org.shivas.data.entity.SpellLevel;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Blackrush
@@ -22,15 +24,15 @@ import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 public class PushEffect extends Effect {
     private static final Dice BASE_DAMAGE = new Dofus1Dice(1, 9, 8); // 1d9+8
 
-    public static short computeDamage(Dice dice, int value, int step, int level){
-        int _loc1 = dice.roll();
+    public static short computeDamage(Random rand, Dice dice, int value, int step, int level){
+        int _loc1 = dice.roll(rand);
         double _loc2 = level / 50;
         if (_loc2 < 0.1) _loc2 = 0.1;
         return (short) (Math.floor(_loc1 * _loc2) * (value - step + 1));
     }
 
-    public static short computeDamage(int value, int step, int level) {
-        return computeDamage(BASE_DAMAGE, value, step, level);
+    public static short computeDamage(Random rand, int value, int step, int level) {
+        return computeDamage(rand, BASE_DAMAGE, value, step, level);
     }
 
     private int value;
@@ -72,7 +74,7 @@ public class PushEffect extends Effect {
         target.setCurrentCell(cell);
 
         if (rounds < value) {
-            int damage = computeDamage(value, rounds, target.getLevel());
+            int damage = computeDamage(fight.getRandom(), value, rounds, target.getLevel());
             int delta = target.getStats().life().minus(damage);
 
             fight.getEvent().publish(

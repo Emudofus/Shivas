@@ -28,7 +28,7 @@ public class FightTurnList implements Iterable<FightTurn> {
 
         turns = from(fight.getChallengers())
                .with(fight.getDefenders())
-               .orderBy(Fighter.compareBy(CharacteristicType.Initiative))
+               .orderBy(AbstractFighter.compareBy(CharacteristicType.Initiative))
                .transform(new Function<Fighter, FightTurn>() {
                     public FightTurn apply(Fighter input) {
                         return new FightTurn(FightTurnList.this.fight, input);

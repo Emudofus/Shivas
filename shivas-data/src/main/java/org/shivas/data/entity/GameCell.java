@@ -30,8 +30,19 @@ public class GameCell implements Serializable {
     private int groundLevel;
     private int groundSlope;
     private FightSideEnum startFightSide;
-    
-	public short getId() {
+
+    public GameCell() {}
+
+    public GameCell(short id, boolean lineOfSight, MovementType movementType, int groundLevel, int groundSlope, FightSideEnum startFightSide) {
+        this.id = id;
+        this.lineOfSight = lineOfSight;
+        this.movementType = movementType;
+        this.groundLevel = groundLevel;
+        this.groundSlope = groundSlope;
+        this.startFightSide = startFightSide;
+    }
+
+    public short getId() {
 		return id;
 	}
 	public void setId(short id) {

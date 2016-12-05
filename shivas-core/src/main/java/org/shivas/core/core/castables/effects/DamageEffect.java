@@ -11,6 +11,8 @@ import org.shivas.core.core.fights.events.FighterLifeUpdateEvent;
 import org.shivas.data.entity.SpellLevel;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Blackrush
@@ -18,8 +20,8 @@ import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
  * Time: 09:23
  */
 public class DamageEffect extends Effect {
-    public static int computeDamage(Dice dice, Statistics statistics, SpellEffectTypeEnum effect){
-        int base       = dice.roll(),
+    public static int computeDamage(Random rand, Dice dice, Statistics statistics, SpellEffectTypeEnum effect){
+        int base       = dice.roll(rand),
             charac     = statistics.get(effect.toCharacteristicType()).safeTotal(),
             domPercent = statistics.get(CharacteristicType.DamagePer).safeTotal(),
             dom        = statistics.get(CharacteristicType.Damage).safeTotal();
@@ -58,7 +60,7 @@ public class DamageEffect extends Effect {
 
         Fighter target = targetCell.getCurrentFighter();
 
-        int damage = computeDamage(dice, caster.getStats(), spellEffect);
+        int damage = computeDamage(fight.getRandom(), dice, caster.getStats(), spellEffect);
         int resistance = computeResistance(target.getStats(), spellEffect);
 
         int delta = target.getStats().life().minus(damage - resistance);

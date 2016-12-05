@@ -5,7 +5,11 @@ import org.shivas.data.entity.*;
 import org.shivas.protocol.client.enums.ItemEffectEnum;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
+import java.util.Random;
+
 public abstract class AbstractEntityFactory implements EntityFactory {
+
+	protected final Random rand = new Random(System.nanoTime());
 
 	@Override
 	public Breed newBreed() {
@@ -79,7 +83,7 @@ public abstract class AbstractEntityFactory implements EntityFactory {
     @Override
     public ConstantItemEffect newConstantItemEffect(ItemEffectTemplate template) {
         ConstantItemEffect effect = newConstantItemEffect(template.getEffect());
-        effect.setBonus((short) template.getBonus().roll());
+        effect.setBonus((short) template.getBonus().roll(rand));
 
         return effect;
     }

@@ -1,367 +1,106 @@
 package org.shivas.core.core.fights;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.joda.time.Duration;
-import org.joda.time.Instant;
-import org.shivas.common.threads.Timer;
 import org.shivas.core.config.Config;
 import org.shivas.core.core.castables.Castable;
-import org.shivas.core.core.channels.ChannelEvent;
 import org.shivas.core.core.events.EventDispatcher;
-import org.shivas.core.core.events.ThreadedEventDispatcher;
-import org.shivas.core.core.fights.events.*;
-import org.shivas.core.core.fights.frames.FighterCastFrame;
-import org.shivas.core.core.fights.frames.FighterMovementFrame;
 import org.shivas.core.core.fights.frames.Frame;
-import org.shivas.core.core.interactions.AbstractInteraction;
+import org.shivas.core.core.interactions.Interaction;
 import org.shivas.core.core.interactions.InteractionException;
 import org.shivas.core.core.interactions.InteractionType;
 import org.shivas.core.core.maps.GameMap;
 import org.shivas.core.core.paths.Path;
 import org.shivas.data.entity.CellProvider;
-import org.shivas.data.entity.GameCell;
-import org.shivas.protocol.client.enums.*;
+import org.shivas.protocol.client.enums.FightSideEnum;
+import org.shivas.protocol.client.enums.FightStateEnum;
+import org.shivas.protocol.client.enums.FightTeamEnum;
+import org.shivas.protocol.client.enums.FightTypeEnum;
 import org.shivas.protocol.client.types.BaseFighterType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 
-import static org.shivas.common.collections.CollectionQuery.from;
-
 /**
- * Created with IntelliJ IDEA.
- * User: Blackrush
- * Date: 06/10/12
- * Time: 19:28
+ * @author Blackrush <blackrushx@gmail.com>
  */
-public abstract class Fight extends AbstractInteraction implements CellProvider<FightCell> {
+public interface Fight extends Interaction, CellProvider<FightCell> {
+    int getId();
 
-    private static final Logger log = LoggerFactory.getLogger(Fight.class);
+    Config getConfig();
 
-    protected final int id;
-    protected final Config config;
-    protected final Timer<Fight> timer;
-    protected final ExecutorService worker;
-    protected final Random random = new Random(System.nanoTime());
-    protected final EventDispatcher event;
-    protected final Map<FightTeamEnum, FightTeam> teams = Maps.newIdentityHashMap();
-    protected final GameMap map;
-    protected final List<FightCell> cells;
+    ExecutorService getWorker();
 
-    protected FightStateEnum state;
-    protected FightTurnList turns;
-    protected Frame currentFrame;
-    protected Instant beginning, end;
+    Random getRandom();
 
-    protected Fight(int id, Config config, Timer<Fight> timer, ExecutorService worker, GameMap map, Fighter challenger, Fighter defender) {
-        this.id = id;
-        this.config = config;
-        this.timer = timer;
-        this.worker = worker;
-        this.event = new ThreadedEventDispatcher(worker);
-        this.map = map;
-        this.state = FightStateEnum.INIT;
-        this.cells = generateCells();
+    EventDispatcher getEvent();
 
-        this.map.add(this);
+    FightTeam getTeam(FightTeamEnum fightTeamEnum);
 
-        this.teams.put(FightTeamEnum.CHALLENGERS, new FightTeam(FightTeamEnum.CHALLENGERS, toSide(FightTeamEnum.CHALLENGERS), this, challenger));
-        this.teams.put(FightTeamEnum.DEFENDERS, new FightTeam(FightTeamEnum.DEFENDERS, toSide(FightTeamEnum.DEFENDERS), this, defender));
-    }
+    FightTeam getChallengers();
 
-    public int getId() {
-        return id;
-    }
+    FightTeam getDefenders();
 
-    public Config getConfig() {
-        return config;
-    }
+    FightTurnList getTurns();
 
-    public ExecutorService getWorker() {
-        return worker;
-    }
+    GameMap getMap();
 
-    public Random getRandom() {
-        return random;
-    }
+    Collection<FightCell> getCells();
 
-    public EventDispatcher getEvent() {
-        return event;
-    }
+    FightCell getCell(short cellId);
 
-    public FightTeam getTeam(FightTeamEnum fightTeamEnum) {
-        return teams.get(fightTeamEnum);
-    }
+    FightStateEnum getState();
 
-    public FightTeam getChallengers() {
-        return getTeam(FightTeamEnum.CHALLENGERS);
-    }
+    Frame getCurrentFrame();
 
-    public FightTeam getDefenders() {
-        return getTeam(FightTeamEnum.DEFENDERS);
-    }
+    void setCurrentFrame(Frame currentFrame) throws FightException;
 
-    public FightTurnList getTurns() {
-        return turns;
-    }
+    void eraseCurrentFrame();
 
-    public GameMap getMap() {
-        return map;
-    }
+    void schedule(Duration duration, Runnable action);
 
-    public Collection<FightCell> getCells() {
-        return cells;
-    }
+    void purgeScheduledTasks();
 
-    public FightCell getCell(short cellId) {
-        return cells.size() <= cellId ? null : cells.get(cellId);
-    }
-
-    public FightStateEnum getState() {
-        return state;
-    }
-
-    public Frame getCurrentFrame() {
-        return currentFrame;
-    }
-
-    /**
-     * sets the current frame and starts it
-     * @param currentFrame frame
-     * @throws FightException
-     */
-    public void setCurrentFrame(Frame currentFrame) throws FightException {
-        if (state != FightStateEnum.ACTIVE) throw new FightException("this is allowed when the fight is active");
-
-        if (this.currentFrame != null) {
-            this.currentFrame.setNext(currentFrame);
-        } else {
-            this.currentFrame = currentFrame;
-            this.currentFrame.begin();
-        }
-    }
-
-    public void eraseCurrentFrame() {
-        this.currentFrame = null;
-    }
-
-    public void schedule(Duration duration, Runnable action) {
-        timer.schedule(this, duration, action);
-    }
-
-    public void purgeScheduledTasks() {
-        timer.purge(this);
-    }
-
-    /**
-     * @return null duration if fight has not started yet
-     */
-    public Duration getDuration() {
-        return beginning != null ?
-                new Duration(beginning, end) : // does not matter if end is null, it will be converted to Instant.now()
-                null;
-    }
+    Duration getDuration();
 
     @Override
-    public InteractionType getInteractionType() {
-        return InteractionType.FIGHT;
-    }
+    InteractionType getInteractionType();
 
-    public abstract FightTypeEnum getFightType();
-    public abstract int getRemainingPreparation();
-    public abstract boolean canQuit(Fighter fighter);
+    FightTypeEnum getFightType();
 
-    protected void onStopped() {
-        map.remove(this);
-    }
+    int getRemainingPreparation();
 
-    protected void beforeInit() throws InteractionException {}
-    public void init() throws InteractionException {
-        if (state != FightStateEnum.INIT) throw new FightException("you can't init a fight already initialized");
+    boolean canQuit(Fighter fighter);
 
-        beforeInit();
+    void init() throws InteractionException;
 
-        state = FightStateEnum.PLACE;
-
-        event.publish(new FightInitializationEvent(this));
-
-        afterInit();
-    }
-    protected void afterInit() throws InteractionException {}
-
-    protected void beforeBegin() throws InteractionException {}
     @Override
-    public void begin() throws InteractionException {
-        if (state != FightStateEnum.PLACE) throw new FightException("you can't begin a fight already begun");
+    void begin() throws InteractionException;
 
-        beginning = Instant.now();
-
-        beforeBegin();
-
-        turns = new FightTurnList(this);
-        event.publish(new StateUpdateEvent(this, FightStateEnum.ACTIVE));
-        timer.start();
-
-        turns.beginNextTurn();
-        state = FightStateEnum.ACTIVE;
-
-        afterBegin();
-    }
-    protected void afterBegin() throws InteractionException {}
-
-    protected void beforeCancel() throws InteractionException {}
     @Override
-    public void cancel() throws InteractionException {
-        if (state != FightStateEnum.PLACE && state != FightStateEnum.ACTIVE) throw new FightException("you can't cancel this fight");
+    void cancel() throws InteractionException;
 
-        beforeCancel();
+    void notifyReady(Fighter fighter) throws InteractionException;
 
-        event.publish(new StateUpdateEvent(this, FightStateEnum.FINISHED));
-        state = FightStateEnum.FINISHED;
-        timer.stop();
+    void changePlace(Fighter fighter, short targetCellId) throws InteractionException;
 
-        afterCancel();
-        onStopped();
-    }
-    protected void afterCancel() throws InteractionException {}
+    void cast(Fighter caster, Castable castable, short targetCell) throws InteractionException;
 
-    protected void beforeEnd() throws InteractionException {}
-    @Override
-    protected void internalEnd() throws InteractionException {
-        if (state != FightStateEnum.PLACE && state != FightStateEnum.ACTIVE) throw new FightException("you can't cancel this fight");
+    void move(Fighter fighter, Path path) throws InteractionException;
 
-        end = Instant.now();
+    void quit(Fighter fighter) throws InteractionException;
 
-        beforeEnd();
+    void speak(Fighter fighter, String message) throws InteractionException;
 
-        FightTeam winners, losers;
-        if (getChallengers().areAlive()) {
-            winners = getChallengers();
-            losers = getDefenders();
-        } else {
-            winners = getDefenders();
-            losers = getChallengers();
-        }
+    FightSideEnum toSide(FightTeamEnum team);
 
-        event.publish(new FightEndEvent(this, winners, losers));
-        state = FightStateEnum.FINISHED;
-        timer.stop();
+    FightTeamEnum toTeam(FightSideEnum side);
 
-        afterEnd();
-        onStopped();
-    }
-    protected void afterEnd() throws InteractionException {}
+    FightCell firstAvailableStartCell(FightTeamEnum team);
 
-    public void notifyReady(Fighter fighter) throws InteractionException {
-        if (state != FightStateEnum.PLACE) throw new FightException("you can only set ready when the fight's state allows it");
+    Fighter find(int fighterId);
 
-        event.publish(new FighterEvent(FightEventType.FIGHTER_READY, fighter));
+    void exceptionThrowed(Throwable throwable);
 
-        if (getChallengers().areReady() && getDefenders().areReady()) {
-            begin();
-        }
-    }
-
-    public void changePlace(Fighter fighter, short targetCellId) throws InteractionException {
-        if (state != FightStateEnum.PLACE) throw new FightException("you can only change place when the fight's state allows it");
-
-        if (fighter.isReady()) {
-            return;
-        }
-
-        FightCell cell = getCell(targetCellId);
-
-        if (!cell.isAvailable()) {
-            return;
-        }
-        if (cell.getStartCellTeam() != fighter.getTeam().getType()) {
-            throw new FightException("you can't take place on other side's cell");
-        }
-
-        fighter.setCurrentCell(cell);
-        event.publish(new FighterEvent(FightEventType.FIGHTER_PLACEMENT, fighter));
-    }
-
-    public void cast(Fighter caster, Castable castable, short targetCell) throws InteractionException {
-        setCurrentFrame(new FighterCastFrame(caster, castable, getCell(targetCell)));
-    }
-
-    public void move(Fighter fighter, Path path) throws InteractionException {
-        setCurrentFrame(new FighterMovementFrame(fighter, path));
-    }
-
-    public void quit(Fighter fighter) throws InteractionException {
-        if (fighter == null) throw new IllegalArgumentException("fighter must not be null");
-        if (!canQuit(fighter)) throw new FightException("you can not quit this fight");
-
-        if (fighter.isLeader()) {
-            cancel();
-        } else {
-            FightTeam team = fighter.getTeam();
-            if (team.remove(fighter)) {
-                event.publish(new FighterQuitEvent(fighter));
-            } else {
-                throw new FightException(String.format("fighter %d can not be removed from his team", fighter.getId()));
-            }
-        }
-    }
-
-    public void speak(Fighter fighter, String message) throws InteractionException {
-        event.publish(new ChannelEvent(ChannelEnum.General, fighter, message));
-    }
-
-    public FightSideEnum toSide(FightTeamEnum team) {
-        return team == FightTeamEnum.CHALLENGERS ? FightSideEnum.RED :
-               team == FightTeamEnum.DEFENDERS   ? FightSideEnum.BLUE : null;
-    }
-
-    public FightTeamEnum toTeam(FightSideEnum side) {
-        return side == FightSideEnum.RED  ? FightTeamEnum.CHALLENGERS :
-               side == FightSideEnum.BLUE ? FightTeamEnum.DEFENDERS : null;
-    }
-
-    public FightCell firstAvailableStartCell(FightTeamEnum team) {
-        for (FightCell cell : cells) {
-            if (cell.getStartCellTeam() == team) {
-                return cell;
-            }
-        }
-        throw new RuntimeException("there is not anymore available places");
-    }
-
-    public Fighter find(int fighterId) {
-        Fighter fighter = getChallengers().get(fighterId);
-        if (fighter == null) {
-            fighter = getDefenders().get(fighterId);
-        }
-        return fighter;
-    }
-
-    protected List<FightCell> generateCells() {
-        List<FightCell> cells = Lists.newArrayListWithCapacity(map.getCells().length());
-
-        for (GameCell cell : map.getCells()) {
-            cells.add(new FightCell(cell, toTeam(cell.getStartFightSide())));
-        }
-
-        return cells;
-    }
-
-    public void exceptionThrowed(Throwable throwable) {
-        log.error("unhandled exception {} : {}", throwable.getClass(), throwable.toString());
-    }
-
-    public Collection<BaseFighterType> toBaseFighterType() {
-        return from(getChallengers())
-              .with(getDefenders())
-              .transform(Fighter::toBaseFighterType)
-              .lazyCollection();
-    }
-
-    public Iterator<FightCell> iterator() {
-        return cells.iterator();
-    }
+    Collection<BaseFighterType> toBaseFighterType();
 }

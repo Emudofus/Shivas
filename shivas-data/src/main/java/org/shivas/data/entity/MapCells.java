@@ -4,6 +4,9 @@ import com.google.common.collect.Iterators;
 import org.shivas.protocol.client.enums.FightSideEnum;
 
 import java.util.Iterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Created with IntelliJ IDEA.
@@ -51,6 +54,10 @@ public class MapCells implements CellProvider<GameCell> {
 
     public void setEncodedStartCells(FightSideEnum side, String encodedStartCells) {
         this.encodedStartCells[side == FightSideEnum.BLUE ? 0 : 1] = encodedStartCells;
+    }
+
+    public Stream<GameCell> stream() {
+        return StreamSupport.stream(Spliterators.spliterator(cells, 0), false);
     }
 
     @Override

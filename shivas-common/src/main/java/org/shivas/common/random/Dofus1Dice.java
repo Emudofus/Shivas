@@ -5,12 +5,6 @@ import java.util.Random;
 public class Dofus1Dice implements Dice {
 	
 	public static Dofus1Dice ZERO = new Dofus1Dice(0, 0, 0);
-
-    private static final ThreadLocal<Random> rand = new ThreadLocal<Random>() {
-        protected Random initialValue() {
-            return new Random(System.nanoTime());
-        }
-    };
 	
 	// EXAMPLE : 1d10+5
 	
@@ -45,17 +39,20 @@ public class Dofus1Dice implements Dice {
 		this.add = add;
 	}
 
+    @Override
 	public int min() {
 		return add + 1;
 	}
 
+    @Override
 	public int max() {
 		return round * num + add;
 	}
 
-	public int roll() {
+	@Override
+	public int roll(Random rand) {
 		if (round <= 0 || num <= 0) return add;
-		return rand.get().nextInt(round * num) + add;
+		return rand.nextInt(round * num) + add;
 	}
 
     @Override

@@ -11,6 +11,8 @@ import org.shivas.core.core.fights.events.FighterLifeUpdateEvent;
 import org.shivas.data.entity.SpellLevel;
 import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
 
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Blackrush
@@ -18,8 +20,8 @@ import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
  * Time: 13:54
  */
 public class HealEffect extends Effect {
-    public static int computeRegen(Dice dice, Statistics statistics){
-        return dice.roll() *
+    public static int computeRegen(Random rand, Dice dice, Statistics statistics){
+        return dice.roll(rand) *
                 (100 + statistics.get(CharacteristicType.Intelligence).safeTotal()) / 100 +
                 statistics.get(CharacteristicType.HealPoints).safeTotal();
     }
@@ -49,7 +51,7 @@ public class HealEffect extends Effect {
     public void apply(Fight fight, Fighter caster, FightCell targetCell) throws FightException {
         if (targetCell.getCurrentFighter() == null) return;
 
-        int regen = computeRegen(dice, caster.getStats());
+        int regen = computeRegen(fight.getRandom(), dice, caster.getStats());
 
         Fighter target = targetCell.getCurrentFighter();
         int delta = target.getStats().life().plus(regen);

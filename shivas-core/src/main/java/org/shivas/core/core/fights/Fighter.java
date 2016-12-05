@@ -1,131 +1,52 @@
 package org.shivas.core.core.fights;
 
-import org.shivas.common.statistics.CharacteristicType;
 import org.shivas.common.statistics.Statistics;
 import org.shivas.core.core.GameActor;
-import org.shivas.core.core.Location;
-import org.shivas.core.core.maps.GameMap;
 import org.shivas.protocol.client.enums.OrientationEnum;
 import org.shivas.protocol.client.types.BaseEndFighterType;
 import org.shivas.protocol.client.types.BaseFighterType;
 
-import java.util.Comparator;
-
 /**
- * Created with IntelliJ IDEA.
- * User: Blackrush
- * Date: 06/10/12
- * Time: 19:43
+ * @author Blackrush <blackrushx@gmail.com>
  */
-public abstract class Fighter implements GameActor {
-    public static Comparator<Fighter> compareBy(final CharacteristicType charac) {
-        return new Comparator<Fighter>() {
-            public int compare(Fighter o1, Fighter o2) {
-                return o1.getStats().get(charac).total() -
-                       o2.getStats().get(charac).total();
-            }
-        };
-    }
+public interface Fighter extends GameActor {
+    Integer getId();
 
-    protected Fight fight;
-    protected FightTurn turn;
+    boolean isReady();
 
-    protected FightTeam team;
-    protected FightCell currentCell;
-    protected OrientationEnum currentOrientation;
+    Statistics getStats();
 
-    public abstract Integer getId();
-    public abstract boolean isReady();
-    public abstract Statistics getStats();
-    public abstract short getLevel();
+    short getLevel();
 
-    public Fight getFight() {
-        return fight;
-    }
+    Fight getFight();
 
-    public void setFight(Fight fight) {
-        this.fight = fight;
-    }
+    void setFight(Fight fight);
 
-    public FightTurn getTurn() {
-        return turn;
-    }
+    FightTurn getTurn();
 
-    public void setTurn(FightTurn turn) {
-        this.turn = turn;
-    }
+    void setTurn(FightTurn turn);
 
-    public FightTeam getTeam() {
-        return team;
-    }
+    FightTeam getTeam();
 
-    public void setTeam(FightTeam team) {
-        this.team = team;
-    }
+    void setTeam(FightTeam team);
 
-    public boolean isLeader() {
-        return team.getLeader() == this;
-    }
+    boolean isLeader();
 
-    public boolean canQuit() {
-        return fight.canQuit(this);
-    }
+    boolean canQuit();
 
-    public FightCell getCurrentCell() {
-        return currentCell;
-    }
+    FightCell getCurrentCell();
 
-    public void setCurrentCell(FightCell currentCell) {
-        if (this.currentCell != null) {
-            this.currentCell.setCurrentFighter(null);
-        }
-        this.currentCell = currentCell;
-        currentCell.setCurrentFighter(this);
-    }
+    void setCurrentCell(FightCell currentCell);
 
-    public void takePlaceOf(Fighter other) {
-        if (other == null) throw new IllegalArgumentException("other mustn't be null");
+    void takePlaceOf(Fighter other);
 
-        FightCell old = this.currentCell;
+    OrientationEnum getCurrentOrientation();
 
-        this.currentCell = other.currentCell;
-        this.currentCell.setCurrentFighter(this);
+    void setCurrentOrientation(OrientationEnum currentOrientation);
 
-        other.currentCell = old;
-        other.currentCell.setCurrentFighter(other);
-    }
+    boolean isAlive();
 
-    public OrientationEnum getCurrentOrientation() {
-        return currentOrientation;
-    }
+    BaseFighterType toBaseFighterType();
 
-    public void setCurrentOrientation(OrientationEnum currentOrientation) {
-        this.currentOrientation = currentOrientation;
-    }
-
-    public boolean isAlive() {
-        return turn == null ? getStats().life().current() > 0 : !turn.isLeft() && getStats().life().current() > 0;
-    }
-
-    @Override
-    public int getPublicId() {
-        return getId();
-    }
-
-    @Override
-    public Location getLocation() {
-        return new Location(
-                fight.getMap(),
-                currentCell.getId(),
-                currentOrientation
-        );
-    }
-
-    @Override
-    public final void teleport(GameMap map, short cell) {
-        throw new UnsupportedOperationException();
-    }
-
-    public abstract BaseFighterType toBaseFighterType();
-    public abstract BaseEndFighterType toBaseEndFighterType();
+    BaseEndFighterType toBaseEndFighterType();
 }

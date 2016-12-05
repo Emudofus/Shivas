@@ -1,6 +1,7 @@
 package org.shivas.core.core.fights;
 
 import org.shivas.data.entity.GameCell;
+import org.shivas.protocol.client.enums.FightSideEnum;
 import org.shivas.protocol.client.enums.FightTeamEnum;
 
 /**
@@ -16,15 +17,20 @@ public class FightCell extends GameCell {
 
     private Fighter currentFighter;
 
-    public FightCell(GameCell cell, FightTeamEnum startCellTeam) {
+    public FightCell(short id, boolean lineOfSight, MovementType movementType, int groundLevel, int groundSlope, FightSideEnum startFightSide, FightTeamEnum startCellTeam) {
+        super(id, lineOfSight, movementType, groundLevel, groundSlope, startFightSide);
         this.startCellTeam = startCellTeam;
+    }
 
-        setId(cell.getId());
-        setLineOfSight(cell.isLineOfSight());
-        setGroundLevel(cell.getGroundLevel());
-        setMovementType(cell.getMovementType());
-        setGroundSlope(cell.getGroundSlope());
-        setStartFightSide(cell.getStartFightSide());
+    public static FightCell copyFrom(GameCell cell, FightTeamEnum startCellTeam) {
+        return new FightCell(
+                cell.getId(),
+                cell.isLineOfSight(),
+                cell.getMovementType(),
+                cell.getGroundLevel(),
+                cell.getGroundSlope(),
+                cell.getStartFightSide(),
+                startCellTeam);
     }
 
     public FightTeamEnum getStartCellTeam() {

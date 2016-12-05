@@ -38,7 +38,7 @@ public class StealEffect extends Effect {
 
         Fighter target = targetCell.getCurrentFighter();
 
-        int damage = DamageEffect.computeDamage(dice, caster.getStats(), spellEffect);
+        int damage = DamageEffect.computeDamage(fight.getRandom(), dice, caster.getStats(), spellEffect);
         int resistance = DamageEffect.computeResistance(target.getStats(), spellEffect);
 
         int delta1 = target.getStats().life().minus(damage - resistance);

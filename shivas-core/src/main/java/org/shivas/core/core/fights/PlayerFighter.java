@@ -15,7 +15,7 @@ import org.shivas.protocol.client.types.CharacterFighterType;
  * Date: 07/10/12
  * Time: 11:10
  */
-public class PlayerFighter extends Fighter {
+public class PlayerFighter extends AbstractFighter {
     private final Player player;
     private final PlayerStatistics stats;
 
