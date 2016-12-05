@@ -15,6 +15,7 @@ subprojects {
         logbackVersion = '1.1.+'
         mariadbVersion = '1.5.+'
         minaVersion = '2.0.+'
+        mockitoVersion = '2.2.28'
         slf4jVersion = '1.7.+'
         snakeyamlVersion = '1.17'
     }
@@ -25,6 +26,7 @@ subprojects {
 
     dependencies {
         testCompile "junit:junit:$junitVersion"
+        testCompile "org.mockito:mockito-core:$mockitoVersion"
     }
 
     test {

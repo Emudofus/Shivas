@@ -42,7 +42,7 @@ public class StealEffect extends Effect {
         int resistance = DamageEffect.computeResistance(target.getStats(), spellEffect);
 
         int delta1 = target.getStats().life().minus(damage - resistance);
-        int delta2 = caster.getStats().life().plus(delta1 / 2);
+        int delta2 = caster.getStats().life().plus((int) Math.ceil(delta1 / 2.0));
 
         fight.getEvent().publish(new FighterLifeUpdateEvent(caster, target, -delta1));
         if (delta2 > 0) fight.getEvent().publish(new FighterLifeUpdateEvent(caster, caster, delta2));
