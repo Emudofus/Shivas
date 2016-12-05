@@ -2,3 +2,13 @@ language: java
 
 jdk:
   - oraclejdk8
+
+deploy:
+  provider: releases
+  api_key:
+    secure: e7VpQONEFL9arntbXEm6xuuKadCa6+VOB6GcSf3ORcIspmtqfoPzlrkAe3kB35eXg82CCSH36ZyCrGiPEMfltiC3sSL8FKjh6A11f9fBBBh0e21buao4G1/epteVip++/xheinrl9oLatbjD4V225uqyUpZLVJwUfSpQdZr1Ukw=
+  file: shivas-host/build/distributions/shivas-host-*.zip
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: Emudofus/Shivas
