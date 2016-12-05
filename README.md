@@ -1,7 +1,8 @@
 # Shivas [![Build Status](https://travis-ci.org/Emudofus/Shivas.svg?branch=master)](https://travis-ci.org/Emudofus/Shivas)
 
-[Liste des fonctionnalités terminées](https://github.com/Emudofus/Shivas/milestone/1?closed=1) -
-[Liste des fonctionnalités à coder](https://github.com/Emudofus/Shivas/milestone/1) -
+[Fonctionnalités terminées](https://github.com/Emudofus/Shivas/milestone/1?closed=1) -
+[Fonctionnalités en cours](https://github.com/Emudofus/Shivas/issues?q=is%3Aopen+is%3Aissue+label%3Ainprogress) -
+[Fonctionnalités restantes](https://github.com/Emudofus/Shivas/milestone/1) -
 [Wiki pas à jour](https://github.com/Emudofus/Shivas/wiki)
 
 ### Contributeurs
