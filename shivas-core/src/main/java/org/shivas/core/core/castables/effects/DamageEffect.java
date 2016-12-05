@@ -36,14 +36,6 @@ public class DamageEffect extends Effect {
         return (resNeutral + res) * Math.max(1 + charac / 100, 1 + charac / 200 + characInt / 200);
     }
 
-    public static EffectProvider provider(final SpellEffectTypeEnum type) {
-        return new EffectProvider() {
-            public EffectInterface provide(SpellLevel level) {
-                return new DamageEffect(level, type);
-            }
-        };
-    }
-
     protected Dice dice;
 
     public DamageEffect(SpellLevel spellLevel, SpellEffectTypeEnum spellEffect) {

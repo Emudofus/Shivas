@@ -20,14 +20,6 @@ import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
  * Time: 12:29
  */
 public class PushEffect extends Effect {
-    public static EffectProvider provider() {
-        return new EffectProvider() {
-            public EffectInterface provide(SpellLevel level) {
-                return new PushEffect(level);
-            }
-        };
-    }
-
     private static final Dice BASE_DAMAGE = new Dofus1Dice(1, 9, 8); // 1d9+8
 
     public static short computeDamage(Dice dice, int value, int step, int level){

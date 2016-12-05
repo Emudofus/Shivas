@@ -16,14 +16,6 @@ import org.shivas.core.core.fights.events.FighterLifeUpdateEvent;
  * Time: 22:23
  */
 public class StealEffect extends Effect {
-    public static EffectProvider provider(final SpellEffectTypeEnum spellEffect) {
-        return new EffectProvider() {
-            public EffectInterface provide(SpellLevel level) {
-                return new StealEffect(level, spellEffect);
-            }
-        };
-    }
-
     private Dice dice;
 
     public StealEffect(SpellLevel spellLevel, SpellEffectTypeEnum spellEffect) {

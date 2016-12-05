@@ -18,14 +18,6 @@ import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
  * Time: 13:54
  */
 public class HealEffect extends Effect {
-    public static EffectProvider provider() {
-        return new EffectProvider() {
-            public EffectInterface provide(SpellLevel level) {
-                return new HealEffect(level);
-            }
-        };
-    }
-
     public static int computeRegen(Dice dice, Statistics statistics){
         return dice.roll() *
                 (100 + statistics.get(CharacteristicType.Intelligence).safeTotal()) / 100 +

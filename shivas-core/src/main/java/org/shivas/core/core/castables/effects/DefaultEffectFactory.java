@@ -32,16 +32,16 @@ public class DefaultEffectFactory implements EffectFactory {
     @Inject
     public void init() {
         for (SpellEffectTypeEnum type : asList(DamageNeutral, DamageEarth, DamageFire, DamageWind, DamageWater)) {
-            providers.put(type, DamageEffect.provider(type));
+            providers.put(type, level -> new DamageEffect(level, type));
         }
 
-        for (SpellEffectTypeEnum type : asList(StealNeutral, StealEarth, StealFire, StealWind, StealWater)) {
-            providers.put(type, StealEffect.provider(type));
+        for (final SpellEffectTypeEnum type : asList(StealNeutral, StealEarth, StealFire, StealWind, StealWater)) {
+            providers.put(type, level -> new StealEffect(level, type));
         }
 
-        providers.put(Heal, HealEffect.provider());
-        providers.put(Teleport, TeleportEffect.provider());
-        providers.put(Transpose, TransposeEffect.provider());
-        providers.put(PushBack, PushEffect.provider());
+        providers.put(Heal, HealEffect::new);
+        providers.put(Teleport, TeleportEffect::new);
+        providers.put(Transpose, TransposeEffect::new);
+        providers.put(PushBack, PushEffect::new);
     }
 }

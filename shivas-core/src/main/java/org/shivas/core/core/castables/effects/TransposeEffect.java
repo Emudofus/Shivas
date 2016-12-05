@@ -12,14 +12,6 @@ import org.shivas.protocol.client.enums.SpellEffectTypeEnum;
  * Time: 14:13
  */
 public class TransposeEffect extends Effect {
-    public static EffectProvider provider() {
-        return new EffectProvider() {
-            public EffectInterface provide(SpellLevel level) {
-                return new TransposeEffect(level);
-            }
-        };
-    }
-
     public TransposeEffect(SpellLevel spellLevel) {
         super(spellLevel, SpellEffectTypeEnum.Transpose);
     }
