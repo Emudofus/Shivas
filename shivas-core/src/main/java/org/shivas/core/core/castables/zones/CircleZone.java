@@ -30,19 +30,12 @@ public class CircleZone extends Zone {
     public <C extends GameCell> Set<C> filter(C start, C target, CellProvider<C> cells, MapTemplate map) {
         Set<C> result = Sets.newHashSet();
         result.add(target);
-
-        for (OrientationEnum orientation : OrientationEnum.ADJACENTS) {
-            short cellId = Cells.getCellIdByOrientation(target.getId(), orientation, map);
-            C cell = cells.getCell(cellId);
-            result.add(cell);
-
-            addCells(result, cell, cells, map, length - 1);
-        }
+        addCells(result, target, cells, map, length);
 
         return result;
     }
 
-    public <C extends GameCell> void addCells(Set<C> result, C source, CellProvider<C> cells, MapTemplate map, int remaining) {
+    private <C extends GameCell> void addCells(Set<C> result, C source, CellProvider<C> cells, MapTemplate map, int remaining) {
         if (remaining <= 0) return;
 
         for (OrientationEnum orientation : OrientationEnum.ADJACENTS) {
