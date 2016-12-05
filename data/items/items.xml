@@ -6231,7 +6231,7 @@
     <effect type="152" bonus="1d30+10" />
     <effect type="154" bonus="1d30+10" />
   </item>
-  <item id="1575" type="50" level="1" weight="5" forgemageable="true" price="-31072">
+  <item id="1575" type="50" level="1" weight="5" forgemageable="true" price="1000">
     <conditions />
   </item>
   <item id="1572" type="25" level="1" weight="1" forgemageable="true" price="100">
