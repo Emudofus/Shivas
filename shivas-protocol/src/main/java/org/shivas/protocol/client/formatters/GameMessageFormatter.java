@@ -231,9 +231,9 @@ public class GameMessageFormatter {
 
         sb.append(player.getLevel() >= 100 ? (player.getLevel() == 200 ? '2' : '1') : '0');
 
-        sb.append(';')
-          .append(';')
-          .append(';');
+        sb.append(';')  // TODO aura
+          .append(';')  // TODO emote
+          .append(';'); // emote timer
 
         if (player.hasGuild()){
             sb.append(player.getGuildName()).append(';');
@@ -248,7 +248,8 @@ public class GameMessageFormatter {
             sb.append(";;");
         }
 
-        sb.append("0;;");
+        sb.append("0;"); // TODO speed restriction
+        sb.append(';'); // TODO mount
     }
 
     private static void parseRolePlayNpcType(StringBuilder sb, RolePlayNpcType npc){
